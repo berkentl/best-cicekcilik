@@ -1,0 +1,712 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - img [ref=e4]
+      - text: Saat 14'e kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimat yapıyoruz.
+    - button "Kapat" [ref=e12]:
+      - img [ref=e13]
+  - banner [ref=e16]:
+    - generic [ref=e17]:
+      - link "BEST ÇİÇEKÇİLİK & ORGANİZASYON" [ref=e19] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e20]: BEST
+        - generic [ref=e21]: ÇİÇEKÇİLİK & ORGANİZASYON
+      - generic [ref=e22]:
+        - button "Ara" [ref=e23]:
+          - img [ref=e24]
+        - link "Kargo Takip" [ref=e27] [cursor=pointer]:
+          - /url: https://wa.me/905322959309?text=Merhaba%2C%20kargo%20takip%20etmek%20istiyorum.
+          - img [ref=e28]
+        - button "Hesabım" [ref=e33]:
+          - img [ref=e34]
+        - link "Favoriler" [ref=e37] [cursor=pointer]:
+          - /url: /favoriler
+          - img [ref=e38]
+        - link "Sepet" [ref=e40] [cursor=pointer]:
+          - /url: /sepet
+          - img [ref=e41]
+          - generic [ref=e44]: "0"
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - button "$" [ref=e47]
+            - generic [ref=e48]: "|"
+          - generic [ref=e49]:
+            - button "€" [ref=e50]
+            - generic [ref=e51]: "|"
+          - button "₺" [ref=e53]
+    - navigation [ref=e54]:
+      - generic [ref=e55]:
+        - list [ref=e56]:
+          - listitem [ref=e57]:
+            - link "EN SEVİLENLER" [ref=e58] [cursor=pointer]:
+              - /url: /en-sevilen
+              - text: EN SEVİLENLER
+          - listitem [ref=e59]:
+            - link "ÇİÇEK" [ref=e60] [cursor=pointer]:
+              - /url: /cicek
+              - text: ÇİÇEK
+          - listitem [ref=e61]:
+            - link "ÇİKOLATA" [ref=e62] [cursor=pointer]:
+              - /url: /cikolata
+              - text: ÇİKOLATA
+          - listitem [ref=e63]:
+            - link "HEDİYE KUTUSU" [ref=e64] [cursor=pointer]:
+              - /url: /hediye-kutusu
+              - text: HEDİYE KUTUSU
+          - listitem [ref=e65]:
+            - link "ORKİDE" [ref=e66] [cursor=pointer]:
+              - /url: /orkide
+              - text: ORKİDE
+          - listitem [ref=e67]:
+            - link "BİTKİ" [ref=e68] [cursor=pointer]:
+              - /url: /bitki
+              - text: BİTKİ
+          - listitem [ref=e69]:
+            - link "GÖNDERİM SEBEBİ" [ref=e70] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+              - text: GÖNDERİM SEBEBİ
+          - listitem [ref=e71]:
+            - link "KOLEKSİYON" [ref=e72] [cursor=pointer]:
+              - /url: /koleksiyonlar
+              - text: KOLEKSİYON
+          - listitem [ref=e73]:
+            - link "TÜM ÜRÜNLER" [ref=e74] [cursor=pointer]:
+              - /url: /tum-urunler
+              - text: TÜM ÜRÜNLER
+        - generic [ref=e75]: —
+  - main [ref=e76]:
+    - generic [ref=e77]:
+      - generic [ref=e78]:
+        - img "Best Çiçekçilik Hero 1" [ref=e80]
+        - img [ref=e82]
+        - img [ref=e84]
+      - button "Önceki" [ref=e85]:
+        - img [ref=e86]
+      - button "Sonraki" [ref=e88]:
+        - img [ref=e89]
+      - generic [ref=e91]:
+        - button "Slayt 1" [ref=e92]
+        - button "Slayt 2" [ref=e93]
+        - button "Slayt 3" [ref=e94]
+    - generic [ref=e96]:
+      - generic [ref=e97]:
+        - img [ref=e99]
+        - generic [ref=e101]: 256-Bit SSL Güvenli Ödeme
+        - generic [ref=e102]: ✦
+      - generic [ref=e103]:
+        - img [ref=e105]
+        - generic [ref=e107]: Kredi Kartına Taksit İmkânı
+        - generic [ref=e108]: ✦
+      - generic [ref=e109]:
+        - img [ref=e111]
+        - generic [ref=e113]: iyzico Güvenceli Alışveriş
+        - generic [ref=e114]: ✦
+      - generic [ref=e115]:
+        - img [ref=e117]
+        - generic [ref=e119]: Aynı Gün Kapıda Teslimat
+        - generic [ref=e120]: ✦
+      - generic [ref=e121]:
+        - img [ref=e123]
+        - generic [ref=e125]: 100% Taze Çiçek Garantisi
+        - generic [ref=e126]: ✦
+      - generic [ref=e127]:
+        - img [ref=e129]
+        - generic [ref=e131]: Ücretsiz İade & Değişim
+        - generic [ref=e132]: ✦
+      - generic [ref=e133]:
+        - img [ref=e135]
+        - generic [ref=e138]: İstanbul Geneli Teslimat
+        - generic [ref=e139]: ✦
+      - generic [ref=e140]:
+        - img [ref=e142]
+        - generic [ref=e144]: 7/24 Müşteri Desteği
+        - generic [ref=e145]: ✦
+      - generic [ref=e146]:
+        - img [ref=e148]
+        - generic [ref=e150]: Kişiselleştirilmiş Sipariş
+        - generic [ref=e151]: ✦
+      - generic [ref=e152]:
+        - img [ref=e154]
+        - generic [ref=e156]: Hızlı & Güvenli Checkout
+        - generic [ref=e157]: ✦
+      - generic [ref=e158]:
+        - img [ref=e160]
+        - generic [ref=e162]: 256-Bit SSL Güvenli Ödeme
+        - generic [ref=e163]: ✦
+      - generic [ref=e164]:
+        - img [ref=e166]
+        - generic [ref=e168]: Kredi Kartına Taksit İmkânı
+        - generic [ref=e169]: ✦
+      - generic [ref=e170]:
+        - img [ref=e172]
+        - generic [ref=e174]: iyzico Güvenceli Alışveriş
+        - generic [ref=e175]: ✦
+      - generic [ref=e176]:
+        - img [ref=e178]
+        - generic [ref=e180]: Aynı Gün Kapıda Teslimat
+        - generic [ref=e181]: ✦
+      - generic [ref=e182]:
+        - img [ref=e184]
+        - generic [ref=e186]: 100% Taze Çiçek Garantisi
+        - generic [ref=e187]: ✦
+      - generic [ref=e188]:
+        - img [ref=e190]
+        - generic [ref=e192]: Ücretsiz İade & Değişim
+        - generic [ref=e193]: ✦
+      - generic [ref=e194]:
+        - img [ref=e196]
+        - generic [ref=e199]: İstanbul Geneli Teslimat
+        - generic [ref=e200]: ✦
+      - generic [ref=e201]:
+        - img [ref=e203]
+        - generic [ref=e205]: 7/24 Müşteri Desteği
+        - generic [ref=e206]: ✦
+      - generic [ref=e207]:
+        - img [ref=e209]
+        - generic [ref=e211]: Kişiselleştirilmiş Sipariş
+        - generic [ref=e212]: ✦
+      - generic [ref=e213]:
+        - img [ref=e215]
+        - generic [ref=e217]: Hızlı & Güvenli Checkout
+        - generic [ref=e218]: ✦
+      - generic [ref=e219]:
+        - img [ref=e221]
+        - generic [ref=e223]: 256-Bit SSL Güvenli Ödeme
+        - generic [ref=e224]: ✦
+      - generic [ref=e225]:
+        - img [ref=e227]
+        - generic [ref=e229]: Kredi Kartına Taksit İmkânı
+        - generic [ref=e230]: ✦
+      - generic [ref=e231]:
+        - img [ref=e233]
+        - generic [ref=e235]: iyzico Güvenceli Alışveriş
+        - generic [ref=e236]: ✦
+      - generic [ref=e237]:
+        - img [ref=e239]
+        - generic [ref=e241]: Aynı Gün Kapıda Teslimat
+        - generic [ref=e242]: ✦
+      - generic [ref=e243]:
+        - img [ref=e245]
+        - generic [ref=e247]: 100% Taze Çiçek Garantisi
+        - generic [ref=e248]: ✦
+      - generic [ref=e249]:
+        - img [ref=e251]
+        - generic [ref=e253]: Ücretsiz İade & Değişim
+        - generic [ref=e254]: ✦
+      - generic [ref=e255]:
+        - img [ref=e257]
+        - generic [ref=e260]: İstanbul Geneli Teslimat
+        - generic [ref=e261]: ✦
+      - generic [ref=e262]:
+        - img [ref=e264]
+        - generic [ref=e266]: 7/24 Müşteri Desteği
+        - generic [ref=e267]: ✦
+      - generic [ref=e268]:
+        - img [ref=e270]
+        - generic [ref=e272]: Kişiselleştirilmiş Sipariş
+        - generic [ref=e273]: ✦
+      - generic [ref=e274]:
+        - img [ref=e276]
+        - generic [ref=e278]: Hızlı & Güvenli Checkout
+        - generic [ref=e279]: ✦
+    - generic [ref=e281]:
+      - generic [ref=e283]:
+        - generic [ref=e284]:
+          - generic [ref=e285]:
+            - generic [ref=e286]: Sevgiliye
+            - generic [ref=e287]: Arkadaşa
+            - generic [ref=e288]: Anneye
+            - generic [ref=e289]: Yeni İşe
+            - generic [ref=e290]: İçimden Geldi
+          - generic [ref=e291]: için Çiçek
+        - link "Tümünü Gör" [ref=e292] [cursor=pointer]:
+          - /url: /en-sevilen
+      - generic [ref=e293]:
+        - generic [ref=e294] [cursor=pointer]:
+          - link "Pembe Güller Buketi Favorilere ekle Sepete ekle" [ref=e295]:
+            - /url: /urun/pembe-guller-buketi
+            - img "Pembe Güller Buketi" [ref=e296]
+            - img [ref=e300]:
+              - generic [ref=e303]: MÜŞTERİLERİN FAVORİSİ
+              - generic [ref=e304]: En Çok Satan
+            - button "Favorilere ekle" [ref=e328]:
+              - img [ref=e329]
+            - button "Sepete ekle" [ref=e331]:
+              - img [ref=e332]
+          - generic [ref=e335]:
+            - generic [ref=e336]: ÇİÇEK
+            - link "Pembe Güller Buketi" [ref=e337]:
+              - /url: /urun/pembe-guller-buketi
+            - generic [ref=e338]:
+              - generic [ref=e339]:
+                - img [ref=e340]
+                - img [ref=e342]
+                - img [ref=e344]
+                - img [ref=e346]
+                - img [ref=e348]
+              - generic [ref=e350]: (66)
+            - generic [ref=e351]:
+              - generic [ref=e352]: ₺6.555
+              - generic [ref=e353]: ₺7.200
+        - generic [ref=e354] [cursor=pointer]:
+          - link "50 Kırmızı Gül Buketi Grand Deluxe -%8 Favorilere ekle Sepete ekle" [ref=e355]:
+            - /url: /urun/50-kirmizi-gul-buketi-grand-deluxe
+            - img "50 Kırmızı Gül Buketi Grand Deluxe" [ref=e356]
+            - generic [ref=e357]: "-%8"
+            - button "Favorilere ekle" [ref=e358]:
+              - img [ref=e359]
+            - button "Sepete ekle" [ref=e361]:
+              - img [ref=e362]
+          - generic [ref=e365]:
+            - generic [ref=e366]: ÇİÇEK
+            - link "50 Kırmızı Gül Buketi Grand Deluxe" [ref=e367]:
+              - /url: /urun/50-kirmizi-gul-buketi-grand-deluxe
+            - generic [ref=e368]:
+              - generic [ref=e369]:
+                - img [ref=e370]
+                - img [ref=e372]
+                - img [ref=e374]
+                - img [ref=e376]
+                - img [ref=e378]
+              - generic [ref=e380]: (69)
+            - generic [ref=e381]:
+              - generic [ref=e382]: ₺23.000
+              - generic [ref=e383]: ₺25.000
+        - generic [ref=e384] [cursor=pointer]:
+          - link "Kalamış Çiçek Buketi Favorilere ekle Sepete ekle" [ref=e385]:
+            - /url: /urun/kalamis-cicek-buketi
+            - img "Kalamış Çiçek Buketi" [ref=e386]
+            - img [ref=e390]:
+              - generic [ref=e393]: MÜŞTERİLERİN FAVORİSİ
+              - generic [ref=e394]: En Çok Satan
+            - button "Favorilere ekle" [ref=e418]:
+              - img [ref=e419]
+            - button "Sepete ekle" [ref=e421]:
+              - img [ref=e422]
+          - generic [ref=e425]:
+            - generic [ref=e426]: GÖNDERİM SEBEBİ
+            - link "Kalamış Çiçek Buketi" [ref=e427]:
+              - /url: /urun/kalamis-cicek-buketi
+            - generic [ref=e428]:
+              - generic [ref=e429]:
+                - img [ref=e430]
+                - img [ref=e432]
+                - img [ref=e434]
+                - img [ref=e436]
+                - img [ref=e438]
+              - generic [ref=e440]: (42)
+            - generic [ref=e441]:
+              - generic [ref=e442]: ₺3.000
+              - generic [ref=e443]: ₺3.250
+        - generic [ref=e444] [cursor=pointer]:
+          - link "Peluş Kalp Figürlü Pembe Güller Buketi Favorilere ekle Sepete ekle" [ref=e445]:
+            - /url: /urun/pelus-kalp-figurlu-pembe-guller-buketi
+            - img "Peluş Kalp Figürlü Pembe Güller Buketi" [ref=e446]
+            - img [ref=e450]:
+              - generic [ref=e453]: MÜŞTERİLERİN FAVORİSİ
+              - generic [ref=e454]: En Çok Satan
+            - button "Favorilere ekle" [ref=e478]:
+              - img [ref=e479]
+            - button "Sepete ekle" [ref=e481]:
+              - img [ref=e482]
+          - generic [ref=e485]:
+            - generic [ref=e486]: ÇİÇEK
+            - link "Peluş Kalp Figürlü Pembe Güller Buketi" [ref=e487]:
+              - /url: /urun/pelus-kalp-figurlu-pembe-guller-buketi
+            - generic [ref=e488]:
+              - generic [ref=e489]:
+                - img [ref=e490]
+                - img [ref=e492]
+                - img [ref=e494]
+                - img [ref=e496]
+                - img [ref=e498]
+              - generic [ref=e500]: (43)
+            - generic [ref=e501]:
+              - generic [ref=e502]: ₺17.000
+              - generic [ref=e503]: ₺18.000
+        - generic [ref=e504] [cursor=pointer]:
+          - link "Solmayan Çiçek Buketi - BEST Flowers YENİ Favorilere ekle Sepete ekle" [ref=e505]:
+            - /url: /urun/solmayan-cicek-buketi---derin-flowers
+            - img "Solmayan Çiçek Buketi - BEST Flowers" [ref=e506]
+            - generic [ref=e507]: YENİ
+            - button "Favorilere ekle" [ref=e508]:
+              - img [ref=e509]
+            - button "Sepete ekle" [ref=e511]:
+              - img [ref=e512]
+          - generic [ref=e515]:
+            - generic [ref=e516]: ÇİKOLATA
+            - link "Solmayan Çiçek Buketi - BEST Flowers" [ref=e517]:
+              - /url: /urun/solmayan-cicek-buketi---derin-flowers
+            - generic [ref=e518]:
+              - generic [ref=e519]:
+                - img [ref=e520]
+                - img [ref=e522]
+                - img [ref=e524]
+                - img [ref=e526]
+                - img [ref=e528]
+              - generic [ref=e530]: (97)
+            - generic [ref=e532]: ₺3.600
+        - generic [ref=e533] [cursor=pointer]:
+          - link "Piera Çiçek Buketi -%33 Favorilere ekle Sepete ekle" [ref=e534]:
+            - /url: /urun/piera-cicek-buketi
+            - img "Piera Çiçek Buketi" [ref=e535]
+            - generic [ref=e536]: "-%33"
+            - button "Favorilere ekle" [ref=e537]:
+              - img [ref=e538]
+            - button "Sepete ekle" [ref=e540]:
+              - img [ref=e541]
+          - generic [ref=e544]:
+            - generic [ref=e545]: BİTKİ
+            - link "Piera Çiçek Buketi" [ref=e546]:
+              - /url: /urun/piera-cicek-buketi
+            - generic [ref=e547]:
+              - generic [ref=e548]:
+                - img [ref=e549]
+                - img [ref=e551]
+                - img [ref=e553]
+                - img [ref=e555]
+                - img [ref=e557]
+              - generic [ref=e559]: (72)
+            - generic [ref=e560]:
+              - generic [ref=e561]: ₺5.000
+              - generic [ref=e562]: ₺7.499,9
+      - link "Daha Fazla Keşfet" [ref=e564] [cursor=pointer]:
+        - /url: /en-sevilen
+        - text: Daha Fazla Keşfet
+        - img [ref=e565]
+    - generic [ref=e569]:
+      - generic [ref=e570]:
+        - paragraph [ref=e571]: Hızlı & Güvenli Teslimat
+        - heading "Türkiye'nin Her Köşesine Çiçek Götürüyoruz" [level=2] [ref=e572]:
+          - text: Türkiye'nin Her
+          - text: Köşesine Çiçek
+          - text: Götürüyoruz
+        - paragraph [ref=e573]: İstanbul merkezimizden sevkiyat yapılan taze çiçeklerimiz, özel soğuk zincir kuryelerimizle aynı gün kapınıza ulaşıyor. Yurt içi kargo ile sevdiklerinize uzaktan da sevginizi gönderin.
+        - generic [ref=e574]:
+          - generic [ref=e575]:
+            - img [ref=e577]
+            - generic [ref=e579]:
+              - paragraph [ref=e580]: Aynı Gün
+              - paragraph [ref=e581]: İstanbul İçi Teslimat
+          - generic [ref=e582]:
+            - img [ref=e584]
+            - generic [ref=e586]:
+              - paragraph [ref=e587]: 81 İl
+              - paragraph [ref=e588]: Türkiye Geneli Kargo
+          - generic [ref=e589]:
+            - img [ref=e591]
+            - generic [ref=e593]:
+              - paragraph [ref=e594]: "%100"
+              - paragraph [ref=e595]: Taze Çiçek Garantisi
+          - generic [ref=e596]:
+            - img [ref=e598]
+            - generic [ref=e600]:
+              - paragraph [ref=e601]: "+10.000"
+              - paragraph [ref=e602]: Mutlu Müşteri
+        - generic [ref=e603]:
+          - generic [ref=e604]:
+            - img [ref=e605]
+            - text: İstanbul içi saat 14:00'e kadar sipariş → aynı gün teslimat
+          - generic [ref=e607]:
+            - img [ref=e608]
+            - text: Yurt içi kargo 1–3 iş günü
+      - generic [ref=e611]:
+        - generic:
+          - generic:
+            - generic: İstanbul
+        - paragraph [ref=e614]:
+          - img [ref=e615]
+          - text: Sürükleyerek döndürebilirsiniz
+    - generic [ref=e618]:
+      - generic [ref=e619]:
+        - paragraph [ref=e620]: Best Çiçekçilik Koleksiyonu
+        - heading "Sevdiklerine Özel Çiçekler" [level=2] [ref=e621]
+        - generic [ref=e622]:
+          - button "En Çok Satanlar" [ref=e623]
+          - button "Yeni Gelenler" [ref=e624]
+          - button "Tüm Ürünler" [ref=e625]
+      - generic [ref=e626]:
+        - generic [ref=e627] [cursor=pointer]:
+          - link "Pembe Güller Buketi Favorilere ekle Sepete ekle" [ref=e628]:
+            - /url: /urun/pembe-guller-buketi
+            - img "Pembe Güller Buketi" [ref=e629]
+            - img [ref=e633]:
+              - generic [ref=e636]: MÜŞTERİLERİN FAVORİSİ
+              - generic [ref=e637]: En Çok Satan
+            - button "Favorilere ekle" [ref=e661]:
+              - img [ref=e662]
+            - button "Sepete ekle" [ref=e664]:
+              - img [ref=e665]
+          - generic [ref=e668]:
+            - generic [ref=e669]: ÇİÇEK
+            - link "Pembe Güller Buketi" [ref=e670]:
+              - /url: /urun/pembe-guller-buketi
+            - generic [ref=e671]:
+              - generic [ref=e672]:
+                - img [ref=e673]
+                - img [ref=e675]
+                - img [ref=e677]
+                - img [ref=e679]
+                - img [ref=e681]
+              - generic [ref=e683]: (66)
+            - generic [ref=e684]:
+              - generic [ref=e685]: ₺6.555
+              - generic [ref=e686]: ₺7.200
+        - generic [ref=e687] [cursor=pointer]:
+          - link "Kalamış Çiçek Buketi Favorilere ekle Sepete ekle" [ref=e688]:
+            - /url: /urun/kalamis-cicek-buketi
+            - img "Kalamış Çiçek Buketi" [ref=e689]
+            - img [ref=e693]:
+              - generic [ref=e696]: MÜŞTERİLERİN FAVORİSİ
+              - generic [ref=e697]: En Çok Satan
+            - button "Favorilere ekle" [ref=e721]:
+              - img [ref=e722]
+            - button "Sepete ekle" [ref=e724]:
+              - img [ref=e725]
+          - generic [ref=e728]:
+            - generic [ref=e729]: GÖNDERİM SEBEBİ
+            - link "Kalamış Çiçek Buketi" [ref=e730]:
+              - /url: /urun/kalamis-cicek-buketi
+            - generic [ref=e731]:
+              - generic [ref=e732]:
+                - img [ref=e733]
+                - img [ref=e735]
+                - img [ref=e737]
+                - img [ref=e739]
+                - img [ref=e741]
+              - generic [ref=e743]: (42)
+            - generic [ref=e744]:
+              - generic [ref=e745]: ₺3.000
+              - generic [ref=e746]: ₺3.250
+        - generic [ref=e747] [cursor=pointer]:
+          - link "Peluş Kalp Figürlü Pembe Güller Buketi Favorilere ekle Sepete ekle" [ref=e748]:
+            - /url: /urun/pelus-kalp-figurlu-pembe-guller-buketi
+            - img "Peluş Kalp Figürlü Pembe Güller Buketi" [ref=e749]
+            - img [ref=e753]:
+              - generic [ref=e756]: MÜŞTERİLERİN FAVORİSİ
+              - generic [ref=e757]: En Çok Satan
+            - button "Favorilere ekle" [ref=e781]:
+              - img [ref=e782]
+            - button "Sepete ekle" [ref=e784]:
+              - img [ref=e785]
+          - generic [ref=e788]:
+            - generic [ref=e789]: ÇİÇEK
+            - link "Peluş Kalp Figürlü Pembe Güller Buketi" [ref=e790]:
+              - /url: /urun/pelus-kalp-figurlu-pembe-guller-buketi
+            - generic [ref=e791]:
+              - generic [ref=e792]:
+                - img [ref=e793]
+                - img [ref=e795]
+                - img [ref=e797]
+                - img [ref=e799]
+                - img [ref=e801]
+              - generic [ref=e803]: (43)
+            - generic [ref=e804]:
+              - generic [ref=e805]: ₺17.000
+              - generic [ref=e806]: ₺18.000
+      - link "Tüm Ürünleri İncele" [ref=e808] [cursor=pointer]:
+        - /url: /tum-urunler
+    - generic [ref=e814]:
+      - generic [ref=e815]:
+        - generic [ref=e816]:
+          - img [ref=e817]
+          - text: HİKAYEMİZİ KEŞFET
+        - heading "Hakkımızda" [level=2] [ref=e820]
+      - paragraph [ref=e821]: Şişli/İstanbul'da kurulu atölyemizde, her gün taze çiçeklerle özel tasarımlar hazırlıyoruz. Sevdiklerinize en güzel anları yaşatmak için titizlikle çalışıyor, her siparişe kalbimizi koyuyoruz.
+      - generic [ref=e822]:
+        - generic [ref=e823]:
+          - generic [ref=e824]:
+            - generic [ref=e825]:
+              - generic [ref=e826]:
+                - img [ref=e827]
+                - img [ref=e832]
+              - heading "Taze Çiçekler" [level=3] [ref=e835]
+            - paragraph [ref=e836]: Her sabah tedarik ettiğimiz taze çiçeklerle hazırlanan aranjmanlarımız, en uzun süre tazeliğini koruyarak sevdiklerinize ulaşır.
+            - generic [ref=e838]:
+              - text: Devamını gör
+              - img [ref=e839]
+          - generic [ref=e841]:
+            - generic [ref=e842]:
+              - generic [ref=e843]:
+                - img [ref=e844]
+                - img [ref=e846]
+              - heading "Özel Tasarım" [level=3] [ref=e849]
+            - paragraph [ref=e850]: İsteklerinize göre kişiye özel buketler ve aranjmanlar hazırlıyoruz. Her tasarım, alıcının zevkine ve anın ruhuna göre şekillendirilir.
+            - generic [ref=e852]:
+              - text: Devamını gör
+              - img [ref=e853]
+          - generic [ref=e855]:
+            - generic [ref=e856]:
+              - generic [ref=e857]:
+                - img [ref=e858]
+                - img [ref=e863]
+              - heading "Aynı Gün Teslimat" [level=3] [ref=e865]
+            - paragraph [ref=e866]: Saat 14:00'a kadar verilen siparişler aynı gün İstanbul'un tüm ilçelerine teslim edilir. Soğuk zincir korumasıyla çiçekler taptaze kapınıza gelir.
+            - generic [ref=e868]:
+              - text: Devamını gör
+              - img [ref=e869]
+        - generic [ref=e873]:
+          - img "Best Çiçekçilik Aranjman" [ref=e874]
+          - link "Koleksiyonu Gör" [ref=e876] [cursor=pointer]:
+            - /url: /tum-urunler
+            - generic [ref=e877]:
+              - text: Koleksiyonu Gör
+              - img [ref=e878]
+        - generic [ref=e884]:
+          - generic [ref=e885]:
+            - generic [ref=e886]:
+              - generic [ref=e887]:
+                - img [ref=e888]
+                - img [ref=e892]
+              - heading "Kişiye Özel Kart" [level=3] [ref=e895]
+            - paragraph [ref=e896]: Her siparişe ücretsiz kişiselleştirilmiş kart notu ekliyoruz. Duygularınızı en güzel şekilde ifade eden kelimelerle anı unutulmaz kılıyoruz.
+            - generic [ref=e898]:
+              - text: Devamını gör
+              - img [ref=e899]
+          - generic [ref=e901]:
+            - generic [ref=e902]:
+              - generic [ref=e903]:
+                - img [ref=e904]
+                - img [ref=e907]
+              - heading "Kurumsal Siparişler" [level=3] [ref=e910]
+            - paragraph [ref=e911]: Ofis, otel ve etkinlik dekorasyonlarından düğün organizasyonlarına kadar kurumsal ihtiyaçlarınıza özel çözümler üretiyoruz.
+            - generic [ref=e913]:
+              - text: Devamını gör
+              - img [ref=e914]
+          - generic [ref=e916]:
+            - generic [ref=e917]:
+              - generic [ref=e918]:
+                - img [ref=e919]
+                - img [ref=e921]
+              - heading "Gelin Buketi" [level=3] [ref=e923]
+            - paragraph [ref=e924]: Hayatınızın en özel günü için hayalinizdeki gelin buketini birlikte tasarlıyoruz. Düğün çiçekleriniz için ücretsiz danışmanlık hizmeti sunuyoruz.
+            - generic [ref=e926]:
+              - text: Devamını gör
+              - img [ref=e927]
+      - generic [ref=e929]:
+        - generic [ref=e930]:
+          - img [ref=e932]
+          - generic [ref=e937]:
+            - generic [ref=e938]: "0"
+            - generic [ref=e939]: +
+          - paragraph [ref=e940]: Mutlu Müşteri
+        - generic [ref=e942]:
+          - img [ref=e944]
+          - generic [ref=e947]:
+            - generic [ref=e948]: "0"
+            - generic [ref=e949]: +
+          - paragraph [ref=e950]: Yıllık Deneyim
+        - generic [ref=e952]:
+          - img [ref=e954]
+          - generic [ref=e957]:
+            - generic [ref=e958]: "0"
+            - generic [ref=e959]: "%"
+          - paragraph [ref=e960]: Memnuniyet Oranı
+        - generic [ref=e962]:
+          - img [ref=e964]
+          - generic [ref=e968]: "0"
+          - paragraph [ref=e969]: Gün Teslimat
+      - generic [ref=e971]:
+        - generic [ref=e972]:
+          - heading "Sevdiklerinize Çiçek Göndermeye Hazır mısınız?" [level=3] [ref=e973]
+          - paragraph [ref=e974]: Aynı gün teslimat ile İstanbul'un her noktasına — hemen sipariş verin.
+        - link "Çiçekleri İncele" [ref=e975] [cursor=pointer]:
+          - /url: /tum-urunler
+          - generic [ref=e976]:
+            - text: Çiçekleri İncele
+            - img [ref=e977]
+  - contentinfo [ref=e979]:
+    - generic [ref=e981]:
+      - generic [ref=e982]:
+        - generic [ref=e983]:
+          - text: Best Çiçekçilik
+          - text: "& Organizasyon"
+        - paragraph [ref=e984]: İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri. Aynı gün teslimat ile sevdiklerinize en güzel çiçekleri ulaştırıyoruz.
+        - generic [ref=e985]:
+          - link "Instagram" [ref=e986] [cursor=pointer]:
+            - /url: https://instagram.com/bestcicekcilik
+            - img [ref=e987]
+          - link "Facebook" [ref=e990] [cursor=pointer]:
+            - /url: https://facebook.com/bestcicekcilik
+            - img [ref=e991]
+          - link "WhatsApp" [ref=e993] [cursor=pointer]:
+            - /url: https://wa.me/905322959309
+            - img [ref=e994]
+      - generic [ref=e996]:
+        - heading "Kategoriler" [level=4] [ref=e997]
+        - list [ref=e998]:
+          - listitem [ref=e999]:
+            - link "EN SEVİLENLER" [ref=e1000] [cursor=pointer]:
+              - /url: /en-sevilen
+          - listitem [ref=e1001]:
+            - link "ÇİÇEK" [ref=e1002] [cursor=pointer]:
+              - /url: /cicek
+          - listitem [ref=e1003]:
+            - link "ÇİKOLATA" [ref=e1004] [cursor=pointer]:
+              - /url: /cikolata
+          - listitem [ref=e1005]:
+            - link "HEDİYE KUTUSU" [ref=e1006] [cursor=pointer]:
+              - /url: /hediye-kutusu
+          - listitem [ref=e1007]:
+            - link "ORKİDE" [ref=e1008] [cursor=pointer]:
+              - /url: /orkide
+          - listitem [ref=e1009]:
+            - link "BİTKİ" [ref=e1010] [cursor=pointer]:
+              - /url: /bitki
+          - listitem [ref=e1011]:
+            - link "GÖNDERİM SEBEBİ" [ref=e1012] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+      - generic [ref=e1013]:
+        - heading "Kurumsal" [level=4] [ref=e1014]
+        - list [ref=e1015]:
+          - listitem [ref=e1016]:
+            - link "Hakkımızda" [ref=e1017] [cursor=pointer]:
+              - /url: /hakkimizda
+          - listitem [ref=e1018]:
+            - link "İletişim" [ref=e1019] [cursor=pointer]:
+              - /url: /iletisim
+          - listitem [ref=e1020]:
+            - link "Teslimat Bilgileri" [ref=e1021] [cursor=pointer]:
+              - /url: /teslimat
+          - listitem [ref=e1022]:
+            - link "İptal & İade" [ref=e1023] [cursor=pointer]:
+              - /url: /iade
+          - listitem [ref=e1024]:
+            - link "Gizlilik Politikası" [ref=e1025] [cursor=pointer]:
+              - /url: /gizlilik
+          - listitem [ref=e1026]:
+            - link "Kullanım Koşulları" [ref=e1027] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+      - generic [ref=e1028]:
+        - heading "İletişim" [level=4] [ref=e1029]
+        - list [ref=e1030]:
+          - listitem [ref=e1031]:
+            - img [ref=e1032]
+            - generic [ref=e1035]:
+              - text: Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18
+              - text: 34360 Şişli / İstanbul
+          - listitem [ref=e1036]:
+            - link "0532 295 93 09" [ref=e1037] [cursor=pointer]:
+              - /url: tel:05322959309
+              - img [ref=e1038]
+              - text: 0532 295 93 09
+          - listitem [ref=e1040]:
+            - link "info@bestcicekcilik.com" [ref=e1041] [cursor=pointer]:
+              - /url: mailto:info@bestcicekcilik.com
+              - img [ref=e1042]
+              - text: info@bestcicekcilik.com
+          - listitem [ref=e1045]:
+            - link "WhatsApp ile Yaz" [ref=e1046] [cursor=pointer]:
+              - /url: https://wa.me/905322959309
+              - img [ref=e1047]
+              - text: WhatsApp ile Yaz
+    - generic [ref=e1050]:
+      - paragraph [ref=e1051]: © 2026 Best Çiçekçilik & Organizasyon. Tüm hakları saklıdır.
+      - paragraph [ref=e1052]:
+        - link "bestcicekcilik.com" [ref=e1053] [cursor=pointer]:
+          - /url: https://bestcicekcilik.com
+  - link "WhatsApp ile iletişim" [ref=e1054] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e1055]
+  - button "Open Next.js Dev Tools" [ref=e1062] [cursor=pointer]:
+    - img [ref=e1063]

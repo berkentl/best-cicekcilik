@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-user-Desktop-best-deneme\\\\945ef877-76c4-42e2-977c-7750913167c9\\\\scratchpad\\\\write-cart3.mjs\")",
+      "Bash(npx next *)"
+    ]
+  }
+}

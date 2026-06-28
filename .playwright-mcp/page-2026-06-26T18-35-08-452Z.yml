@@ -1,0 +1,304 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Best Çiçekçilik
+        - paragraph [ref=e6]: Admin Panel v2.0
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Genel
+          - link "Dashboard" [ref=e10] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e11]
+            - text: Dashboard
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Katalog
+          - link "Ürünler" [ref=e15] [cursor=pointer]:
+            - /url: /admin/urunler
+            - img [ref=e16]
+            - text: Ürünler
+          - link "Kategoriler" [ref=e18] [cursor=pointer]:
+            - /url: /admin/kategoriler
+            - img [ref=e19]
+            - text: Kategoriler
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Satış
+          - link "Siparişler" [ref=e23] [cursor=pointer]:
+            - /url: /admin/siparisler
+            - img [ref=e24]
+            - text: Siparişler
+          - link "Müşteriler" [ref=e26] [cursor=pointer]:
+            - /url: /admin/musteriler
+            - img [ref=e27]
+            - text: Müşteriler
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Pazarlama
+          - link "Kampanyalar" [ref=e31] [cursor=pointer]:
+            - /url: /admin/kampanyalar
+            - img [ref=e32]
+            - text: Kampanyalar
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Sistem
+          - link "Ayarlar" [ref=e36] [cursor=pointer]:
+            - /url: /admin/ayarlar
+            - img [ref=e37]
+            - text: Ayarlar
+      - generic [ref=e40]:
+        - link "Siteyi Gör" [ref=e41] [cursor=pointer]:
+          - /url: /
+          - img [ref=e42]
+          - text: Siteyi Gör
+        - button "Çıkış Yap" [ref=e44]:
+          - img [ref=e45]
+          - text: Çıkış Yap
+    - generic [ref=e47]:
+      - banner [ref=e48]:
+        - button [ref=e49]:
+          - img [ref=e50]
+        - generic [ref=e52]:
+          - generic [ref=e53]: Admin
+          - img [ref=e54]
+          - generic [ref=e56]: Siparişler
+      - main [ref=e57]:
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - heading "Sipariş Yönetimi" [level=1] [ref=e61]
+              - paragraph [ref=e62]: Tüm siparişleri buradan takip edin
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Teslim Edilen Ciro
+              - paragraph [ref=e65]: ₺2.770
+          - generic [ref=e66]:
+            - button "Tümü (8)" [ref=e67]
+            - button "Yeni (1)" [ref=e68]
+            - button "Hazırlanıyor (1)" [ref=e69]
+            - button "Kargoya Verildi (1)" [ref=e70]
+            - button "Teslim Edildi (3)" [ref=e71]
+            - button "İptal (1)" [ref=e72]
+            - button "İade (1)" [ref=e73]
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - textbox "Sipariş no, müşteri adı veya ürün ara..." [ref=e78]
+            - table [ref=e80]:
+              - rowgroup [ref=e81]:
+                - row "Sipariş No Müşteri Tarih Ürünler Tutar Durum" [ref=e82]:
+                  - columnheader "Sipariş No" [ref=e83]:
+                    - generic [ref=e84] [cursor=pointer]: Sipariş No
+                  - columnheader "Müşteri" [ref=e85]:
+                    - generic [ref=e86] [cursor=pointer]: Müşteri
+                  - columnheader "Tarih" [ref=e87]:
+                    - generic [ref=e88] [cursor=pointer]: Tarih
+                  - columnheader "Ürünler" [ref=e89]:
+                    - generic [ref=e90]: Ürünler
+                  - columnheader "Tutar" [ref=e91]:
+                    - generic [ref=e92] [cursor=pointer]: Tutar
+                  - columnheader "Durum" [ref=e93]:
+                    - generic [ref=e94] [cursor=pointer]: Durum
+                  - columnheader [ref=e95]
+              - rowgroup [ref=e96]:
+                - row "#10241 Ayşe Kaya 0532 111 22 33 2026-06-26 14:32 Kırmızı Gül Buketi, Çikolata Kutu ₺650 Hazırlanıyor Detay" [ref=e97] [cursor=pointer]:
+                  - cell "#10241" [ref=e98]:
+                    - button "#10241" [ref=e99]
+                  - cell "Ayşe Kaya 0532 111 22 33" [ref=e100]:
+                    - generic [ref=e101]:
+                      - paragraph [ref=e102]: Ayşe Kaya
+                      - paragraph [ref=e103]: 0532 111 22 33
+                  - cell "2026-06-26 14:32" [ref=e104]
+                  - cell "Kırmızı Gül Buketi, Çikolata Kutu" [ref=e105]:
+                    - generic [ref=e106]: Kırmızı Gül Buketi, Çikolata Kutu
+                  - cell "₺650" [ref=e107]:
+                    - generic [ref=e108]: ₺650
+                  - cell "Hazırlanıyor" [ref=e109]:
+                    - combobox [ref=e110]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor" [selected]
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi"
+                      - option "İptal"
+                      - option "İade"
+                  - cell "Detay" [ref=e111]:
+                    - button "Detay" [ref=e112]:
+                      - text: Detay
+                      - img [ref=e113]
+                - row "#10240 Mehmet Demir 0533 222 33 44 2026-06-26 12:15 Orkide Set ₺420 Kargoya Verildi Detay" [ref=e115] [cursor=pointer]:
+                  - cell "#10240" [ref=e116]:
+                    - button "#10240" [ref=e117]
+                  - cell "Mehmet Demir 0533 222 33 44" [ref=e118]:
+                    - generic [ref=e119]:
+                      - paragraph [ref=e120]: Mehmet Demir
+                      - paragraph [ref=e121]: 0533 222 33 44
+                  - cell "2026-06-26 12:15" [ref=e122]
+                  - cell "Orkide Set" [ref=e123]:
+                    - generic [ref=e124]: Orkide Set
+                  - cell "₺420" [ref=e125]:
+                    - generic [ref=e126]: ₺420
+                  - cell "Kargoya Verildi" [ref=e127]:
+                    - combobox [ref=e128]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi" [selected]
+                      - option "Teslim Edildi"
+                      - option "İptal"
+                      - option "İade"
+                  - cell "Detay" [ref=e129]:
+                    - button "Detay" [ref=e130]:
+                      - text: Detay
+                      - img [ref=e131]
+                - row "#10239 Fatma Şahin 0534 333 44 55 2026-06-26 10:05 Beyaz Orkide, Hediye Kutusu ₺890 Teslim Edildi Detay" [ref=e133] [cursor=pointer]:
+                  - cell "#10239" [ref=e134]:
+                    - button "#10239" [ref=e135]
+                  - cell "Fatma Şahin 0534 333 44 55" [ref=e136]:
+                    - generic [ref=e137]:
+                      - paragraph [ref=e138]: Fatma Şahin
+                      - paragraph [ref=e139]: 0534 333 44 55
+                  - cell "2026-06-26 10:05" [ref=e140]
+                  - cell "Beyaz Orkide, Hediye Kutusu" [ref=e141]:
+                    - generic [ref=e142]: Beyaz Orkide, Hediye Kutusu
+                  - cell "₺890" [ref=e143]:
+                    - generic [ref=e144]: ₺890
+                  - cell "Teslim Edildi" [ref=e145]:
+                    - combobox [ref=e146]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi" [selected]
+                      - option "İptal"
+                      - option "İade"
+                  - cell "Detay" [ref=e147]:
+                    - button "Detay" [ref=e148]:
+                      - text: Detay
+                      - img [ref=e149]
+                - row "#10238 Ali Öztürk 0535 444 55 66 2026-06-25 18:44 Pastel Buket ₺320 Yeni Detay" [ref=e151] [cursor=pointer]:
+                  - cell "#10238" [ref=e152]:
+                    - button "#10238" [ref=e153]
+                  - cell "Ali Öztürk 0535 444 55 66" [ref=e154]:
+                    - generic [ref=e155]:
+                      - paragraph [ref=e156]: Ali Öztürk
+                      - paragraph [ref=e157]: 0535 444 55 66
+                  - cell "2026-06-25 18:44" [ref=e158]
+                  - cell "Pastel Buket" [ref=e159]:
+                    - generic [ref=e160]: Pastel Buket
+                  - cell "₺320" [ref=e161]:
+                    - generic [ref=e162]: ₺320
+                  - cell "Yeni" [ref=e163]:
+                    - combobox [ref=e164]:
+                      - option "Yeni" [selected]
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi"
+                      - option "İptal"
+                      - option "İade"
+                  - cell "Detay" [ref=e165]:
+                    - button "Detay" [ref=e166]:
+                      - text: Detay
+                      - img [ref=e167]
+                - row "#10237 Zeynep Arslan 0536 555 66 77 2026-06-25 16:20 Premium Gül, Çikolata ₺1.200 Teslim Edildi Detay" [ref=e169] [cursor=pointer]:
+                  - cell "#10237" [ref=e170]:
+                    - button "#10237" [ref=e171]
+                  - cell "Zeynep Arslan 0536 555 66 77" [ref=e172]:
+                    - generic [ref=e173]:
+                      - paragraph [ref=e174]: Zeynep Arslan
+                      - paragraph [ref=e175]: 0536 555 66 77
+                  - cell "2026-06-25 16:20" [ref=e176]
+                  - cell "Premium Gül, Çikolata" [ref=e177]:
+                    - generic [ref=e178]: Premium Gül, Çikolata
+                  - cell "₺1.200" [ref=e179]:
+                    - generic [ref=e180]: ₺1.200
+                  - cell "Teslim Edildi" [ref=e181]:
+                    - combobox [ref=e182]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi" [selected]
+                      - option "İptal"
+                      - option "İade"
+                  - cell "Detay" [ref=e183]:
+                    - button "Detay" [ref=e184]:
+                      - text: Detay
+                      - img [ref=e185]
+                - row "#10236 Hasan Yıldız 0537 666 77 88 2026-06-25 11:30 Lilyum Buketi ₺380 İptal Detay" [ref=e187] [cursor=pointer]:
+                  - cell "#10236" [ref=e188]:
+                    - button "#10236" [ref=e189]
+                  - cell "Hasan Yıldız 0537 666 77 88" [ref=e190]:
+                    - generic [ref=e191]:
+                      - paragraph [ref=e192]: Hasan Yıldız
+                      - paragraph [ref=e193]: 0537 666 77 88
+                  - cell "2026-06-25 11:30" [ref=e194]
+                  - cell "Lilyum Buketi" [ref=e195]:
+                    - generic [ref=e196]: Lilyum Buketi
+                  - cell "₺380" [ref=e197]:
+                    - generic [ref=e198]: ₺380
+                  - cell "İptal" [ref=e199]:
+                    - combobox [ref=e200]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi"
+                      - option "İptal" [selected]
+                      - option "İade"
+                  - cell "Detay" [ref=e201]:
+                    - button "Detay" [ref=e202]:
+                      - text: Detay
+                      - img [ref=e203]
+                - row "#10235 Meryem Koç 0538 777 88 99 2026-06-24 09:15 Doğum Günü Seti ₺680 Teslim Edildi Detay" [ref=e205] [cursor=pointer]:
+                  - cell "#10235" [ref=e206]:
+                    - button "#10235" [ref=e207]
+                  - cell "Meryem Koç 0538 777 88 99" [ref=e208]:
+                    - generic [ref=e209]:
+                      - paragraph [ref=e210]: Meryem Koç
+                      - paragraph [ref=e211]: 0538 777 88 99
+                  - cell "2026-06-24 09:15" [ref=e212]
+                  - cell "Doğum Günü Seti" [ref=e213]:
+                    - generic [ref=e214]: Doğum Günü Seti
+                  - cell "₺680" [ref=e215]:
+                    - generic [ref=e216]: ₺680
+                  - cell "Teslim Edildi" [ref=e217]:
+                    - combobox [ref=e218]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi" [selected]
+                      - option "İptal"
+                      - option "İade"
+                  - cell "Detay" [ref=e219]:
+                    - button "Detay" [ref=e220]:
+                      - text: Detay
+                      - img [ref=e221]
+                - row "#10234 İbrahim Çelik 0539 888 99 00 2026-06-24 15:45 Anneler Günü Buketi ₺520 İade Detay" [ref=e223] [cursor=pointer]:
+                  - cell "#10234" [ref=e224]:
+                    - button "#10234" [ref=e225]
+                  - cell "İbrahim Çelik 0539 888 99 00" [ref=e226]:
+                    - generic [ref=e227]:
+                      - paragraph [ref=e228]: İbrahim Çelik
+                      - paragraph [ref=e229]: 0539 888 99 00
+                  - cell "2026-06-24 15:45" [ref=e230]
+                  - cell "Anneler Günü Buketi" [ref=e231]:
+                    - generic [ref=e232]: Anneler Günü Buketi
+                  - cell "₺520" [ref=e233]:
+                    - generic [ref=e234]: ₺520
+                  - cell "İade" [ref=e235]:
+                    - combobox [ref=e236]:
+                      - option "Yeni"
+                      - option "Hazırlanıyor"
+                      - option "Kargoya Verildi"
+                      - option "Teslim Edildi"
+                      - option "İptal"
+                      - option "İade" [selected]
+                  - cell "Detay" [ref=e237]:
+                    - button "Detay" [ref=e238]:
+                      - text: Detay
+                      - img [ref=e239]
+            - generic [ref=e241]:
+              - paragraph [ref=e242]: 8 sipariş — Sayfa 1 / 1
+              - generic [ref=e243]:
+                - button "«" [disabled] [ref=e244]
+                - button "‹" [disabled] [ref=e245]
+                - button "›" [disabled] [ref=e246]
+                - button "»" [disabled] [ref=e247]
+  - link "WhatsApp ile iletişim" [ref=e248] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e249]
+  - button "Open Next.js Dev Tools" [ref=e256] [cursor=pointer]:
+    - img [ref=e257]
+  - alert [ref=e260]

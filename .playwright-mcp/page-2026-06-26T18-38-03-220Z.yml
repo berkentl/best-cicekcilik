@@ -1,0 +1,209 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Best Çiçekçilik
+        - paragraph [ref=e6]: Admin Panel v2.0
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Genel
+          - link "Dashboard" [ref=e10] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e11]
+            - text: Dashboard
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Katalog
+          - link "Ürünler" [ref=e15] [cursor=pointer]:
+            - /url: /admin/urunler
+            - img [ref=e16]
+            - text: Ürünler
+          - link "Kategoriler" [ref=e18] [cursor=pointer]:
+            - /url: /admin/kategoriler
+            - img [ref=e19]
+            - text: Kategoriler
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Satış
+          - link "Siparişler" [ref=e23] [cursor=pointer]:
+            - /url: /admin/siparisler
+            - img [ref=e24]
+            - text: Siparişler
+          - link "Müşteriler" [ref=e26] [cursor=pointer]:
+            - /url: /admin/musteriler
+            - img [ref=e27]
+            - text: Müşteriler
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Pazarlama
+          - link "Kampanyalar" [ref=e31] [cursor=pointer]:
+            - /url: /admin/kampanyalar
+            - img [ref=e32]
+            - text: Kampanyalar
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Sistem
+          - link "Ayarlar" [ref=e36] [cursor=pointer]:
+            - /url: /admin/ayarlar
+            - img [ref=e37]
+            - text: Ayarlar
+      - generic [ref=e40]:
+        - link "Siteyi Gör" [ref=e41] [cursor=pointer]:
+          - /url: /
+          - img [ref=e42]
+          - text: Siteyi Gör
+        - button "Çıkış Yap" [ref=e44]:
+          - img [ref=e45]
+          - text: Çıkış Yap
+    - generic [ref=e47]:
+      - banner [ref=e48]:
+        - button [ref=e49]:
+          - img [ref=e50]
+        - generic [ref=e52]:
+          - generic [ref=e53]: Admin
+          - img [ref=e54]
+          - generic [ref=e56]: Siparişler
+      - main [ref=e57]:
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - heading "Sipariş Yönetimi" [level=1] [ref=e61]
+              - paragraph [ref=e62]: Tüm siparişleri buradan takip edin
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Teslim Edilen Ciro
+              - paragraph [ref=e65]: ₺2.770
+          - generic [ref=e66]:
+            - button "Tümü (8)" [ref=e67]
+            - button "Yeni (1)" [ref=e68]
+            - button "Hazırlanıyor (1)" [ref=e69]
+            - button "Kargoya Verildi (1)" [ref=e70]
+            - button "Teslim Edildi (3)" [ref=e71]
+            - button "İptal (1)" [ref=e72]
+            - button "İade (1)" [ref=e73]
+          - generic [ref=e74]:
+            - img [ref=e75]
+            - textbox "Sipariş no veya müşteri ara..." [ref=e77]
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - generic [ref=e80]:
+                - generic [ref=e81]: "#10241"
+                - generic [ref=e82]: Hazırlanıyor
+              - generic [ref=e83]:
+                - paragraph [ref=e84]: Ayşe Kaya
+                - paragraph [ref=e85]: 0532 111 22 33
+              - paragraph [ref=e86]: Kırmızı Gül Buketi, Çikolata Kutu
+              - generic [ref=e87]:
+                - generic [ref=e88]: 2026-06-26
+                - generic [ref=e89]:
+                  - generic [ref=e90]: ₺650
+                  - button "Detay" [ref=e91]:
+                    - text: Detay
+                    - img [ref=e92]
+            - generic [ref=e94]:
+              - generic [ref=e95]:
+                - generic [ref=e96]: "#10240"
+                - generic [ref=e97]: Kargoya Verildi
+              - generic [ref=e98]:
+                - paragraph [ref=e99]: Mehmet Demir
+                - paragraph [ref=e100]: 0533 222 33 44
+              - paragraph [ref=e101]: Orkide Set
+              - generic [ref=e102]:
+                - generic [ref=e103]: 2026-06-26
+                - generic [ref=e104]:
+                  - generic [ref=e105]: ₺420
+                  - button "Detay" [ref=e106]:
+                    - text: Detay
+                    - img [ref=e107]
+            - generic [ref=e109]:
+              - generic [ref=e110]:
+                - generic [ref=e111]: "#10239"
+                - generic [ref=e112]: Teslim Edildi
+              - generic [ref=e113]:
+                - paragraph [ref=e114]: Fatma Şahin
+                - paragraph [ref=e115]: 0534 333 44 55
+              - paragraph [ref=e116]: Beyaz Orkide, Hediye Kutusu
+              - generic [ref=e117]:
+                - generic [ref=e118]: 2026-06-26
+                - generic [ref=e119]:
+                  - generic [ref=e120]: ₺890
+                  - button "Detay" [ref=e121]:
+                    - text: Detay
+                    - img [ref=e122]
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - generic [ref=e126]: "#10238"
+                - generic [ref=e127]: Yeni
+              - generic [ref=e128]:
+                - paragraph [ref=e129]: Ali Öztürk
+                - paragraph [ref=e130]: 0535 444 55 66
+              - paragraph [ref=e131]: Pastel Buket
+              - generic [ref=e132]:
+                - generic [ref=e133]: 2026-06-25
+                - generic [ref=e134]:
+                  - generic [ref=e135]: ₺320
+                  - button "Detay" [ref=e136]:
+                    - text: Detay
+                    - img [ref=e137]
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - generic [ref=e141]: "#10237"
+                - generic [ref=e142]: Teslim Edildi
+              - generic [ref=e143]:
+                - paragraph [ref=e144]: Zeynep Arslan
+                - paragraph [ref=e145]: 0536 555 66 77
+              - paragraph [ref=e146]: Premium Gül, Çikolata
+              - generic [ref=e147]:
+                - generic [ref=e148]: 2026-06-25
+                - generic [ref=e149]:
+                  - generic [ref=e150]: ₺1.200
+                  - button "Detay" [ref=e151]:
+                    - text: Detay
+                    - img [ref=e152]
+            - generic [ref=e154]:
+              - generic [ref=e155]:
+                - generic [ref=e156]: "#10236"
+                - generic [ref=e157]: İptal
+              - generic [ref=e158]:
+                - paragraph [ref=e159]: Hasan Yıldız
+                - paragraph [ref=e160]: 0537 666 77 88
+              - paragraph [ref=e161]: Lilyum Buketi
+              - generic [ref=e162]:
+                - generic [ref=e163]: 2026-06-25
+                - generic [ref=e164]:
+                  - generic [ref=e165]: ₺380
+                  - button "Detay" [ref=e166]:
+                    - text: Detay
+                    - img [ref=e167]
+            - generic [ref=e169]:
+              - generic [ref=e170]:
+                - generic [ref=e171]: "#10235"
+                - generic [ref=e172]: Teslim Edildi
+              - generic [ref=e173]:
+                - paragraph [ref=e174]: Meryem Koç
+                - paragraph [ref=e175]: 0538 777 88 99
+              - paragraph [ref=e176]: Doğum Günü Seti
+              - generic [ref=e177]:
+                - generic [ref=e178]: 2026-06-24
+                - generic [ref=e179]:
+                  - generic [ref=e180]: ₺680
+                  - button "Detay" [ref=e181]:
+                    - text: Detay
+                    - img [ref=e182]
+            - generic [ref=e184]:
+              - generic [ref=e185]:
+                - generic [ref=e186]: "#10234"
+                - generic [ref=e187]: İade
+              - generic [ref=e188]:
+                - paragraph [ref=e189]: İbrahim Çelik
+                - paragraph [ref=e190]: 0539 888 99 00
+              - paragraph [ref=e191]: Anneler Günü Buketi
+              - generic [ref=e192]:
+                - generic [ref=e193]: 2026-06-24
+                - generic [ref=e194]:
+                  - generic [ref=e195]: ₺520
+                  - button "Detay" [ref=e196]:
+                    - text: Detay
+                    - img [ref=e197]
+            - paragraph [ref=e199]: 8 sipariş
+  - link "WhatsApp ile iletişim" [ref=e200] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e201]
+  - button "Open Next.js Dev Tools" [ref=e208] [cursor=pointer]:
+    - img [ref=e209]
+  - alert [ref=e212]

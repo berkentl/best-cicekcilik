@@ -1,0 +1,189 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Best Çiçekçilik
+        - paragraph [ref=e6]: Admin Panel v2.0
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Genel
+          - link "Dashboard" [ref=e10] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e11]
+            - text: Dashboard
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Katalog
+          - link "Ürünler" [ref=e15] [cursor=pointer]:
+            - /url: /admin/urunler
+            - img [ref=e16]
+            - text: Ürünler
+          - link "Kategoriler" [ref=e18] [cursor=pointer]:
+            - /url: /admin/kategoriler
+            - img [ref=e19]
+            - text: Kategoriler
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Satış
+          - link "Siparişler" [ref=e23] [cursor=pointer]:
+            - /url: /admin/siparisler
+            - img [ref=e24]
+            - text: Siparişler
+          - link "Müşteriler" [ref=e26] [cursor=pointer]:
+            - /url: /admin/musteriler
+            - img [ref=e27]
+            - text: Müşteriler
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Pazarlama
+          - link "Kampanyalar" [ref=e31] [cursor=pointer]:
+            - /url: /admin/kampanyalar
+            - img [ref=e32]
+            - text: Kampanyalar
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Sistem
+          - link "Ayarlar" [ref=e36] [cursor=pointer]:
+            - /url: /admin/ayarlar
+            - img [ref=e37]
+            - text: Ayarlar
+      - generic [ref=e40]:
+        - link "Siteyi Gör" [ref=e41] [cursor=pointer]:
+          - /url: /
+          - img [ref=e42]
+          - text: Siteyi Gör
+        - button "Çıkış Yap" [ref=e44]:
+          - img [ref=e45]
+          - text: Çıkış Yap
+    - generic [ref=e47]:
+      - banner [ref=e48]:
+        - button [ref=e49]:
+          - img [ref=e50]
+        - generic [ref=e52]:
+          - generic [ref=e53]: Admin
+          - img [ref=e54]
+          - generic [ref=e56]: Ürünler
+      - main [ref=e57]:
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - link [ref=e61] [cursor=pointer]:
+                - /url: /admin/urunler
+                - img [ref=e62]
+              - generic [ref=e64]:
+                - heading "Yeni Ürün Ekle" [level=1] [ref=e65]
+                - paragraph [ref=e66]: Tüm zorunlu alanları doldurun
+            - generic [ref=e67]:
+              - link "İptal" [ref=e68] [cursor=pointer]:
+                - /url: /admin/urunler
+              - button "Ürünü Kaydet" [ref=e69]
+          - generic [ref=e70]:
+            - heading "Temel Bilgiler" [level=2] [ref=e72]
+            - generic [ref=e74]:
+              - generic [ref=e75]:
+                - generic [ref=e76]: Ürün Adı *
+                - 'textbox "Örn: Kırmızı Gül Buketi" [ref=e77]'
+              - generic [ref=e78]:
+                - generic [ref=e79]:
+                  - generic [ref=e80]: Slug (URL)
+                  - textbox "kirmizi-gul-buketi" [ref=e81]
+                  - paragraph [ref=e82]:
+                    - text: bestcicekcilik.com/urun/
+                    - strong [ref=e83]: ...
+                - generic [ref=e84]:
+                  - generic [ref=e85]: Durum
+                  - generic [ref=e86]:
+                    - generic [ref=e87] [cursor=pointer]:
+                      - button "Satışta (Aktif)" [ref=e88]
+                      - generic [ref=e90]: Satışta (Aktif)
+                    - generic [ref=e91] [cursor=pointer]:
+                      - button "Yeni Ürün Rozeti" [ref=e92]
+                      - generic [ref=e94]: Yeni Ürün Rozeti
+                    - generic [ref=e95] [cursor=pointer]:
+                      - button "En Çok Satan Rozeti" [ref=e96]
+                      - generic [ref=e98]: En Çok Satan Rozeti
+          - generic [ref=e99]:
+            - heading "Kategori & Alt Kategori" [level=2] [ref=e101]
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - generic [ref=e105]: Ana Kategori *
+                - combobox [ref=e106]:
+                  - option "Seçin..." [selected]
+              - generic [ref=e107]:
+                - generic [ref=e108]: Alt Kategori
+                - combobox [disabled] [ref=e109]:
+                  - option "Önce ana kategori seçin" [selected]
+          - generic [ref=e110]:
+            - heading "Fiyat & Stok" [level=2] [ref=e112]
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - generic [ref=e116]: Normal Fiyat (₺) *
+                - spinbutton [ref=e117]
+              - generic [ref=e118]:
+                - generic [ref=e119]: İndirimli Fiyat (₺)
+                - spinbutton [ref=e120]
+              - generic [ref=e121]:
+                - generic [ref=e122]: Stok Adeti
+                - spinbutton [ref=e123]: "0"
+                - paragraph [ref=e124]: Stokta yok olarak görünür
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - heading "Ürün Görselleri" [level=2] [ref=e127]
+              - generic [ref=e128]: Supabase Storage
+            - generic [ref=e129]:
+              - generic [ref=e131] [cursor=pointer]:
+                - button "Choose File" [ref=e132]
+                - generic [ref=e133]:
+                  - img [ref=e134]
+                  - paragraph [ref=e136]: Görselleri buraya sürükleyin veya tıklayın
+                  - paragraph [ref=e137]: PNG, JPG, WEBP — maks. 5 MB
+              - paragraph [ref=e138]: Görseller Supabase Storage'a yüklenir. İlk görsel ana görsel olarak kullanılır.
+          - generic [ref=e139]:
+            - generic [ref=e140]:
+              - heading "Ürün Açıklaması" [level=2] [ref=e141]
+              - generic [ref=e142]: Rich Text
+            - generic [ref=e144]:
+              - generic [ref=e145]:
+                - button "B" [ref=e146]:
+                  - strong [ref=e147]: B
+                - button "I" [ref=e148]:
+                  - emphasis [ref=e149]: I
+                - button "U" [ref=e150]
+                - button "Liste" [ref=e152]:
+                  - img [ref=e153]
+                - button "Geri al" [ref=e156]:
+                  - img [ref=e157]
+              - paragraph [ref=e161]
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - heading "Varyant Yönetimi" [level=2] [ref=e164]
+              - generic [ref=e165]: Opsiyonel
+            - generic [ref=e166]:
+              - paragraph [ref=e167]: Renk, beden veya boyut gibi seçenekler varsa ekleyin. Her varyant için ayrı fiyat ve stok girebilirsiniz.
+              - button "Varyant Ekle" [ref=e168]:
+                - img [ref=e169]
+                - text: Varyant Ekle
+          - generic [ref=e171]:
+            - generic [ref=e172]:
+              - heading "SEO Ayarları" [level=2] [ref=e173]
+              - generic [ref=e174]: Opsiyonel
+            - generic [ref=e176]:
+              - generic [ref=e177]:
+                - generic [ref=e178]: SEO Başlığı
+                - textbox "Ürün adı otomatik kullanılır" [ref=e179]
+                - paragraph [ref=e180]: 0/60 karakter — ideal uzunluk 50-60 karakter
+              - generic [ref=e181]:
+                - generic [ref=e182]: Meta Açıklama
+                - textbox "Arama motorlarında görünecek kısa açıklama (150-160 karakter)" [ref=e183]
+                - paragraph [ref=e184]: 0/160 karakter
+              - generic [ref=e185]:
+                - paragraph [ref=e186]: Google Önizleme
+                - paragraph [ref=e187]: Ürün Başlığı | Best Çiçekçilik
+                - paragraph [ref=e188]: bestcicekcilik.com › urun › urun-slug
+                - paragraph [ref=e189]: Ürün açıklaması buraya gelecek...
+          - generic [ref=e190]:
+            - link "İptal" [ref=e191] [cursor=pointer]:
+              - /url: /admin/urunler
+            - button "Ürünü Kaydet" [ref=e192]
+  - link "WhatsApp ile iletişim" [ref=e193] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e194]
+  - button "Open Next.js Dev Tools" [ref=e201] [cursor=pointer]:
+    - img [ref=e202]
+  - alert [ref=e205]

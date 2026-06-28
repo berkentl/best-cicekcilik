@@ -1,20 +1,42 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Kumbh_Sans, Playfair_Display, Poppins } from "next/font/google";
+import { WhatsAppIcon } from "@/components/icons";
+import { siteConfig } from "@/lib/data";
+import { CurrencyProvider } from "@/components/CurrencyProvider";
+import { StoreHydration } from "@/components/StoreHydration";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const kumbhSans = Kumbh_Sans({
+  variable: "--font-kumbh-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const playfairDisplay = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Website Clone",
-  description: "Pixel-perfect website clone",
+  title: "Best Çiçekçilik & Organizasyon | Aynı Gün Çiçek Teslimat - Şişli/İstanbul",
+  description:
+    "Best Çiçekçilik & Organizasyon olarak Şişli/İstanbul'da aynı gün lüks çiçek teslimatı yapıyoruz. Buket, vazo aranjmanı, orkide ve daha fazlası.",
+  keywords: "çiçekçi, istanbul çiçekçi, aynı gün çiçek, şişli çiçekçi, lüks çiçek",
+  openGraph: {
+    title: "Best Çiçekçilik & Organizasyon",
+    description: "İstanbul'a Aynı Gün Lüks Çiçek Teslimat",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -24,10 +46,25 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="tr"
+      className={`${kumbhSans.variable} ${playfairDisplay.variable} ${poppins.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <StoreHydration />
+        <CurrencyProvider>
+        {children}
+        </CurrencyProvider>
+        {/* WhatsApp floating butonu */}
+        <a
+          href={`https://wa.me/${siteConfig.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp ile iletişim"
+          className="fixed bottom-6 right-6 z-[999] w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
+        >
+          <WhatsAppIcon size={28} className="text-white" />
+        </a>
+      </body>
     </html>
   );
 }

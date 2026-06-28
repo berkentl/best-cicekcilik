@@ -1,0 +1,225 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e28]:
+    - complementary [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]: Best Çiçekçilik
+        - paragraph [ref=e32]: Admin Panel v2.0
+      - navigation [ref=e33]:
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Genel
+          - link "Dashboard" [ref=e36] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e37]
+            - text: Dashboard
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: Katalog
+          - link "Ürünler" [ref=e41] [cursor=pointer]:
+            - /url: /admin/urunler
+            - img [ref=e42]
+            - text: Ürünler
+          - link "Kategoriler" [ref=e44] [cursor=pointer]:
+            - /url: /admin/kategoriler
+            - img [ref=e45]
+            - text: Kategoriler
+        - generic [ref=e47]:
+          - paragraph [ref=e48]: Satış
+          - link "Siparişler" [ref=e49] [cursor=pointer]:
+            - /url: /admin/siparisler
+            - img [ref=e50]
+            - text: Siparişler
+          - link "Müşteriler" [ref=e52] [cursor=pointer]:
+            - /url: /admin/musteriler
+            - img [ref=e53]
+            - text: Müşteriler
+        - generic [ref=e55]:
+          - paragraph [ref=e56]: Pazarlama
+          - link "Kampanyalar" [ref=e57] [cursor=pointer]:
+            - /url: /admin/kampanyalar
+            - img [ref=e58]
+            - text: Kampanyalar
+        - generic [ref=e60]:
+          - paragraph [ref=e61]: Sistem
+          - link "Ayarlar" [ref=e62] [cursor=pointer]:
+            - /url: /admin/ayarlar
+            - img [ref=e63]
+            - text: Ayarlar
+      - generic [ref=e66]:
+        - link "Siteyi Gör" [ref=e67] [cursor=pointer]:
+          - /url: /
+          - img [ref=e68]
+          - text: Siteyi Gör
+        - button "Çıkış Yap" [ref=e70]:
+          - img [ref=e71]
+          - text: Çıkış Yap
+    - generic [ref=e73]:
+      - banner [ref=e74]:
+        - button [ref=e75]:
+          - img [ref=e76]
+        - generic [ref=e78]:
+          - generic [ref=e79]: Admin
+          - img [ref=e80]
+          - generic [ref=e82]: Dashboard
+      - main [ref=e83]:
+        - generic [ref=e84]:
+          - generic [ref=e85]:
+            - heading "Genel Bakış" [level=1] [ref=e86]
+            - paragraph [ref=e87]: Son 7 günün performans özeti
+          - generic [ref=e88]:
+            - generic [ref=e89]:
+              - generic [ref=e90]:
+                - generic [ref=e91]:
+                  - paragraph [ref=e92]: Haftalık Ciro
+                  - paragraph [ref=e93]: ₺22.290
+                  - paragraph [ref=e94]: Son 7 gün
+                - img [ref=e96]
+              - generic [ref=e98]:
+                - img [ref=e99]
+                - text: 12% geçen haftaya göre
+            - generic [ref=e101]:
+              - generic [ref=e102]:
+                - generic [ref=e103]:
+                  - paragraph [ref=e104]: Haftalık Sipariş
+                  - paragraph [ref=e105]: "85"
+                  - paragraph [ref=e106]: Son 7 gün
+                - img [ref=e108]
+              - generic [ref=e110]:
+                - img [ref=e111]
+                - text: 8% geçen haftaya göre
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - paragraph [ref=e116]: Aktif Ürünler
+                - paragraph [ref=e117]: "8"
+                - paragraph [ref=e118]: Sitede yayında
+              - img [ref=e120]
+            - generic [ref=e123]:
+              - generic [ref=e124]:
+                - paragraph [ref=e125]: Stok Alarmı
+                - paragraph [ref=e126]: "0"
+                - paragraph [ref=e127]: Tüm stoklar yeterli
+              - img [ref=e129]
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - heading "Günlük Satış Grafiği" [level=2] [ref=e135]
+                  - paragraph [ref=e136]: Ciro ve sipariş trendi
+                - generic [ref=e137]: Bu Hafta
+              - generic [ref=e139]:
+                - list [ref=e141]:
+                  - listitem [ref=e142]:
+                    - img "Ciro (₺) legend icon" [ref=e143]
+                    - text: Ciro (₺)
+                  - listitem [ref=e145]:
+                    - img "Sipariş legend icon" [ref=e146]
+                    - text: Sipariş
+                - application [ref=e148]:
+                  - generic [ref=e177]:
+                    - generic [ref=e178]:
+                      - generic [ref=e180]: Pzt
+                      - generic [ref=e182]: Sal
+                      - generic [ref=e184]: Çar
+                      - generic [ref=e186]: Per
+                      - generic [ref=e188]: Cum
+                      - generic [ref=e190]: Cmt
+                      - generic [ref=e192]: Paz
+                    - generic [ref=e193]:
+                      - generic [ref=e195]: "0"
+                      - generic [ref=e197]: "1500"
+                      - generic [ref=e199]: "3000"
+                      - generic [ref=e201]: "4500"
+                      - generic [ref=e203]: "6000"
+            - generic [ref=e204]:
+              - generic [ref=e205]:
+                - heading "En Çok Satanlar" [level=2] [ref=e206]
+                - paragraph [ref=e207]: Bu haftanın öne çıkan ürünleri
+              - application [ref=e210]:
+                - generic [ref=e233]:
+                  - generic [ref=e234]:
+                    - generic [ref=e236]: "0"
+                    - generic [ref=e238]: "15"
+                    - generic [ref=e240]: "30"
+                    - generic [ref=e242]: "45"
+                    - generic [ref=e244]: "60"
+                  - generic [ref=e245]:
+                    - generic [ref=e247]: Kırmızı Gül
+                    - generic [ref=e249]: Orkide Set
+                    - generic [ref=e251]: ÇikolataKutu
+                    - generic [ref=e253]: Beyaz Lale
+                    - generic [ref=e255]: PastelBuket
+          - generic [ref=e256]:
+            - generic [ref=e257]:
+              - generic [ref=e258]:
+                - heading "Son Siparişler" [level=2] [ref=e259]
+                - link "Tümünü Gör →" [ref=e260] [cursor=pointer]:
+                  - /url: /admin/siparisler
+              - generic [ref=e261]:
+                - generic [ref=e262]:
+                  - generic [ref=e263]:
+                    - generic [ref=e264]:
+                      - generic [ref=e265]: "#10241"
+                      - generic [ref=e266]: Hazırlanıyor
+                    - paragraph [ref=e267]: Ayşe Kaya · Bugün 14:32
+                  - generic [ref=e268]: ₺650
+                - generic [ref=e269]:
+                  - generic [ref=e270]:
+                    - generic [ref=e271]:
+                      - generic [ref=e272]: "#10240"
+                      - generic [ref=e273]: Kargoya Verildi
+                    - paragraph [ref=e274]: Mehmet Demir · Bugün 12:15
+                  - generic [ref=e275]: ₺420
+                - generic [ref=e276]:
+                  - generic [ref=e277]:
+                    - generic [ref=e278]:
+                      - generic [ref=e279]: "#10239"
+                      - generic [ref=e280]: Teslim Edildi
+                    - paragraph [ref=e281]: Fatma Şahin · Bugün 10:05
+                  - generic [ref=e282]: ₺890
+                - generic [ref=e283]:
+                  - generic [ref=e284]:
+                    - generic [ref=e285]:
+                      - generic [ref=e286]: "#10238"
+                      - generic [ref=e287]: Yeni
+                    - paragraph [ref=e288]: Ali Öztürk · Dün 18:44
+                  - generic [ref=e289]: ₺320
+                - generic [ref=e290]:
+                  - generic [ref=e291]:
+                    - generic [ref=e292]:
+                      - generic [ref=e293]: "#10237"
+                      - generic [ref=e294]: Teslim Edildi
+                    - paragraph [ref=e295]: Zeynep Arslan · Dün 16:20
+                  - generic [ref=e296]: ₺1.200
+            - generic [ref=e297]:
+              - generic [ref=e298]:
+                - heading "Stok Alarmı" [level=2] [ref=e299]
+                - link "Ürünlere Git →" [ref=e300] [cursor=pointer]:
+                  - /url: /admin/urunler
+              - generic [ref=e301]:
+                - img [ref=e303]
+                - paragraph [ref=e305]: Tüm stoklar yeterli
+                - paragraph [ref=e306]: Kritik stok seviyesinde ürün yok
+          - generic [ref=e307]:
+            - heading "Hızlı İşlemler" [level=2] [ref=e308]
+            - generic [ref=e309]:
+              - link "Yeni Ürün Ekle" [ref=e310] [cursor=pointer]:
+                - /url: /admin/urunler/yeni
+                - img [ref=e311]
+                - text: Yeni Ürün Ekle
+              - link "Kategori Ekle" [ref=e313] [cursor=pointer]:
+                - /url: /admin/kategoriler
+                - img [ref=e314]
+                - text: Kategori Ekle
+              - link "Kupon Oluştur" [ref=e316] [cursor=pointer]:
+                - /url: /admin/kampanyalar
+                - img [ref=e317]
+                - text: Kupon Oluştur
+              - link "Siparişleri Gör" [ref=e319] [cursor=pointer]:
+                - /url: /admin/siparisler
+                - img [ref=e320]
+                - text: Siparişleri Gör
+  - link "WhatsApp ile iletişim" [ref=e15] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e16]
+  - button "Open Next.js Dev Tools" [ref=e23] [cursor=pointer]:
+    - img [ref=e24]
+  - alert [ref=e27]
+  - generic [ref=e322]: Kırmızı Gül

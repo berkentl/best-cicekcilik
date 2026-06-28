@@ -1,0 +1,77 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Best Çiçekçilik
+        - paragraph [ref=e6]: Admin Panel v2.0
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Genel
+          - link "Dashboard" [ref=e10] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e11]
+            - text: Dashboard
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Katalog
+          - link "Ürünler" [ref=e15] [cursor=pointer]:
+            - /url: /admin/urunler
+            - img [ref=e16]
+            - text: Ürünler
+          - link "Kategoriler" [ref=e18] [cursor=pointer]:
+            - /url: /admin/kategoriler
+            - img [ref=e19]
+            - text: Kategoriler
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Satış
+          - link "Siparişler" [ref=e23] [cursor=pointer]:
+            - /url: /admin/siparisler
+            - img [ref=e24]
+            - text: Siparişler
+          - link "Müşteriler" [ref=e26] [cursor=pointer]:
+            - /url: /admin/musteriler
+            - img [ref=e27]
+            - text: Müşteriler
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Pazarlama
+          - link "Kampanyalar" [ref=e31] [cursor=pointer]:
+            - /url: /admin/kampanyalar
+            - img [ref=e32]
+            - text: Kampanyalar
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Sistem
+          - link "Ayarlar" [ref=e36] [cursor=pointer]:
+            - /url: /admin/ayarlar
+            - img [ref=e37]
+            - text: Ayarlar
+      - generic [ref=e40]:
+        - link "Siteyi Gör" [ref=e41] [cursor=pointer]:
+          - /url: /
+          - img [ref=e42]
+          - text: Siteyi Gör
+        - button "Çıkış Yap" [ref=e44]:
+          - img [ref=e45]
+          - text: Çıkış Yap
+    - generic [ref=e47]:
+      - banner [ref=e48]:
+        - button [ref=e49]:
+          - img [ref=e50]
+        - generic [ref=e52]:
+          - generic [ref=e53]: Admin
+          - img [ref=e54]
+          - generic [ref=e56]: Ürünler
+      - main [ref=e57]:
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - textbox "Ürün ara..." [ref=e61]
+            - combobox [ref=e62]:
+              - option "Tüm Kategoriler" [selected]
+          - link "Yeni Ürün" [ref=e63] [cursor=pointer]:
+            - /url: /admin/urunler/yeni
+            - img [ref=e64]
+            - text: Yeni Ürün
+  - link "WhatsApp ile iletişim" [ref=e66] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e67]
+  - button "Open Next.js Dev Tools" [ref=e74] [cursor=pointer]:
+    - img [ref=e75]
+  - alert [ref=e78]

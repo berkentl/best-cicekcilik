@@ -1,0 +1,454 @@
+- generic [active] [ref=e1]:
+  - progressbar [ref=e2]
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - link [ref=e5] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e6]:
+        - generic [ref=e7]:
+          - link "Elements" [ref=e9] [cursor=pointer]:
+            - /url: /elements
+            - text: Elements
+            - img [ref=e10]
+          - link "Challenges" [ref=e13] [cursor=pointer]:
+            - /url: /challenges
+          - link "Blog" [ref=e14] [cursor=pointer]:
+            - /url: /blog
+          - link "Design" [ref=e15] [cursor=pointer]:
+            - /url: /design
+        - generic [ref=e16]:
+          - link "Create" [ref=e19] [cursor=pointer]:
+            - /url: /kennyotsu/fresh-lizard-20?create-account
+            - img [ref=e20]
+            - text: Create
+          - link "Join the Community" [ref=e22] [cursor=pointer]:
+            - /url: /kennyotsu/fresh-lizard-20?create-account
+            - img [ref=e23]
+            - text: Join the Community
+    - generic [ref=e25]:
+      - navigation [ref=e29]:
+        - link "UI Kits New" [ref=e30] [cursor=pointer]:
+          - /url: /ui-kits
+          - generic [ref=e31]:
+            - img [ref=e32]
+            - text: UI Kits
+          - generic [ref=e37]: New
+        - link "All" [ref=e38] [cursor=pointer]:
+          - /url: /elements
+          - generic [ref=e39]:
+            - img [ref=e40]
+            - text: All
+        - link "Buttons" [ref=e42] [cursor=pointer]:
+          - /url: /buttons
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - text: Buttons
+        - link "Checkboxes" [ref=e47] [cursor=pointer]:
+          - /url: /checkboxes
+          - generic [ref=e48]:
+            - img [ref=e49]
+            - text: Checkboxes
+        - link "Toggle switches" [ref=e51] [cursor=pointer]:
+          - /url: /switches
+          - generic [ref=e52]:
+            - img [ref=e53]
+            - text: Toggle switches
+        - link "Cards" [ref=e55] [cursor=pointer]:
+          - /url: /cards
+          - generic [ref=e56]:
+            - img [ref=e57]
+            - text: Cards
+        - link "Loaders" [ref=e59] [cursor=pointer]:
+          - /url: /loaders
+          - generic [ref=e60]:
+            - img [ref=e61]
+            - text: Loaders
+        - link "Inputs" [ref=e63] [cursor=pointer]:
+          - /url: /inputs
+          - generic [ref=e64]:
+            - img [ref=e65]
+            - text: Inputs
+        - link "Radio buttons" [ref=e67] [cursor=pointer]:
+          - /url: /radio-buttons
+          - generic [ref=e68]:
+            - img [ref=e69]
+            - text: Radio buttons
+        - link "Forms" [ref=e72] [cursor=pointer]:
+          - /url: /forms
+          - generic [ref=e73]:
+            - img [ref=e74]
+            - text: Forms
+        - link "Patterns" [ref=e76] [cursor=pointer]:
+          - /url: /patterns
+          - generic [ref=e77]:
+            - img [ref=e78]
+            - text: Patterns
+        - link "Tooltips" [ref=e80] [cursor=pointer]:
+          - /url: /tooltips
+          - generic [ref=e81]:
+            - img [ref=e82]
+            - text: Tooltips
+      - main [ref=e86]:
+        - generic [ref=e87]:
+          - button "Go back" [ref=e89] [cursor=pointer]:
+            - img [ref=e90]
+            - text: Go back
+          - generic [ref=e92]:
+            - heading "Loader by KE kennyotsu" [level=1] [ref=e93]:
+              - text: Loader by
+              - link "KE kennyotsu" [ref=e94] [cursor=pointer]:
+                - /url: /profile/kennyotsu
+                - generic [ref=e96]: KE
+                - text: kennyotsu
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - img [ref=e99]
+                - text: 95K
+              - generic [ref=e101]:
+                - img [ref=e102]
+                - text: "0"
+        - generic [ref=e104]:
+          - generic [ref=e106]:
+            - generic [ref=e110]:
+              - paragraph [ref=e111]: loading
+              - generic [ref=e112]:
+                - generic [ref=e113]: buttons
+                - generic [ref=e114]: forms
+                - generic [ref=e115]: switches
+                - generic [ref=e116]: cards
+                - generic [ref=e117]: buttons
+            - generic [ref=e118]:
+              - generic [ref=e119]: "#111111"
+              - generic [ref=e120] [cursor=pointer]:
+                - img [ref=e121]
+                - img [ref=e123]
+                - checkbox
+              - generic [ref=e126] [cursor=pointer]:
+                - textbox: "#111111"
+          - generic [ref=e127]:
+            - tablist [ref=e130]:
+              - tab "HTML" [ref=e131] [cursor=pointer]:
+                - img [ref=e132]
+                - text: HTML
+              - tab "CSS" [selected] [ref=e135] [cursor=pointer]:
+                - img [ref=e136]
+                - text: CSS
+            - generic [ref=e139]:
+              - button "Copy" [ref=e140] [cursor=pointer]:
+                - img [ref=e141]
+                - generic: Copy
+              - generic [ref=e144]:
+                - generic:
+                  - generic: "1"
+                  - text: ".card {"
+                  - generic: "2"
+                  - text: /* color used to softly clip top and bottom of the .words container */
+                  - generic: "3"
+                  - text: "--bg-color: #111;"
+                  - generic: "4"
+                  - text: "background-color: var(--bg-color);"
+                  - generic: "5"
+                  - text: "padding: 1rem 2rem;"
+                  - generic: "6"
+                  - text: "border-radius: 1.25rem;"
+                  - generic: "7"
+                  - text: "}"
+                  - generic: "8"
+                  - text: ".loader {"
+                  - generic: "9"
+                  - text: "color: rgb(124, 124, 124);"
+                  - generic: "10"
+                  - text: "font-family: \"Poppins\", sans-serif;"
+                  - generic: "11"
+                  - text: "font-weight: 500;"
+                  - generic: "12"
+                  - text: "font-size: 25px;"
+                  - generic: "13"
+                  - text: "-webkit-box-sizing: content-box;"
+                  - generic: "14"
+                  - text: "box-sizing: content-box;"
+                  - generic: "15"
+                  - text: "height: 40px;"
+                  - generic: "16"
+                  - text: "padding: 10px 10px;"
+                  - generic: "17"
+                  - text: "display: -webkit-box;"
+                  - generic: "18"
+                  - text: "display: -ms-flexbox;"
+                  - generic: "19"
+                  - text: "display: flex;"
+                  - generic: "20"
+                  - text: "border-radius: 8px;"
+                  - generic: "21"
+                  - text: "}"
+                  - generic: "22"
+                  - generic: "23"
+                  - text: ".words {"
+                  - generic: "24"
+                  - text: "overflow: hidden;"
+                  - generic: "25"
+                  - text: "position: relative;"
+                  - generic: "26"
+                  - text: "}"
+                  - generic: "27"
+                  - text: ".words::after {"
+                  - generic: "28"
+                  - text: "content: \"\";"
+                  - generic: "29"
+                  - text: "position: absolute;"
+                  - generic: "30"
+                  - text: "inset: 0;"
+                  - generic: "31"
+                  - text: "background: linear-gradient("
+                  - generic: "32"
+                  - text: var(--bg-color) 10%,
+                  - generic: "33"
+                  - text: transparent 30%,
+                  - generic: "34"
+                  - text: transparent 70%,
+                  - generic: "35"
+                  - text: var(--bg-color) 90%
+                  - generic: "36"
+                  - text: );
+                  - generic: "37"
+                  - text: "z-index: 20;"
+                  - generic: "38"
+                  - text: "}"
+                  - generic: "39"
+                  - generic: "40"
+                  - text: ".word {"
+                  - generic: "41"
+                  - text: "display: block;"
+                  - generic: "42"
+                  - text: "height: 100%;"
+                  - generic: "43"
+                  - text: "padding-left: 6px;"
+                  - generic: "44"
+                  - text: "color: #956afa;"
+                  - generic: "45"
+                  - text: "animation: spin_4991 4s infinite;"
+                  - generic: "46"
+                  - text: "}"
+                  - generic: "47"
+                  - generic: "48"
+                  - generic: "@keyframes spin_4991"
+                  - text: "{"
+                  - generic: "49"
+                  - text: "10% {"
+                  - generic: "50"
+                  - text: "-webkit-transform: translateY(-102%);"
+                  - generic: "51"
+                  - text: "transform: translateY(-102%);"
+                  - generic: "52"
+                  - text: "}"
+                  - generic: "53"
+                  - generic: "54"
+                  - text: "25% {"
+                  - generic: "55"
+                  - text: "-webkit-transform: translateY(-100%);"
+                  - generic: "56"
+                  - text: "transform: translateY(-100%);"
+                  - generic: "57"
+                  - text: "}"
+                  - generic: "58"
+                  - generic: "59"
+                  - text: "35% {"
+                  - generic: "60"
+                  - text: "-webkit-transform: translateY(-202%);"
+                  - generic: "61"
+                  - text: "transform: translateY(-202%);"
+                  - generic: "62"
+                  - text: "}"
+                  - generic: "63"
+                  - generic: "64"
+                  - text: "50% {"
+                  - generic: "65"
+                  - text: "-webkit-transform: translateY(-200%);"
+                  - generic: "66"
+                  - text: "transform: translateY(-200%);"
+                  - generic: "67"
+                  - text: "}"
+                  - generic: "68"
+                  - generic: "69"
+                  - text: "60% {"
+                  - generic: "70"
+                  - text: "-webkit-transform: translateY(-302%);"
+                  - generic: "71"
+                  - text: "transform: translateY(-302%);"
+                  - generic: "72"
+                  - text: "}"
+                  - generic: "73"
+                  - generic: "74"
+                  - text: "75% {"
+                  - generic: "75"
+                  - text: "-webkit-transform: translateY(-300%);"
+                  - generic: "76"
+                  - text: "transform: translateY(-300%);"
+                  - generic: "77"
+                  - text: "}"
+                  - generic: "78"
+                  - generic: "79"
+                  - text: "85% {"
+                  - generic: "80"
+                  - text: "-webkit-transform: translateY(-402%);"
+                  - generic: "81"
+                  - text: "transform: translateY(-402%);"
+                  - generic: "82"
+                  - text: "}"
+                  - generic: "83"
+                  - generic: "84"
+                  - text: "100% {"
+                  - generic: "85"
+                  - text: "-webkit-transform: translateY(-400%);"
+                  - generic: "86"
+                  - text: "transform: translateY(-400%);"
+                  - generic: "87"
+                  - text: "}"
+                  - generic: "88"
+                  - text: "}"
+                  - generic: "89"
+                - textbox [ref=e145]: ".card { /* color used to softly clip top and bottom of the .words container */ --bg-color: #111; background-color: var(--bg-color); padding: 1rem 2rem; border-radius: 1.25rem; } .loader { color: rgb(124, 124, 124); font-family: \"Poppins\", sans-serif; font-weight: 500; font-size: 25px; -webkit-box-sizing: content-box; box-sizing: content-box; height: 40px; padding: 10px 10px; display: -webkit-box; display: -ms-flexbox; display: flex; border-radius: 8px; } .words { overflow: hidden; position: relative; } .words::after { content: \"\"; position: absolute; inset: 0; background: linear-gradient( var(--bg-color) 10%, transparent 30%, transparent 70%, var(--bg-color) 90% ); z-index: 20; } .word { display: block; height: 100%; padding-left: 6px; color: #956afa; animation: spin_4991 4s infinite; } @keyframes spin_4991 { 10% { -webkit-transform: translateY(-102%); transform: translateY(-102%); } 25% { -webkit-transform: translateY(-100%); transform: translateY(-100%); } 35% { -webkit-transform: translateY(-202%); transform: translateY(-202%); } 50% { -webkit-transform: translateY(-200%); transform: translateY(-200%); } 60% { -webkit-transform: translateY(-302%); transform: translateY(-302%); } 75% { -webkit-transform: translateY(-300%); transform: translateY(-300%); } 85% { -webkit-transform: translateY(-402%); transform: translateY(-402%); } 100% { -webkit-transform: translateY(-400%); transform: translateY(-400%); } }"
+        - generic [ref=e152]:
+          - button "Save to favorites" [ref=e154] [cursor=pointer]:
+            - img [ref=e156]
+            - generic [ref=e158]: Save to favorites
+          - generic [ref=e161]:
+            - button "Export" [ref=e162] [cursor=pointer]:
+              - img [ref=e163]
+              - text: Export
+            - button "React" [ref=e168] [cursor=pointer]:
+              - text: React
+              - img [ref=e169]
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - generic [ref=e175]:
+              - generic [ref=e176]:
+                - heading "Comments" [level=3] [ref=e177]
+                - paragraph [ref=e178]:
+                  - link "Log in" [ref=e179] [cursor=pointer]:
+                    - /url: /kennyotsu/fresh-lizard-20?create-account
+                  - text: to add comments
+              - generic [ref=e181]:
+                - textbox "Send a first comment..." [disabled] [ref=e182]
+                - generic [ref=e183]:
+                  - button "Send" [disabled]
+                  - paragraph: 0/244
+            - link "No variations yet, create one!" [ref=e186] [cursor=pointer]:
+              - /url: /kennyotsu/fresh-lizard-20?create-account
+              - generic [ref=e187]:
+                - img [ref=e188]
+                - text: No variations yet, create one!
+          - complementary [ref=e190]:
+            - generic [ref=e191]:
+              - heading "loader" [level=2] [ref=e192]
+              - generic [ref=e193]:
+                - generic [ref=e194]:
+                  - img [ref=e195]
+                  - text: Feb 26, 2023
+                - button "Report" [ref=e197] [cursor=pointer]:
+                  - img [ref=e198]
+                  - generic [ref=e200]: Report
+            - generic [ref=e203]:
+              - link "KE" [ref=e204] [cursor=pointer]:
+                - /url: /profile/kennyotsu
+                - generic [ref=e206]: KE
+              - generic [ref=e207]:
+                - link "kennyotsu" [ref=e208] [cursor=pointer]:
+                  - /url: /profile/kennyotsu
+                - paragraph [ref=e209]: kotsu
+              - paragraph [ref=e210]: I do web thingies.
+          - generic [ref=e214]:
+            - generic [ref=e216]:
+              - img [ref=e217]
+              - text: MIT License
+            - textbox [ref=e219]: "Copyright - 2026 kennyotsu (kotsu) Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+    - contentinfo "Site Footer" [ref=e220]:
+      - generic [ref=e221]:
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - paragraph [ref=e225]: Uiverse | The universe of UI
+            - generic [ref=e226]:
+              - paragraph [ref=e227]:
+                - img [ref=e228]
+                - text: MIT License
+              - paragraph [ref=e230]:
+                - text: All content (UI elements) on this site are published under the
+                - link "MIT License" [ref=e231] [cursor=pointer]:
+                  - /url: https://opensource.org/license/mit
+                - text: .
+            - list [ref=e232]:
+              - listitem [ref=e233]:
+                - link "Instagram" [ref=e234] [cursor=pointer]:
+                  - /url: https://www.instagram.com/uiverse.io/
+                  - generic [ref=e235]: Instagram
+                  - img [ref=e236]
+              - listitem [ref=e238]:
+                - link "Twitter" [ref=e239] [cursor=pointer]:
+                  - /url: https://twitter.com/uiverse_io
+                  - generic [ref=e240]: Twitter
+                  - img [ref=e241]
+              - listitem [ref=e243]:
+                - link "Discord" [ref=e244] [cursor=pointer]:
+                  - /url: https://discord.gg/KD8ba2uUpT
+                  - generic [ref=e245]: Discord
+                  - img [ref=e246]
+          - generic [ref=e248]:
+            - generic [ref=e249]:
+              - paragraph [ref=e250]: Games
+              - navigation "Footer Navigation - Legal" [ref=e251]:
+                - list [ref=e252]:
+                  - listitem [ref=e253]:
+                    - link "Azeron.ai" [ref=e254] [cursor=pointer]:
+                      - /url: https://azeron.ai
+                  - listitem [ref=e255]:
+                    - link "Tavernia.io" [ref=e256] [cursor=pointer]:
+                      - /url: https://tavernia.io
+            - generic [ref=e257]:
+              - paragraph [ref=e258]: Resources
+              - navigation "Footer Navigation - Legal" [ref=e259]:
+                - list [ref=e260]:
+                  - listitem [ref=e261]:
+                    - link "Design Systems" [ref=e262] [cursor=pointer]:
+                      - /url: https://uiverse.io/design
+                  - listitem [ref=e263]:
+                    - link "Cssbuttons.io" [ref=e264] [cursor=pointer]:
+                      - /url: https://cssbuttons.io
+                  - listitem [ref=e265]:
+                    - link "Neumorphism.io" [ref=e266] [cursor=pointer]:
+                      - /url: https://neumorphism.io
+                  - listitem [ref=e267]:
+                    - link "Browsergames.gg" [ref=e268] [cursor=pointer]:
+                      - /url: https://browsergames.gg
+            - generic [ref=e269]:
+              - paragraph [ref=e270]: Information
+              - navigation "Footer Navigation - Legal" [ref=e271]:
+                - list [ref=e272]:
+                  - listitem [ref=e273]:
+                    - link "Blog" [ref=e274] [cursor=pointer]:
+                      - /url: /blog
+                  - listitem [ref=e275]:
+                    - link "Post Guidelines" [ref=e276] [cursor=pointer]:
+                      - /url: /guidelines
+                  - listitem [ref=e277]:
+                    - link "Give feedback" [ref=e278] [cursor=pointer]:
+                      - /url: /feedback
+                  - listitem [ref=e279]:
+                    - link "Report bug" [ref=e280] [cursor=pointer]:
+                      - /url: /bug
+            - generic [ref=e281]:
+              - paragraph [ref=e282]: Legal
+              - navigation "Footer Navigation - Company" [ref=e283]:
+                - list [ref=e284]:
+                  - listitem [ref=e285]:
+                    - link "Terms and Conditions" [ref=e286] [cursor=pointer]:
+                      - /url: https://app.termly.io/document/terms-of-service/bdc0e7cf-cb88-4f24-9cb5-13761e20dedb
+                  - listitem [ref=e287]:
+                    - link "Privacy policy" [ref=e288] [cursor=pointer]:
+                      - /url: https://app.termly.io/document/privacy-policy/fe317b39-7972-4f85-b7c6-d4f562e429d4
+                  - listitem [ref=e289]:
+                    - link "Cookie policy" [ref=e290] [cursor=pointer]:
+                      - /url: https://app.termly.io/document/cookie-policy/4e4bbc89-b80d-43d6-98bc-02ee075cc311
+                  - listitem [ref=e291]:
+                    - link "Disclaimer" [ref=e292] [cursor=pointer]:
+                      - /url: https://app.termly.io/document/disclaimer/eabc96f8-640d-4858-aadc-c30f646265ed
+        - paragraph [ref=e293]: 2026 Pixel Galaxies. All rights reserved. - Uiverse.io

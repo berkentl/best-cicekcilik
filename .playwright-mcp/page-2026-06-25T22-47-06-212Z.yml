@@ -1,0 +1,399 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - paragraph [ref=e12]: Saat 14'e kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimat yapıyoruz.
+    - banner [ref=e13]:
+      - generic [ref=e16]:
+        - link "logo" [ref=e18] [cursor=pointer]:
+          - /url: /
+          - img "logo" [ref=e19]
+        - list [ref=e21]:
+          - listitem [ref=e22]:
+            - link "search" [ref=e23] [cursor=pointer]:
+              - /url: "#canvasSearch"
+              - img "search" [ref=e24]
+          - listitem [ref=e25]:
+            - link "car-order" [ref=e26] [cursor=pointer]:
+              - /url: /siparis-takip
+              - img "car-order" [ref=e27]
+          - listitem [ref=e28]:
+            - link "account" [ref=e29] [cursor=pointer]:
+              - /url: /login?returnUrl=/hesabim
+              - img "account" [ref=e30]
+          - listitem [ref=e31]:
+            - link "heart" [ref=e32] [cursor=pointer]:
+              - /url: /favorilerim
+              - img "heart" [ref=e33]
+          - listitem [ref=e34]:
+            - link "bag 0" [ref=e35] [cursor=pointer]:
+              - /url: /sepet
+              - img "bag" [ref=e36]
+              - generic [ref=e37]: "0"
+          - listitem [ref=e38]:
+            - generic "Türkçe" [ref=e394] [cursor=pointer]:
+              - generic [ref=e40]: TR
+              - generic [ref=e41]: "|EN"
+          - listitem [ref=e42]:
+            - generic [ref=e43] [cursor=pointer]:
+              - generic [ref=e44]: $
+              - generic [ref=e45]: "|€"
+              - generic [ref=e46]: "|₺"
+      - navigation [ref=e50]:
+        - list [ref=e51]:
+          - listitem [ref=e52]:
+            - link "EN SEVİLENLER" [ref=e53] [cursor=pointer]:
+              - /url: /en-sevilen-tasarim-cicekler--cikolatalar
+          - listitem [ref=e54]:
+            - link "ÇİÇEK" [ref=e55] [cursor=pointer]:
+              - /url: /cicekler
+          - listitem [ref=e56]:
+            - link "ÇİKOLATA" [ref=e57] [cursor=pointer]:
+              - /url: /cikolata-cicek
+          - listitem [ref=e58]:
+            - link "HEDİYE KUTUSU" [ref=e59] [cursor=pointer]:
+              - /url: /hediye-kutusu
+          - listitem [ref=e60]:
+            - link "ORKİDE" [ref=e61] [cursor=pointer]:
+              - /url: /orkide
+          - listitem [ref=e62]:
+            - link "BİTKİ" [ref=e63] [cursor=pointer]:
+              - /url: /bitki
+          - listitem [ref=e64]:
+            - link "GÖNDERİM SEBEBİ" [ref=e65] [cursor=pointer]:
+              - /url: /cicek-kategori
+          - listitem [ref=e66]:
+            - link "KOLEKSİYON" [ref=e67] [cursor=pointer]:
+              - /url: /koleksiyon
+          - listitem [ref=e68]:
+            - link "TÜM ÜRÜNLER" [ref=e69] [cursor=pointer]:
+              - /url: /tum-urunler
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e73]:
+          - link "Slide" [ref=e91] [cursor=pointer]:
+            - /url: /soz-nisan-cicegi
+            - img "Slide" [ref=e93]
+          - link "Slide" [ref=e95] [cursor=pointer]:
+            - /url: https://www.bonusflas.com.tr/
+            - img "Slide" [ref=e97]
+          - link "Slide" [ref=e75] [cursor=pointer]:
+            - /url: /papatya-aycicegi
+            - img "Slide" [ref=e77]
+          - link "Slide" [ref=e79] [cursor=pointer]:
+            - /url: https://www.ribbonflowers.com/ogretmenler-gunu-cicekleri
+            - img "Slide" [ref=e81]
+          - link "Slide" [ref=e83] [cursor=pointer]:
+            - /url: /sakayik
+            - img "Slide" [ref=e85]
+          - link "Slide" [ref=e87] [cursor=pointer]:
+            - /url: /gelin-buketi
+            - img "Slide" [ref=e89]
+        - generic:
+          - generic [ref=e98] [cursor=pointer]: prev
+          - generic [ref=e99] [cursor=pointer]: next
+      - generic [ref=e101]:
+        - generic [ref=e103]: RIBBON' un En Sevilen Çiçeklerini Sevdiklerine Gönder
+        - generic [ref=e107]:
+          - link "Butter Yellow Mini Seramik Vazoda Kayısı Güller Bahar Aranjmanı Butter Yellow Mini Seramik Vazoda Kayısı Güller Bahar Aranjmanı Butter Yellow Mini Seramik Vazoda Kayısı Güller Bahar Aranjmanı 4995 ₺" [ref=e108] [cursor=pointer]:
+            - /url: /butter-yellow-mini-seramik-vazoda-kayisi-guller-bahar-aranjmani
+            - generic [ref=e109]:
+              - img "Butter Yellow Mini Seramik Vazoda Kayısı Güller Bahar Aranjmanı" [ref=e404]
+              - img "Butter Yellow Mini Seramik Vazoda Kayısı Güller Bahar Aranjmanı"
+            - generic [ref=e110]:
+              - heading "Butter Yellow Mini Seramik Vazoda Kayısı Güller Bahar Aranjmanı" [level=4] [ref=e111]
+              - generic [ref=e114]: 4995 ₺
+          - link "Lilies Pembe Lilyum Buketi Lilies Pembe Lilyum Buketi Lilies Pembe Lilyum Buketi 4995 ₺" [ref=e115] [cursor=pointer]:
+            - /url: /lilies-pembe-lilyum-buketi
+            - generic [ref=e116]:
+              - img "Lilies Pembe Lilyum Buketi" [ref=e405]
+              - img "Lilies Pembe Lilyum Buketi"
+            - generic [ref=e117]:
+              - heading "Lilies Pembe Lilyum Buketi" [level=4] [ref=e118]
+              - generic [ref=e121]: 4995 ₺
+          - link "Pearl Somon Gül Vazo Aranjman Pearl Somon Gül Vazo Aranjman Pearl Somon Gül Vazo Aranjman 12995 ₺" [ref=e122] [cursor=pointer]:
+            - /url: /pearl-somon-gul-vazo-aranjman
+            - generic [ref=e123]:
+              - img "Pearl Somon Gül Vazo Aranjman" [ref=e406]
+              - img "Pearl Somon Gül Vazo Aranjman"
+            - generic [ref=e124]:
+              - heading "Pearl Somon Gül Vazo Aranjman" [level=4] [ref=e125]
+              - generic [ref=e128]: 12995 ₺
+          - link "Sorina Mini Seramik Vazoda Pembe Lila Çiçekler Sorina Mini Seramik Vazoda Pembe Lila Çiçekler Sorina Mini Seramik Vazoda Pembe Lila Çiçekler 3995 ₺" [ref=e129] [cursor=pointer]:
+            - /url: /sorina-mini-seramik-vazoda-pembe-lila-cicekler
+            - generic [ref=e130]:
+              - img "Sorina Mini Seramik Vazoda Pembe Lila Çiçekler" [ref=e407]
+              - img "Sorina Mini Seramik Vazoda Pembe Lila Çiçekler"
+            - generic [ref=e131]:
+              - heading "Sorina Mini Seramik Vazoda Pembe Lila Çiçekler" [level=4] [ref=e132]
+              - generic [ref=e135]: 3995 ₺
+          - link "Luxe Rengarenk Bahar Buketi Luxe Rengarenk Bahar Buketi Luxe Rengarenk Bahar Buketi 8995 ₺" [ref=e136] [cursor=pointer]:
+            - /url: /luxe-rengarenk-bahar-buketi
+            - generic [ref=e137]:
+              - img "Luxe Rengarenk Bahar Buketi" [ref=e408]
+              - img "Luxe Rengarenk Bahar Buketi"
+            - generic [ref=e138]:
+              - heading "Luxe Rengarenk Bahar Buketi" [level=4] [ref=e139]
+              - generic [ref=e142]: 8995 ₺
+          - link "Deluxe Carla Lila Pembe Buket Deluxe Carla Lila Pembe Buket Deluxe Carla Lila Pembe Buket 8995 ₺" [ref=e143] [cursor=pointer]:
+            - /url: /deluxe-carla-lila-pembe-buket
+            - generic [ref=e144]:
+              - img "Deluxe Carla Lila Pembe Buket" [ref=e409]
+              - img "Deluxe Carla Lila Pembe Buket"
+            - generic [ref=e145]:
+              - heading "Deluxe Carla Lila Pembe Buket" [level=4] [ref=e146]
+              - generic [ref=e149]: 8995 ₺
+          - link "Agnes Pembe 9 Şakayık Buketi Agnes Pembe 9 Şakayık Buketi Agnes Pembe 9 Şakayık Buketi 13995 ₺" [ref=e150] [cursor=pointer]:
+            - /url: /agnes-pembe-sakayik-buketi
+            - generic [ref=e151]:
+              - img "Agnes Pembe 9 Şakayık Buketi" [ref=e410]
+              - img "Agnes Pembe 9 Şakayık Buketi"
+            - generic [ref=e152]:
+              - heading "Agnes Pembe 9 Şakayık Buketi" [level=4] [ref=e153]
+              - generic [ref=e156]: 13995 ₺
+          - link "Moonlit Muse Cam Vazoda Lila Pembe Güller Moonlit Muse Cam Vazoda Lila Pembe Güller Moonlit Muse Cam Vazoda Lila Pembe Güller 6995 ₺" [ref=e157] [cursor=pointer]:
+            - /url: /moonlit-muse-cam-vazoda-lila-pembe-guller
+            - generic [ref=e158]:
+              - img "Moonlit Muse Cam Vazoda Lila Pembe Güller" [ref=e411]
+              - img "Moonlit Muse Cam Vazoda Lila Pembe Güller"
+            - generic [ref=e159]:
+              - heading "Moonlit Muse Cam Vazoda Lila Pembe Güller" [level=4] [ref=e160]
+              - generic [ref=e163]: 6995 ₺
+          - link "Viola Pembe Şakayık Galaksi Lale Bahar Aranjmanı Viola Pembe Şakayık Galaksi Lale Bahar Aranjmanı Viola Pembe Şakayık Galaksi Lale Bahar Aranjmanı 9995 ₺" [ref=e164] [cursor=pointer]:
+            - /url: /viola-pembe-sakayik-galaksi-lale-bahar-aranjmani
+            - generic [ref=e165]:
+              - img "Viola Pembe Şakayık Galaksi Lale Bahar Aranjmanı" [ref=e412]
+              - img "Viola Pembe Şakayık Galaksi Lale Bahar Aranjmanı"
+            - generic [ref=e166]:
+              - heading "Viola Pembe Şakayık Galaksi Lale Bahar Aranjmanı" [level=4] [ref=e167]
+              - generic [ref=e170]: 9995 ₺
+      - generic [ref=e173]:
+        - img "banner background" [ref=e175]
+        - generic [ref=e176]:
+          - link "promotional" [ref=e178] [cursor=pointer]:
+            - /url: /register
+            - img "promotional" [ref=e179]
+          - button "Ürünü Göster" [ref=e181] [cursor=pointer]:
+            - generic [ref=e182]: +
+      - generic [ref=e184]:
+        - generic [ref=e186]: Sevdiklerine Aynı Gün Orkide Gönder
+        - generic [ref=e190]:
+          - link "Luxe Pudra Seramik Vazoda Beyaz Orkide 2 Dallı Luxe Pudra Seramik Vazoda Beyaz Orkide 2 Dallı Luxe Pudra Seramik Vazoda Beyaz Orkide 2 Dallı 5995 ₺" [ref=e191] [cursor=pointer]:
+            - /url: /luxe-pembe-seramik-vazoda-beyaz-orkide
+            - generic [ref=e192]:
+              - img "Luxe Pudra Seramik Vazoda Beyaz Orkide 2 Dallı" [ref=e413]
+              - img "Luxe Pudra Seramik Vazoda Beyaz Orkide 2 Dallı"
+            - generic [ref=e193]:
+              - heading "Luxe Pudra Seramik Vazoda Beyaz Orkide 2 Dallı" [level=4] [ref=e194]
+              - generic [ref=e197]: 5995 ₺
+          - link "Beyaz Orkide Quatro Deluxe 4 Dal Beyaz Orkide Quatro Deluxe 4 Dal Beyaz Orkide Quatro Deluxe 4 Dal 8995 ₺" [ref=e198] [cursor=pointer]:
+            - /url: /beyaz-orkide-deluxe
+            - generic [ref=e199]:
+              - img "Beyaz Orkide Quatro Deluxe 4 Dal" [ref=e414]
+              - img "Beyaz Orkide Quatro Deluxe 4 Dal"
+            - generic [ref=e200]:
+              - heading "Beyaz Orkide Quatro Deluxe 4 Dal" [level=4] [ref=e201]
+              - generic [ref=e204]: 8995 ₺
+          - link "Fuşya Orkide Quatro Deluxe 4 Dal Fuşya Orkide Quatro Deluxe 4 Dal Fuşya Orkide Quatro Deluxe 4 Dal 8995 ₺" [ref=e205] [cursor=pointer]:
+            - /url: /fusya-orkide-quatro
+            - generic [ref=e206]:
+              - img "Fuşya Orkide Quatro Deluxe 4 Dal" [ref=e415]
+              - img "Fuşya Orkide Quatro Deluxe 4 Dal"
+            - generic [ref=e207]:
+              - heading "Fuşya Orkide Quatro Deluxe 4 Dal" [level=4] [ref=e208]
+              - generic [ref=e211]: 8995 ₺
+          - link "Amber Cam Saksıda 4 Dal Orkide Beyaz Quatro Amber Cam Saksıda 4 Dal Orkide Beyaz Quatro Amber Cam Saksıda 4 Dal Orkide Beyaz Quatro 9295 ₺" [ref=e212] [cursor=pointer]:
+            - /url: /amber-cam-saksida-4-dal-orkide-beyaz-quatro
+            - generic [ref=e213]:
+              - img "Amber Cam Saksıda 4 Dal Orkide Beyaz Quatro" [ref=e416]
+              - img "Amber Cam Saksıda 4 Dal Orkide Beyaz Quatro"
+            - generic [ref=e214]:
+              - heading "Amber Cam Saksıda 4 Dal Orkide Beyaz Quatro" [level=4] [ref=e215]
+              - generic [ref=e218]: 9295 ₺
+          - link "Amber Cam Saksıda 4 Dal Orkide Fuşya Quatro Amber Cam Saksıda 4 Dal Orkide Fuşya Quatro Amber Cam Saksıda 4 Dal Orkide Fuşya Quatro 9295 ₺" [ref=e219] [cursor=pointer]:
+            - /url: /amber-cam-saksida-4-dal-orkide-fusya-quatro
+            - generic [ref=e220]:
+              - img "Amber Cam Saksıda 4 Dal Orkide Fuşya Quatro" [ref=e417]
+              - img "Amber Cam Saksıda 4 Dal Orkide Fuşya Quatro"
+            - generic [ref=e221]:
+              - heading "Amber Cam Saksıda 4 Dal Orkide Fuşya Quatro" [level=4] [ref=e222]
+              - generic [ref=e225]: 9295 ₺
+          - link "Luxe Silver Ayna Efektli Uzun Vazoda Fuşya Orkide 2 Dallı Luxe Silver Ayna Efektli Uzun Vazoda Fuşya Orkide 2 Dallı Tükendi Luxe Silver Ayna Efektli Uzun Vazoda Fuşya Orkide 2 Dallı 4995 ₺" [ref=e226] [cursor=pointer]:
+            - /url: /luxe-silver-ayna-efektli-uzun-vazoda-fusya-orkide
+            - generic [ref=e227]:
+              - img "Luxe Silver Ayna Efektli Uzun Vazoda Fuşya Orkide 2 Dallı" [ref=e418]
+              - img "Luxe Silver Ayna Efektli Uzun Vazoda Fuşya Orkide 2 Dallı"
+              - generic: Tükendi
+            - generic [ref=e228]:
+              - heading "Luxe Silver Ayna Efektli Uzun Vazoda Fuşya Orkide 2 Dallı" [level=4] [ref=e229]
+              - generic [ref=e232]: 4995 ₺
+      - figure:
+        - link:
+          - /url: /applink
+      - heading "Sevdiklerine Aynı Gün Çiçek Gönder" [level=2] [ref=e235]
+      - figure
+      - generic [ref=e239]:
+        - heading "En Havalı Tasarım Çiçekler" [level=2] [ref=e240]
+        - paragraph [ref=e242]: Her gün yenilenen taze çiçeklerimizden oluşan benzersiz aranjmanları aynı gün teslimat ile size sunuyoruz
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - link [ref=e250] [cursor=pointer]:
+            - /url: https://www.ribbonflowers.com/sepete-ek-urunler/
+            - img [ref=e251]
+          - generic [ref=e252]:
+            - heading "Kişiye Özel Kart Notları" [level=2] [ref=e253]
+            - paragraph [ref=e254]: Her siparişiniz, Ribbon özel tasarımı olan lüks kartlarımız üzerinde; kişisel çiçek notunuzla beraber teslim ediliyor.
+            - heading "Hazır Kart Notları" [level=2] [ref=e255]
+            - paragraph [ref=e256]: Dilerseniz siparişinizi gönderim sebebinize göre özenle yazılmış hazır kart notlarımızdan seçerek kolaylıkla tamamlayabilirsiniz.
+            - paragraph [ref=e257]:
+              - link "Keşfet" [ref=e258] [cursor=pointer]:
+                - /url: https://www.ribbonflowers.com/cicekler/
+        - generic [ref=e259]:
+          - link [ref=e261] [cursor=pointer]:
+            - /url: https://www.ribbonflowers.com/vazo-koleksiyonu/
+            - img [ref=e262]
+          - generic [ref=e263]:
+            - heading "RIBBON Floral Design" [level=2] [ref=e264]
+            - paragraph [ref=e265]: Tüm siparişleriniz işinin ehli eller tarafından taptaze çiçeklerle özenle hazırlanıyor. Buketler Ribbon özel tuşeli kurdelalar ile sarılıyor.
+            - paragraph [ref=e266]:
+              - link "Keşfet" [ref=e267] [cursor=pointer]:
+                - /url: https://www.ribbonflowers.com/buket/
+    - contentinfo [ref=e268]:
+      - generic [ref=e269]:
+        - generic [ref=e271]:
+          - generic [ref=e272]:
+            - generic [ref=e274]:
+              - link "WHATSAPP" [ref=e276] [cursor=pointer]:
+                - /url: https://api.whatsapp.com/send?phone=905345106777
+                - strong [ref=e277]:
+                  - img [ref=e278]
+                  - text: WHATSAPP
+              - link "+90 (534) 510 67 77" [ref=e280] [cursor=pointer]:
+                - /url: https://api.whatsapp.com/send?phone=905345106777
+            - generic [ref=e282]:
+              - link "WHATSAPP" [ref=e284] [cursor=pointer]:
+                - /url: https://api.whatsapp.com/send?phone=905354626890
+                - strong [ref=e285]:
+                  - img [ref=e286]
+                  - text: WHATSAPP
+              - link "+90 (535) 462 68 90" [ref=e288] [cursor=pointer]:
+                - /url: https://api.whatsapp.com/send?phone=905354626890
+            - generic [ref=e290]:
+              - link "TELEFON" [ref=e292] [cursor=pointer]:
+                - /url: tel://02123230042
+                - strong [ref=e293]:
+                  - img [ref=e294]
+                  - text: TELEFON
+              - link "+90 (212) 323 00 42" [ref=e296] [cursor=pointer]:
+                - /url: tel://02123230042
+            - generic [ref=e298]:
+              - link "E-POSTA" [ref=e300] [cursor=pointer]:
+                - /url: mailto:info@ribbonflowers.com
+                - strong [ref=e301]:
+                  - img [ref=e302]
+                  - text: E-POSTA
+              - link "info@ribbonflowers.com" [ref=e304] [cursor=pointer]:
+                - /url: mailto:info@ribbonflowers.com
+            - paragraph [ref=e307]:
+              - link [ref=e308] [cursor=pointer]:
+                - /url: https://www.facebook.com/ribbonflowersistanbul/
+                - img [ref=e309]
+              - link [ref=e310] [cursor=pointer]:
+                - /url: https://www.instagram.com/ribbon_flowers
+                - img [ref=e311]
+          - generic [ref=e312]:
+            - generic [ref=e313]:
+              - heading "KURUMSAL" [level=6] [ref=e315]
+              - list [ref=e316]:
+                - listitem [ref=e317]:
+                  - link "Hakkımızda" [ref=e318] [cursor=pointer]:
+                    - /url: /hakkimizda
+                - listitem [ref=e319]:
+                  - link "Sıkça Sorulan Sorular" [ref=e320] [cursor=pointer]:
+                    - /url: /sikca-sorulan-sorular
+                - listitem [ref=e321]:
+                  - link "Çiçek Bakımı" [ref=e322] [cursor=pointer]:
+                    - /url: /cicek-bakimi
+                - listitem [ref=e323]:
+                  - link "Basında Biz" [ref=e324] [cursor=pointer]:
+                    - /url: /basinda-biz
+                - listitem [ref=e325]:
+                  - link "Mesafeli Satış Sözleşmesi" [ref=e326] [cursor=pointer]:
+                    - /url: /mesafeli-satis-sozlesmesi
+                - listitem [ref=e327]:
+                  - link "Gizlilik Politikası" [ref=e328] [cursor=pointer]:
+                    - /url: /gizlilik-politikasi
+                - listitem [ref=e329]:
+                  - link "Ön Bilgilendirme Formu" [ref=e330] [cursor=pointer]:
+                    - /url: /on-bilgilendirme-formu
+                - listitem [ref=e331]:
+                  - link "Çerez Politikası" [ref=e332] [cursor=pointer]:
+                    - /url: /cerez-politikasi
+                - listitem [ref=e333]:
+                  - link "Açık Rıza Metni" [ref=e334] [cursor=pointer]:
+                    - /url: /acik-riza-metni
+                - listitem [ref=e335]:
+                  - link "İletişim" [ref=e336] [cursor=pointer]:
+                    - /url: /iletisim
+                - listitem [ref=e337]:
+                  - link "Blog" [ref=e338] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e339]:
+                  - link "Sipariş Takip" [ref=e340] [cursor=pointer]:
+                    - /url: /siparis-takip
+            - generic [ref=e341]:
+              - heading "KATEGORİLER" [level=6] [ref=e343]
+              - list [ref=e344]:
+                - listitem [ref=e345]:
+                  - link "En Sevilenler" [ref=e346] [cursor=pointer]:
+                    - /url: /en-sevilen-tasarim-cicekler--cikolatalar
+                - listitem [ref=e347]:
+                  - link "Çiçek" [ref=e348] [cursor=pointer]:
+                    - /url: /cicekler
+                - listitem [ref=e349]:
+                  - link "Çikolata" [ref=e350] [cursor=pointer]:
+                    - /url: /cikolata-cicek
+                - listitem [ref=e351]:
+                  - link "Hediye Kutusu" [ref=e352] [cursor=pointer]:
+                    - /url: /hediye-kutusu
+                - listitem [ref=e353]:
+                  - link "Orkide" [ref=e354] [cursor=pointer]:
+                    - /url: /orkide
+                - listitem [ref=e355]:
+                  - link "Bitki" [ref=e356] [cursor=pointer]:
+                    - /url: /bitki
+                - listitem [ref=e357]:
+                  - link "Gönderim Sebebi" [ref=e358] [cursor=pointer]:
+                    - /url: /gonderim-sebebi
+                - listitem [ref=e359]:
+                  - link "Koleksiyon" [ref=e360] [cursor=pointer]:
+                    - /url: /koleksiyon
+                - listitem [ref=e361]:
+                  - link "Tüm Ürünler" [ref=e362] [cursor=pointer]:
+                    - /url: /tum-urunler
+                - listitem [ref=e363]:
+                  - link "Kurumsal" [ref=e364] [cursor=pointer]:
+                    - /url: /kurumsal
+            - generic [ref=e365]:
+              - heading "HESABIM" [level=6] [ref=e367]
+              - list [ref=e368]:
+                - listitem [ref=e369]:
+                  - link "Hesabım" [ref=e370] [cursor=pointer]:
+                    - /url: /hesabim
+                - listitem [ref=e371]:
+                  - link "Siparişlerim" [ref=e372] [cursor=pointer]:
+                    - /url: /hesabim/siparislerim
+            - generic [ref=e373]:
+              - paragraph [ref=e375]:
+                - img [ref=e376]
+                - generic [ref=e377]: Uygulamamızı
+                - generic [ref=e378]: QR kod ile
+                - generic [ref=e379]: hemen indirin.
+              - paragraph [ref=e381]:
+                - img [ref=e382]
+        - generic [ref=e384]:
+          - generic [ref=e388]: © 2019-2026 Ribbon Flowers
+          - link "Powered by" [ref=e392] [cursor=pointer]:
+            - /url: https://www.ikost.com
+            - text: Powered by
+            - img [ref=e393]
+  - text:       
+  - alert [ref=e419]

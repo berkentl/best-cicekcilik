@@ -1,0 +1,317 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - img [ref=e4]
+      - text: Saat 14'e kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimat yapıyoruz.
+    - button "Kapat" [ref=e9]:
+      - img [ref=e10]
+  - banner [ref=e13]:
+    - generic [ref=e14]:
+      - link "BEST ÇİÇEKÇİLİK & ORGANİZASYON" [ref=e16] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e17]: BEST
+        - generic [ref=e18]: ÇİÇEKÇİLİK & ORGANİZASYON
+      - generic [ref=e19]:
+        - button "Ara" [ref=e20]:
+          - img [ref=e21]
+        - link "Kargo Takip" [ref=e24] [cursor=pointer]:
+          - /url: https://wa.me/905322959309?text=Merhaba%2C%20kargo%20takip%20etmek%20istiyorum.
+          - img [ref=e25]
+        - button "Hesabım" [ref=e30]:
+          - img [ref=e31]
+        - link "Favoriler" [ref=e34] [cursor=pointer]:
+          - /url: /favoriler
+          - img [ref=e35]
+        - link "Sepet" [ref=e37] [cursor=pointer]:
+          - /url: /sepet
+          - img [ref=e38]
+          - generic [ref=e41]: "0"
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - button "$" [ref=e44]
+            - generic [ref=e45]: "|"
+          - generic [ref=e46]:
+            - button "€" [ref=e47]
+            - generic [ref=e48]: "|"
+          - button "₺" [ref=e50]
+    - navigation [ref=e51]:
+      - generic [ref=e52]:
+        - list [ref=e53]:
+          - listitem [ref=e54]:
+            - link "Deneme1" [ref=e55] [cursor=pointer]:
+              - /url: /deneme1
+              - text: Deneme1
+          - listitem [ref=e56]:
+            - link "EN SEVİLENLER" [ref=e57] [cursor=pointer]:
+              - /url: /en-sevilen
+              - text: EN SEVİLENLER
+          - listitem [ref=e58]:
+            - link "ÇİÇEK" [ref=e59] [cursor=pointer]:
+              - /url: /cicek
+              - text: ÇİÇEK
+          - listitem [ref=e60]:
+            - link "ÇİKOLATA" [ref=e61] [cursor=pointer]:
+              - /url: /cikolata
+              - text: ÇİKOLATA
+          - listitem [ref=e62]:
+            - link "HEDİYE KUTUSU" [ref=e63] [cursor=pointer]:
+              - /url: /hediye-kutusu
+              - text: HEDİYE KUTUSU
+          - listitem [ref=e64]:
+            - link "ORKİDE" [ref=e65] [cursor=pointer]:
+              - /url: /orkide
+              - text: ORKİDE
+          - listitem [ref=e66]:
+            - link "BİTKİ" [ref=e67] [cursor=pointer]:
+              - /url: /bitki
+              - text: BİTKİ
+          - listitem [ref=e68]:
+            - link "GÖNDERİM SEBEBİ" [ref=e69] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+              - text: GÖNDERİM SEBEBİ
+          - listitem [ref=e70]:
+            - link "KOLEKSİYON" [ref=e71] [cursor=pointer]:
+              - /url: /koleksiyonlar
+              - text: KOLEKSİYON
+          - listitem [ref=e72]:
+            - link "TÜM ÜRÜNLER" [ref=e73] [cursor=pointer]:
+              - /url: /tum-urunler
+              - text: TÜM ÜRÜNLER
+        - generic [ref=e74]: —
+  - main [ref=e75]:
+    - navigation [ref=e78]:
+      - link "Ana Sayfa" [ref=e79] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e80]: /
+      - link "ÇİÇEK" [ref=e81] [cursor=pointer]:
+        - /url: /cicek
+      - generic [ref=e82]: /
+      - generic [ref=e83]: Kırmızı Gül Buketi
+    - generic [ref=e86]:
+      - generic [ref=e87]:
+        - img "Kırmızı Gül Buketi" [ref=e89]
+        - generic [ref=e90]:
+          - button "Kırmızı Gül Buketi görsel 1" [ref=e91]:
+            - img "Kırmızı Gül Buketi görsel 1" [ref=e92]
+          - button "Kırmızı Gül Buketi görsel 2" [ref=e93]:
+            - img "Kırmızı Gül Buketi görsel 2" [ref=e94]
+      - generic [ref=e98]:
+        - link "ÇİÇEK" [ref=e99] [cursor=pointer]:
+          - /url: /cicek
+        - heading "Kırmızı Gül Buketi" [level=1] [ref=e100]
+        - generic [ref=e101]:
+          - generic [ref=e102]: ₺450
+          - generic [ref=e103]: Popüler
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - generic [ref=e107]: Teslimat Adresi
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - img [ref=e110]
+                - textbox "Gönderim Yeri Seçin" [ref=e113]
+                - img [ref=e114]
+              - paragraph [ref=e116]: Adresin tamamını girmek yerine sadece mahalle veya sokak, hastane, okul ismi gibi bilgiyi girin.
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e119]: Teslimat Tarihi
+              - textbox [ref=e120]
+            - generic [ref=e121]:
+              - generic [ref=e122]: Saat Aralığı
+              - generic [ref=e123]:
+                - combobox [ref=e124]:
+                  - option "Seçin" [disabled] [selected]
+                  - option "09:00 – 12:00"
+                  - option "12:00 – 15:00"
+                  - option "15:00 – 18:00"
+                  - option "18:00 – 21:00"
+                - img
+        - generic [ref=e125]:
+          - button "Sipariş Ver" [ref=e126]:
+            - img [ref=e127]
+            - text: Sipariş Ver
+          - button "Favorilere ekle" [ref=e130]:
+            - img [ref=e131]
+        - generic [ref=e133]:
+          - generic [ref=e134]:
+            - img [ref=e135]
+            - text: "%100 Güvenli Alışveriş"
+          - generic [ref=e137]:
+            - img [ref=e138]
+            - img [ref=e142]
+            - img [ref=e144]
+        - generic [ref=e147]:
+          - generic [ref=e148]:
+            - button "Bakım Talimatları" [ref=e149]:
+              - generic [ref=e150]: Bakım Talimatları
+              - img [ref=e151]
+            - list [ref=e154]:
+              - listitem [ref=e155]:
+                - generic [ref=e156]: ✦
+                - generic [ref=e157]: Çiçekleri teslim aldıktan sonra saplarını 2–3 cm kısaltın.
+              - listitem [ref=e158]:
+                - generic [ref=e159]: ✦
+                - generic [ref=e160]: Temiz suya koyun ve her 2 günde bir suyunu değiştirin.
+              - listitem [ref=e161]:
+                - generic [ref=e162]: ✦
+                - generic [ref=e163]: Doğrudan güneş ışığından ve sıcak ortamlardan uzak tutun.
+              - listitem [ref=e164]:
+                - generic [ref=e165]: ✦
+                - generic [ref=e166]: Paket içindeki çiçek ömrü uzatıcı tozu suya ekleyin.
+          - generic [ref=e167]:
+            - button "Gönderim Bilgileri" [ref=e168]:
+              - generic [ref=e169]: Gönderim Bilgileri
+              - img [ref=e170]
+            - list [ref=e173]:
+              - listitem [ref=e174]:
+                - generic [ref=e175]: ✦
+                - generic [ref=e176]: Saat 14:00'a kadar verilen siparişler aynı gün teslim edilir.
+              - listitem [ref=e177]:
+                - generic [ref=e178]: ✦
+                - generic [ref=e179]: Tüm İstanbul ilçelerine teslimat yapılmaktadır.
+              - listitem [ref=e180]:
+                - generic [ref=e181]: ✦
+                - generic [ref=e182]: ₺500 üzeri siparişlerde kargo ücretsizdir.
+              - listitem [ref=e183]:
+                - generic [ref=e184]: ✦
+                - generic [ref=e185]: Teslimat saati sipariş notunuza ekleyebilirsiniz.
+    - generic [ref=e188]:
+      - heading "Bunları da beğenebilirsiniz" [level=2] [ref=e189]
+      - generic [ref=e190]:
+        - generic [ref=e191] [cursor=pointer]:
+          - link "Pembe Şakayık Buketi YENİ Favorilere ekle Sepete ekle" [ref=e192]:
+            - /url: /urun/pembe-sakayik-buketi
+            - img "Pembe Şakayık Buketi" [ref=e193]
+            - generic [ref=e194]: YENİ
+            - button "Favorilere ekle" [ref=e195]:
+              - img [ref=e196]
+            - button "Sepete ekle" [ref=e198]:
+              - img [ref=e199]
+          - generic [ref=e202]:
+            - generic [ref=e203]: ÇİÇEK
+            - link "Pembe Şakayık Buketi" [ref=e204]:
+              - /url: /urun/pembe-sakayik-buketi
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - img [ref=e207]
+                - img [ref=e209]
+                - img [ref=e211]
+                - img [ref=e213]
+                - img [ref=e215]
+              - generic [ref=e217]: (12)
+            - generic [ref=e219]: ₺550
+        - generic [ref=e220] [cursor=pointer]:
+          - link "Lila Lale Buketi Favorilere ekle Sepete ekle" [ref=e221]:
+            - /url: /urun/lila-lale-buketi
+            - img "Lila Lale Buketi" [ref=e222]
+            - button "Favorilere ekle" [ref=e223]:
+              - img [ref=e224]
+            - button "Sepete ekle" [ref=e226]:
+              - img [ref=e227]
+          - generic [ref=e230]:
+            - generic [ref=e231]: ÇİÇEK
+            - link "Lila Lale Buketi" [ref=e232]:
+              - /url: /urun/lila-lale-buketi
+            - generic [ref=e233]:
+              - generic [ref=e234]:
+                - img [ref=e235]
+                - img [ref=e237]
+                - img [ref=e239]
+                - img [ref=e241]
+                - img [ref=e243]
+              - generic [ref=e245]: (48)
+            - generic [ref=e247]: ₺320
+  - contentinfo [ref=e248]:
+    - generic [ref=e250]:
+      - generic [ref=e251]:
+        - generic [ref=e252]:
+          - text: Best Çiçekçilik
+          - text: "& Organizasyon"
+        - paragraph [ref=e253]: İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri. Aynı gün teslimat ile sevdiklerinize en güzel çiçekleri ulaştırıyoruz.
+        - generic [ref=e254]:
+          - link "Instagram" [ref=e255] [cursor=pointer]:
+            - /url: https://instagram.com/bestcicekcilik
+            - img [ref=e256]
+          - link "Facebook" [ref=e259] [cursor=pointer]:
+            - /url: https://facebook.com/bestcicekcilik
+            - img [ref=e260]
+          - link "WhatsApp" [ref=e262] [cursor=pointer]:
+            - /url: https://wa.me/905322959309
+            - img [ref=e263]
+      - generic [ref=e265]:
+        - heading "Kategoriler" [level=4] [ref=e266]
+        - list [ref=e267]:
+          - listitem [ref=e268]:
+            - link "EN SEVİLENLER" [ref=e269] [cursor=pointer]:
+              - /url: /en-sevilen
+          - listitem [ref=e270]:
+            - link "ÇİÇEK" [ref=e271] [cursor=pointer]:
+              - /url: /cicek
+          - listitem [ref=e272]:
+            - link "ÇİKOLATA" [ref=e273] [cursor=pointer]:
+              - /url: /cikolata
+          - listitem [ref=e274]:
+            - link "HEDİYE KUTUSU" [ref=e275] [cursor=pointer]:
+              - /url: /hediye-kutusu
+          - listitem [ref=e276]:
+            - link "ORKİDE" [ref=e277] [cursor=pointer]:
+              - /url: /orkide
+          - listitem [ref=e278]:
+            - link "BİTKİ" [ref=e279] [cursor=pointer]:
+              - /url: /bitki
+          - listitem [ref=e280]:
+            - link "GÖNDERİM SEBEBİ" [ref=e281] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+      - generic [ref=e282]:
+        - heading "Kurumsal" [level=4] [ref=e283]
+        - list [ref=e284]:
+          - listitem [ref=e285]:
+            - link "Hakkımızda" [ref=e286] [cursor=pointer]:
+              - /url: /hakkimizda
+          - listitem [ref=e287]:
+            - link "İletişim" [ref=e288] [cursor=pointer]:
+              - /url: /iletisim
+          - listitem [ref=e289]:
+            - link "Teslimat Bilgileri" [ref=e290] [cursor=pointer]:
+              - /url: /teslimat
+          - listitem [ref=e291]:
+            - link "İptal & İade" [ref=e292] [cursor=pointer]:
+              - /url: /iade
+          - listitem [ref=e293]:
+            - link "Gizlilik Politikası" [ref=e294] [cursor=pointer]:
+              - /url: /gizlilik
+          - listitem [ref=e295]:
+            - link "Kullanım Koşulları" [ref=e296] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+      - generic [ref=e297]:
+        - heading "İletişim" [level=4] [ref=e298]
+        - list [ref=e299]:
+          - listitem [ref=e300]:
+            - img [ref=e301]
+            - generic [ref=e304]:
+              - text: Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18
+              - text: 34360 Şişli / İstanbul
+          - listitem [ref=e305]:
+            - link "0532 295 93 09" [ref=e306] [cursor=pointer]:
+              - /url: tel:05322959309
+              - img [ref=e307]
+              - text: 0532 295 93 09
+          - listitem [ref=e309]:
+            - link "info@bestcicekcilik.com" [ref=e310] [cursor=pointer]:
+              - /url: mailto:info@bestcicekcilik.com
+              - img [ref=e311]
+              - text: info@bestcicekcilik.com
+          - listitem [ref=e314]:
+            - link "WhatsApp ile Yaz" [ref=e315] [cursor=pointer]:
+              - /url: https://wa.me/905322959309
+              - img [ref=e316]
+              - text: WhatsApp ile Yaz
+    - generic [ref=e319]:
+      - paragraph [ref=e320]: © 2026 Best Çiçekçilik & Organizasyon. Tüm hakları saklıdır.
+      - paragraph [ref=e321]:
+        - link "bestcicekcilik.com" [ref=e322] [cursor=pointer]:
+          - /url: https://bestcicekcilik.com
+  - link "WhatsApp ile iletişim" [ref=e323] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e324]
+  - button "Open Next.js Dev Tools" [ref=e331] [cursor=pointer]:
+    - img [ref=e332]

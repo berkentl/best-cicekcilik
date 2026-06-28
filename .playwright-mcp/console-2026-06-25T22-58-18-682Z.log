@@ -1,0 +1,50 @@
+[    7540ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    7680ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2FSlider%2Fsummer-blooms%2Fwebtr.jpg&w=1920&q=75:0
+[    7717ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2FSlider%2Fgelin-buketi%2Fweb-tr.jpg&w=1920&q=75:0
+[    7727ms] [LOG] [HMR] connected @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    7727ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2FSlider%2F%25C5%259Fakay%25C4%25B1k%2Fpeony-tr.jpg&w=1920&q=75:0
+[    7741ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2Furun%2Fkirmizi-gul-buketi%2F1.jpg&w=640&q=75:0
+[    7742ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2FSlider%2Fwebter-1.jpg&w=1920&q=75:0
+[    7754ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2FSlider%2Fs%25C3%25B6z-nisan%2Ftr-web.jpg&w=1920&q=75:0
+[    7754ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2FSlider%2F%25C3%25B6%25C4%259Fretmenime-%25C3%25A7i%25C3%25A7ek%2Fweb-tr-6.jpg&w=1920&q=75:0
+[    7868ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2Furun%2Fkutu-gul%2F1.jpg&w=640&q=75:0
+[    7877ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2Furun%2Fcicek-cikolata%2F1.jpg&w=640&q=75:0
+[    7878ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2Furun%2Fkirmizi-gul-buketi%2F2.jpg&w=640&q=75:0
+[    7894ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimg.ikost.com%2Fuploads%2Furun%2Fpembe-sakayik%2F1.jpg&w=640&q=75:0
+[    7996ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    8134ms] [LOG] [Fast Refresh] done in 298ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   13232ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   13239ms] [LOG] [Fast Refresh] done in 117ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   50552ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   50696ms] [LOG] [Fast Refresh] done in 223ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   76576ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   76866ms] [LOG] [Fast Refresh] done in 138ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   76921ms] Error: Invalid src prop (https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&q=80) on `next/image`, hostname "images.unsplash.com" is not configured under images in your `next.config.js`
+See more info: https://nextjs.org/docs/messages/next-image-unconfigured-host
+    at defaultLoader (http://localhost:3001/_next/static/chunks/node_modules_0~lk-mn._.js:8605:49)
+    at http://localhost:3001/_next/static/chunks/node_modules_0~lk-mn._.js:6029:39
+    at Array.map (<anonymous>)
+    at generateImgAttrs (http://localhost:3001/_next/static/chunks/node_modules_0~lk-mn._.js:6029:24)
+    at getImgProps (http://localhost:3001/_next/static/chunks/node_modules_0~lk-mn._.js:6442:27)
+    at http://localhost:3001/_next/static/chunks/node_modules_0~lk-mn._.js:8955:82
+    at Object.react_stack_bottom_frame (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateForwardRef (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:5908:21)
+    at beginWork (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6766:24)
+    at runWithFiberInDEV (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9061:186)
+    at performSyncWorkOnRoot (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10179:316)
+    at processRootScheduleInMicrotask (http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10200:106)
+    at http://localhost:3001/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10274:158
+[   84940ms] [LOG] [HMR] connected @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   86648ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   86701ms] [LOG] [HMR] connected @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   87360ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1490750967868-88df5691cc37%3Fw%3D600%26q%3D80&w=640&q=75:0
+[   88202ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1548863227-3af5c2b0c0c1%3Fw%3D600%26q%3D80&w=640&q=75:0
+[   90267ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   90547ms] [LOG] [Fast Refresh] done in 338ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   93804ms] [WARNING] The resource https://img.ikost.com/uploads/Slider/summer-blooms/webtr.jpg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3001/:0
