@@ -5,21 +5,51 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
+import type { PaymentSettings } from "@/types";
 
-const inputClass =
-  "w-full border border-[#e8e8e8] rounded-sm px-4 py-2.5 text-[13px] text-[#1d3435] placeholder:text-[#bbb] focus:outline-none focus:border-[#3d7b74] transition-colors bg-white";
+const inputBase =
+  "w-full border border-[#e2ddd8] rounded-lg px-4 py-3 text-[13px] text-[#1d3435] placeholder:text-[#c0b8b0] bg-white transition-all duration-150 " +
+  "focus:outline-none focus:border-[#3d7b74] focus:ring-2 focus:ring-[#3d7b74]/15 " +
+  "invalid:[&:not(:placeholder-shown)]:border-red-400 invalid:[&:not(:placeholder-shown)]:ring-2 invalid:[&:not(:placeholder-shown)]:ring-red-100";
 
 const labelClass =
-  "block text-[11px] font-semibold uppercase tracking-widest text-[#1d3435] mb-1.5";
+  "block text-[11px] font-bold uppercase tracking-[0.12em] text-[#5a7070] mb-1.5";
 
-export function CheckoutClient() {
+function SectionCard({
+  icon,
+  title,
+  children,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-[#ede8e3] shadow-sm overflow-hidden">
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-[#f4f0ec] bg-[#faf8f6]">
+        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#1d3435]/8 text-[#3d7b74]">
+          {icon}
+        </span>
+        <h2 className="font-heading text-[15px] font-semibold text-[#1d3435] tracking-[-0.01em]">
+          {title}
+        </h2>
+      </div>
+      <div className="p-6">{children}</div>
+    </div>
+  );
+}
+
+interface Props {
+  paymentSettings: PaymentSettings;
+}
+
+export function CheckoutClient({ paymentSettings }: Props) {
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
 
-  const total = totalPrice();
-  const shipping = total >= 500 ? 0 : 49.9;
-  const grandTotal = total + shipping;
+  const subtotal = totalPrice();
+  const shipping = subtotal >= 500 ? 0 : 49.9;
 
   const [form, setForm] = useState({
     firstName: "",
@@ -35,19 +65,55 @@ export function CheckoutClient() {
     recipientPhone: "",
     cardMessage: "",
     notes: "",
-    paymentMethod: "kapida",
+    paymentMethod: paymentSettings.kapida_enabled ? "kapida" : paymentSettings.havale_enabled ? "havale" : "online",
   });
 
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const kapidaFee =
+    form.paymentMethod === "kapida" && paymentSettings.kapida_enabled
+      ? paymentSettings.kapida_fee
+      : 0;
+
+  const grandTotal = subtotal + shipping + kapidaFee;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const payload = {
+        form,
+        items: items.map(({ product, quantity }) => ({
+          name: product.name,
+          qty: quantity,
+          price: product.salePrice ?? product.price,
+        })),
+        total: subtotal,
+        grandTotal,
+        kapidaFee,
+      };
+
+      const res = await fetch("/api/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error ?? "Sipariş oluşturulamadı. Lütfen tekrar deneyin.");
+        setLoading(false);
+        return;
+      }
+
+      const { orderNumber } = await res.json();
       clearCart();
-      router.push("/odeme/basarili");
-    }, 1200);
+      router.push(`/odeme/basarili?order=${orderNumber}`);
+    } catch {
+      alert("Bağlantı hatası. Lütfen tekrar deneyin.");
+      setLoading(false);
+    }
   };
 
   if (items.length === 0) {
@@ -61,10 +127,45 @@ export function CheckoutClient() {
     );
   }
 
+  const availablePayments = [
+    paymentSettings.kapida_enabled && {
+      value: "kapida",
+      label: "Kapıda Ödeme",
+      sub: paymentSettings.kapida_fee > 0 ? `+₺${paymentSettings.kapida_fee.toLocaleString("tr-TR")} hizmet bedeli` : "Nakit veya Kredi Kartı",
+      description:
+        "Siparişiniz teslim edildiğinde kapıda ödeme yapabilirsiniz. Nakit veya POS cihazı ile kredi/banka kartı kabul edilmektedir." +
+        (paymentSettings.kapida_fee > 0
+          ? ` Kapıda ödeme seçeneğine ek olarak ₺${paymentSettings.kapida_fee.toLocaleString("tr-TR")} hizmet bedeli uygulanmaktadır.`
+          : ""),
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+    },
+    paymentSettings.havale_enabled && {
+      value: "havale",
+      label: "Banka Havalesi / EFT",
+      sub: "Önceden ödeme",
+      description: null as string | null,
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+        </svg>
+      ),
+    },
+  ].filter(Boolean) as {
+    value: string;
+    label: string;
+    sub: string;
+    description: string | null;
+    icon: React.ReactNode;
+  }[];
+
   return (
     <>
       {/* Breadcrumb */}
-      <div className="border-b border-[#f0f0f0] py-3">
+      <div className="border-b border-[#f0f0f0] py-3 bg-white">
         <div className="container-site">
           <nav className="flex items-center gap-2 text-[12px] text-[#999]">
             <Link href="/" className="hover:text-[#1d3435] transition-colors">Ana Sayfa</Link>
@@ -76,75 +177,124 @@ export function CheckoutClient() {
         </div>
       </div>
 
-      <section className="py-10 md:py-14">
+      <section className="py-10 md:py-14 bg-[#faf8f5] min-h-screen">
         <div className="container-site">
-          <h1 className="font-heading text-2xl md:text-3xl text-[#1d3435] font-medium mb-8">
+          <h1 className="font-heading text-2xl md:text-3xl text-[#1d3435] font-semibold mb-8 tracking-[-0.02em]">
             Sipariş Tamamla
           </h1>
 
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Sol — form */}
-              <div className="lg:col-span-2 space-y-8">
-                <div className="bg-white border border-[#f0f0f0] rounded-sm p-6">
-                  <h2 className="font-heading text-lg text-[#1d3435] font-medium mb-5">
-                    Sipariş Veren Bilgileri
-                  </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+
+              {/* Sol — form alanları */}
+              <div className="lg:col-span-2 space-y-5">
+
+                {/* 1. Sipariş Veren */}
+                <SectionCard
+                  title="Sipariş Veren Bilgileri"
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  }
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className={labelClass}>Ad *</label>
-                      <input required type="text" placeholder="Adınız" className={inputClass}
+                      <input required type="text" placeholder="Adınız" className={inputBase}
                         value={form.firstName} onChange={(e) => update("firstName", e.target.value)} />
                     </div>
                     <div>
                       <label className={labelClass}>Soyad *</label>
-                      <input required type="text" placeholder="Soyadınız" className={inputClass}
+                      <input required type="text" placeholder="Soyadınız" className={inputBase}
                         value={form.lastName} onChange={(e) => update("lastName", e.target.value)} />
                     </div>
                     <div>
                       <label className={labelClass}>Telefon *</label>
-                      <input required type="tel" placeholder="0532 000 00 00" className={inputClass}
+                      <input required type="tel" placeholder="0532 000 00 00" className={inputBase}
                         value={form.phone} onChange={(e) => update("phone", e.target.value)} />
                     </div>
                     <div>
                       <label className={labelClass}>E-posta *</label>
-                      <input required type="email" placeholder="ornek@mail.com" className={inputClass}
+                      <input required type="email" placeholder="ornek@mail.com" className={inputBase}
                         value={form.email} onChange={(e) => update("email", e.target.value)} />
                     </div>
                   </div>
-                </div>
+                </SectionCard>
 
-                <div className="bg-white border border-[#f0f0f0] rounded-sm p-6">
-                  <h2 className="font-heading text-lg text-[#1d3435] font-medium mb-5">
-                    Teslimat Adresi
-                  </h2>
+                {/* 2. Alıcı Bilgileri */}
+                <SectionCard
+                  title="Alıcı Bilgileri & Kart Mesajı"
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                  }
+                >
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass}>Alıcı Adı Soyadı *</label>
+                        <input required type="text" placeholder="Teslim edilecek kişi" className={inputBase}
+                          value={form.recipientName} onChange={(e) => update("recipientName", e.target.value)} />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Alıcı Telefonu *</label>
+                        <input required type="tel" placeholder="0532 000 00 00" className={inputBase}
+                          value={form.recipientPhone} onChange={(e) => update("recipientPhone", e.target.value)} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelClass}>Kart Mesajı</label>
+                      <textarea rows={3} placeholder="Çiçeğe eklenecek kart mesajınız..." className={inputBase + " resize-none"}
+                        value={form.cardMessage} onChange={(e) => update("cardMessage", e.target.value)} />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Sipariş Notu</label>
+                      <textarea rows={2} placeholder="Floristimize özel notunuz..." className={inputBase + " resize-none"}
+                        value={form.notes} onChange={(e) => update("notes", e.target.value)} />
+                    </div>
+                  </div>
+                </SectionCard>
+
+                {/* 3. Teslimat Adresi */}
+                <SectionCard
+                  title="Teslimat Adresi"
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  }
+                >
                   <div className="space-y-4">
                     <div>
                       <label className={labelClass}>Açık Adres *</label>
-                      <textarea required rows={3} placeholder="Cadde, sokak, bina no, daire..." className={inputClass + " resize-none"}
+                      <textarea required rows={3} placeholder="Cadde, sokak, bina no, daire..." className={inputBase + " resize-none"}
                         value={form.address} onChange={(e) => update("address", e.target.value)} />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className={labelClass}>İlçe *</label>
-                        <input required type="text" placeholder="Şişli" className={inputClass}
+                        <input required type="text" placeholder="Şişli" className={inputBase}
                           value={form.district} onChange={(e) => update("district", e.target.value)} />
                       </div>
                       <div>
                         <label className={labelClass}>Şehir *</label>
-                        <input required type="text" className={inputClass}
+                        <input required type="text" className={inputBase}
                           value={form.city} onChange={(e) => update("city", e.target.value)} />
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className={labelClass}>Teslimat Tarihi *</label>
-                        <input required type="date" className={inputClass}
+                        <input required type="date" className={inputBase}
+                          min={new Date().toISOString().split("T")[0]}
                           value={form.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
                       </div>
                       <div>
                         <label className={labelClass}>Teslimat Saati *</label>
-                        <select required className={inputClass}
+                        <select required className={inputBase}
                           value={form.deliveryTime} onChange={(e) => update("deliveryTime", e.target.value)}>
                           <option value="">Saat seçin</option>
                           <option value="09-12">09:00 – 12:00</option>
@@ -155,126 +305,186 @@ export function CheckoutClient() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </SectionCard>
 
-                <div className="bg-white border border-[#f0f0f0] rounded-sm p-6">
-                  <h2 className="font-heading text-lg text-[#1d3435] font-medium mb-5">
-                    Alıcı Bilgileri & Kart Mesajı
-                  </h2>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelClass}>Alıcı Adı *</label>
-                        <input required type="text" placeholder="Teslim edilecek kişi" className={inputClass}
-                          value={form.recipientName} onChange={(e) => update("recipientName", e.target.value)} />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Alıcı Telefonu *</label>
-                        <input required type="tel" placeholder="0532 000 00 00" className={inputClass}
-                          value={form.recipientPhone} onChange={(e) => update("recipientPhone", e.target.value)} />
-                      </div>
-                    </div>
-                    <div>
-                      <label className={labelClass}>Kart Mesajı</label>
-                      <textarea rows={3} placeholder="Çiçeğe eklenecek kart mesajınız..." className={inputClass + " resize-none"}
-                        value={form.cardMessage} onChange={(e) => update("cardMessage", e.target.value)} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Sipariş Notu</label>
-                      <textarea rows={2} placeholder="Floristimize özel notunuz..." className={inputClass + " resize-none"}
-                        value={form.notes} onChange={(e) => update("notes", e.target.value)} />
-                    </div>
-                  </div>
-                </div>
+                {/* 4. Ödeme Yöntemi */}
+                {availablePayments.length > 0 && (
+                  <SectionCard
+                    title="Ödeme Yöntemi"
+                    icon={
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2 10h20" />
+                      </svg>
+                    }
+                  >
+                    <div className={`grid gap-3 ${availablePayments.length === 1 ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"}`}>
+                      {availablePayments.map((opt) => {
+                        const selected = form.paymentMethod === opt.value;
+                        return (
+                          <div key={opt.value}>
+                            <button
+                              type="button"
+                              onClick={() => update("paymentMethod", opt.value)}
+                              className={`w-full text-left rounded-xl border-2 px-4 py-4 transition-all duration-150 ${
+                                selected
+                                  ? "border-[#3d7b74] bg-[#f0f8f7] shadow-sm"
+                                  : "border-[#e8e2dc] bg-white hover:border-[#b5d5d1] hover:shadow-sm"
+                              }`}
+                            >
+                              <div className="flex items-start gap-3">
+                                <span className={`mt-0.5 flex-shrink-0 transition-colors ${selected ? "text-[#3d7b74]" : "text-[#a09890]"}`}>
+                                  {opt.icon}
+                                </span>
+                                <div>
+                                  <p className={`text-[13px] font-semibold leading-tight ${selected ? "text-[#1d3435]" : "text-[#545454]"}`}>
+                                    {opt.label}
+                                  </p>
+                                  <p className={`text-[11px] mt-0.5 ${selected ? "text-[#3d7b74]" : "text-[#a09890]"}`}>
+                                    {opt.sub}
+                                  </p>
+                                </div>
+                                {selected && (
+                                  <span className="ml-auto flex-shrink-0 w-4 h-4 rounded-full bg-[#3d7b74] flex items-center justify-center">
+                                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  </span>
+                                )}
+                              </div>
+                            </button>
 
-                <div className="bg-white border border-[#f0f0f0] rounded-sm p-6">
-                  <h2 className="font-heading text-lg text-[#1d3435] font-medium mb-5">
-                    Ödeme Yöntemi
-                  </h2>
-                  <div className="space-y-3">
-                    {[
-                      { value: "kapida", label: "Kapıda Ödeme (Nakit / Kredi Kartı)" },
-                      { value: "havale", label: "Banka Havalesi / EFT" },
-                      { value: "online", label: "Online Kredi / Banka Kartı (Yakında)" },
-                    ].map((opt) => (
-                      <label key={opt.value} className="flex items-center gap-3 cursor-pointer group">
-                        <input
-                          type="radio"
-                          name="payment"
-                          value={opt.value}
-                          checked={form.paymentMethod === opt.value}
-                          onChange={() => update("paymentMethod", opt.value)}
-                          disabled={opt.value === "online"}
-                          className="accent-[#3d7b74] w-4 h-4"
-                        />
-                        <span className={`text-[13px] ${opt.value === "online" ? "text-[#bbb]" : "text-[#545454] group-hover:text-[#1d3435]"} transition-colors`}>
-                          {opt.label}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+                            {/* Kapıda Ödeme açıklaması */}
+                            {selected && opt.description && (
+                              <div className="mt-2 px-4 py-3 bg-[#f5f9f8] border border-[#c8e6e1] rounded-lg">
+                                <p className="text-[12px] text-[#4a7070] leading-relaxed">
+                                  {opt.description}
+                                </p>
+                              </div>
+                            )}
+
+                            {/* Havale IBAN listesi */}
+                            {selected && opt.value === "havale" && paymentSettings.havale_ibans.length > 0 && (
+                              <div className="mt-2 space-y-2">
+                                <p className="text-[11px] font-bold text-[#5a7070] uppercase tracking-widest px-1">
+                                  Hesap Bilgileri
+                                </p>
+                                {paymentSettings.havale_ibans.map((entry) => (
+                                  <div key={entry.id} className="px-4 py-3 bg-[#f5f9f8] border border-[#c8e6e1] rounded-lg">
+                                    <p className="text-[12px] font-semibold text-[#1d3435]">{entry.bank}</p>
+                                    <p className="text-[11px] text-[#6e6560]">{entry.holder}</p>
+                                    <p className="text-[12px] font-mono text-[#3d7b74] mt-1 tracking-wider select-all">
+                                      {entry.iban.replace(/(.{4})/g, "$1 ").trim()}
+                                    </p>
+                                  </div>
+                                ))}
+                                <p className="text-[11px] text-[#a09890] px-1 leading-relaxed">
+                                  Havale açıklamasına sipariş numaranızı yazmayı unutmayın.
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </SectionCard>
+                )}
               </div>
 
               {/* Sağ — sipariş özeti */}
               <div className="lg:col-span-1">
-                <div className="bg-[#f9f8f6] rounded-sm p-6 sticky top-[90px]">
-                  <h2 className="font-heading text-lg text-[#1d3435] font-medium mb-5">
-                    Sipariş Özeti
-                  </h2>
+                <div className="bg-white rounded-xl border border-[#ede8e3] shadow-sm overflow-hidden sticky top-[88px]">
 
-                  <div className="space-y-3 mb-4">
-                    {items.map(({ product, quantity }) => (
-                      <div key={product.id} className="flex items-center gap-3">
-                        <div className="relative w-12 h-14 flex-shrink-0 rounded-sm overflow-hidden bg-[#f0ede9]">
-                          <Image src={product.images[0]} alt={product.name} fill unoptimized className="object-cover" sizes="48px" />
+                  <div className="px-5 py-4 border-b border-[#f4f0ec] bg-[#faf8f6]">
+                    <h2 className="font-heading text-[15px] font-semibold text-[#1d3435]">
+                      Sipariş Özeti
+                    </h2>
+                  </div>
+
+                  <div className="p-5">
+                    {/* Ürünler */}
+                    <div className="space-y-3 mb-5">
+                      {items.map(({ product, quantity }) => (
+                        <div key={product.id} className="flex items-center gap-3">
+                          <div className="relative w-12 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#f0ede9]">
+                            <Image src={product.images[0]} alt={product.name} fill unoptimized className="object-cover" sizes="48px" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[12px] text-[#1d3435] font-medium leading-snug line-clamp-2">{product.name}</p>
+                            <p className="text-[11px] text-[#a09890] mt-0.5">× {quantity}</p>
+                          </div>
+                          <span className="text-[12px] font-semibold text-[#1d3435] flex-shrink-0">
+                            ₺{((product.salePrice ?? product.price) * quantity).toLocaleString("tr-TR")}
+                          </span>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[12px] text-[#1d3435] font-medium truncate">{product.name}</p>
-                          <p className="text-[11px] text-[#999]">× {quantity}</p>
-                        </div>
-                        <span className="text-[12px] font-semibold text-[#1d3435] flex-shrink-0">
-                          ₺{((product.salePrice ?? product.price) * quantity).toLocaleString("tr-TR")}
+                      ))}
+                    </div>
+
+                    {/* Toplamlar */}
+                    <div className="border-t border-[#f0ebe5] pt-4 space-y-2.5 text-[13px]">
+                      <div className="flex justify-between text-[#6e6560]">
+                        <span>Ara toplam</span>
+                        <span>₺{subtotal.toLocaleString("tr-TR")}</span>
+                      </div>
+                      <div className="flex justify-between text-[#6e6560]">
+                        <span>Teslimat</span>
+                        <span className={shipping === 0 ? "text-[#3d7b74] font-semibold" : ""}>
+                          {shipping === 0 ? "Ücretsiz" : `₺${shipping.toLocaleString("tr-TR")}`}
                         </span>
                       </div>
-                    ))}
-                  </div>
-
-                  <div className="border-t border-[#e8e8e8] pt-4 space-y-2 text-[13px]">
-                    <div className="flex justify-between text-[#545454]">
-                      <span>Ara toplam</span>
-                      <span>₺{total.toLocaleString("tr-TR")}</span>
+                      {kapidaFee > 0 && (
+                        <div className="flex justify-between text-[#6e6560]">
+                          <span>Kapıda ödeme bedeli</span>
+                          <span>₺{kapidaFee.toLocaleString("tr-TR")}</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex justify-between text-[#545454]">
-                      <span>Teslimat</span>
-                      <span className={shipping === 0 ? "text-[#3d7b74] font-semibold" : ""}>
-                        {shipping === 0 ? "Ücretsiz" : `₺${shipping}`}
+
+                    <div className="border-t border-[#e8e2dc] mt-4 pt-4 flex justify-between items-center">
+                      <span className="text-[14px] font-semibold text-[#1d3435]">Toplam</span>
+                      <span className="font-bold text-[22px] text-[#1d3435] tracking-tight">
+                        ₺{grandTotal.toLocaleString("tr-TR")}
                       </span>
                     </div>
+
+                    {/* CTA */}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full mt-5 flex items-center justify-center gap-2.5 bg-[#1d3435] hover:bg-[#243f40] active:bg-[#162828] text-white font-semibold text-[14px] tracking-wide py-4 rounded-xl transition-all duration-150 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {loading ? (
+                        <>
+                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          Sipariş Oluşturuluyor...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          Siparişi Onayla
+                        </>
+                      )}
+                    </button>
+
+                    {shipping > 0 && (
+                      <p className="text-[11px] text-[#3d7b74] text-center mt-3 font-medium">
+                        ₺{(500 - subtotal).toLocaleString("tr-TR")} daha ekle, kargo ücretsiz!
+                      </p>
+                    )}
+
+                    <p className="text-[11px] text-[#bbb] text-center mt-3 leading-relaxed">
+                      Siparişinizi onaylayarak{" "}
+                      <Link href="/kullanim-kosullari" className="underline hover:text-[#1d3435] transition-colors">
+                        kullanım koşullarını
+                      </Link>{" "}
+                      kabul etmiş olursunuz.
+                    </p>
                   </div>
-
-                  <div className="border-t border-[#e8e8e8] mt-3 pt-3 flex justify-between">
-                    <span className="font-semibold text-[#1d3435]">Toplam</span>
-                    <span className="font-bold text-[18px] text-[#1d3435]">
-                      ₺{grandTotal.toLocaleString("tr-TR")}
-                    </span>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary w-full mt-5 disabled:opacity-60"
-                  >
-                    {loading ? "Sipariş Oluşturuluyor..." : "Siparişi Onayla"}
-                  </button>
-
-                  <p className="text-[11px] text-[#999] text-center mt-3 leading-relaxed">
-                    Siparişinizi onaylayarak{" "}
-                    <Link href="/kullanim-kosullari" className="underline hover:text-[#1d3435]">
-                      kullanım koşullarını
-                    </Link>{" "}
-                    kabul etmiş olursunuz.
-                  </p>
                 </div>
               </div>
             </div>

@@ -38,7 +38,8 @@ export async function PUT(
     if (error) throw error;
     return NextResponse.json(mapCoupon(data));
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    const msg = err instanceof Error ? err.message : (err as { message?: string })?.message ?? String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
 
@@ -53,6 +54,7 @@ export async function DELETE(
     if (error) throw error;
     return NextResponse.json({ ok: true });
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    const msg = err instanceof Error ? err.message : (err as { message?: string })?.message ?? String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

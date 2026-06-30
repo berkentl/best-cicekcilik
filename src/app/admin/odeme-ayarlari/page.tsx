@@ -1,8 +1,5 @@
-import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { CheckoutClient } from "./CheckoutClient";
 import { createServerClient } from "@/lib/supabase-server";
+import { PaymentSettingsClient } from "./PaymentSettingsClient";
 import type { PaymentSettings } from "@/types";
 
 const DEFAULT_SETTINGS: PaymentSettings = {
@@ -12,8 +9,8 @@ const DEFAULT_SETTINGS: PaymentSettings = {
   havale_ibans: [],
 };
 
-export default async function CheckoutPage() {
-  let paymentSettings: PaymentSettings = DEFAULT_SETTINGS;
+export default async function OdemeAyarlariPage() {
+  let settings: PaymentSettings = DEFAULT_SETTINGS;
 
   try {
     const sb = createServerClient();
@@ -24,7 +21,7 @@ export default async function CheckoutPage() {
       .maybeSingle();
 
     if (data) {
-      paymentSettings = {
+      settings = {
         kapida_enabled: data.kapida_enabled ?? true,
         kapida_fee: Number(data.kapida_fee ?? 0),
         havale_enabled: data.havale_enabled ?? true,
@@ -35,14 +32,5 @@ export default async function CheckoutPage() {
     // tablo henüz oluşturulmamışsa varsayılanlarla devam et
   }
 
-  return (
-    <>
-      <AnnouncementBar />
-      <Header />
-      <main className="flex-1">
-        <CheckoutClient paymentSettings={paymentSettings} />
-      </main>
-      <Footer />
-    </>
-  );
+  return <PaymentSettingsClient initial={settings} />;
 }

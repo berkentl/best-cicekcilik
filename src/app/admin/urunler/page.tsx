@@ -290,7 +290,7 @@ export default function AdminProductsPage() {
                   {p.isNew && <span className="text-[10px] bg-[#3d7b74] text-white px-1.5 py-0.5 rounded-full">Yeni</span>}
                 </div>
                 <div className="flex gap-4 mt-2">
-                  <button onClick={() => openEdit(p)} className="text-[12px] text-[#3d7b74] font-semibold hover:text-[#1d3435] transition-colors">Düzenle</button>
+                  <Link href={`/admin/urunler/${p.id}/duzenle`} className="text-[12px] text-[#3d7b74] font-semibold hover:text-[#1d3435] transition-colors">Düzenle</Link>
                   <button onClick={() => setDeleteId(p.id)} className="text-[12px] text-red-400 font-semibold hover:text-red-600 transition-colors">Sil</button>
                 </div>
               </div>
@@ -354,7 +354,7 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <button onClick={() => openEdit(p)} className="text-[12px] text-[#3d7b74] hover:text-[#1d3435] font-medium transition-colors">Düzenle</button>
+                        <Link href={`/admin/urunler/${p.id}/duzenle`} className="text-[12px] text-[#3d7b74] hover:text-[#1d3435] font-medium transition-colors">Düzenle</Link>
                         <button onClick={() => setDeleteId(p.id)} className="text-[12px] text-red-400 hover:text-red-600 font-medium transition-colors">Sil</button>
                       </div>
                     </td>

@@ -398,6 +398,7 @@ export default function AdminKampanyalarPage() {
                     type="date"
                     value={form.expiry}
                     onChange={(e) => setForm({ ...form, expiry: e.target.value })}
+                    min={new Date().toISOString().split("T")[0]}
                     className="w-full border border-[#e8e8e8] rounded-sm px-3 py-2 text-[13px] focus:outline-none focus:border-[#3d7b74] transition-colors"
                   />
                 </div>

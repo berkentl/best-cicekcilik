@@ -47,6 +47,7 @@ export async function POST(request: Request) {
       }),
       estimatedDelivery: order.estimated_delivery ?? "Belirtilmedi",
       currentStep: order.tracking_step ?? 0,
+      status: order.status ?? "Yeni",
       courier: order.courier_name ?? null,
       courierPhone: order.courier_phone ?? null,
     });

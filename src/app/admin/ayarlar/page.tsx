@@ -47,6 +47,10 @@ export default function AdminAyarlarPage() {
       if (data.free_shipping_threshold) setFreeThreshold(data.free_shipping_threshold);
       if (data.base_shipping_fee) setBaseShipping(data.base_shipping_fee);
       if (data.shipping_info) setShippingInfo(data.shipping_info);
+      if (data.business_name) setSiteName(data.business_name);
+      if (data.phone) setPhone(data.phone);
+      if (data.email) setEmail(data.email);
+      if (data.address) setAddress(data.address);
     }).catch(() => {});
   }, []);
 
@@ -81,6 +85,10 @@ export default function AdminAyarlarPage() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          business_name: siteName,
+          phone,
+          email,
+          address,
           announcements: JSON.stringify(announcements),
           announcement_active: String(annActive),
           free_shipping_threshold: freeThreshold,

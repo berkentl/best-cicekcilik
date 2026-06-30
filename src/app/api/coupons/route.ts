@@ -25,7 +25,8 @@ export async function GET() {
     if (error) throw error;
     return NextResponse.json((data ?? []).map(mapCoupon));
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    const msg = err instanceof Error ? err.message : (err as { message?: string })?.message ?? String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
 
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
     if (error) throw error;
     return NextResponse.json(mapCoupon(data));
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    const msg = err instanceof Error ? err.message : (err as { message?: string })?.message ?? String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

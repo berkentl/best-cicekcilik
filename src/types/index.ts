@@ -48,10 +48,14 @@ export interface Announcement {
  * Admin panelinden yönetilir, /api/site-settings üzerinden okunur/yazılır.
  */
 export interface SiteSettings {
-  announcements:          Announcement[]; // Döngüsel duyuru listesi
-  announcementActive:     boolean;        // false → bar hiç render edilmez
-  freeShippingThreshold:  number;         // Ücretsiz kargo alt limiti (TL)
-  baseShippingFee:        number;         // Standart kargo ücreti (TL)
+  announcements:          Announcement[];
+  announcementActive:     boolean;
+  freeShippingThreshold:  number;
+  baseShippingFee:        number;
+  businessName:           string;
+  phone:                  string;
+  email:                  string;
+  address:                string;
 }
 
 /**
@@ -134,6 +138,20 @@ export interface HeroSlide {
 export interface SpotlightTab {
   label: string;
   products: Product[];
+}
+
+export interface IbanEntry {
+  id: string;
+  bank: string;
+  holder: string;
+  iban: string;
+}
+
+export interface PaymentSettings {
+  kapida_enabled: boolean;
+  kapida_fee: number;
+  havale_enabled: boolean;
+  havale_ibans: IbanEntry[];
 }
 
 export interface SiteConfig {

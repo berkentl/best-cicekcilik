@@ -36,36 +36,26 @@ export function HeroSlider() {
 
   return (
     <section className="relative w-full bg-[#f5f0eb]">
-      {/* Mobil: görseller doğal boyutlarında, kırpılmadan */}
-      <div className="block md:hidden relative">
+      {/* Mobil: sabit yükseklik, object-cover */}
+      <div className="block md:hidden relative h-[85svh] min-h-[520px]">
         {heroSlides.map((s, i) => (
           <div
             key={s.id}
-            className="absolute inset-0 top-0 left-0 w-full transition-opacity duration-700 ease-in-out"
+            className="absolute inset-0 transition-opacity duration-700 ease-in-out"
             style={{ opacity: i === current && !transitioning ? 1 : 0, zIndex: i === current ? 1 : 0 }}
             aria-hidden={i !== current}
           >
             <Image
               src={s.mobileImage ?? s.image}
               alt={s.alt}
-              width={1080}
-              height={1350}
+              fill
               priority={i === 0}
               unoptimized
-              className="w-full h-auto block"
+              className="object-cover object-left-top"
+              sizes="100vw"
             />
           </div>
         ))}
-        {/* Aktif slaytı görünür tutan spacer */}
-        <Image
-          src={heroSlides[0].mobileImage ?? heroSlides[0].image}
-          alt=""
-          width={1080}
-          height={1350}
-          unoptimized
-          aria-hidden
-          className="w-full h-auto invisible"
-        />
       </div>
 
       {/* Desktop: tam ekran, object-cover */}

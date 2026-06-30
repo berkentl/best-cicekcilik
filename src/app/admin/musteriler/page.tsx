@@ -1,13 +1,7 @@
 "use client";
 
 export default function AdminMusterilerPage() {
-  const mockCustomers = [
-    { id: "1", name: "Ayşe Kaya", email: "ayse@email.com", phone: "0532 111 22 33", orders: 5, total: 2800, joined: "2025-03-12" },
-    { id: "2", name: "Mehmet Demir", email: "mehmet@email.com", phone: "0533 222 33 44", orders: 3, total: 1200, joined: "2025-06-01" },
-    { id: "3", name: "Fatma Şahin", email: "fatma@email.com", phone: "0534 333 44 55", orders: 8, total: 4500, joined: "2025-01-20" },
-    { id: "4", name: "Ali Öztürk", email: "ali@email.com", phone: "0535 444 55 66", orders: 1, total: 320, joined: "2026-06-25" },
-    { id: "5", name: "Zeynep Arslan", email: "zeynep@email.com", phone: "0536 555 66 77", orders: 12, total: 7200, joined: "2024-11-05" },
-  ];
+  const mockCustomers: { id: string; name: string; email: string; phone: string; orders: number; total: number; joined: string }[] = [];
 
   return (
     <div className="space-y-6">
@@ -43,7 +37,13 @@ export default function AdminMusterilerPage() {
               </tr>
             </thead>
             <tbody>
-              {mockCustomers.map((c) => (
+              {mockCustomers.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-4 py-16 text-center text-[13px] text-[#999]">
+                    Henüz kayıtlı müşteri yok
+                  </td>
+                </tr>
+              ) : mockCustomers.map((c) => (
                 <tr key={c.id} className="border-b border-[#f9f9f9] hover:bg-[#fafafa] transition-colors">
                   <td className="px-4 py-3.5">
                     <div className="flex items-center gap-3">

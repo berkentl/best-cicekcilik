@@ -8,6 +8,10 @@ const DEFAULTS: Record<string, string> = {
   free_shipping_threshold: String(DEFAULT_SITE_SETTINGS.freeShippingThreshold),
   base_shipping_fee:       String(DEFAULT_SITE_SETTINGS.baseShippingFee),
   shipping_info:           "",
+  business_name:           DEFAULT_SITE_SETTINGS.businessName,
+  phone:                   DEFAULT_SITE_SETTINGS.phone,
+  email:                   DEFAULT_SITE_SETTINGS.email,
+  address:                 DEFAULT_SITE_SETTINGS.address,
 };
 
 export async function GET() {

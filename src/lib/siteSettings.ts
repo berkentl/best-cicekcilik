@@ -14,6 +14,10 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   announcementActive:    true,
   freeShippingThreshold: 3000,
   baseShippingFee:       200,
+  businessName:          "Best Çiçekçilik & Organizasyon",
+  phone:                 "0532 295 93 09",
+  email:                 "info@bestcicekcilik.com",
+  address:               "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul",
 };
 
 /** Sunucu tarafında site ayarlarını çeker (Supabase → fallback mock). */
@@ -52,6 +56,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
         map["base_shipping_fee"] !== undefined
           ? Number(map["base_shipping_fee"])
           : DEFAULT_SITE_SETTINGS.baseShippingFee,
+      businessName: map["business_name"] || DEFAULT_SITE_SETTINGS.businessName,
+      phone:        map["phone"]         || DEFAULT_SITE_SETTINGS.phone,
+      email:        map["email"]         || DEFAULT_SITE_SETTINGS.email,
+      address:      map["address"]       || DEFAULT_SITE_SETTINGS.address,
     };
   } catch {
     return DEFAULT_SITE_SETTINGS;

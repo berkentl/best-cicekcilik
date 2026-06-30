@@ -1,9 +1,18 @@
 import Link from "next/link";
 import { PhoneIcon, MapPinIcon, MailIcon, InstagramIcon, FacebookIcon, WhatsAppIcon } from "@/components/icons";
 import { siteConfig, navCategories } from "@/lib/data";
+import { getSiteSettings } from "@/lib/siteSettings";
 
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear();
+  const settings = await getSiteSettings();
+
+  // Telefon numarasını tel: link için rakam-only hale getir
+  const telHref = "tel:" + settings.phone.replace(/\s/g, "");
+  // Adres satır sonu için ilk virgülden böl
+  const addrParts = settings.address.split(",");
+  const addrLine1 = addrParts.slice(0, -2).join(",").trim();
+  const addrLine2 = addrParts.slice(-2).join(",").trim();
 
   return (
     <footer className="bg-[#063735] text-white">
@@ -14,11 +23,7 @@ export function Footer() {
           <div className="lg:col-span-1">
             <div className="mb-5">
               <span className="font-heading text-[22px] font-semibold tracking-wide text-white">
-                Best Çiçekçilik
-              </span>
-              <br />
-              <span className="text-[12px] text-white/60 tracking-widest uppercase">
-                & Organizasyon
+                {settings.businessName}
               </span>
             </div>
             <p className="text-[13px] text-white/70 leading-relaxed mb-6">
@@ -112,27 +117,26 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPinIcon size={15} className="text-white/50 mt-0.5 shrink-0" />
                 <span className="text-[13px] text-white/60 leading-relaxed">
-                  Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18
-                  <br />
-                  34360 Şişli / İstanbul
+                  {addrLine1 || settings.address}
+                  {addrLine2 && <><br />{addrLine2}</>}
                 </span>
               </li>
               <li>
                 <a
-                  href="tel:05322959309"
+                  href={telHref}
                   className="flex items-center gap-3 text-[13px] text-white/60 hover:text-white transition-colors"
                 >
                   <PhoneIcon size={15} className="text-white/50 shrink-0" />
-                  0532 295 93 09
+                  {settings.phone}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@bestcicekcilik.com"
+                  href={`mailto:${settings.email}`}
                   className="flex items-center gap-3 text-[13px] text-white/60 hover:text-white transition-colors"
                 >
                   <MailIcon size={15} className="text-white/50 shrink-0" />
-                  info@bestcicekcilik.com
+                  {settings.email}
                 </a>
               </li>
               <li>

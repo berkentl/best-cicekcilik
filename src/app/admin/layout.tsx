@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AdminNotifications } from "@/components/admin/AdminNotifications";
+import { supabase } from "@/lib/supabase";
 
 const ADMIN_PASSWORD = "best2024";
 
@@ -101,6 +103,17 @@ const navGroups = [
           </svg>
         ),
       },
+      {
+        href: "/admin/odeme-ayarlari",
+        label: "Ödeme Yöntemleri",
+        exact: false,
+        icon: (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2 10h20" />
+          </svg>
+        ),
+      },
     ],
   },
 ];
@@ -155,6 +168,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [checked, setChecked] = useState(false);
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [newOrderCount, setNewOrderCount] = useState(0);
+
+  const incrementOrder = useCallback(() => {
+    setNewOrderCount((c) => c + 1);
+  }, []);
+
+  useEffect(() => {
+    if (!authed) return;
+    const channel = supabase
+      .channel("layout_orders")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, incrementOrder)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [authed, incrementOrder]);
+
+  useEffect(() => {
+    if (pathname === "/admin/siparisler") setNewOrderCount(0);
+  }, [pathname]);
 
   useEffect(() => {
     setAuthed(localStorage.getItem("admin_auth") === "1");
@@ -239,11 +270,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </svg>
             <span className="font-semibold text-[#1d3435]">{currentLabel}</span>
           </div>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-3">
             <span className="hidden sm:flex items-center gap-1.5 text-[11px] text-[#3d7b74] bg-[#3d7b74]/10 px-2.5 py-1 rounded-full font-semibold">
               <span className="w-1.5 h-1.5 bg-[#3d7b74] rounded-full animate-pulse" />
               Canlı
             </span>
+            <AdminNotifications newOrderCount={newOrderCount} />
           </div>
         </header>
 
