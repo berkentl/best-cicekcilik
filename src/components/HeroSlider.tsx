@@ -36,8 +36,15 @@ export function HeroSlider() {
 
   return (
     <section className="relative w-full bg-[#f5f0eb]">
-      {/* Mobil: sabit yükseklik, object-cover */}
-      <div className="block md:hidden relative h-[85svh] min-h-[520px]">
+      {/* Mobil: görsel kırpılmadan tam göster */}
+      <div className="block md:hidden relative w-full overflow-hidden">
+        {/* Konteynır yüksekliğini ilk görselin oranı belirler */}
+        <img
+          src={heroSlides[0].mobileImage ?? heroSlides[0].image}
+          alt=""
+          aria-hidden="true"
+          className="w-full block invisible"
+        />
         {heroSlides.map((s, i) => (
           <div
             key={s.id}
@@ -51,7 +58,7 @@ export function HeroSlider() {
               fill
               priority={i === 0}
               unoptimized
-              className="object-cover object-left-top"
+              className="object-cover object-top"
               sizes="100vw"
             />
           </div>

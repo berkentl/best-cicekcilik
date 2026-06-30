@@ -25,12 +25,18 @@ export interface DashboardStats {
   topProducts: { name: string; qty: number; pct: number }[];
 }
 
+const STATUS_TR: Record<string, string> = {
+  pending: "Bekliyor", confirmed: "Onaylandı", shipped: "Yola Çıktı",
+  delivered: "Teslim Edildi", cancelled: "İptal Edildi",
+};
+
 const STATUS_COLORS: Record<string, string> = {
-  "Teslim Edildi": "#3d7b74",
-  "Hazırlanıyor":  "#f59e0b",
-  "Kargoya Verildi": "#8b5cf6",
-  "Yeni":          "#3b82f6",
-  "İptal":         "#ef4444",
+  "Teslim Edildi": "#3d7b74", "delivered": "#3d7b74",
+  "Hazırlanıyor":  "#f59e0b", "confirmed": "#3b82f6",
+  "Kargoya Verildi": "#8b5cf6", "shipped": "#8b5cf6",
+  "Yeni":          "#3b82f6", "pending": "#9ca3af",
+  "Bekliyor":      "#9ca3af",
+  "İptal":         "#ef4444", "cancelled": "#ef4444",
   "İade":          "#f97316",
 };
 
@@ -118,11 +124,10 @@ export async function fetchDashboardData(
   for (const o of periodOrders) {
     statusMap[o.status] = (statusMap[o.status] ?? 0) + 1;
   }
-  const statusBreakdown = Object.entries(statusMap).map(([name, value]) => ({
-    name,
-    value,
-    color: STATUS_COLORS[name] ?? "#aaa",
-  }));
+  const statusBreakdown = Object.entries(statusMap).map(([raw, value]) => {
+    const name = STATUS_TR[raw] ?? raw;
+    return { name, value, color: STATUS_COLORS[raw] ?? STATUS_COLORS[name] ?? "#aaa" };
+  });
 
   // Günlük seri
   const dailySeries = buildSeries(periodOrders, start, end);
