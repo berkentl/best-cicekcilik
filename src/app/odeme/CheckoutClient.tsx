@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -70,6 +70,17 @@ export function CheckoutClient({ paymentSettings }: Props) {
 
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
+
+  useEffect(() => {
+    const firstDelivery = useCartStore.getState().items[0]?.delivery;
+    if (firstDelivery) {
+      setForm(prev => ({
+        ...prev,
+        deliveryDate: firstDelivery.dateIso,
+        deliveryTime: firstDelivery.timeSlot,
+      }));
+    }
+  }, []);
 
   const kapidaFee =
     form.paymentMethod === "kapida" && paymentSettings.kapida_enabled
@@ -297,10 +308,10 @@ export function CheckoutClient({ paymentSettings }: Props) {
                         <select required className={inputBase}
                           value={form.deliveryTime} onChange={(e) => update("deliveryTime", e.target.value)}>
                           <option value="">Saat seçin</option>
-                          <option value="09-12">09:00 – 12:00</option>
-                          <option value="12-15">12:00 – 15:00</option>
-                          <option value="15-18">15:00 – 18:00</option>
-                          <option value="18-21">18:00 – 21:00</option>
+                          <option value="09:00-13:00">09:00 – 13:00</option>
+                          <option value="12:00-16:00">12:00 – 16:00</option>
+                          <option value="14:00-20:00">14:00 – 20:00</option>
+                          <option value="18:00-22:00">18:00 – 22:00</option>
                         </select>
                       </div>
                     </div>

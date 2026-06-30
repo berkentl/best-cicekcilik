@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { useCartStore } from "@/store/cartStore";
+import { useCartStore, type DeliverySlot } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
@@ -219,7 +219,90 @@ function AddressSearch({ onChange }: { onChange: (ilce: string) => void }) {
   );
 }
 
-const SAATLER = ["09:00 – 12:00","12:00 – 15:00","15:00 – 18:00","18:00 – 21:00"];
+/* ── Teslimat Tarih/Saat Yardımcıları ───────────────────────── */
+const TR_DAYS   = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+const TR_MONTHS = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const TIME_SLOTS = ["09:00-13:00","12:00-16:00","14:00-20:00","18:00-22:00"];
+interface DayOption { iso: string; label: string; short: string; isToday: boolean; isTomorrow: boolean; }
+
+function getDeliveryDays(): DayOption[] {
+  const now   = new Date();
+  const start = now.getHours() < 14 ? 0 : 1;
+  return Array.from({ length: 7 }, (_, idx) => {
+    const d = new Date(now);
+    d.setDate(now.getDate() + start + idx);
+    const iso   = d.toISOString().split("T")[0];
+    const day   = TR_DAYS[d.getDay()];
+    const month = TR_MONTHS[d.getMonth()];
+    return {
+      iso,
+      label: `${d.getDate()} ${month}, ${day}`,
+      short: `${d.getDate()} ${month.slice(0,3)}`,
+      isToday:    start + idx === 0,
+      isTomorrow: start + idx === 1,
+    };
+  });
+}
+
+function InlineDeliveryPicker({ value, onConfirm }: {
+  value: DeliverySlot | null;
+  onConfirm: (slot: DeliverySlot) => void;
+}) {
+  const days = getDeliveryDays();
+  const [selectedDay, setSelectedDay] = useState<DayOption>(
+    value ? (days.find(d => d.iso === value.dateIso) ?? days[0]) : days[0]
+  );
+  const [selectedTime, setSelectedTime] = useState<string | null>(value?.timeSlot ?? null);
+
+  return (
+    <div className="bg-[#f9f8f6] rounded-2xl p-4 border border-[#e4e2e2] space-y-4">
+      <div>
+        <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#727973] mb-2">Teslimat Günü</p>
+        <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
+          {days.map(d => (
+            <button key={d.iso} type="button" onClick={() => setSelectedDay(d)}
+              className={cn(
+                "flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2.5 rounded-xl border text-center transition-all duration-150 min-w-[68px]",
+                selectedDay.iso === d.iso
+                  ? "border-[#163426] bg-[#163426] text-white"
+                  : "border-[#e4e2e2] bg-white text-[#424844] hover:border-[#163426]/40"
+              )}>
+              <span className="text-[10px] font-semibold tracking-wide">
+                {d.isToday ? "BUGÜN" : d.isTomorrow ? "YARIN" : d.short.split(" ")[1]?.toUpperCase()}
+              </span>
+              <span className="text-[15px] font-heading font-medium">{d.short.split(" ")[0]}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#727973] mb-2">Teslimat Saati</p>
+        <div className="grid grid-cols-2 gap-2">
+          {TIME_SLOTS.map(slot => (
+            <button key={slot} type="button" onClick={() => setSelectedTime(slot)}
+              className={cn(
+                "py-2.5 px-3 rounded-xl border text-[13px] font-semibold transition-all duration-150",
+                selectedTime === slot
+                  ? "border-[#163426] bg-[#163426] text-white"
+                  : "border-[#e4e2e2] bg-white text-[#424844] hover:border-[#163426]/40"
+              )}>
+              {slot}
+            </button>
+          ))}
+        </div>
+      </div>
+      <button type="button"
+        onClick={() => {
+          if (!selectedTime) return;
+          onConfirm({ dateIso: selectedDay.iso, dateLabel: selectedDay.label, timeSlot: selectedTime });
+        }}
+        disabled={!selectedTime}
+        className="w-full py-2.5 rounded-xl bg-[#163426] text-white text-[13px] font-bold tracking-wide disabled:opacity-40 hover:bg-[#1e4434] active:scale-[0.98] transition-all">
+        Onayla
+      </button>
+    </div>
+  );
+}
 
 interface Props {
   product: Product;
@@ -230,12 +313,13 @@ interface Props {
 }
 
 export function ProductDetailPanel({ product, categorySlug, inStock, shippingInfo, siteSettings }: Props) {
-  const [added, setAdded] = useState(false);
-  const [, setIlce]       = useState("");
-  const [tarih, setTarih] = useState("");
-  const [saat, setSaat]   = useState("");
+  const [added, setAdded]               = useState(false);
+  const [, setIlce]                     = useState("");
+  const [deliverySlot, setDeliverySlot] = useState<DeliverySlot | null>(null);
+  const [showPicker, setShowPicker]     = useState(true);
 
-  const addItem         = useCartStore(s => s.addItem);
+  const addItem    = useCartStore(s => s.addItem);
+  const setDelivery = useCartStore(s => s.setDelivery);
   const { toggle, has } = useWishlistStore();
   const wishlisted      = has(product.id);
   const currency        = useCurrencyStore(s => s.currency);
@@ -247,11 +331,10 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
   const handleAddToCart = () => {
     if (!inStock) return;
     addItem(product);
+    if (deliverySlot) setDelivery(product.id, deliverySlot);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
-
-  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="flex flex-col gap-5">
@@ -294,26 +377,25 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
           <label className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#424844]">Teslimat Adresi</label>
           <AddressSearch onChange={setIlce} />
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#424844]">Teslimat Tarihi</label>
-            <input type="date" min={today} value={tarih} onChange={e => setTarih(e.target.value)}
-              className="w-full bg-white border border-[#e4e2e2] rounded-xl px-4 py-3 text-[14px] text-[#1b1c1c] focus:outline-none focus:border-[#163426] focus:ring-2 focus:ring-[#163426]/10 hover:border-[#c1c8c2] transition-all [&::-webkit-calendar-picker-indicator]:opacity-40" />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#424844]">Saat Aralığı</label>
-            <div className="relative">
-              <select value={saat} onChange={e => setSaat(e.target.value)}
-                className={cn("w-full appearance-none bg-white border border-[#e4e2e2] rounded-xl px-4 py-3 text-[14px] pr-9 focus:outline-none focus:border-[#163426] focus:ring-2 focus:ring-[#163426]/10 hover:border-[#c1c8c2] transition-all", !saat ? "text-[#bbb]" : "text-[#1b1c1c]")}>
-                <option value="" disabled>Seçin</option>
-                {SAATLER.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-              <svg className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#bbb]"
-                width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#424844]">Teslimat Tarihi &amp; Saati</label>
+          {deliverySlot && !showPicker ? (
+            <div className="flex items-center justify-between bg-[#f0f7f3] border border-[#adceba] rounded-xl px-4 py-3">
+              <div>
+                <p className="text-[11px] font-bold text-[#163426] uppercase tracking-[0.08em]">Teslimat Zamanı</p>
+                <p className="text-[13px] font-semibold text-[#1b1c1c] mt-0.5">{deliverySlot.dateLabel}, {deliverySlot.timeSlot}</p>
+              </div>
+              <button type="button" onClick={() => setShowPicker(true)}
+                className="text-[12px] text-[#163426] font-semibold underline underline-offset-2 hover:text-[#1e4434] transition-colors flex-shrink-0">
+                Değiştir
+              </button>
             </div>
-          </div>
+          ) : (
+            <InlineDeliveryPicker
+              value={deliverySlot}
+              onConfirm={(slot) => { setDeliverySlot(slot); setShowPicker(false); }}
+            />
+          )}
         </div>
       </div>
 

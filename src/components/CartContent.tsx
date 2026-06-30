@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
-import type { DeliverySlot } from "@/store/cartStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import { cn } from "@/lib/utils";
@@ -13,122 +12,6 @@ import {
   remainingForFreeShipping,
 } from "@/lib/shippingService";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
-
-/* ── Türkçe tarih yardımcıları ──────────────────────────────── */
-const TR_DAYS   = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
-const TR_MONTHS = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-const TIME_SLOTS = ["09:00-13:00","12:00-16:00","14:00-20:00","18:00-22:00"];
-
-interface DayOption { iso: string; label: string; short: string; isToday: boolean; isTomorrow: boolean; }
-
-function getDeliveryDays(): DayOption[] {
-  const now   = new Date();
-  const start = now.getHours() < 14 ? 0 : 1;
-  return Array.from({ length: 7 }, (_, idx) => {
-    const d = new Date(now);
-    d.setDate(now.getDate() + start + idx);
-    const iso   = d.toISOString().split("T")[0];
-    const day   = TR_DAYS[d.getDay()];
-    const month = TR_MONTHS[d.getMonth()];
-    return {
-      iso,
-      label: `${d.getDate()} ${month}, ${day}`,
-      short: `${d.getDate()} ${month.slice(0,3)}`,
-      isToday:    start + idx === 0,
-      isTomorrow: start + idx === 1,
-    };
-  });
-}
-
-/* ── Teslimat Tarihi Seçici ──────────────────────────────────── */
-function DeliveryPicker({
-  current, onSelect, onClose,
-}: { current?: DeliverySlot; onSelect: (slot: DeliverySlot) => void; onClose: () => void }) {
-  const days = getDeliveryDays();
-  /* Bugün varsayılan olarak seçili → saat dilimleri hemen görünür */
-  const [selectedDay, setSelectedDay] = useState<DayOption>(
-    current ? (days.find(d => d.iso === current.dateIso) ?? days[0]) : days[0]
-  );
-  const [selectedTime, setSelectedTime] = useState<string | null>(current?.timeSlot ?? null);
-
-  const canConfirm = selectedTime !== null;
-
-  const handleConfirm = () => {
-    if (!canConfirm) return;
-    onSelect({ dateIso: selectedDay.iso, dateLabel: selectedDay.label, timeSlot: selectedTime! });
-    onClose();
-  };
-
-  return (
-    <div className="mt-3 bg-[#f9f8f6] rounded-2xl p-4 border border-[#e4e2e2] space-y-4">
-      {/* Gün seçimi */}
-      <div>
-        <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#727973] mb-2">
-          Teslimat Günü
-        </p>
-        <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
-          {days.map(d => (
-            <button
-              key={d.iso}
-              onClick={() => setSelectedDay(d)}
-              className={cn(
-                "flex-shrink-0 flex flex-col items-center gap-0.5 px-3 py-2.5 rounded-xl border text-center transition-all duration-150 min-w-[68px]",
-                selectedDay.iso === d.iso
-                  ? "border-[#163426] bg-[#163426] text-white"
-                  : "border-[#e4e2e2] bg-white text-[#424844] hover:border-[#163426]/40"
-              )}
-            >
-              <span className="text-[10px] font-semibold tracking-wide">
-                {d.isToday ? "BUGÜN" : d.isTomorrow ? "YARIN" : d.short.split(" ")[1]?.toUpperCase()}
-              </span>
-              <span className="text-[15px] font-heading font-medium">{d.short.split(" ")[0]}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Saat dilimi — her zaman görünür */}
-      <div>
-        <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#727973] mb-2">
-          Teslimat Saati
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          {TIME_SLOTS.map(slot => (
-            <button
-              key={slot}
-              onClick={() => setSelectedTime(slot)}
-              className={cn(
-                "py-2.5 px-3 rounded-xl border text-[13px] font-semibold transition-all duration-150",
-                selectedTime === slot
-                  ? "border-[#163426] bg-[#163426] text-white"
-                  : "border-[#e4e2e2] bg-white text-[#424844] hover:border-[#163426]/40"
-              )}
-            >
-              {slot}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Aksiyon butonları */}
-      <div className="flex gap-2 pt-1">
-        <button
-          onClick={onClose}
-          className="flex-1 py-2.5 rounded-xl border border-[#e4e2e2] text-[13px] font-semibold text-[#727973] hover:bg-[#f5f3f3] transition-colors"
-        >
-          İptal
-        </button>
-        <button
-          onClick={handleConfirm}
-          disabled={!canConfirm}
-          className="flex-1 py-2.5 rounded-xl bg-[#163426] text-white text-[13px] font-bold tracking-wide disabled:opacity-40 hover:bg-[#1e4434] active:scale-[0.98] transition-all"
-        >
-          Onayla
-        </button>
-      </div>
-    </div>
-  );
-}
 
 /* ── useMounted ──────────────────────────────────────────────── */
 function useMounted() {
@@ -272,12 +155,10 @@ function EmptyCart() {
 /* ── Ana CartContent ─────────────────────────────────────────── */
 export function CartContent() {
   const mounted = useMounted();
-  const { items, removeItem, updateQuantity, setDelivery, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
+  const { items, removeItem, updateQuantity, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const currency = useCurrencyStore((s) => s.currency);
   const rates    = useCurrencyStore((s) => s.rates);
 
-  /* Hangi ürünün tarih seçici açık olduğunu tut */
-  const [pickerOpen, setPickerOpen] = useState<string | null>(null);
 
   /* Site ayarları — API'den çek, yoksa varsayılan */
   const [siteSettings, setSiteSettings] = useState(DEFAULT_SITE_SETTINGS);
@@ -295,9 +176,6 @@ export function CartContent() {
       .catch(() => {});
   }, []);
 
-  const handleDelivery = useCallback((productId: string, slot: DeliverySlot) => {
-    setDelivery(productId, slot);
-  }, [setDelivery]);
 
   if (!mounted) return <CartSkeleton />;
 
@@ -330,7 +208,6 @@ export function CartContent() {
             {items.map(({ product, quantity, delivery }) => {
               const unitPrice = product.salePrice ?? product.price;
               const imgSrc    = product.images?.[0] ?? "/images/urunler/urun-1a.jpg";
-              const isPickerOpen = pickerOpen === product.id;
 
               return (
                 <article key={product.id}
@@ -385,48 +262,20 @@ export function CartContent() {
                   </div>
 
                   {/* Teslimat Tarihi */}
-                  <div className="mt-3 pt-3 border-t border-[#f5f3f3]">
-                    {delivery ? (
-                      <div className="flex items-center justify-between gap-2">
-                        <div>
-                          <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#727973]">Teslimat Tarihi</p>
-                          <p className="text-[13px] font-medium text-[#1b1c1c] mt-0.5">
-                            {delivery.dateLabel}, {delivery.timeSlot}
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => setPickerOpen(isPickerOpen ? null : product.id)}
-                          className="text-[12px] text-[#163426] font-semibold hover:text-[#1e4434] transition-colors underline underline-offset-2 flex-shrink-0">
-                          Değiştir
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setPickerOpen(isPickerOpen ? null : product.id)}
-                        className="flex items-center gap-2 w-full text-left group/dt">
-                        <div className="w-7 h-7 rounded-full bg-[#163426]/8 flex items-center justify-center flex-shrink-0 group-hover/dt:bg-[#163426]/15 transition-colors">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#163426" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                          </svg>
-                        </div>
-                        <span className="text-[13px] font-semibold text-[#163426] group-hover/dt:text-[#1e4434] transition-colors">
-                          Teslimat tarihi seçin
-                        </span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#163426" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-auto flex-shrink-0">
-                          <polyline points="9 18 15 12 9 6"/>
+                  {delivery && (
+                    <div className="mt-3 pt-3 border-t border-[#f5f3f3] flex items-center gap-3">
+                      <div className="w-7 h-7 rounded-full bg-[#163426]/8 flex items-center justify-center flex-shrink-0">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#163426" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                         </svg>
-                      </button>
-                    )}
-
-                    {isPickerOpen && (
-                      <DeliveryPicker
-                        current={delivery}
-                        onSelect={(slot) => handleDelivery(product.id, slot)}
-                        onClose={() => setPickerOpen(null)}
-                      />
-                    )}
-                  </div>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#727973]">Teslimat Tarihi</p>
+                        <p className="text-[13px] font-medium text-[#1b1c1c] mt-0.5">{delivery.dateLabel}, {delivery.timeSlot}</p>
+                      </div>
+                    </div>
+                  )}
                 </article>
               );
             })}
