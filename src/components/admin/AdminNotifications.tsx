@@ -101,6 +101,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
         const toastId = `toast-${order.id}`;
         setToasts((p) => [...p, { ...order, toastId }]);
         setTimeout(() => dismissToast(toastId), 6000);
+        try { new Audio("/sounds/order.wav").play(); } catch {}
       })
       .subscribe();
 
