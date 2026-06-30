@@ -225,10 +225,23 @@ const TR_MONTHS = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","A
 const TIME_SLOTS = ["09:00-13:00","12:00-16:00","14:00-20:00","18:00-22:00"];
 interface DayOption { iso: string; label: string; short: string; isToday: boolean; isTomorrow: boolean; }
 
+function isoToDayOption(iso: string): DayOption {
+  const d = new Date(iso + "T12:00:00");
+  const day   = TR_DAYS[d.getDay()];
+  const month = TR_MONTHS[d.getMonth()];
+  return {
+    iso,
+    label: `${d.getDate()} ${month}, ${day}`,
+    short: `${d.getDate()} ${month.slice(0,3)}`,
+    isToday: false,
+    isTomorrow: false,
+  };
+}
+
 function getDeliveryDays(): DayOption[] {
   const now   = new Date();
   const start = now.getHours() < 14 ? 0 : 1;
-  return Array.from({ length: 30 }, (_, idx) => {
+  return Array.from({ length: 6 }, (_, idx) => {
     const d = new Date(now);
     d.setDate(now.getDate() + start + idx);
     const iso   = d.toISOString().split("T")[0];
@@ -250,9 +263,18 @@ function InlineDeliveryPicker({ value, onConfirm }: {
 }) {
   const days = getDeliveryDays();
   const [selectedDay, setSelectedDay] = useState<DayOption>(
-    value ? (days.find(d => d.iso === value.dateIso) ?? days[0]) : days[0]
+    value ? (days.find(d => d.iso === value.dateIso) ?? isoToDayOption(value.dateIso)) : days[0]
   );
   const [selectedTime, setSelectedTime] = useState<string | null>(value?.timeSlot ?? null);
+  const calendarRef = useRef<HTMLInputElement>(null);
+
+  const minDate = days[0].iso;
+  const isCustomDay = !days.some(d => d.iso === selectedDay.iso);
+
+  const handleCalendarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.value) return;
+    setSelectedDay(isoToDayOption(e.target.value));
+  };
 
   return (
     <div className="bg-[#f9f8f6] rounded-2xl p-4 border border-[#e4e2e2] space-y-4">
@@ -273,6 +295,35 @@ function InlineDeliveryPicker({ value, onConfirm }: {
               <span className="text-[15px] font-heading font-medium">{d.short.split(" ")[0]}</span>
             </button>
           ))}
+
+          {/* + butonu → takvim */}
+          <div className="relative flex-shrink-0">
+            <button type="button"
+              onClick={() => calendarRef.current?.showPicker?.()}
+              className={cn(
+                "flex flex-col items-center justify-center gap-0.5 px-3 py-2.5 rounded-xl border text-center transition-all duration-150 min-w-[68px] h-full",
+                isCustomDay
+                  ? "border-[#163426] bg-[#163426] text-white"
+                  : "border-[#e4e2e2] bg-white text-[#424844] hover:border-[#163426]/40"
+              )}>
+              {isCustomDay ? (
+                <>
+                  <span className="text-[10px] font-semibold tracking-wide">{selectedDay.short.split(" ")[1]?.toUpperCase()}</span>
+                  <span className="text-[15px] font-heading font-medium">{selectedDay.short.split(" ")[0]}</span>
+                </>
+              ) : (
+                <span className="text-[22px] font-light leading-none">+</span>
+              )}
+            </button>
+            <input
+              ref={calendarRef}
+              type="date"
+              min={minDate}
+              value={isCustomDay ? selectedDay.iso : ""}
+              onChange={handleCalendarChange}
+              className="absolute inset-0 opacity-0 pointer-events-none w-full h-full"
+            />
+          </div>
         </div>
       </div>
       <div>
