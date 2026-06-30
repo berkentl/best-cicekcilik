@@ -226,7 +226,8 @@ const TIME_SLOTS = ["09:00-13:00","12:00-16:00","14:00-20:00","18:00-22:00"];
 interface DayOption { iso: string; label: string; short: string; isToday: boolean; isTomorrow: boolean; }
 
 function isoToDayOption(iso: string): DayOption {
-  const d = new Date(iso + "T12:00:00");
+  const [y, mo, dd] = iso.split("-").map(Number);
+  const d = new Date(y, mo - 1, dd);
   const day   = TR_DAYS[d.getDay()];
   const month = TR_MONTHS[d.getMonth()];
   return {
@@ -238,13 +239,17 @@ function isoToDayOption(iso: string): DayOption {
   };
 }
 
+function localIso(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
 function getDeliveryDays(): DayOption[] {
   const now   = new Date();
   const start = now.getHours() < 14 ? 0 : 1;
   return Array.from({ length: 6 }, (_, idx) => {
     const d = new Date(now);
     d.setDate(now.getDate() + start + idx);
-    const iso   = d.toISOString().split("T")[0];
+    const iso   = localIso(d);
     const day   = TR_DAYS[d.getDay()];
     const month = TR_MONTHS[d.getMonth()];
     return {
@@ -268,7 +273,7 @@ function InlineDeliveryPicker({ value, onConfirm }: {
   const [selectedTime, setSelectedTime] = useState<string | null>(value?.timeSlot ?? null);
   const calendarRef = useRef<HTMLInputElement>(null);
 
-  const minDate = days[0].iso;
+  const minDate = localIso(new Date());
   const isCustomDay = !days.some(d => d.iso === selectedDay.iso);
 
   const handleCalendarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
