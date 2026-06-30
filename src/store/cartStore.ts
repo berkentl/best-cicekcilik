@@ -21,9 +21,13 @@ export interface AppliedCoupon {
   discount: number;
 }
 
+export interface CartFlash { product: Product; quantity: number; }
+
 interface CartStore {
   items:    CartItem[];
   coupon:   AppliedCoupon | null;
+  flash:    CartFlash | null;
+  clearFlash: () => void;
   addItem:         (product: Product) => void;
   removeItem:      (productId: string) => void;
   updateQuantity:  (productId: string, quantity: number) => void;
@@ -46,15 +50,19 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
       items:  [],
       coupon: null,
+      flash:  null,
+
+      clearFlash: () => set({ flash: null }),
 
       addItem: (product) => {
         const existing = get().items.find((i) => i.product.id === product.id);
+        const newQty = existing ? existing.quantity + 1 : 1;
         if (existing) {
           set({ items: get().items.map((i) =>
             i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
-          )});
+          ), flash: { product, quantity: newQty } });
         } else {
-          set({ items: [...get().items, { product, quantity: 1 }] });
+          set({ items: [...get().items, { product, quantity: 1 }], flash: { product, quantity: 1 } });
         }
       },
 

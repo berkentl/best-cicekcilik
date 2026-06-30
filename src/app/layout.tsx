@@ -4,6 +4,7 @@ import { WhatsAppIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/data";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { StoreHydration } from "@/components/StoreHydration";
+import { MiniCartPreview } from "@/components/MiniCartPreview";
 import "./globals.css";
 
 const kumbhSans = Kumbh_Sans({
@@ -51,6 +52,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans">
         <StoreHydration />
+        <MiniCartPreview />
         <CurrencyProvider>
         {children}
         </CurrencyProvider>

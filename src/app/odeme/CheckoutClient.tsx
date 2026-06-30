@@ -299,7 +299,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className={labelClass}>Teslimat Tarihi *</label>
-                        <input required type="date" className={inputBase}
+                        <input required type="date" className={inputBase + " block w-full min-w-0 [&::-webkit-date-and-time-value]:text-left"}
                           min={new Date().toISOString().split("T")[0]}
                           value={form.deliveryDate} onChange={(e) => update("deliveryDate", e.target.value)} />
                       </div>

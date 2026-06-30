@@ -14,7 +14,7 @@ import {
 } from "@tanstack/react-table";
 import { supabase } from "@/lib/supabase";
 
-type OrderStatus = "Yeni" | "Hazırlanıyor" | "Kargoya Verildi" | "Teslim Edildi" | "İptal" | "İade";
+type OrderStatus = "Yeni" | "Hazırlanıyor" | "Kargoya Verildi" | "Teslim Edildi" | "İptal" | "İade" | "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
 
 interface OrderItem { name: string; qty: number; price: number }
 interface Order {
@@ -45,6 +45,11 @@ const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: str
   "Teslim Edildi":   { color: "text-green-700",  bg: "bg-green-100",  label: "Teslim Edildi" },
   "İptal":           { color: "text-red-700",    bg: "bg-red-100",    label: "İptal" },
   "İade":            { color: "text-orange-700", bg: "bg-orange-100", label: "İade" },
+  "pending":         { color: "text-gray-600",   bg: "bg-gray-100",   label: "Bekliyor" },
+  "confirmed":       { color: "text-blue-700",   bg: "bg-blue-100",   label: "Onaylandı" },
+  "shipped":         { color: "text-purple-700", bg: "bg-purple-100", label: "Yola Çıktı" },
+  "delivered":       { color: "text-green-700",  bg: "bg-green-100",  label: "Teslim Edildi" },
+  "cancelled":       { color: "text-red-700",    bg: "bg-red-100",    label: "İptal Edildi" },
 };
 
 const ALL_STATUSES = Object.keys(STATUS_CONFIG) as OrderStatus[];

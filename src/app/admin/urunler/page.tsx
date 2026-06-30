@@ -113,7 +113,7 @@ export default function AdminProductsPage() {
   const fetchAll = async () => {
     setLoading(true);
     const [pRes, cRes] = await Promise.all([
-      fetch("/api/products?active=false"),
+      fetch("/api/products?active=false&list=1"),
       fetch("/api/categories"),
     ]);
     if (pRes.ok) setProducts(await pRes.json());

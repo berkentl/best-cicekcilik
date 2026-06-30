@@ -73,12 +73,25 @@ function buildRange(preset: Preset): DateRange {
 
 // ─── Bileşenler ──────────────────────────────────────────────────────────────
 
+const STATUS_TR: Record<string, string> = {
+  pending: "Bekliyor", confirmed: "Onaylandı", shipped: "Yola Çıktı",
+  delivered: "Teslim Edildi", cancelled: "İptal Edildi",
+};
 const STATUS_COLORS: Record<string, string> = {
   "Yeni": "bg-blue-100 text-blue-700",
+  "Bekliyor": "bg-gray-100 text-gray-600",
   "Hazırlanıyor": "bg-yellow-100 text-yellow-700",
+  "Onaylandı": "bg-blue-100 text-blue-700",
   "Kargoya Verildi": "bg-purple-100 text-purple-700",
+  "Yola Çıktı": "bg-purple-100 text-purple-700",
   "Teslim Edildi": "bg-green-100 text-green-700",
   "İptal": "bg-red-100 text-red-700",
+  "İptal Edildi": "bg-red-100 text-red-700",
+  "pending": "bg-gray-100 text-gray-600",
+  "confirmed": "bg-blue-100 text-blue-700",
+  "shipped": "bg-purple-100 text-purple-700",
+  "delivered": "bg-green-100 text-green-700",
+  "cancelled": "bg-red-100 text-red-700",
 };
 
 function TrendBadge({ current, prev }: { current: number; prev: number }) {
@@ -439,7 +452,7 @@ export default function AdminDashboard() {
                     <div className="flex items-center gap-2">
                       <span className="text-[13px] font-bold text-[#1d3435]">{o.order_number}</span>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${STATUS_COLORS[o.status] ?? "bg-gray-100 text-gray-600"}`}>
-                        {o.status}
+                        {STATUS_TR[o.status] ?? o.status}
                       </span>
                     </div>
                     <p className="text-[12px] text-[#999]">{o.customer_name} · {formatDate(o.created_at)}</p>

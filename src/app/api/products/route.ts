@@ -9,10 +9,10 @@ export async function GET(request: Request) {
 
   try {
     const sb = createServerClient();
-    let query = sb
-      .from("products")
-      .select("*, product_variants(*)")
-      .order("created_at", { ascending: false });
+    const adminList = searchParams.get("list") === "1";
+    let query = adminList
+      ? sb.from("products").select("id,name,slug,price,sale_price,images,category_name,category_slug,is_active,is_new,is_bestseller,stock,sales_count").order("created_at", { ascending: false })
+      : sb.from("products").select("*, product_variants(*)").order("created_at", { ascending: false });
 
     if (activeOnly) query = query.eq("is_active", true);
     if (categorySlug && categorySlug !== "tum-urunler") {
@@ -39,15 +39,13 @@ export async function POST(request: Request) {
     // Slug çakışmasını önlemek için benzersiz slug bul
     const baseSlug = (body.slug as string) || "";
     let finalSlug = baseSlug;
-    let attempt = 0;
-    while (true) {
+    for (let attempt = 1; attempt <= 20; attempt++) {
       const { data: existing } = await sb
         .from("products")
         .select("id")
         .eq("slug", finalSlug)
         .maybeSingle();
       if (!existing) break;
-      attempt++;
       finalSlug = `${baseSlug}-${attempt}`;
     }
 

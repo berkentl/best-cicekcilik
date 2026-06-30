@@ -156,22 +156,20 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
               <div className="absolute right-0 top-10 z-50 w-72 bg-white rounded-xl shadow-2xl border border-[#ebebeb] p-4">
                 <p className="text-[11px] font-bold uppercase tracking-widest text-[#999] mb-3">Bildirim Ayarları</p>
 
-                {pushSupported ? (
-                  <div className="flex items-center justify-between bg-[#f9f9f9] rounded-lg px-4 py-3 mb-3">
-                    <div>
-                      <p className="text-[13px] font-semibold text-[#1d3435]">Web Push</p>
-                      <p className="text-[11px] text-[#999]">Tarayıcı arka plan bildirimi</p>
-                    </div>
+                <div className="flex items-center justify-between bg-[#f9f9f9] rounded-lg px-4 py-3 mb-3">
+                  <div>
+                    <p className="text-[13px] font-semibold text-[#1d3435]">Arka Plan Bildirimi</p>
+                    <p className="text-[11px] text-[#999]">{pushSupported ? "Tarayıcı push bildirimi" : "Cihaz ana ekrana eklenmeli"}</p>
+                  </div>
+                  {pushSupported ? (
                     <button onClick={handlePushToggle}
                       className={`relative w-11 h-6 rounded-full transition-colors ${pushEnabled ? "bg-[#3d7b74]" : "bg-[#e0e0e0]"}`}>
                       <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${pushEnabled ? "left-6" : "left-1"}`} />
                     </button>
-                  </div>
-                ) : (
-                  <p className="text-[12px] text-[#999] bg-[#f9f9f9] rounded-lg px-4 py-3 mb-3">
-                    Bu tarayıcı Web Push bildirimleri desteklemiyor veya VAPID anahtarı eksik.
-                  </p>
-                )}
+                  ) : (
+                    <span className="text-[11px] text-[#3d7b74] font-semibold">PWA</span>
+                  )}
+                </div>
 
                 <div className="text-[11px] text-[#999] bg-[#f5f5f5] rounded-lg px-3 py-2.5 leading-relaxed">
                   Realtime bildirimler her zaman açık — yeni sipariş geldiğinde sağ altta toast mesajı gösterilir.

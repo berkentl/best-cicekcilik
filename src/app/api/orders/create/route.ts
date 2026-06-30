@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       payment_method: form.paymentMethod,
       notes: form.notes || null,
       tracking_step: 0,
-      status: "pending",
+      status: "Yeni",
       estimated_delivery: `${form.deliveryDate} ${form.deliveryTime}`,
     }).select().single();
 
