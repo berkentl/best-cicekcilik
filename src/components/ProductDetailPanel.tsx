@@ -228,7 +228,7 @@ interface DayOption { iso: string; label: string; short: string; isToday: boolea
 function getDeliveryDays(): DayOption[] {
   const now   = new Date();
   const start = now.getHours() < 14 ? 0 : 1;
-  return Array.from({ length: 7 }, (_, idx) => {
+  return Array.from({ length: 30 }, (_, idx) => {
     const d = new Date(now);
     d.setDate(now.getDate() + start + idx);
     const iso   = d.toISOString().split("T")[0];
