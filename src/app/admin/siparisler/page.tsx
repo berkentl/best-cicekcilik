@@ -14,7 +14,7 @@ import {
 } from "@tanstack/react-table";
 import { supabase } from "@/lib/supabase";
 
-type OrderStatus = "Yeni" | "Hazırlanıyor" | "Kargoya Verildi" | "Teslim Edildi" | "İptal" | "İade" | "pending" | "confirmed" | "shipped" | "delivered" | "cancelled";
+type OrderStatus = "Yeni" | "Hazırlanıyor" | "Kargoya Verildi" | "Teslim Edildi" | "İptal" | "İade";
 
 interface OrderItem { name: string; qty: number; price: number }
 interface Order {
@@ -50,16 +50,9 @@ const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: str
   "Teslim Edildi":   { color: "text-green-700",  bg: "bg-green-100",  label: "Teslim Edildi" },
   "İptal":           { color: "text-red-700",    bg: "bg-red-100",    label: "İptal" },
   "İade":            { color: "text-orange-700", bg: "bg-orange-100", label: "İade" },
-  "pending":         { color: "text-gray-600",   bg: "bg-gray-100",   label: "Bekliyor" },
-  "confirmed":       { color: "text-blue-700",   bg: "bg-blue-100",   label: "Onaylandı" },
-  "shipped":         { color: "text-purple-700", bg: "bg-purple-100", label: "Yola Çıktı" },
-  "delivered":       { color: "text-green-700",  bg: "bg-green-100",  label: "Teslim Edildi" },
-  "cancelled":       { color: "text-red-700",    bg: "bg-red-100",    label: "İptal Edildi" },
 };
 
-// Dropdown'da gösterilecek seçenekler — sadece Türkçe, İngilizce eski statüler hariç
 const SELECTABLE_STATUSES: OrderStatus[] = ["Yeni", "Hazırlanıyor", "Kargoya Verildi", "Teslim Edildi", "İptal", "İade"];
-const ALL_STATUSES = Object.keys(STATUS_CONFIG) as OrderStatus[];
 
 function formatDate(iso: string) {
   try {
@@ -285,7 +278,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
             disabled={saving}
             className="ml-auto text-[12px] font-semibold text-[#1d3435] bg-white border border-[#e2ddd8] rounded-lg px-3 py-2 focus:outline-none focus:border-[#3d7b74] focus:ring-2 focus:ring-[#3d7b74]/15 transition-all disabled:opacity-50 cursor-pointer"
           >
-            {ALL_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+            {SELECTABLE_STATUSES.map((s) => <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>)}
           </select>
           {saving && (
             <svg className="w-4 h-4 text-[#3d7b74] animate-spin flex-shrink-0" fill="none" viewBox="0 0 24 24">
@@ -373,7 +366,8 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#a09890] mb-3">Sipariş İçeriği</p>
             <div className="border border-[#ede8e3] rounded-xl overflow-hidden">
-              <table className="w-full">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[420px]">
                 <thead>
                   <tr className="bg-[#faf8f6] border-b border-[#ede8e3]">
                     {[["Ürün", ""], ["Adet", "text-center"], ["Birim", "text-right"], ["Toplam", "text-right"]].map(([h, cls]) => (
@@ -430,6 +424,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
                   </tr>
                 </tfoot>
               </table>
+            </div>
             </div>
           </div>
 
@@ -542,7 +537,7 @@ export default function AdminSiparislerPage() {
 
   const statusCounts = useMemo(() => {
     const counts: Record<string, number> = { all: orders.length };
-    for (const s of ALL_STATUSES) counts[s] = orders.filter((o) => o.status === s).length;
+    for (const s of SELECTABLE_STATUSES) counts[s] = orders.filter((o) => o.status === s).length;
     return counts;
   }, [orders]);
 
