@@ -89,7 +89,16 @@ export const useCartStore = create<CartStore>()(
       totalPrice:  () => get().items.reduce(
         (s, i) => s + (i.product.salePrice ?? i.product.price) * i.quantity, 0
       ),
-      discountAmount: () => get().coupon?.discount ?? 0,
+      discountAmount: () => {
+        const coupon = get().coupon;
+        if (!coupon) return 0;
+        if (coupon.type === "percent") {
+          // Her sepet değişikliğinde yüzdeyi yeniden hesapla
+          return Math.round(get().totalPrice() * coupon.value / 100);
+        }
+        // Sabit indirim: sepet toplamını aşamaz
+        return Math.min(coupon.value, get().totalPrice());
+      },
     }),
     { name: "best-cicekcilik-cart", skipHydration: true }
   )

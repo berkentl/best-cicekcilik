@@ -183,10 +183,10 @@ export function CartContent() {
   const discount      = discountAmount();
   const afterDiscount = Math.max(0, subtotal - discount);
 
-  const shippingResult = calculateShipping(items, null, siteSettings, discount);
+  const shippingResult = calculateShipping(items, null, siteSettings);
   const shipping       = shippingResult.fee;
   const shippingFree   = shippingResult.isFree;
-  const remaining      = remainingForFreeShipping(items, siteSettings.freeShippingThreshold, discount);
+  const remaining      = remainingForFreeShipping(items, siteSettings.freeShippingThreshold);
 
   const grandTotal    = afterDiscount + shipping;
 

@@ -64,13 +64,12 @@ export function calculateShipping(
   items: CartItem[],
   zone: ShippingZone | null,
   settings: Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold">,
-  discountAmount = 0
+  _discountAmount = 0   // artık kullanılmıyor; eşik indirim öncesi tutara göre belirlenir
 ): ShippingResult {
   const rawTotal = items.reduce(
     (sum, i) => sum + (i.product.salePrice ?? i.product.price) * i.quantity,
     0
   );
-  const cartTotal = Math.max(0, rawTotal - discountAmount);
 
   // Adım 1 — ilçe bazlı kargo
   const zoneExtra = zone?.extraFee ?? 0;
@@ -88,10 +87,10 @@ export function calculateShipping(
     customOverride = true;
   }
 
-  // Adım 3 — ücretsiz kargo limiti
+  // Adım 3 — ücretsiz kargo limiti (indirim öncesi sepet toplamına göre)
   if (
     settings.freeShippingThreshold > 0 &&
-    cartTotal >= settings.freeShippingThreshold
+    rawTotal >= settings.freeShippingThreshold
   ) {
     return { fee: 0, isFree: true, zoneExtra, customOverride };
   }
@@ -99,15 +98,15 @@ export function calculateShipping(
   return { fee, isFree: false, zoneExtra, customOverride };
 }
 
-/** Kalan tutarı hesapla (ücretsiz kargo için ne kadar daha gerekiyor) */
+/** Kalan tutarı hesapla (ücretsiz kargo için ne kadar daha gerekiyor — indirim öncesi toplam) */
 export function remainingForFreeShipping(
   items: CartItem[],
   threshold: number,
-  discountAmount = 0
+  _discountAmount = 0   // artık kullanılmıyor
 ): number {
   const total = items.reduce(
     (sum, i) => sum + (i.product.salePrice ?? i.product.price) * i.quantity,
     0
   );
-  return Math.max(0, threshold - Math.max(0, total - discountAmount));
+  return Math.max(0, threshold - total);
 }

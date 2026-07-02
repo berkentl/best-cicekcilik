@@ -67,7 +67,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
 
   const subtotal = totalPrice();
   const discount = discountAmount();
-  const shippingResult = calculateShipping(items, null, siteSettings, discount);
+  const shippingResult = calculateShipping(items, null, siteSettings);
   const shipping = shippingResult.fee;
   const shippingFree = shippingResult.isFree;
 
@@ -512,9 +512,9 @@ export function CheckoutClient({ paymentSettings }: Props) {
                       )}
                     </button>
 
-                    {shipping > 0 && (
+                    {shipping > 0 && siteSettings.freeShippingThreshold > 0 && subtotal < siteSettings.freeShippingThreshold && (
                       <p className="text-[11px] text-[#3d7b74] text-center mt-3 font-medium">
-                        ₺{(500 - subtotal).toLocaleString("tr-TR")} daha ekle, kargo ücretsiz!
+                        ₺{(siteSettings.freeShippingThreshold - subtotal).toLocaleString("tr-TR")} daha ekle, kargo ücretsiz!
                       </p>
                     )}
 
