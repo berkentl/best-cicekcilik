@@ -88,7 +88,7 @@ export function DeliverySection() {
               transition={{ duration: 0.5, delay: 0.08 }}
               className="font-heading text-3xl md:text-4xl text-white font-medium mb-5 leading-tight"
             >
-              Türkiye'nin Her
+              Türkiye&apos;nin Her
               <br />
               <span className="text-[#6dbfb8]">Köşesine Çiçek</span>
               <br />

@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 import Link from "next/link";
 import {
   Flower2,
@@ -176,7 +176,7 @@ export function HakkimizdaSection() {
           className="text-center max-w-2xl mx-auto mb-16 text-[#545454] text-[15px] leading-relaxed"
           variants={itemVariants}
         >
-          Şişli/İstanbul'da kurulu atölyemizde, her gün taze çiçeklerle özel tasarımlar hazırlıyoruz.
+          Şişli/İstanbul&apos;da kurulu atölyemizde, her gün taze çiçeklerle özel tasarımlar hazırlıyoruz.
           Sevdiklerinize en güzel anları yaşatmak için titizlikle çalışıyor, her siparişe kalbimizi
           koyuyoruz.
         </motion.p>
@@ -318,7 +318,7 @@ export function HakkimizdaSection() {
               Sevdiklerinize Çiçek Göndermeye Hazır mısınız?
             </h3>
             <p className="text-white/70 text-[14px]">
-              Aynı gün teslimat ile İstanbul'un her noktasına — hemen sipariş verin.
+              Aynı gün teslimat ile İstanbul&apos;un her noktasına — hemen sipariş verin.
             </p>
           </div>
           <Link href="/tum-urunler">
@@ -403,10 +403,10 @@ function StatCounter({ icon, value, label, suffix, delay }: StatCounterProps) {
   useEffect(() => {
     if (isInView && !hasAnimated) {
       springValue.set(value);
-      setHasAnimated(true);
+      startTransition(() => setHasAnimated(true));
     } else if (!isInView && hasAnimated) {
       springValue.set(0);
-      setHasAnimated(false);
+      startTransition(() => setHasAnimated(false));
     }
   }, [isInView, value, springValue, hasAnimated]);
 

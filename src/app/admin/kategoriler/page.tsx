@@ -242,7 +242,7 @@ export default function AdminKategorilerPage() {
 
                 {megaMenu.length === 0 && (
                   <p className="text-[12px] text-[#bbb] py-3 text-center border border-dashed border-[#e8e8e8] rounded-sm">
-                    Alt kategori yok. "Grup Ekle" ile dropdown menü oluşturabilirsin.
+                    Alt kategori yok. &quot;Grup Ekle&quot; ile dropdown menü oluşturabilirsin.
                   </p>
                 )}
 

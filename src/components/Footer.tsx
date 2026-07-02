@@ -27,7 +27,7 @@ export async function Footer() {
               </span>
             </div>
             <p className="text-[13px] text-white/70 leading-relaxed mb-6">
-              İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri.
+              İstanbul Şişli&apos;de lüks çiçek tasarımı ve organizasyon hizmetleri.
               Aynı gün teslimat ile sevdiklerinize en güzel çiçekleri
               ulaştırıyoruz.
             </p>

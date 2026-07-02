@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
@@ -45,8 +45,8 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
 
     // Zustand rehydrasyon tamamlandıktan sonra (StoreHydration useLayoutEffect'i çalışır)
     // şu anki gerçek değerleri al, ardından değişimlere subscribe ol
-    setCartCount(useCartStore.getState().totalItems());
-    setWishlistCount(useWishlistStore.getState().items.length);
+    startTransition(() => setCartCount(useCartStore.getState().totalItems()));
+    startTransition(() => setWishlistCount(useWishlistStore.getState().items.length));
     const unsubCart     = useCartStore.subscribe((s) => setCartCount(s.totalItems()));
     const unsubWishlist = useWishlistStore.subscribe((s) => setWishlistCount(s.items.length));
 

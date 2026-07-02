@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
 
 interface Notification {
@@ -54,7 +54,7 @@ export default function BildirimlerPage() {
     setLoading(false);
   }, []);
 
-  useEffect(() => { fetchNotifications(); }, [fetchNotifications]);
+  useEffect(() => { startTransition(() => { fetchNotifications(); }); }, [fetchNotifications]);
 
   const markAllRead = async () => {
     await fetch("/api/admin/notifications", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ all: true }) });

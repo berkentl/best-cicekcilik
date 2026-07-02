@@ -1,5 +1,5 @@
 "use client";
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState, startTransition } from "react";
 
 const identityMatrix =
   "1, 0, 0, 0, " +
@@ -121,7 +121,7 @@ export function BestsellerBadge() {
   };
 
   useEffect(() => {
-    if (isTimeoutFinished) setMatrix(currentMatrix);
+    if (isTimeoutFinished) startTransition(() => setMatrix(currentMatrix));
   }, [currentMatrix, isTimeoutFinished]);
 
   const overlayAnimations = [...Array(10).keys()].map((e) => `

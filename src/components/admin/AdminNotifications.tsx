@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, startTransition } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 interface NewOrder {
@@ -100,7 +101,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>("default");
   const [env, setEnv] = useState({ isIOS: false, isPWA: false, notifSupported: false });
 
-  useEffect(() => { setEnv(getEnv()); }, []);
+  useEffect(() => { startTransition(() => setEnv(getEnv())); }, []);
 
   /* İlk kullanıcı etkileşiminde AudioContext'i unlock et */
   useEffect(() => {
@@ -117,7 +118,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
   useEffect(() => {
     if (!("Notification" in window)) return;
     const perm = Notification.permission;
-    setNotifPermission(perm);
+    startTransition(() => setNotifPermission(perm));
     if (perm === "default") {
       const t = setTimeout(() => {
         Notification.requestPermission().then((p) => setNotifPermission(p));
@@ -272,16 +273,16 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                 {env.isIOS && !env.isPWA ? (
                   <div className="space-y-2 mb-3">
                     <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-3">
-                      <p className="text-[12px] font-semibold text-amber-800 mb-1">iPhone'da bildirim almak için:</p>
+                      <p className="text-[12px] font-semibold text-amber-800 mb-1">iPhone&apos;da bildirim almak için:</p>
                       <ol className="text-[11px] text-amber-700 space-y-1 list-none">
-                        <li>1. Safari'de alttaki <strong>Paylaş</strong> butonuna bas <span className="text-[13px]">⬆</span></li>
-                        <li>2. <strong>"Ana Ekrana Ekle"</strong> seç</li>
+                        <li>1. Safari&apos;de alttaki <strong>Paylaş</strong> butonuna bas <span className="text-[13px]">⬆</span></li>
+                        <li>2. <strong>&quot;Ana Ekrana Ekle&quot;</strong> seç</li>
                         <li>3. Ana ekrandaki <strong>Best Çiçekçilik</strong> ikonundan aç</li>
                         <li>4. Bildirime izin ver — artık sipariş bildirimleri gelecek</li>
                       </ol>
                     </div>
                     <div className="text-[11px] text-[#999] bg-[#f5f5f5] rounded-lg px-3 py-2.5 leading-relaxed">
-                      Şu an Safari tarayıcısındasınız. Apple, Safari'de bildirimlere izin vermez — sadece ana ekrandan açılan uygulamalarda çalışır.
+                      Şu an Safari tarayıcısındasınız. Apple, Safari&apos;de bildirimlere izin vermez — sadece ana ekrandan açılan uygulamalarda çalışır.
                     </div>
                   </div>
                 ) : (
@@ -313,7 +314,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
 
                     {notifPermission === "denied" && (
                       <p className="text-[11px] text-red-500 bg-red-50 rounded-lg px-3 py-2 mb-2 leading-relaxed">
-                        Bildirimler engellenmiş. Adres çubuğundaki kilit ikonuna tıklayıp "Bildirimler" iznini açın.
+                        Bildirimler engellenmiş. Adres çubuğundaki kilit ikonuna tıklayıp &quot;Bildirimler&quot; iznini açın.
                       </p>
                     )}
 
@@ -334,7 +335,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                   </>
                 )}
 
-                <a
+                <Link
                   href="/admin/bildirimler"
                   onClick={() => setShowSettings(false)}
                   className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg border border-[#ebebeb] text-[12px] font-semibold text-[#1d3435] hover:bg-[#f5f5f5] transition-colors"
@@ -345,7 +346,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                       {unreadCount}
                     </span>
                   )}
-                </a>
+                </Link>
               </div>
             </>
           )}

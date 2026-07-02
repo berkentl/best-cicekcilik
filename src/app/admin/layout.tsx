@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminNotifications } from "@/components/admin/AdminNotifications";
@@ -209,7 +209,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [authed, incrementOrder]);
 
   useEffect(() => {
-    if (pathname === "/admin/siparisler") setNewOrderCount(0);
+    if (pathname === "/admin/siparisler") startTransition(() => setNewOrderCount(0));
   }, [pathname]);
 
   useEffect(() => {

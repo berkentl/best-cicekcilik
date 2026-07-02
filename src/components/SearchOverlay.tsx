@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, startTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types";
@@ -20,8 +20,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
 
   useEffect(() => {
     if (open) {
-      setQuery("");
-      setResults([]);
+      startTransition(() => { setQuery(""); setResults([]); });
       setTimeout(() => inputRef.current?.focus(), 80);
     }
   }, [open]);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
@@ -16,7 +16,7 @@ import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
 /* ── useMounted ──────────────────────────────────────────────── */
 function useMounted() {
   const [m, setM] = useState(false);
-  useEffect(() => { setM(true); }, []);
+  useEffect(() => { startTransition(() => setM(true)); }, []);
   return m;
 }
 

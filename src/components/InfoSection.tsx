@@ -18,9 +18,9 @@ export function InfoSection() {
                 Çiçekler Burada
               </h2>
               <p className="text-[14px] text-[#545454] leading-relaxed mb-6">
-                Şişli/İstanbul'da bulunan atölyemizde her gün taze çiçeklerle
+                Şişli/İstanbul&apos;da bulunan atölyemizde her gün taze çiçeklerle
                 hazırlanan özel tasarımlarımız, sevdiklerinize en güzel şekilde
-                ulaşıyor. Aynı gün teslimat ile İstanbul'un her noktasına çiçek
+                ulaşıyor. Aynı gün teslimat ile İstanbul&apos;un her noktasına çiçek
                 gönderiyoruz.
               </p>
               <Link href="/hakkimizda" className="btn-link">
