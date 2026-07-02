@@ -583,13 +583,13 @@ export default function EditProductPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className={labelCls}>Normal Fiyat (₺) *</label>
-            <input type="number" min="0" step="0.01" {...register("price")}
+            <input type="text" inputMode="decimal" {...register("price")}
               className={errors.price ? inputErrCls : inputCls} />
             <FieldError msg={errors.price?.message} />
           </div>
           <div>
             <label className={labelCls}>İndirimli Fiyat (₺)</label>
-            <input type="number" min="0" step="0.01" {...register("salePrice")}
+            <input type="text" inputMode="decimal" {...register("salePrice")}
               placeholder="Boş bırakın" className={errors.salePrice ? inputErrCls : inputCls} />
             {discountPct > 0 && <p className="text-[11px] text-green-600 mt-1 font-semibold">%{discountPct} indirim uygulanacak</p>}
           </div>

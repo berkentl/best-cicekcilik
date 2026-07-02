@@ -1,21 +1,30 @@
-﻿import { z } from "zod";
+import { z } from "zod";
+
+function coercePrice(val: unknown) {
+  if (typeof val === "number") return val;
+  const str = String(val ?? "").trim().replace(/\s/g, "").replace(",", ".");
+  return str === "" ? undefined : Number(str);
+}
 
 export const variantSchema = z.object({
   id: z.string().optional(),
-  label: z.string().min(1, "Varyant adÄ± zorunludur"),
-  price: z.coerce.number().positive("Varyant fiyatÄ± 0'dan bÃ¼yÃ¼k olmalÄ±dÄ±r"),
-  stock: z.coerce.number().int().min(0, "Stok negatif olamaz"),
+  label: z.string().min(1, "Varyant adı zorunludur"),
+  price: z.preprocess(coercePrice, z.number().positive("Varyant fiyatı 0'dan büyük olmalıdır")),
+  stock: z.preprocess((v) => Number(v), z.number().int().min(0, "Stok negatif olamaz")),
 });
 
 export const productSchema = z
   .object({
-    name: z.string().min(2, "ÃœrÃ¼n adÄ± en az 2 karakter olmalÄ±dÄ±r"),
+    name: z.string().min(2, "Ürün adı en az 2 karakter olmalıdır"),
     slug: z.string().optional(),
     description: z.string().optional(),
-    price: z.coerce.number().positive("Fiyat 0'dan bÃ¼yÃ¼k olmalÄ±dÄ±r"),
-    salePrice: z.coerce.number().min(0).optional(),
-    stock: z.coerce.number().int().min(0, "Stok negatif olamaz"),
-    categorySlug: z.string().min(1, "Ana kategori seÃ§imi zorunludur"),
+    price: z.preprocess(coercePrice, z.number().positive("Fiyat 0'dan büyük olmalıdır")),
+    salePrice: z.preprocess((v) => {
+      const n = coercePrice(v);
+      return n === undefined || isNaN(n as number) || (n as number) === 0 ? undefined : n;
+    }, z.number().min(0).optional()),
+    stock: z.preprocess((v) => Number(v), z.number().int().min(0, "Stok negatif olamaz")),
+    categorySlug: z.string().min(1, "Ana kategori seçimi zorunludur"),
     categoryName: z.string().optional(),
     categoryId: z.string().optional(),
     subCategorySlug: z.string().optional(),
@@ -38,7 +47,7 @@ export const productSchema = z
     if (sp !== undefined && sp > 0 && sp >= data.price) {
       ctx.addIssue({
         code: "custom",
-        message: "Ä°ndirimli fiyat normal fiyattan kÃ¼Ã§Ã¼k olmalÄ±dÄ±r",
+        message: "İndirimli fiyat normal fiyattan küçük olmalıdır",
         path: ["salePrice"],
       });
     }
@@ -46,4 +55,3 @@ export const productSchema = z
 
 export type ProductFormValues = z.infer<typeof productSchema>;
 export type VariantFormValues = z.infer<typeof variantSchema>;
-

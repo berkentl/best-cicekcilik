@@ -588,9 +588,8 @@ export default function NewProductPage() {
           <div>
             <label className={labelCls}>Normal Fiyat (₺) *</label>
             <input
-              type="number"
-              min="0"
-              step="0.01"
+              type="text"
+              inputMode="decimal"
               {...register("price")}
               placeholder="450.00"
               className={errors.price ? inputErrCls : inputCls}
@@ -600,9 +599,8 @@ export default function NewProductPage() {
           <div>
             <label className={labelCls}>İndirimli Fiyat (₺)</label>
             <input
-              type="number"
-              min="0"
-              step="0.01"
+              type="text"
+              inputMode="decimal"
               {...register("salePrice")}
               placeholder="Boş bırakın"
               className={errors.salePrice ? inputErrCls : inputCls}

@@ -30,7 +30,7 @@ export function MiniCartPreview() {
           exit={{ opacity: 0, x: 60 }}
           transition={{ type: "spring", stiffness: 340, damping: 28 }}
           onMouseEnter={clearFlash}
-          className="fixed top-[72px] right-4 z-[200] w-[min(320px,calc(100vw-32px))]"
+          className="fixed top-[72px] md:top-[124px] right-4 z-[200] w-[min(320px,calc(100vw-32px))]"
         >
           <Link href="/sepet" onClick={clearFlash}>
             <div className="bg-white rounded-2xl shadow-[0_8px_40px_rgba(22,52,38,0.16)] border border-[#e8e8e8] overflow-hidden">
