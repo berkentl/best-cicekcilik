@@ -93,20 +93,61 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
     setToasts((p) => p.filter((t) => t.toastId !== toastId));
   }, []);
 
+  const playSound = useCallback(() => {
+    try { new Audio("/sounds/order.wav").play(); } catch {}
+  }, []);
+
+  const showToast = useCallback((order: NewOrder) => {
+    const toastId = `toast-${order.id}`;
+    setToasts((p) => {
+      if (p.some((t) => t.toastId === toastId)) return p;
+      return [...p, { ...order, toastId }];
+    });
+    setTimeout(() => dismissToast(toastId), 6000);
+    playSound();
+  }, [dismissToast, playSound]);
+
+  /* Realtime subscription */
   useEffect(() => {
     const channel = supabase
       .channel("admin_new_orders")
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, (payload) => {
-        const order = payload.new as NewOrder;
-        const toastId = `toast-${order.id}`;
-        setToasts((p) => [...p, { ...order, toastId }]);
-        setTimeout(() => dismissToast(toastId), 6000);
-        try { new Audio("/sounds/order.wav").play(); } catch {}
+        showToast(payload.new as NewOrder);
       })
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
-  }, [dismissToast]);
+  }, [showToast]);
+
+  /* Polling fallback — 30sn'de bir yeni sipariş var mı kontrol et */
+  useEffect(() => {
+    const seenIds = new Set<string>();
+    let initialized = false;
+
+    const poll = async () => {
+      try {
+        const res = await fetch("/api/orders/recent");
+        if (!res.ok) return;
+        const data = await res.json() as { orders?: NewOrder[] };
+        const orders: NewOrder[] = data.orders ?? [];
+        if (!initialized) {
+          orders.forEach((o) => seenIds.add(o.id));
+          initialized = true;
+          return;
+        }
+        for (const order of orders) {
+          if (!seenIds.has(order.id)) {
+            seenIds.add(order.id);
+            showToast(order);
+          }
+        }
+      } catch {}
+    };
+
+    poll();
+    const interval = setInterval(poll, 30_000);
+    return () => clearInterval(interval);
+  }, [showToast]);
 
   return (
     <>
