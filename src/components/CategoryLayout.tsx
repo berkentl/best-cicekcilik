@@ -108,7 +108,7 @@ function FilterOptionItem({ label, count, checked, onChange }: {
       )}>
         {label}
       </span>
-      {count !== undefined && (
+      {count !== undefined && count > 0 && (
         <span className={cn(
           "text-[11px] tabular-nums flex-shrink-0",
           checked ? "text-[#163426]/60" : "text-[#bbb]"

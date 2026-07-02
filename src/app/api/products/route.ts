@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
-import { featuredProducts } from "@/lib/data";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -23,15 +23,14 @@ export async function GET(request: Request) {
     if (error) throw error;
     return NextResponse.json(mapProducts(data ?? []));
   } catch {
-    let products = featuredProducts;
-    if (categorySlug && categorySlug !== "tum-urunler") {
-      products = products.filter((p) => p.categorySlug === categorySlug);
-    }
-    return NextResponse.json(products);
+    return NextResponse.json([]);
   }
 }
 
 export async function POST(request: Request) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const sb = createServerClient();

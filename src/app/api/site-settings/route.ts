@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
+import { requireAdmin } from "@/lib/admin-auth";
 
 const DEFAULTS: Record<string, string> = {
   announcements:           JSON.stringify(DEFAULT_SITE_SETTINGS.announcements),
@@ -28,6 +29,9 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const body = await request.json() as Record<string, string>;
     const sb = createServerClient();

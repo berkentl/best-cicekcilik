@@ -6,7 +6,7 @@ import { HeaderWrapper } from "@/components/HeaderWrapper";
 import { Footer } from "@/components/Footer";
 import { CategoryLayout } from "@/components/CategoryLayout";
 import { createServerClient } from "@/lib/supabase-server";
-import { navCategories, featuredProducts } from "@/lib/data";
+import { navCategories } from "@/lib/data";
 import { getCategories } from "@/lib/getCategories";
 import { buildFilterCategories } from "@/lib/filterService";
 import type { Product, Category } from "@/types";
@@ -35,6 +35,7 @@ function mapRow(row: Record<string, unknown>): Product {
     isActive: Boolean(row.is_active ?? true),
     isNew: Boolean(row.is_new ?? false),
     isBestseller: Boolean(row.is_bestseller ?? false),
+    tags: (row.tags as string[] | null) ?? [],
   };
 }
 
@@ -56,9 +57,7 @@ async function getProducts(categorySlug: string): Promise<Product[]> {
     if (error) throw error;
     return (data ?? []).map(mapRow);
   } catch {
-    return categorySlug === "tum-urunler"
-      ? featuredProducts
-      : featuredProducts.filter((p) => p.categorySlug === categorySlug);
+    return [];
   }
 }
 

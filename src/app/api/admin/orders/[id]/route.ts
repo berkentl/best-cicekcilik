@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   const { id } = await params;
   const body = await request.json();
   const { status, tracking_number, tracking_step, courier_name, courier_phone } = body;

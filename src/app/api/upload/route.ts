@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import sharp from "sharp";
+import { requireAdmin } from "@/lib/admin-auth";
 
 // Maksimum çıktı boyutları — bu değerlerin üzerindeki fotoğraflar küçültülür
 const MAX_WIDTH  = 1400;
@@ -8,6 +9,9 @@ const MAX_HEIGHT = 1400;
 const WEBP_QUALITY = 82; // 0-100, 82 gözle fark edilmez kayıpla ~200-400 KB
 
 export async function POST(request: Request) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File | null;

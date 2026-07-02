@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
+import { requireAdmin } from "@/lib/admin-auth";
 
 function mapCoupon(row: Record<string, unknown>) {
   return {
@@ -16,6 +17,9 @@ function mapCoupon(row: Record<string, unknown>) {
 }
 
 export async function GET() {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const sb = createServerClient();
     const { data, error } = await sb
@@ -31,6 +35,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const authError = await requireAdmin();
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const sb = createServerClient();

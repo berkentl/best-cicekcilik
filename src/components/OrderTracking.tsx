@@ -150,7 +150,7 @@ export function OrderTracking() {
         {/* ── Form kartı ── */}
         <div className="bg-white rounded-2xl shadow-sm border border-[#ede8e3] p-8 md:p-12">
           <div className="text-center mb-8">
-            <h1 className="font-heading text-3xl md:text-4xl font-medium text-[#1d3435] mb-3">
+            <h1 className="font-sans text-3xl md:text-4xl font-medium text-[#1d3435] mb-3">
               Sipariş Takip
             </h1>
             <p className="text-[14px] text-[#888] leading-relaxed max-w-md mx-auto">

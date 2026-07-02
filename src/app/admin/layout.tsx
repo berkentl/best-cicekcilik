@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 import { AdminNotifications } from "@/components/admin/AdminNotifications";
 import { supabase } from "@/lib/supabase";
 
-const ADMIN_PASSWORD = "best2024";
-
 const navGroups = [
   {
     label: "Genel",
@@ -121,14 +119,26 @@ const navGroups = [
 function AuthGate({ onAuth }: { onAuth: () => void }) {
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pw === ADMIN_PASSWORD) {
-      localStorage.setItem("admin_auth", "1");
-      onAuth();
-    } else {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: pw }),
+      });
+      if (res.ok) {
+        onAuth();
+      } else {
+        setError(true);
+      }
+    } catch {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,7 +166,7 @@ function AuthGate({ onAuth }: { onAuth: () => void }) {
               Şifre hatalı.
             </p>}
           </div>
-          <button type="submit" className="btn-primary w-full py-2.5 rounded-md">Giriş Yap</button>
+          <button type="submit" disabled={loading} className="btn-primary w-full py-2.5 rounded-md disabled:opacity-60">{loading ? "Kontrol ediliyor..." : "Giriş Yap"}</button>
         </form>
       </div>
     </div>
@@ -188,15 +198,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [pathname]);
 
   useEffect(() => {
-    setAuthed(localStorage.getItem("admin_auth") === "1");
-    setChecked(true);
+    fetch("/api/admin/check")
+      .then((r) => r.json())
+      .then(({ authed }: { authed: boolean }) => {
+        setAuthed(authed);
+        setChecked(true);
+      })
+      .catch(() => setChecked(true));
   }, []);
 
   if (!checked) return null;
   if (!authed) return <AuthGate onAuth={() => setAuthed(true)} />;
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_auth");
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
     setAuthed(false);
   };
 
