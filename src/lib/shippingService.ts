@@ -63,12 +63,14 @@ export interface ShippingResult {
 export function calculateShipping(
   items: CartItem[],
   zone: ShippingZone | null,
-  settings: Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold">
+  settings: Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold">,
+  discountAmount = 0
 ): ShippingResult {
-  const cartTotal = items.reduce(
+  const rawTotal = items.reduce(
     (sum, i) => sum + (i.product.salePrice ?? i.product.price) * i.quantity,
     0
   );
+  const cartTotal = Math.max(0, rawTotal - discountAmount);
 
   // Adım 1 — ilçe bazlı kargo
   const zoneExtra = zone?.extraFee ?? 0;
@@ -100,11 +102,12 @@ export function calculateShipping(
 /** Kalan tutarı hesapla (ücretsiz kargo için ne kadar daha gerekiyor) */
 export function remainingForFreeShipping(
   items: CartItem[],
-  threshold: number
+  threshold: number,
+  discountAmount = 0
 ): number {
   const total = items.reduce(
     (sum, i) => sum + (i.product.salePrice ?? i.product.price) * i.quantity,
     0
   );
-  return Math.max(0, threshold - total);
+  return Math.max(0, threshold - Math.max(0, total - discountAmount));
 }
