@@ -383,24 +383,6 @@ export function CartContent() {
                 ))}
               </div>
 
-              {/* Hediye notu */}
-              <button className="w-full flex items-center justify-between gap-3 bg-[#fff5f5] hover:bg-[#ffe8e8] rounded-xl px-4 py-3.5 transition-colors group">
-                <div className="flex items-center gap-3">
-                  <div className="text-[#7c5454] flex-shrink-0">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/>
-                      <line x1="12" y1="22" x2="12" y2="7"/>
-                      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-                    </svg>
-                  </div>
-                  <div className="text-left">
-                    <p className="text-[13px] font-semibold text-[#7c5454] leading-tight">Hediye Notu Ekleyin</p>
-                    <p className="text-[11px] text-[#7c5454]/60 mt-0.5">Bu sipariş bir hediye mi?</p>
-                  </div>
-                </div>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c5454" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
 
               {/* Yardım (desktop) */}
               <div className="hidden lg:block border-t border-[#dbd9d9] pt-5">
