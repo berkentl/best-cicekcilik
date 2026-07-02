@@ -164,7 +164,11 @@ export default function AdminKampanyalarPage() {
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-lg border border-[#ebebeb] p-4">
             <p className="text-[11px] text-[#999] uppercase tracking-widest mb-1">{s.label}</p>
-            <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
+            {loading ? (
+              <div className="h-8 w-10 bg-[#f0f0f0] rounded animate-pulse mt-1" />
+            ) : (
+              <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
+            )}
           </div>
         ))}
       </div>
