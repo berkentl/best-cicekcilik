@@ -399,11 +399,20 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
       </div>
 
       {product.description && (
-        <div
-          className="text-[14px] text-[#424844] leading-relaxed prose prose-sm max-w-none
-            prose-p:my-1 prose-strong:text-[#1d3435] prose-em:text-[#424844]"
-          dangerouslySetInnerHTML={{ __html: product.description }}
-        />
+        <div className="rounded-2xl bg-[#f8f6f3] border border-[#e8e3dc] overflow-hidden">
+          <div className="flex items-center gap-2.5 px-4 py-3 border-b border-[#e8e3dc] bg-[#f2efe9]">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3d7b74" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#5a7070]">Ürün Açıklaması</span>
+          </div>
+          <div
+            className="px-4 py-4 text-[13.5px] text-[#424844] leading-[1.75] prose prose-sm max-w-none
+              prose-p:my-1.5 prose-strong:text-[#1d3435] prose-strong:font-semibold
+              prose-em:text-[#5a7070] prose-em:not-italic prose-ul:my-1.5 prose-li:my-0.5"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        </div>
       )}
 
       <div className="border-t border-[#e4e2e2]" />
