@@ -30,7 +30,7 @@ function SectionCard({
         <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#1d3435]/8 text-[#3d7b74]">
           {icon}
         </span>
-        <h2 className="font-heading text-[15px] font-semibold text-[#1d3435] tracking-[-0.01em]">
+        <h2 className="font-sans text-[15px] font-semibold text-[#1d3435] tracking-[-0.01em]">
           {title}
         </h2>
       </div>
@@ -193,7 +193,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
 
       <section className="py-10 md:py-14 bg-[#faf8f5] min-h-screen">
         <div className="container-site">
-          <h1 className="font-heading text-2xl md:text-3xl text-[#1d3435] font-semibold mb-8 tracking-[-0.02em]">
+          <h1 className="font-sans text-2xl md:text-3xl text-[#1d3435] font-bold mb-8 tracking-[-0.02em]">
             Sipariş Tamamla
           </h1>
 
@@ -410,7 +410,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
                 <div className="bg-white rounded-xl border border-[#ede8e3] shadow-sm overflow-hidden sticky top-[88px]">
 
                   <div className="px-5 py-4 border-b border-[#f4f0ec] bg-[#faf8f6]">
-                    <h2 className="font-heading text-[15px] font-semibold text-[#1d3435]">
+                    <h2 className="font-sans text-[15px] font-semibold text-[#1d3435]">
                       Sipariş Özeti
                     </h2>
                   </div>

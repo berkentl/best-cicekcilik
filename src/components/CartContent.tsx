@@ -140,7 +140,7 @@ function EmptyCart() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
           </svg>
         </div>
-        <h1 className="font-heading text-3xl md:text-[42px] text-[#1b1c1c] font-medium mb-3">Sepetiniz boş</h1>
+        <h1 className="font-sans text-3xl md:text-[42px] text-[#1b1c1c] font-bold mb-3">Sepetiniz boş</h1>
         <p className="text-[#727973] text-[15px] mb-10 max-w-xs mx-auto leading-relaxed">Sizin için özenle hazırlanmış koleksiyonumuzu keşfedin.</p>
         <Link href="/tum-urunler"
           className="inline-flex items-center gap-2 bg-[#163426] text-white text-[13px] font-bold tracking-[0.1em] uppercase rounded-full px-8 py-4 hover:bg-[#1e4434] transition-colors shadow-[0_4px_24px_rgba(22,52,38,0.18)]">
@@ -196,7 +196,7 @@ export function CartContent() {
     <main className="flex-1 bg-[#fbf9f8]">
       <div className="container-site py-10 md:py-16">
 
-        <h1 className="font-heading text-[32px] md:text-[44px] font-medium text-[#1b1c1c] leading-tight mb-1">
+        <h1 className="font-sans text-[32px] md:text-[44px] font-bold text-[#1b1c1c] leading-tight mb-1">
           Sepetim
         </h1>
         <p className="text-[#727973] text-[15px] mb-10 md:mb-14">Sizin için özenle hazırlanan seçkiler.</p>
@@ -231,7 +231,7 @@ export function CartContent() {
                             </p>
                           )}
                           <Link href={`/urun/${product.slug}`}
-                            className="font-heading italic text-[17px] md:text-[21px] font-medium text-[#1b1c1c] hover:text-[#163426] transition-colors leading-snug block">
+                            className="font-sans text-[17px] md:text-[21px] font-semibold text-[#1b1c1c] hover:text-[#163426] transition-colors leading-snug block">
                             {product.name}
                           </Link>
                         </div>
@@ -298,7 +298,7 @@ export function CartContent() {
           <div className="lg:sticky lg:top-[88px]">
             <div className="bg-[#f5f3f3] rounded-2xl p-6 md:p-8 space-y-5">
 
-              <h2 className="font-heading text-[22px] font-medium text-[#1b1c1c] tracking-tight">Sipariş Özeti</h2>
+              <h2 className="font-sans text-[22px] font-bold text-[#1b1c1c] tracking-tight">Sipariş Özeti</h2>
 
               {/* Her ürün ayrı ayrı listele */}
               <div className="space-y-3">
@@ -307,10 +307,10 @@ export function CartContent() {
                   return (
                     <div key={product.id} className="space-y-0.5">
                       <div className="flex items-start justify-between gap-3">
-                        <p className="font-heading italic text-[13px] font-medium text-[#424844] leading-snug flex-1 min-w-0 line-clamp-2">
+                        <p className="font-sans text-[13px] font-medium text-[#424844] leading-snug flex-1 min-w-0 line-clamp-2">
                           {product.name}
                           {quantity > 1 && (
-                            <span className="not-italic text-[#aaa] ml-1 text-[12px]">×{quantity}</span>
+                            <span className="text-[#aaa] ml-1 text-[12px]">×{quantity}</span>
                           )}
                         </p>
                         <span className="text-[13px] font-medium text-[#1b1c1c] flex-shrink-0 tabular-nums">
