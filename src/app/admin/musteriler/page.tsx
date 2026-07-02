@@ -67,7 +67,7 @@ export default function AdminMusterilerPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-bold text-[#1d3435]">Müşteri Yönetimi</h1>
+        <h1 className="font-heading text-xl font-medium text-[#1d3435]">Müşteri Yönetimi</h1>
         <p className="text-[13px] text-[#999]">Müşteri profilleri ve satın alma geçmişleri</p>
       </div>
 

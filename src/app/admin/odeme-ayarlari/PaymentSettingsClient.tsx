@@ -126,7 +126,7 @@ export function PaymentSettingsClient({ initial }: { initial: PaymentSettings })
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-xl font-bold text-[#1d3435]">Ödeme Yöntemleri</h1>
+        <h1 className="font-heading text-xl font-medium text-[#1d3435]">Ödeme Yöntemleri</h1>
         <p className="text-[13px] text-[#999] mt-1">
           Aktif ödeme yöntemlerini ve koşullarını yönetin. Değişiklikler anında sepet sayfasına yansır.
         </p>

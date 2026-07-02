@@ -1,0 +1,91 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Best Çiçekçilik
+        - paragraph [ref=e6]: Admin Panel v2.0
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Genel
+          - link "Dashboard" [ref=e10] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e11]
+            - text: Dashboard
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Katalog
+          - link "Ürünler" [ref=e15] [cursor=pointer]:
+            - /url: /admin/urunler
+            - img [ref=e16]
+            - text: Ürünler
+          - link "Kategoriler" [ref=e18] [cursor=pointer]:
+            - /url: /admin/kategoriler
+            - img [ref=e19]
+            - text: Kategoriler
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: Satış
+          - link "Siparişler" [ref=e23] [cursor=pointer]:
+            - /url: /admin/siparisler
+            - img [ref=e24]
+            - text: Siparişler
+          - link "Müşteriler" [ref=e26] [cursor=pointer]:
+            - /url: /admin/musteriler
+            - img [ref=e27]
+            - text: Müşteriler
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Pazarlama
+          - link "Kampanyalar" [ref=e31] [cursor=pointer]:
+            - /url: /admin/kampanyalar
+            - img [ref=e32]
+            - text: Kampanyalar
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Sistem
+          - link "Ayarlar" [ref=e36] [cursor=pointer]:
+            - /url: /admin/ayarlar
+            - img [ref=e37]
+            - text: Ayarlar
+          - link "Ödeme Yöntemleri" [ref=e40] [cursor=pointer]:
+            - /url: /admin/odeme-ayarlari
+            - img [ref=e41]
+            - text: Ödeme Yöntemleri
+      - generic [ref=e43]:
+        - link "Siteyi Gör" [ref=e44] [cursor=pointer]:
+          - /url: /
+          - img [ref=e45]
+          - text: Siteyi Gör
+        - button "Çıkış Yap" [ref=e47]:
+          - img [ref=e48]
+          - text: Çıkış Yap
+    - generic [ref=e50]:
+      - banner [ref=e51]:
+        - generic [ref=e52]:
+          - generic [ref=e53]: Admin
+          - img [ref=e54]
+          - generic [ref=e56]: Siparişler
+        - generic [ref=e57]:
+          - generic [ref=e58]: Canlı
+          - button [ref=e62]:
+            - img [ref=e63]
+      - main [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - heading "Sipariş Yönetimi" [level=1] [ref=e69]
+              - paragraph [ref=e70]: Tüm siparişleri buradan takip edin
+            - generic [ref=e71]:
+              - paragraph [ref=e72]: Teslim Edilen Ciro
+              - paragraph [ref=e73]: ₺0
+          - generic [ref=e74]:
+            - button "Tümü (0)" [ref=e75]
+            - button "Yeni (0)" [ref=e76]
+            - button "Hazırlanıyor (0)" [ref=e77]
+            - button "Kargoya Verildi (0)" [ref=e78]
+            - button "Teslim Edildi (0)" [ref=e79]
+            - button "İptal (0)" [ref=e80]
+            - button "İade (0)" [ref=e81]
+          - generic [ref=e82]: Siparişler yükleniyor...
+  - link "WhatsApp ile iletişim" [ref=e83] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e84]
+  - button "Open Next.js Dev Tools" [ref=e91] [cursor=pointer]:
+    - img [ref=e92]
+  - alert [ref=e95]

@@ -1,0 +1,6 @@
+- generic [active] [ref=e1]:
+  - link "WhatsApp ile iletişim" [ref=e2] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=e3]
+  - button "Open Next.js Dev Tools" [ref=e10] [cursor=pointer]:
+    - img [ref=e11]

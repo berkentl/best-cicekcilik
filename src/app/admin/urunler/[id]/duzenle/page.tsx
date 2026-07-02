@@ -412,7 +412,7 @@ export default function EditProductPage() {
             </svg>
           </Link>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-[#1d3435]">Ürünü Düzenle</h1>
+            <h1 className="font-heading text-lg sm:text-xl font-medium text-[#1d3435]">Ürünü Düzenle</h1>
             <p className="text-[12px] text-[#999] font-mono truncate">{watchedSlug}</p>
           </div>
         </div>

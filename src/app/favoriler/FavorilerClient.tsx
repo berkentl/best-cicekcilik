@@ -9,20 +9,6 @@ export function FavorilerClient() {
 
   return (
     <>
-      <div className="bg-[#f5f0eb] py-10 md:py-14 text-center border-b border-[#e8e8e8]">
-        <div className="container-site">
-          <nav className="flex items-center justify-center gap-2 text-[12px] text-[#999] mb-4">
-            <Link href="/" className="hover:text-[#1d3435] transition-colors">Ana Sayfa</Link>
-            <span>/</span>
-            <span className="text-[#1d3435] font-medium">Favorilerim</span>
-          </nav>
-          <h1 className="font-heading text-3xl md:text-4xl text-[#1d3435] font-medium">
-            Favorilerim
-          </h1>
-          <p className="text-[#999] text-sm mt-2">{items.length} ürün</p>
-        </div>
-      </div>
-
       <section className="py-10 md:py-14">
         <div className="container-site">
           {items.length > 0 ? (

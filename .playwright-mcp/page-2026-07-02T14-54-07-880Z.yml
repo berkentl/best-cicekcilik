@@ -1,0 +1,159 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "❀ Lotus Çiçekçilik" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: ❀
+        - text: Lotus Çiçekçilik
+      - navigation [ref=e6]:
+        - link "Anasayfa" [ref=e7] [cursor=pointer]:
+          - /url: /
+        - link "Çiçekler" [ref=e8] [cursor=pointer]:
+          - /url: /cicekler
+        - link "Hakkımızda" [ref=e9] [cursor=pointer]:
+          - /url: /hakkimizda
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - img "Doğanın En Güzel Hali" [ref=e13]
+      - generic [ref=e15]:
+        - generic [ref=e16]: Lotus Çiçekçilik
+        - heading "Doğanın En Güzel Hali" [level=1] [ref=e17]
+        - link "Keşfet" [ref=e19] [cursor=pointer]:
+          - /url: /cicekler
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - heading "Öne Çıkan Çiçekler" [level=2] [ref=e22]
+        - paragraph [ref=e24]: Sizin için özenle hazırladığımız en özel tasarımlar
+      - generic [ref=e25]:
+        - link "Kırmızı Gül Buketi Öne Çıkan Buketler Kırmızı Gül Buketi ₺850" [ref=e26] [cursor=pointer]:
+          - /url: /cicekler/kirmizi-gul-buketi
+          - generic [ref=e27]:
+            - img "Kırmızı Gül Buketi" [ref=e28]
+            - generic [ref=e30]: Öne Çıkan
+          - generic [ref=e31]:
+            - generic [ref=e32]: Buketler
+            - heading "Kırmızı Gül Buketi" [level=3] [ref=e33]
+            - generic [ref=e34]: ₺850
+        - link "Beyaz Papatya Buketi Öne Çıkan Buketler Beyaz Papatya Buketi ₺420" [ref=e35] [cursor=pointer]:
+          - /url: /cicekler/beyaz-papatya-buketi
+          - generic [ref=e36]:
+            - img "Beyaz Papatya Buketi" [ref=e37]
+            - generic [ref=e39]: Öne Çıkan
+          - generic [ref=e40]:
+            - generic [ref=e41]: Buketler
+            - heading "Beyaz Papatya Buketi" [level=3] [ref=e42]
+            - generic [ref=e43]: ₺420
+        - link "Pembe Gül & Lilyum Öne Çıkan Buketler Pembe Gül & Lilyum ₺750" [ref=e44] [cursor=pointer]:
+          - /url: /cicekler/pembe-gul-lilyum
+          - generic [ref=e45]:
+            - img "Pembe Gül & Lilyum" [ref=e46]
+            - generic [ref=e48]: Öne Çıkan
+          - generic [ref=e49]:
+            - generic [ref=e50]: Buketler
+            - heading "Pembe Gül & Lilyum" [level=3] [ref=e51]
+            - generic [ref=e52]: ₺750
+        - link "Orkide Aranjmanı Öne Çıkan Aranjmanlar Orkide Aranjmanı ₺650" [ref=e53] [cursor=pointer]:
+          - /url: /cicekler/orkide-aranjmani
+          - generic [ref=e54]:
+            - img "Orkide Aranjmanı" [ref=e55]
+            - generic [ref=e57]: Öne Çıkan
+          - generic [ref=e58]:
+            - generic [ref=e59]: Aranjmanlar
+            - heading "Orkide Aranjmanı" [level=3] [ref=e60]
+            - generic [ref=e61]: ₺650
+      - link "Tüm Çiçekleri Gör" [ref=e63] [cursor=pointer]:
+        - /url: /cicekler
+    - generic [ref=e64]:
+      - generic [ref=e65]:
+        - heading "Kategoriler" [level=2] [ref=e66]
+        - paragraph [ref=e68]: Aradığınız çiçeği kolayca bulun
+      - generic [ref=e69]:
+        - link "Buketler Buketler" [ref=e70] [cursor=pointer]:
+          - /url: /kategori/buketler
+          - img "Buketler" [ref=e71]
+          - generic [ref=e73]: Buketler
+        - link "Aranjmanlar Aranjmanlar" [ref=e74] [cursor=pointer]:
+          - /url: /kategori/aranjmanlar
+          - img "Aranjmanlar" [ref=e75]
+          - generic [ref=e77]: Aranjmanlar
+        - link "Kutuda Çiçekler Kutuda Çiçekler" [ref=e78] [cursor=pointer]:
+          - /url: /kategori/kutuda-cicekler
+          - img "Kutuda Çiçekler" [ref=e79]
+          - generic [ref=e81]: Kutuda Çiçekler
+        - link "🌺 Düğün & Nişan" [ref=e82] [cursor=pointer]:
+          - /url: /kategori/dugun-nisan
+          - generic [ref=e83]: 🌺
+          - generic [ref=e85]: Düğün & Nişan
+        - link "🌺 Cenaze Çiçekleri" [ref=e86] [cursor=pointer]:
+          - /url: /kategori/cenaze-cicekleri
+          - generic [ref=e87]: 🌺
+          - generic [ref=e89]: Cenaze Çiçekleri
+        - link "🌺 Saksı Çiçekleri" [ref=e90] [cursor=pointer]:
+          - /url: /kategori/saksi-cicekleri
+          - generic [ref=e91]: 🌺
+          - generic [ref=e93]: Saksı Çiçekleri
+    - generic [ref=e95]:
+      - generic [ref=e97]: 🌿
+      - generic [ref=e98]:
+        - generic [ref=e99]: Hikayemiz
+        - heading "Doğanın Güzelliğini Evinize Taşıyoruz" [level=2] [ref=e100]
+        - paragraph [ref=e101]: Lotus Çiçekçilik olarak, her bir aranjmanımızda doğanın eşsiz güzelliğini yansıtmayı hedefliyoruz. Taze çiçeklerimiz, uzman floristlerimiz tarafından özenle seçilip tasarlanıyor.
+        - paragraph [ref=e102]: Sevdiklerinize en özel anlarda en güzel çiçekleri göndermeniz için buradayız. Her mevsimde, her özel günde yanınızdayız.
+        - link "Daha Fazla" [ref=e103] [cursor=pointer]:
+          - /url: /hakkimizda
+    - generic [ref=e105]:
+      - generic [ref=e106]:
+        - heading "Sipariş Vermek Çok Kolay" [level=3] [ref=e107]
+        - paragraph [ref=e108]: WhatsApp üzerinden hızlıca sipariş verin, adresinize teslim edelim.
+      - link "💬 WhatsApp ile Sipariş" [ref=e109] [cursor=pointer]:
+        - /url: https://wa.me/902165550123
+  - contentinfo [ref=e110]:
+    - generic [ref=e111]:
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - heading "❀ Lotus Çiçekçilik" [level=3] [ref=e114]
+          - paragraph [ref=e115]: Her mevsim, her an, sevdiklerinize en özel çiçekleri hazırlıyoruz. Doğanın güzelliğini sizin için sanat eserine dönüştürüyoruz.
+        - generic [ref=e116]:
+          - heading "Menü" [level=4] [ref=e117]
+          - list [ref=e118]:
+            - listitem [ref=e119]:
+              - link "Anasayfa" [ref=e120] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e121]:
+              - link "Çiçekler" [ref=e122] [cursor=pointer]:
+                - /url: /cicekler
+            - listitem [ref=e123]:
+              - link "Hakkımızda" [ref=e124] [cursor=pointer]:
+                - /url: /hakkimizda
+        - generic [ref=e125]:
+          - heading "Kategoriler" [level=4] [ref=e126]
+          - list [ref=e127]:
+            - listitem [ref=e128]:
+              - link "Buketler" [ref=e129] [cursor=pointer]:
+                - /url: /kategori/buketler
+            - listitem [ref=e130]:
+              - link "Aranjmanlar" [ref=e131] [cursor=pointer]:
+                - /url: /kategori/aranjmanlar
+            - listitem [ref=e132]:
+              - link "Kutuda Çiçekler" [ref=e133] [cursor=pointer]:
+                - /url: /kategori/kutuda-cicekler
+            - listitem [ref=e134]:
+              - link "Saksı Çiçekleri" [ref=e135] [cursor=pointer]:
+                - /url: /kategori/saksi-cicekleri
+        - generic [ref=e136]:
+          - heading "İletişim" [level=4] [ref=e137]
+          - list [ref=e138]:
+            - listitem [ref=e139]: 📍 Bağdat Cad. No:123, Kadıköy/İstanbul
+            - listitem [ref=e140]: 📞 +90 (216) 555 0123
+            - listitem [ref=e141]: ✉️ info@lotuscicekcilik.com
+            - listitem [ref=e142]: 🕐 Her gün 08:00 – 22:00
+      - generic [ref=e143]:
+        - generic [ref=e144]: © 2026 Lotus Çiçekçilik. Tüm hakları saklıdır.
+        - generic [ref=e145]:
+          - link "Instagram" [ref=e146] [cursor=pointer]:
+            - /url: https://instagram.com
+            - text: 📷
+          - link "WhatsApp" [ref=e147] [cursor=pointer]:
+            - /url: https://wa.me/902165550123
+            - text: 💬
+  - alert [ref=e148]

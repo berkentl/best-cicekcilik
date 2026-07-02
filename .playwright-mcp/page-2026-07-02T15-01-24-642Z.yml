@@ -1,0 +1,123 @@
+- generic [active] [ref=f14e1]:
+  - generic [ref=f14e2]:
+    - generic [ref=f14e3]:
+      - img [ref=f14e4]
+      - text: 5000 TL ve üzeri tüm siparişlerde kargo ücretsiz
+    - button "Kapat" [ref=f14e12]:
+      - img [ref=f14e13]
+  - banner [ref=f14e16]:
+    - generic [ref=f14e17]:
+      - button "Menü" [ref=f14e19]:
+        - img [ref=f14e20]
+      - link "BEST ÇİÇEKÇİLİK & ORGANİZASYON" [ref=f14e22] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f14e23]: BEST
+        - generic [ref=f14e24]: ÇİÇEKÇİLİK & ORGANİZASYON
+      - generic [ref=f14e25]:
+        - button "Ara" [ref=f14e26]:
+          - img [ref=f14e27]
+        - link "Sepet" [ref=f14e30] [cursor=pointer]:
+          - /url: /sepet
+          - img [ref=f14e31]
+          - generic [ref=f14e34]: "0"
+  - main [ref=f14e35]:
+    - generic [ref=f14e36]:
+      - img [ref=f14e38]
+      - heading "Sepetiniz boş" [level=1] [ref=f14e40]
+      - paragraph [ref=f14e41]: Sizin için özenle hazırlanmış koleksiyonumuzu keşfedin.
+      - link "Alışverişe Başla" [ref=f14e42] [cursor=pointer]:
+        - /url: /tum-urunler
+        - text: Alışverişe Başla
+        - img [ref=f14e43]
+  - contentinfo [ref=f14e45]:
+    - generic [ref=f14e47]:
+      - generic [ref=f14e48]:
+        - generic [ref=f14e49]: Best Çiçekçilik & Organizasyon
+        - paragraph [ref=f14e50]: İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri. Aynı gün teslimat ile sevdiklerinize en güzel çiçekleri ulaştırıyoruz.
+        - generic [ref=f14e51]:
+          - link "Instagram" [ref=f14e52] [cursor=pointer]:
+            - /url: https://instagram.com/bestcicekcilik
+            - img [ref=f14e53]
+          - link "Facebook" [ref=f14e56] [cursor=pointer]:
+            - /url: https://facebook.com/bestcicekcilik
+            - img [ref=f14e57]
+          - link "WhatsApp" [ref=f14e59] [cursor=pointer]:
+            - /url: https://wa.me/905322959309
+            - img [ref=f14e60]
+      - generic [ref=f14e62]:
+        - heading "Kategoriler" [level=4] [ref=f14e63]
+        - list [ref=f14e64]:
+          - listitem [ref=f14e65]:
+            - link "EN SEVİLENLER" [ref=f14e66] [cursor=pointer]:
+              - /url: /en-sevilen
+          - listitem [ref=f14e67]:
+            - link "ÇİÇEK" [ref=f14e68] [cursor=pointer]:
+              - /url: /cicek
+          - listitem [ref=f14e69]:
+            - link "ÇİKOLATA" [ref=f14e70] [cursor=pointer]:
+              - /url: /cikolata
+          - listitem [ref=f14e71]:
+            - link "HEDİYE KUTUSU" [ref=f14e72] [cursor=pointer]:
+              - /url: /hediye-kutusu
+          - listitem [ref=f14e73]:
+            - link "ORKİDE" [ref=f14e74] [cursor=pointer]:
+              - /url: /orkide
+          - listitem [ref=f14e75]:
+            - link "BİTKİ" [ref=f14e76] [cursor=pointer]:
+              - /url: /bitki
+          - listitem [ref=f14e77]:
+            - link "GÖNDERİM SEBEBİ" [ref=f14e78] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+      - generic [ref=f14e79]:
+        - heading "Kurumsal" [level=4] [ref=f14e80]
+        - list [ref=f14e81]:
+          - listitem [ref=f14e82]:
+            - link "Hakkımızda" [ref=f14e83] [cursor=pointer]:
+              - /url: /hakkimizda
+          - listitem [ref=f14e84]:
+            - link "İletişim" [ref=f14e85] [cursor=pointer]:
+              - /url: /iletisim
+          - listitem [ref=f14e86]:
+            - link "Teslimat Bilgileri" [ref=f14e87] [cursor=pointer]:
+              - /url: /teslimat
+          - listitem [ref=f14e88]:
+            - link "İptal & İade" [ref=f14e89] [cursor=pointer]:
+              - /url: /iade
+          - listitem [ref=f14e90]:
+            - link "Gizlilik Politikası" [ref=f14e91] [cursor=pointer]:
+              - /url: /gizlilik
+          - listitem [ref=f14e92]:
+            - link "Kullanım Koşulları" [ref=f14e93] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+      - generic [ref=f14e94]:
+        - heading "İletişim" [level=4] [ref=f14e95]
+        - list [ref=f14e96]:
+          - listitem [ref=f14e97]:
+            - img [ref=f14e98]
+            - generic [ref=f14e101]:
+              - text: Fulya, 19 Mayıs
+              - text: Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul
+          - listitem [ref=f14e102]:
+            - link "0532 295 93 09" [ref=f14e103] [cursor=pointer]:
+              - /url: tel:05322959309
+              - img [ref=f14e104]
+              - text: 0532 295 93 09
+          - listitem [ref=f14e106]:
+            - link "info@bestcicekcilik.com" [ref=f14e107] [cursor=pointer]:
+              - /url: mailto:info@bestcicekcilik.com
+              - img [ref=f14e108]
+              - text: info@bestcicekcilik.com
+          - listitem [ref=f14e111]:
+            - link "WhatsApp ile Yaz" [ref=f14e112] [cursor=pointer]:
+              - /url: https://wa.me/905322959309
+              - img [ref=f14e113]
+              - text: WhatsApp ile Yaz
+    - generic [ref=f14e116]:
+      - paragraph [ref=f14e117]: © 2026 Best Çiçekçilik & Organizasyon. Tüm hakları saklıdır.
+      - paragraph [ref=f14e118]:
+        - link "bestcicekcilik.com" [ref=f14e119] [cursor=pointer]:
+          - /url: https://bestcicekcilik.com
+  - link "WhatsApp ile iletişim" [ref=f14e120] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=f14e121]
+  - alert [ref=f14e123]

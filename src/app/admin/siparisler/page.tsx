@@ -659,7 +659,7 @@ export default function AdminSiparislerPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
         <div>
-          <h1 className="text-xl font-bold text-[#1d3435]">Sipariş Yönetimi</h1>
+          <h1 className="font-heading text-xl font-medium text-[#1d3435]">Sipariş Yönetimi</h1>
           <p className="text-[13px] text-[#999]">Tüm siparişleri buradan takip edin</p>
         </div>
         <div className="bg-white border border-[#ebebeb] rounded-lg px-4 py-2.5 text-center shadow-sm self-start sm:self-auto">

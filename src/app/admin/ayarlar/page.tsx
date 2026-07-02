@@ -107,7 +107,7 @@ export default function AdminAyarlarPage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-xl font-bold text-[#1d3435]">Site Ayarlari</h1>
+        <h1 className="font-heading text-xl font-medium text-[#1d3435]">Site Ayarları</h1>
         <p className="text-[13px] text-[#999]">Genel site bilgilerini duzenleyin</p>
       </div>
       {saved && <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-[13px] text-green-700 font-semibold">Ayarlar basariyla kaydedildi.</div>}

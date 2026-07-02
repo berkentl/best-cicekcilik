@@ -1,0 +1,250 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e2]:
+    - generic [ref=f5e3]:
+      - img [ref=f5e4]
+      - text: 5000 TL ve üzeri tüm siparişlerde kargo ücretsiz
+    - button "Kapat" [ref=f5e12]:
+      - img [ref=f5e13]
+  - banner [ref=f5e16]:
+    - generic [ref=f5e17]:
+      - link "BEST ÇİÇEKÇİLİK & ORGANİZASYON" [ref=f5e19] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f5e20]: BEST
+        - generic [ref=f5e21]: ÇİÇEKÇİLİK & ORGANİZASYON
+      - generic [ref=f5e22]:
+        - button "Ara" [ref=f5e23]:
+          - img [ref=f5e24]
+        - link "Sipariş Takip" [ref=f5e27] [cursor=pointer]:
+          - /url: /siparis-takip
+          - img [ref=f5e28]
+        - button "Hesabım" [ref=f5e33]:
+          - img [ref=f5e34]
+        - link "Favoriler" [ref=f5e37] [cursor=pointer]:
+          - /url: /favoriler
+          - img [ref=f5e38]
+        - link "Sepet" [ref=f5e40] [cursor=pointer]:
+          - /url: /sepet
+          - img [ref=f5e41]
+          - generic [ref=f5e44]: "0"
+        - generic [ref=f5e45]:
+          - generic [ref=f5e46]:
+            - button "$" [ref=f5e47]
+            - generic [ref=f5e48]: "|"
+          - generic [ref=f5e49]:
+            - button "€" [ref=f5e50]
+            - generic [ref=f5e51]: "|"
+          - button "₺" [ref=f5e53]
+    - navigation [ref=f5e54]:
+      - generic [ref=f5e55]:
+        - list [ref=f5e56]:
+          - listitem [ref=f5e57]:
+            - link "En Sevilen" [ref=f5e58] [cursor=pointer]:
+              - /url: /en-sevilen
+              - text: En Sevilen
+          - listitem [ref=f5e59]:
+            - link "Çiçek" [ref=f5e60] [cursor=pointer]:
+              - /url: /cicek
+              - text: Çiçek
+          - listitem [ref=f5e61]:
+            - link "Çikolata" [ref=f5e62] [cursor=pointer]:
+              - /url: /cikolata
+              - text: Çikolata
+          - listitem [ref=f5e63]:
+            - link "Hediye Kutusu" [ref=f5e64] [cursor=pointer]:
+              - /url: /hediye-kutusu
+              - text: Hediye Kutusu
+          - listitem [ref=f5e65]:
+            - link "Orkide" [ref=f5e66] [cursor=pointer]:
+              - /url: /orkide
+              - text: Orkide
+          - listitem [ref=f5e67]:
+            - link "Bitki" [ref=f5e68] [cursor=pointer]:
+              - /url: /bitki
+              - text: Bitki
+          - listitem [ref=f5e69]:
+            - link "Gönderim Sebebi" [ref=f5e70] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+              - text: Gönderim Sebebi
+          - listitem [ref=f5e71]:
+            - link "Koleksiyon" [ref=f5e72] [cursor=pointer]:
+              - /url: /koleksiyonlar
+              - text: Koleksiyon
+          - listitem [ref=f5e73]:
+            - link "Tüm Ürünler" [ref=f5e74] [cursor=pointer]:
+              - /url: /tum-urunler
+              - text: Tüm Ürünler
+        - generic [ref=f5e75]: —
+  - main [ref=f5e76]:
+    - generic [ref=f5e78]:
+      - navigation [ref=f5e79]:
+        - link "Ana Sayfa" [ref=f5e80] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f5e81]: /
+        - generic [ref=f5e82]: İletişim
+      - heading "İletişim" [level=1] [ref=f5e83]
+      - paragraph [ref=f5e84]: Sorularınız için bize ulaşın. Aynı gün teslimat ve özel tasarım çiçekler için hizmetinizdeyiz.
+    - generic [ref=f5e87]:
+      - generic [ref=f5e88]:
+        - heading "Bize Ulaşın" [level=2] [ref=f5e89]
+        - generic [ref=f5e90]:
+          - generic [ref=f5e91]:
+            - img [ref=f5e93]
+            - generic [ref=f5e96]:
+              - paragraph [ref=f5e97]: Adres
+              - paragraph [ref=f5e98]:
+                - text: Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18
+                - text: Şişli / İstanbul
+          - generic [ref=f5e99]:
+            - img [ref=f5e101]
+            - generic [ref=f5e103]:
+              - paragraph [ref=f5e104]: Telefon
+              - link "0532 295 93 09" [ref=f5e105] [cursor=pointer]:
+                - /url: tel:05322959309
+          - generic [ref=f5e106]:
+            - img [ref=f5e108]
+            - generic [ref=f5e110]:
+              - paragraph [ref=f5e111]: E-posta
+              - link "info@bestcicekcilik.com" [ref=f5e112] [cursor=pointer]:
+                - /url: mailto:info@bestcicekcilik.com
+          - generic [ref=f5e113]:
+            - img [ref=f5e115]
+            - generic [ref=f5e117]:
+              - paragraph [ref=f5e118]: Çalışma Saatleri
+              - generic [ref=f5e119]:
+                - generic [ref=f5e120]:
+                  - generic [ref=f5e121]: Pazartesi – Cuma
+                  - generic [ref=f5e122]: 08:00 – 21:00
+                - generic [ref=f5e123]:
+                  - generic [ref=f5e124]: Cumartesi
+                  - generic [ref=f5e125]: 08:00 – 21:00
+                - generic [ref=f5e126]:
+                  - generic [ref=f5e127]: Pazar
+                  - generic [ref=f5e128]: 09:00 – 20:00
+        - iframe [ref=f5e130]:
+          - generic [active] [ref=f6e1]:
+            - link "Haritalar'da aç (yeni sekmede açılır)" [ref=f6e4] [cursor=pointer]:
+              - /url: about:invalid#zClosurez
+              - text: Haritalar'da aç
+              - img [ref=f6e6]
+            - generic [ref=f6e9]:
+              - region "Harita" [ref=f6e10]
+              - iframe [ref=f6e16]:
+                
+      - generic [ref=f5e131]:
+        - heading "Mesaj Gönderin" [level=2] [ref=f5e132]
+        - generic [ref=f5e133]:
+          - generic [ref=f5e134]:
+            - generic [ref=f5e135]:
+              - generic [ref=f5e136]: Ad Soyad *
+              - textbox "Adınız Soyadınız" [ref=f5e137]
+            - generic [ref=f5e138]:
+              - generic [ref=f5e139]: Telefon
+              - textbox "0532 000 00 00" [ref=f5e140]
+          - generic [ref=f5e141]:
+            - generic [ref=f5e142]: E-posta *
+            - textbox "ornek@mail.com" [ref=f5e143]
+          - generic [ref=f5e144]:
+            - generic [ref=f5e145]: Konu
+            - combobox [ref=f5e146]:
+              - option "Konu seçin" [selected]
+              - option "Sipariş Bilgisi"
+              - option "Teslimat"
+              - option "Özel Tasarım"
+              - option "Kurumsal Sipariş"
+              - option "Diğer"
+          - generic [ref=f5e147]:
+            - generic [ref=f5e148]: Mesaj *
+            - textbox "Mesajınızı buraya yazın..." [ref=f5e149]
+          - button "Mesaj Gönder" [ref=f5e150]
+  - contentinfo [ref=f5e151]:
+    - generic [ref=f5e153]:
+      - generic [ref=f5e154]:
+        - generic [ref=f5e155]: Best Çiçekçilik & Organizasyon
+        - paragraph [ref=f5e156]: İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri. Aynı gün teslimat ile sevdiklerinize en güzel çiçekleri ulaştırıyoruz.
+        - generic [ref=f5e157]:
+          - link "Instagram" [ref=f5e158] [cursor=pointer]:
+            - /url: https://instagram.com/bestcicekcilik
+            - img [ref=f5e159]
+          - link "Facebook" [ref=f5e162] [cursor=pointer]:
+            - /url: https://facebook.com/bestcicekcilik
+            - img [ref=f5e163]
+          - link "WhatsApp" [ref=f5e165] [cursor=pointer]:
+            - /url: https://wa.me/905322959309
+            - img [ref=f5e166]
+      - generic [ref=f5e168]:
+        - heading "Kategoriler" [level=4] [ref=f5e169]
+        - list [ref=f5e170]:
+          - listitem [ref=f5e171]:
+            - link "EN SEVİLENLER" [ref=f5e172] [cursor=pointer]:
+              - /url: /en-sevilen
+          - listitem [ref=f5e173]:
+            - link "ÇİÇEK" [ref=f5e174] [cursor=pointer]:
+              - /url: /cicek
+          - listitem [ref=f5e175]:
+            - link "ÇİKOLATA" [ref=f5e176] [cursor=pointer]:
+              - /url: /cikolata
+          - listitem [ref=f5e177]:
+            - link "HEDİYE KUTUSU" [ref=f5e178] [cursor=pointer]:
+              - /url: /hediye-kutusu
+          - listitem [ref=f5e179]:
+            - link "ORKİDE" [ref=f5e180] [cursor=pointer]:
+              - /url: /orkide
+          - listitem [ref=f5e181]:
+            - link "BİTKİ" [ref=f5e182] [cursor=pointer]:
+              - /url: /bitki
+          - listitem [ref=f5e183]:
+            - link "GÖNDERİM SEBEBİ" [ref=f5e184] [cursor=pointer]:
+              - /url: /gonderim-sebebi
+      - generic [ref=f5e185]:
+        - heading "Kurumsal" [level=4] [ref=f5e186]
+        - list [ref=f5e187]:
+          - listitem [ref=f5e188]:
+            - link "Hakkımızda" [ref=f5e189] [cursor=pointer]:
+              - /url: /hakkimizda
+          - listitem [ref=f5e190]:
+            - link "İletişim" [ref=f5e191] [cursor=pointer]:
+              - /url: /iletisim
+          - listitem [ref=f5e192]:
+            - link "Teslimat Bilgileri" [ref=f5e193] [cursor=pointer]:
+              - /url: /teslimat
+          - listitem [ref=f5e194]:
+            - link "İptal & İade" [ref=f5e195] [cursor=pointer]:
+              - /url: /iade
+          - listitem [ref=f5e196]:
+            - link "Gizlilik Politikası" [ref=f5e197] [cursor=pointer]:
+              - /url: /gizlilik
+          - listitem [ref=f5e198]:
+            - link "Kullanım Koşulları" [ref=f5e199] [cursor=pointer]:
+              - /url: /kullanim-kosullari
+      - generic [ref=f5e200]:
+        - heading "İletişim" [level=4] [ref=f5e201]
+        - list [ref=f5e202]:
+          - listitem [ref=f5e203]:
+            - img [ref=f5e204]
+            - generic [ref=f5e207]:
+              - text: Fulya, 19 Mayıs
+              - text: Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul
+          - listitem [ref=f5e208]:
+            - link "0532 295 93 09" [ref=f5e209] [cursor=pointer]:
+              - /url: tel:05322959309
+              - img [ref=f5e210]
+              - text: 0532 295 93 09
+          - listitem [ref=f5e212]:
+            - link "info@bestcicekcilik.com" [ref=f5e213] [cursor=pointer]:
+              - /url: mailto:info@bestcicekcilik.com
+              - img [ref=f5e214]
+              - text: info@bestcicekcilik.com
+          - listitem [ref=f5e217]:
+            - link "WhatsApp ile Yaz" [ref=f5e218] [cursor=pointer]:
+              - /url: https://wa.me/905322959309
+              - img [ref=f5e219]
+              - text: WhatsApp ile Yaz
+    - generic [ref=f5e222]:
+      - paragraph [ref=f5e223]: © 2026 Best Çiçekçilik & Organizasyon. Tüm hakları saklıdır.
+      - paragraph [ref=f5e224]:
+        - link "bestcicekcilik.com" [ref=f5e225] [cursor=pointer]:
+          - /url: https://bestcicekcilik.com
+  - link "WhatsApp ile iletişim" [ref=f5e226] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=f5e227]
+  - alert [ref=f5e229]

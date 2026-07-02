@@ -350,7 +350,7 @@ export default function NewProductPage() {
             </svg>
           </Link>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold text-[#1d3435]">Yeni Ürün Ekle</h1>
+            <h1 className="font-heading text-lg sm:text-xl font-medium text-[#1d3435]">Yeni Ürün Ekle</h1>
             <p className="text-[12px] text-[#999]">Tüm zorunlu alanları doldurun</p>
           </div>
         </div>

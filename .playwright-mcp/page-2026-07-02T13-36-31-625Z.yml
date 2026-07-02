@@ -1,0 +1,10 @@
+- generic [active] [ref=f3e1]:
+  - button "Open Next.js Dev Tools" [ref=f3e7] [cursor=pointer]:
+    - img [ref=f3e8]
+  - generic [ref=f3e12]:
+    - heading "404" [level=1] [ref=f3e13]
+    - heading "This page could not be found." [level=2] [ref=f3e15]
+  - link "WhatsApp ile iletişim" [ref=f3e16] [cursor=pointer]:
+    - /url: https://wa.me/905322959309
+    - img [ref=f3e17]
+  - alert [ref=f3e19]

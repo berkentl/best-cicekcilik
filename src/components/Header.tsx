@@ -91,7 +91,7 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
             </button>
           </div>
 
-          {/* Orta — Marka adı (Ribbon tarzı serif) */}
+          {/* Orta — Lüks Butik Logo */}
           <div className="flex justify-center">
             <Link
               href="/"
@@ -103,14 +103,30 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
               }}
               className="flex flex-col items-center leading-none group"
             >
+              {/* Minimal yaprak ikonu */}
+              <svg
+                className="w-[13px] h-[13px] text-[#3d7b74] mb-[4px] opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"
+              >
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+              </svg>
+
+              {/* BEST — Cormorant Garamond */}
               <span
-                className="font-heading font-normal text-[#0d0d0d] uppercase tracking-[0.28em] text-[18px] sm:text-[20px] group-hover:opacity-75 transition-opacity duration-200 whitespace-nowrap"
+                className="font-cormorant font-light text-[#1a2e2f] uppercase tracking-[0.28em] text-[20px] sm:text-[22px] group-hover:opacity-70 transition-opacity duration-200 whitespace-nowrap"
               >
                 BEST
               </span>
-              <span className="block text-[6px] sm:text-[7px] tracking-[0.3em] sm:tracking-[0.35em] uppercase text-[#888] font-sans font-normal mt-[3px] whitespace-nowrap">
-                ÇİÇEKÇİLİK &amp; ORGANİZASYON
-              </span>
+
+              {/* Ayraç + alt yazı */}
+              <div className="flex items-center gap-[6px] mt-[4px]">
+                <span className="block w-[18px] h-[0.5px] bg-slate-400 opacity-60" />
+                <span className="text-[7px] tracking-[0.3em] uppercase text-slate-400 font-sans font-normal whitespace-nowrap">
+                  ÇİÇEKÇİLİK &amp; ORGANİZASYON
+                </span>
+                <span className="block w-[18px] h-[0.5px] bg-slate-400 opacity-60" />
+              </div>
             </Link>
           </div>
 

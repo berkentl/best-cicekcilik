@@ -219,7 +219,7 @@ export default function AdminDashboard() {
       {/* Başlık + Tarih Filtresi */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-[#1d3435]">Genel Bakış</h1>
+          <h1 className="font-heading text-xl font-medium text-[#1d3435]">Genel Bakış</h1>
           <p className="text-[13px] text-[#999] mt-0.5">Performans ve satış analizi</p>
         </div>
         <div className="flex items-center gap-1 bg-[#f5f5f5] rounded-xl p-1">

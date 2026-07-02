@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kumbh_Sans, Playfair_Display, Poppins } from "next/font/google";
+import { Kumbh_Sans, Playfair_Display, Poppins, Cormorant_Garamond } from "next/font/google";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { StoreHydration } from "@/components/StoreHydration";
@@ -27,6 +27,13 @@ const playfairDisplay = Playfair_Display({
   display: "swap",
 });
 
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Best Çiçekçilik & Organizasyon | Aynı Gün Çiçek Teslimat - Şişli/İstanbul",
   description:
@@ -47,7 +54,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${kumbhSans.variable} ${playfairDisplay.variable} ${poppins.variable} h-full antialiased`}
+      className={`${kumbhSans.variable} ${playfairDisplay.variable} ${poppins.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <StoreHydration />

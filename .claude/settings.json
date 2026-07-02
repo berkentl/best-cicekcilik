@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "Bash(node \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-user-Desktop-best-deneme\\\\945ef877-76c4-42e2-977c-7750913167c9\\\\scratchpad\\\\write-cart3.mjs\")",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(grep -Hm1 ^description: c:/Users/user/Desktop/best_deneme/.claude/skills/*/SKILL.md)",
+      "Bash(mkdir -p \"c:/Users/user/Desktop/best_deneme/src/app/api/admin/orders\" && mkdir -p \"c:/Users/user/Desktop/best_deneme/src/app/api/admin/orders/[id]\" && mkdir -p \"c:/Users/user/Desktop/best_deneme/src/app/api/push/subscribe\" && mkdir -p \"c:/Users/user/Desktop/best_deneme/public\" && echo done)",
+      "Bash(node -e \"const wp = require\\('web-push'\\); const keys = wp.generateVAPIDKeys\\(\\); console.log\\('PUBLIC:', keys.publicKey\\); console.log\\('PRIVATE:', keys.privateKey\\);\")",
+      "Bash(curl -s -X POST http://localhost:3000/api/orders/create -H \"Content-Type: application/json\" -d \"{\\\\\"form\\\\\":{\\\\\"firstName\\\\\":\\\\\"Test\\\\\",\\\\\"lastName\\\\\":\\\\\"User\\\\\",\\\\\"phone\\\\\":\\\\\"05320000000\\\\\",\\\\\"email\\\\\":\\\\\"test@test.com\\\\\",\\\\\"address\\\\\":\\\\\"Test Sokak\\\\\",\\\\\"district\\\\\":\\\\\"Şişli\\\\\",\\\\\"city\\\\\":\\\\\"İstanbul\\\\\",\\\\\"deliveryDate\\\\\":\\\\\"2026-07-01\\\\\",\\\\\"deliveryTime\\\\\":\\\\\"09-12\\\\\",\\\\\"recipientName\\\\\":\\\\\"Alıcı\\\\\",\\\\\"recipientPhone\\\\\":\\\\\"05320000001\\\\\",\\\\\"cardMessage\\\\\":\\\\\"\\\\\",\\\\\"notes\\\\\":\\\\\"\\\\\",\\\\\"paymentMethod\\\\\":\\\\\"kapida\\\\\"},\\\\\"items\\\\\":[{\\\\\"name\\\\\":\\\\\"Test Ürün\\\\\",\\\\\"qty\\\\\":1,\\\\\"price\\\\\":100}],\\\\\"total\\\\\":100,\\\\\"grandTotal\\\\\":100}\")",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"require\\('web-push'\\); console.log\\('ok'\\)\")",
+      "Bash(vercel --version)",
+      "Bash(npx vercel *)",
+      "Bash(git add *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\user\\Desktop\\best_deneme\\src\\app\\api\\admin\\orders"
     ]
   }
 }

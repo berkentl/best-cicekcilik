@@ -128,7 +128,7 @@ export default function AdminKampanyalarPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading text-xl font-semibold text-[#1d3435]">Kupon Yönetimi</h1>
+          <h1 className="font-heading text-xl font-medium text-[#1d3435]">Kupon Yönetimi</h1>
           <p className="text-[12px] text-[#999] mt-0.5">Kampanya ve indirim kuponlarını yönetin</p>
         </div>
         <button

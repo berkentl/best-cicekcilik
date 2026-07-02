@@ -85,7 +85,7 @@ export default function BildirimlerPage() {
       {/* Başlık */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-[20px] font-bold text-[#1d3435]">Bildirimler</h1>
+          <h1 className="font-heading text-[20px] font-medium text-[#1d3435]">Bildirimler</h1>
           {unreadCount > 0 && (
             <p className="text-[12px] text-[#999] mt-0.5">{unreadCount} okunmamış bildirim</p>
           )}
