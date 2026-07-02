@@ -116,6 +116,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
       const payload = {
         form,
         items: items.map(({ product, quantity }) => ({
+          productId: product.id,
           name: product.name,
           qty: quantity,
           price: product.salePrice ?? product.price,

@@ -4,6 +4,37 @@ import { generateOrderNumber } from "@/lib/order-utils";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import { sendPushToAdmins } from "@/lib/push";
 
+interface OrderItem {
+  productId?: string;
+  name: string;
+  qty: number;
+  price: number;
+}
+
+async function decreaseStock(sb: ReturnType<typeof createServerClient>, items: OrderItem[]) {
+  const itemsWithId = items.filter((i) => i.productId);
+  if (!itemsWithId.length) return;
+
+  // Mevcut stokları çek
+  const ids = itemsWithId.map((i) => i.productId!);
+  const { data: products } = await sb
+    .from("products")
+    .select("id, stock")
+    .in("id", ids);
+
+  if (!products?.length) return;
+
+  // Her ürün için stok güncelle
+  await Promise.all(
+    itemsWithId.map((item) => {
+      const current = products.find((p) => p.id === item.productId);
+      if (!current) return Promise.resolve();
+      const newStock = Math.max(0, (current.stock ?? 0) - item.qty);
+      return sb.from("products").update({ stock: newStock }).eq("id", item.productId!);
+    })
+  );
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -49,6 +80,11 @@ export async function POST(request: Request) {
       console.error("[create-order] DB error:", error);
       return NextResponse.json({ error: "Sipariş kaydedilemedi." }, { status: 500 });
     }
+
+    // Stok azalt (hata sipariş oluşturmayı engellemez)
+    decreaseStock(sb, items as OrderItem[]).catch((err) =>
+      console.error("[create-order] stock decrease failed:", err)
+    );
 
     // Web Push bildirimi (hata sipariş oluşturmayı engellemez)
     sendPushToAdmins({
