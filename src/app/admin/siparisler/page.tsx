@@ -36,6 +36,11 @@ interface Order {
   recipient_phone?: string;
   card_message?: string;
   payment_method?: string;
+  subtotal?: number;
+  discount_amount?: number;
+  coupon_code?: string;
+  shipping_fee?: number;
+  kapida_fee?: number;
 }
 
 const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: string }> = {
@@ -387,7 +392,39 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
                   ))}
                 </tbody>
                 <tfoot>
-                  <tr className="bg-[#faf8f6] border-t border-[#ede8e3]">
+                  {(order.subtotal != null && order.subtotal !== order.total_amount) && (
+                    <tr className="border-t border-[#ede8e3]">
+                      <td colSpan={3} className="px-4 py-2 text-[12px] text-right text-[#6e6560]">Ara Toplam</td>
+                      <td className="px-4 py-2 text-[13px] text-[#6e6560] text-right">₺{order.subtotal?.toLocaleString("tr-TR")}</td>
+                    </tr>
+                  )}
+                  {(order.discount_amount ?? 0) > 0 && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-2 text-[12px] text-right text-[#3d7b74]">
+                        İndirim {order.coupon_code && <span className="font-mono bg-[#edf7f5] px-1.5 py-0.5 rounded ml-1">{order.coupon_code}</span>}
+                      </td>
+                      <td className="px-4 py-2 text-[13px] font-semibold text-[#3d7b74] text-right">-₺{order.discount_amount?.toLocaleString("tr-TR")}</td>
+                    </tr>
+                  )}
+                  {(order.shipping_fee ?? 0) > 0 && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-2 text-[12px] text-right text-[#6e6560]">Kargo Ücreti</td>
+                      <td className="px-4 py-2 text-[13px] text-[#6e6560] text-right">₺{order.shipping_fee?.toLocaleString("tr-TR")}</td>
+                    </tr>
+                  )}
+                  {(order.shipping_fee ?? 0) === 0 && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-2 text-[12px] text-right text-[#6e6560]">Kargo</td>
+                      <td className="px-4 py-2 text-[13px] font-semibold text-[#3d7b74] text-right">Ücretsiz</td>
+                    </tr>
+                  )}
+                  {(order.kapida_fee ?? 0) > 0 && (
+                    <tr>
+                      <td colSpan={3} className="px-4 py-2 text-[12px] text-right text-[#6e6560]">Kapıda Ödeme Bedeli</td>
+                      <td className="px-4 py-2 text-[13px] text-[#6e6560] text-right">₺{order.kapida_fee?.toLocaleString("tr-TR")}</td>
+                    </tr>
+                  )}
+                  <tr className="bg-[#faf8f6] border-t-2 border-[#ede8e3]">
                     <td colSpan={3} className="px-4 py-3 text-[12px] font-bold text-right text-[#6e6560] uppercase tracking-wider">Genel Toplam</td>
                     <td className="px-4 py-3 text-[16px] font-black text-[#1d3435] text-right">₺{order.total_amount?.toLocaleString("tr-TR")}</td>
                   </tr>

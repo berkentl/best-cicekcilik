@@ -7,7 +7,7 @@ import { sendPushToAdmins } from "@/lib/push";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { form, items, total, grandTotal } = body;
+    const { form, items, total, discount, couponCode, grandTotal, kapidaFee } = body;
 
     if (!form || !items?.length) {
       return NextResponse.json({ error: "Geçersiz sipariş verisi." }, { status: 400 });
@@ -27,6 +27,10 @@ export async function POST(request: Request) {
       product_name: productName,
       items: items,
       subtotal: total,
+      discount_amount: discount ?? 0,
+      coupon_code: couponCode ?? null,
+      shipping_fee: grandTotal - (total - (discount ?? 0)) - (kapidaFee ?? 0),
+      kapida_fee: kapidaFee ?? 0,
       total_amount: grandTotal,
       address: `${form.address}, ${form.district}, ${form.city}`,
       recipient_name: form.recipientName,

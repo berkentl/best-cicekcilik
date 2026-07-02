@@ -176,7 +176,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
         <Link
           href={`/urun/${product.slug}`}
-          className="font-heading italic text-[13px] sm:text-[20px] font-medium text-[#1d3435] leading-tight hover:text-[#3d7b74] transition-colors line-clamp-2"
+          className="font-sans text-[13px] sm:text-[20px] font-semibold text-[#1d3435] leading-tight hover:text-[#3d7b74] transition-colors line-clamp-2"
         >
           {product.name}
         </Link>

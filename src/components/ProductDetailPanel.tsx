@@ -11,33 +11,13 @@ import { cn } from "@/lib/utils";
 import { BestsellerBadge } from "@/components/ui/award-badge";
 import type { Product, SiteSettings } from "@/types";
 
-const DEFAULT_CARE = "Çiçekleri teslim aldıktan sonra saplarını 2–3 cm kısaltın.\nTemiz suya koyun ve her 2 günde bir suyunu değiştirin.\nDoğrudan güneş ışığından ve sıcak ortamlardan uzak tutun.\nPaket içindeki çiçek ömrü uzatıcı tozu suya ekleyin.";
 
 function buildShippingLines(
-  product: Product,
-  settings?: SiteSettings,
+  _product: Product,
+  _settings?: SiteSettings,
   customText?: string
 ): string {
-  if (customText) return customText;
-  const base = settings?.baseShippingFee ?? 200;
-  const custom = product.customShippingFee;
-
-  const lines: string[] = [
-    "Saat 14:00'a kadar verilen siparişler aynı gün teslim edilir.",
-    "Tüm İstanbul ilçelerine teslimat yapılmaktadır.",
-  ];
-
-  if (custom !== undefined && custom === 0) {
-    lines.push("Bu ürün için kargo ücretsizdir.");
-  } else if (custom !== undefined && custom > 0) {
-    lines.push(`Bu ürüne özel kargo ücreti: ₺${custom.toLocaleString("tr-TR")}.`);
-  } else if (base === 0) {
-    lines.push("Tüm siparişlerde kargo ücretsizdir.");
-  } else {
-    lines.push(`Standart kargo ücreti: ₺${base.toLocaleString("tr-TR")}.`);
-  }
-  lines.push("Teslimat saatini sipariş notunuza ekleyebilirsiniz.");
-  return lines.join("\n");
+  return customText?.trim() ?? "";
 }
 
 interface AddressSuggestion { id:string; name:string; address:string; district:string; ilce:string; }
@@ -400,7 +380,7 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
         {product.category}
       </Link>
 
-      <h1 className="font-heading italic text-[32px] md:text-[38px] font-medium text-[#163426] leading-tight">
+      <h1 className="font-sans text-[32px] md:text-[38px] font-bold text-[#163426] leading-tight">
         {product.name}
       </h1>
 
@@ -419,11 +399,11 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
       </div>
 
       {product.description && (
-        <blockquote className="border-l-2 border-[#c1c8c2] pl-4 bg-[#f5f3f3] rounded-r-xl py-3 pr-4">
-          <p className="text-[14px] italic text-[#424844] leading-relaxed">
-            &ldquo;{product.description.replace(/<[^>]*>/g,"")}&rdquo;
-          </p>
-        </blockquote>
+        <div
+          className="text-[14px] text-[#424844] leading-relaxed prose prose-sm max-w-none
+            prose-p:my-1 prose-strong:text-[#1d3435] prose-em:text-[#424844]"
+          dangerouslySetInnerHTML={{ __html: product.description }}
+        />
       )}
 
       <div className="border-t border-[#e4e2e2]" />
@@ -487,12 +467,16 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
       </div>
 
       <div>
-        <Accordion title="Bakım Talimatları">
-          <AccordionList lines={product.careInstructions || DEFAULT_CARE} />
-        </Accordion>
-        <Accordion title="Gönderim Bilgileri">
-          <AccordionList lines={buildShippingLines(product, siteSettings, shippingInfo)} />
-        </Accordion>
+        {product.careInstructions?.trim() && (
+          <Accordion title="Bakım Talimatları">
+            <AccordionList lines={product.careInstructions} />
+          </Accordion>
+        )}
+        {buildShippingLines(product, siteSettings, shippingInfo).trim() && (
+          <Accordion title="Gönderim Bilgileri">
+            <AccordionList lines={buildShippingLines(product, siteSettings, shippingInfo)} />
+          </Accordion>
+        )}
         <div className="border-t border-[#e4e2e2]" />
       </div>
 
