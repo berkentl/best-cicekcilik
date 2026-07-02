@@ -58,6 +58,22 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
   const [pushSupported, setPushSupported] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const fetchUnread = async () => {
+      try {
+        const res = await fetch("/api/admin/notifications?unread=1");
+        if (res.ok) {
+          const data = await res.json() as unknown[];
+          setUnreadCount(data.length);
+        }
+      } catch {}
+    };
+    fetchUnread();
+    const interval = setInterval(fetchUnread, 60_000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const supported = "serviceWorker" in navigator && "PushManager" in window && Boolean(VAPID_PUBLIC);
@@ -184,9 +200,9 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
-            {newOrderCount > 0 && (
+            {(unreadCount + newOrderCount) > 0 && (
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
-                {newOrderCount > 9 ? "9+" : newOrderCount}
+                {(unreadCount + newOrderCount) > 9 ? "9+" : (unreadCount + newOrderCount)}
               </span>
             )}
           </button>
@@ -215,6 +231,14 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                 <div className="text-[11px] text-[#999] bg-[#f5f5f5] rounded-lg px-3 py-2.5 leading-relaxed">
                   Realtime bildirimler her zaman açık — yeni sipariş geldiğinde sağ altta toast mesajı gösterilir.
                 </div>
+
+                <a href="/admin/bildirimler" onClick={() => setShowSettings(false)}
+                  className="mt-3 flex items-center justify-center gap-1.5 w-full py-2 rounded-lg border border-[#ebebeb] text-[12px] font-semibold text-[#1d3435] hover:bg-[#f5f5f5] transition-colors">
+                  Tüm Bildirimleri Gör
+                  {unreadCount > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{unreadCount}</span>
+                  )}
+                </a>
               </div>
             </>
           )}

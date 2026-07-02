@@ -3,6 +3,7 @@ import { createServerClient } from "@/lib/supabase-server";
 import { generateOrderNumber } from "@/lib/order-utils";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import { sendPushToAdmins } from "@/lib/push";
+import { createNotification } from "@/lib/notifications";
 
 interface OrderItem {
   productId?: string;
@@ -15,22 +16,33 @@ async function decreaseStock(sb: ReturnType<typeof createServerClient>, items: O
   const itemsWithId = items.filter((i) => i.productId);
   if (!itemsWithId.length) return;
 
-  // Mevcut stokları çek
   const ids = itemsWithId.map((i) => i.productId!);
   const { data: products } = await sb
     .from("products")
-    .select("id, stock")
+    .select("id, name, stock")
     .in("id", ids);
 
   if (!products?.length) return;
 
-  // Her ürün için stok güncelle
   await Promise.all(
-    itemsWithId.map((item) => {
+    itemsWithId.map(async (item) => {
       const current = products.find((p) => p.id === item.productId);
-      if (!current) return Promise.resolve();
+      if (!current) return;
       const newStock = Math.max(0, (current.stock ?? 0) - item.qty);
-      return sb.from("products").update({ stock: newStock }).eq("id", item.productId!);
+
+      const updates: Record<string, unknown> = { stock: newStock };
+      if (newStock === 0) updates.is_active = false;
+
+      await sb.from("products").update(updates).eq("id", item.productId!);
+
+      if (newStock === 0) {
+        await createNotification({
+          type: "out_of_stock",
+          title: "Stok Tükendi",
+          message: `"${current.name}" adlı ürünün stoğu tükendi ve satışa kapatıldı.`,
+          data: { productId: item.productId, productName: current.name },
+        });
+      }
     })
   );
 }
@@ -81,10 +93,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Sipariş kaydedilemedi." }, { status: 500 });
     }
 
-    // Stok azalt (hata sipariş oluşturmayı engellemez)
+    // Stok azalt + gerekirse bildirim (hata sipariş oluşturmayı engellemez)
     decreaseStock(sb, items as OrderItem[]).catch((err) =>
       console.error("[create-order] stock decrease failed:", err)
     );
+
+    // DB'ye yeni sipariş bildirimi kaydet
+    createNotification({
+      type: "new_order",
+      title: "Yeni Sipariş",
+      message: `${customerName} tarafından ₺${grandTotal.toLocaleString("tr-TR")} tutarında yeni sipariş oluşturuldu.`,
+      data: { orderId: order.id, orderNumber, customerName, total: grandTotal },
+    }).catch((err) => console.error("[create-order] notification failed:", err));
 
     // Web Push bildirimi (hata sipariş oluşturmayı engellemez)
     sendPushToAdmins({
