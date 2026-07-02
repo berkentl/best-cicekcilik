@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const PUBLIC_ADMIN_ROUTES = [
+  "/api/admin/login",
+  "/api/admin/logout",
+  "/api/admin/check",
+];
+
 const ADMIN_API_PATTERNS = [
   /^\/api\/admin\//,
   /^\/api\/upload$/,
@@ -16,6 +22,8 @@ const METHOD_PROTECTED: Array<{ path: string; methods: string[] }> = [
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
+
+  if (PUBLIC_ADMIN_ROUTES.includes(pathname)) return NextResponse.next();
 
   const isAdminApi = ADMIN_API_PATTERNS.some((re) => re.test(pathname));
   const isMethodProtected = METHOD_PROTECTED.some(
