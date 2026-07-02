@@ -79,12 +79,28 @@ function showBrowserNotification(order: NewOrder) {
   } catch {}
 }
 
+/* ── iOS Safari tespiti ──────────────────────────────────────────
+   iOS Safari'de Notification API tarayıcıda çalışmaz.
+   Sadece "Ana Ekrana Ekle" (PWA) modunda + iOS 16.4+ desteklenir.
+──────────────────────────────────────────────────────────────────── */
+function getEnv() {
+  if (typeof window === "undefined") return { isIOS: false, isPWA: false, notifSupported: false };
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua);
+  const isPWA = (navigator as unknown as { standalone?: boolean }).standalone === true;
+  const notifSupported = "Notification" in window;
+  return { isIOS, isPWA, notifSupported };
+}
+
 /* ── Component ───────────────────────────────────────────────────── */
 export function AdminNotifications({ newOrderCount }: { newOrderCount: number }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>("default");
+  const [env, setEnv] = useState({ isIOS: false, isPWA: false, notifSupported: false });
+
+  useEffect(() => { setEnv(getEnv()); }, []);
 
   /* İlk kullanıcı etkileşiminde AudioContext'i unlock et */
   useEffect(() => {
@@ -103,7 +119,6 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
     const perm = Notification.permission;
     setNotifPermission(perm);
     if (perm === "default") {
-      // Kullanıcı görmeden önce kısa gecikme — tarayıcı engelini azaltır
       const t = setTimeout(() => {
         Notification.requestPermission().then((p) => setNotifPermission(p));
       }, 2000);
@@ -253,49 +268,71 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                   Bildirim Durumu
                 </p>
 
-                {/* Tarayıcı bildirimi durumu */}
-                <div className="flex items-center justify-between bg-[#f9f9f9] rounded-lg px-4 py-3 mb-2">
-                  <div>
-                    <p className="text-[13px] font-semibold text-[#1d3435]">Tarayıcı Bildirimi</p>
-                    <p className="text-[11px] text-[#999]">
-                      {notifPermission === "granted"
-                        ? "Aktif — Arka planda bildirim alırsınız"
-                        : notifPermission === "denied"
-                        ? "Engellendi — Tarayıcı ayarlarından açın"
-                        : "Henüz izin verilmedi"}
-                    </p>
+                {/* iOS Safari — tarayıcıda Notification API desteklenmiyor */}
+                {env.isIOS && !env.isPWA ? (
+                  <div className="space-y-2 mb-3">
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-3">
+                      <p className="text-[12px] font-semibold text-amber-800 mb-1">iPhone'da bildirim almak için:</p>
+                      <ol className="text-[11px] text-amber-700 space-y-1 list-none">
+                        <li>1. Safari'de alttaki <strong>Paylaş</strong> butonuna bas <span className="text-[13px]">⬆</span></li>
+                        <li>2. <strong>"Ana Ekrana Ekle"</strong> seç</li>
+                        <li>3. Ana ekrandaki <strong>Best Çiçekçilik</strong> ikonundan aç</li>
+                        <li>4. Bildirime izin ver — artık sipariş bildirimleri gelecek</li>
+                      </ol>
+                    </div>
+                    <div className="text-[11px] text-[#999] bg-[#f5f5f5] rounded-lg px-3 py-2.5 leading-relaxed">
+                      Şu an Safari tarayıcısındasınız. Apple, Safari'de bildirimlere izin vermez — sadece ana ekrandan açılan uygulamalarda çalışır.
+                    </div>
                   </div>
-                  <span
-                    className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${
-                      notifPermission === "granted"
-                        ? "bg-green-500"
-                        : notifPermission === "denied"
-                        ? "bg-red-500"
-                        : "bg-yellow-400"
-                    }`}
-                  />
-                </div>
+                ) : (
+                  <>
+                    {/* Diğer tarayıcılar (Chrome, Firefox, PWA) */}
+                    <div className="flex items-center justify-between bg-[#f9f9f9] rounded-lg px-4 py-3 mb-2">
+                      <div>
+                        <p className="text-[13px] font-semibold text-[#1d3435]">Tarayıcı Bildirimi</p>
+                        <p className="text-[11px] text-[#999]">
+                          {!env.notifSupported
+                            ? "Bu tarayıcıda desteklenmiyor"
+                            : notifPermission === "granted"
+                            ? "Aktif — Arka planda bildirim alırsınız"
+                            : notifPermission === "denied"
+                            ? "Engellendi — Tarayıcı ayarlarından açın"
+                            : "Henüz izin verilmedi"}
+                        </p>
+                      </div>
+                      <span
+                        className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${
+                          notifPermission === "granted"
+                            ? "bg-green-500"
+                            : notifPermission === "denied"
+                            ? "bg-red-500"
+                            : "bg-yellow-400"
+                        }`}
+                      />
+                    </div>
 
-                {notifPermission === "denied" && (
-                  <p className="text-[11px] text-red-500 bg-red-50 rounded-lg px-3 py-2 mb-2 leading-relaxed">
-                    Tarayıcı bildirimleri engellenmiş. Adres çubuğundaki kilit ikonuna tıklayıp "Bildirimler" iznini açın.
-                  </p>
+                    {notifPermission === "denied" && (
+                      <p className="text-[11px] text-red-500 bg-red-50 rounded-lg px-3 py-2 mb-2 leading-relaxed">
+                        Bildirimler engellenmiş. Adres çubuğundaki kilit ikonuna tıklayıp "Bildirimler" iznini açın.
+                      </p>
+                    )}
+
+                    {env.notifSupported && notifPermission === "default" && (
+                      <button
+                        onClick={() =>
+                          Notification.requestPermission().then((p) => setNotifPermission(p))
+                        }
+                        className="w-full py-2 mb-2 rounded-lg bg-[#3d7b74] text-white text-[12px] font-semibold hover:bg-[#2d6b64] transition-colors"
+                      >
+                        Bildirimlere İzin Ver
+                      </button>
+                    )}
+
+                    <div className="text-[11px] text-[#999] bg-[#f5f5f5] rounded-lg px-3 py-2.5 leading-relaxed mb-3">
+                      Yeni sipariş geldiğinde hem ses çalar hem de bildirim görünür. İzin verilirse sekme arka planda olsa bile uyarı alırsınız.
+                    </div>
+                  </>
                 )}
-
-                {notifPermission === "default" && (
-                  <button
-                    onClick={() =>
-                      Notification.requestPermission().then((p) => setNotifPermission(p))
-                    }
-                    className="w-full py-2 mb-2 rounded-lg bg-[#3d7b74] text-white text-[12px] font-semibold hover:bg-[#2d6b64] transition-colors"
-                  >
-                    Bildirimlere İzin Ver
-                  </button>
-                )}
-
-                <div className="text-[11px] text-[#999] bg-[#f5f5f5] rounded-lg px-3 py-2.5 leading-relaxed mb-3">
-                  Yeni sipariş geldiğinde hem ses çalar hem de bu ekranda bildirim görünür. Bildirim izni verilirse sekme arka planda olsa bile uyarı alırsınız.
-                </div>
 
                 <a
                   href="/admin/bildirimler"
