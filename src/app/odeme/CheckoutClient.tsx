@@ -45,11 +45,12 @@ interface Props {
 
 export function CheckoutClient({ paymentSettings }: Props) {
   const router = useRouter();
-  const { items, totalPrice, clearCart } = useCartStore();
+  const { items, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
 
   const subtotal = totalPrice();
-  const shipping = subtotal >= 500 ? 0 : 49.9;
+  const discount = discountAmount();
+  const shipping = (subtotal - discount) >= 500 ? 0 : 49.9;
 
   const [form, setForm] = useState({
     firstName: "",
@@ -87,7 +88,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
       ? paymentSettings.kapida_fee
       : 0;
 
-  const grandTotal = subtotal + shipping + kapidaFee;
+  const grandTotal = subtotal - discount + shipping + kapidaFee;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,6 +102,8 @@ export function CheckoutClient({ paymentSettings }: Props) {
           price: product.salePrice ?? product.price,
         })),
         total: subtotal,
+        discount,
+        couponCode: coupon?.code ?? null,
         grandTotal,
         kapidaFee,
       };
@@ -437,6 +440,12 @@ export function CheckoutClient({ paymentSettings }: Props) {
                         <span>Ara toplam</span>
                         <span>₺{subtotal.toLocaleString("tr-TR")}</span>
                       </div>
+                      {discount > 0 && coupon && (
+                        <div className="flex justify-between text-[#3d7b74]">
+                          <span>İndirim <span className="font-mono text-[11px] bg-[#edf7f5] px-1.5 py-0.5 rounded ml-1">{coupon.code}</span></span>
+                          <span className="font-semibold">-₺{discount.toLocaleString("tr-TR")}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between text-[#6e6560]">
                         <span>Teslimat</span>
                         <span className={shipping === 0 ? "text-[#3d7b74] font-semibold" : ""}>

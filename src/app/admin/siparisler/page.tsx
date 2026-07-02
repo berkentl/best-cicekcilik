@@ -52,6 +52,8 @@ const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: str
   "cancelled":       { color: "text-red-700",    bg: "bg-red-100",    label: "İptal Edildi" },
 };
 
+// Dropdown'da gösterilecek seçenekler — sadece Türkçe, İngilizce eski statüler hariç
+const SELECTABLE_STATUSES: OrderStatus[] = ["Yeni", "Hazırlanıyor", "Kargoya Verildi", "Teslim Edildi", "İptal", "İade"];
 const ALL_STATUSES = Object.keys(STATUS_CONFIG) as OrderStatus[];
 
 function formatDate(iso: string) {
@@ -580,8 +582,10 @@ export default function AdminSiparislerPage() {
               }
             }}
             onClick={(e) => e.stopPropagation()}
-            className={`text-[11px] font-bold px-2.5 py-1 rounded-full border-0 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#3d7b74] ${STATUS_CONFIG[status]?.bg ?? "bg-gray-100"} ${STATUS_CONFIG[status]?.color ?? "text-gray-600"}`}>
-            {ALL_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+            className="text-[11px] font-bold px-2.5 py-1 rounded-full border border-[#e0e0e0] bg-white text-[#1d3435] cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#3d7b74]">
+            {SELECTABLE_STATUSES.map((s) => (
+              <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>
+            ))}
           </select>
         );
       },
@@ -638,10 +642,10 @@ export default function AdminSiparislerPage() {
           className={`px-3.5 py-2 rounded-lg text-[12px] font-bold transition-all ${activeStatus === "all" ? "bg-[#1d3435] text-white" : "bg-white border border-[#ebebeb] text-[#545454] hover:border-[#1d3435]"}`}>
           Tümü ({statusCounts.all})
         </button>
-        {ALL_STATUSES.map((s) => (
+        {SELECTABLE_STATUSES.map((s) => (
           <button key={s} onClick={() => setActiveStatus(s)}
-            className={`px-3.5 py-2 rounded-lg text-[12px] font-bold transition-all ${activeStatus === s ? `${STATUS_CONFIG[s].bg} ${STATUS_CONFIG[s].color}` : "bg-white border border-[#ebebeb] text-[#545454] hover:border-[#1d3435]"}`}>
-            {s} ({statusCounts[s] ?? 0})
+            className={`px-3.5 py-2 rounded-lg text-[12px] font-bold transition-all ${activeStatus === s ? "bg-[#1d3435] text-white" : "bg-white border border-[#ebebeb] text-[#545454] hover:border-[#1d3435]"}`}>
+            {STATUS_CONFIG[s].label} ({statusCounts[s] ?? 0})
           </button>
         ))}
       </div>
