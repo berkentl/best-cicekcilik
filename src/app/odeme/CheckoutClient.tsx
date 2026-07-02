@@ -47,6 +47,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
   const router = useRouter();
   const { items, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   const subtotal = totalPrice();
   const discount = discountAmount();
@@ -122,6 +123,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
       }
 
       const { orderNumber } = await res.json();
+      setRedirecting(true);
       clearCart();
       router.push(`/odeme/basarili?order=${orderNumber}`);
     } catch {
@@ -130,7 +132,7 @@ export function CheckoutClient({ paymentSettings }: Props) {
     }
   };
 
-  if (items.length === 0) {
+  if (items.length === 0 && !redirecting) {
     return (
       <div className="container-site py-20 text-center">
         <p className="text-[#999] mb-6">Sepetinizde ürün yok.</p>
