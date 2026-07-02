@@ -5,7 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
-import type { PaymentSettings } from "@/types";
+import { calculateShipping } from "@/lib/shippingService";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
+import type { PaymentSettings, SiteSettings } from "@/types";
 
 const inputBase =
   "w-full border border-[#e2ddd8] rounded-lg px-4 py-3 text-[13px] text-[#1d3435] placeholder:text-[#c0b8b0] bg-white transition-all duration-150 " +
@@ -48,10 +50,26 @@ export function CheckoutClient({ paymentSettings }: Props) {
   const { items, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold">>(DEFAULT_SITE_SETTINGS);
+
+  useEffect(() => {
+    fetch("/api/site-settings")
+      .then(r => r.json())
+      .then((data: Record<string, string>) => {
+        setSiteSettings(prev => ({
+          ...prev,
+          freeShippingThreshold: Number(data.free_shipping_threshold ?? DEFAULT_SITE_SETTINGS.freeShippingThreshold),
+          baseShippingFee:       Number(data.base_shipping_fee        ?? DEFAULT_SITE_SETTINGS.baseShippingFee),
+        }));
+      })
+      .catch(() => {});
+  }, []);
 
   const subtotal = totalPrice();
   const discount = discountAmount();
-  const shipping = (subtotal - discount) >= 500 ? 0 : 49.9;
+  const shippingResult = calculateShipping(items, null, siteSettings, discount);
+  const shipping = shippingResult.fee;
+  const shippingFree = shippingResult.isFree;
 
   const [form, setForm] = useState({
     firstName: "",
