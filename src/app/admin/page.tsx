@@ -242,7 +242,7 @@ export default function AdminDashboard() {
       {/* 5 Stat Kartı */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
         <StatCard
-          title="Ciro" sub={range.label} color="bg-[#1d3435]/10"
+          title="Teslim Edilen Ciro" sub={range.label} color="bg-[#1d3435]/10"
           value={loading ? "—" : `₺${(stats?.periodRevenue ?? 0).toLocaleString("tr-TR")}`}
           icon={
             <svg className="w-5 h-5 text-[#1d3435]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between mb-5">
             <div>
               <h2 className="text-[14px] font-bold text-[#1d3435]">Satış Trendi</h2>
-              <p className="text-[12px] text-[#999]">Ciro (₺) ve sipariş adedi · {range.label}</p>
+              <p className="text-[12px] text-[#999]">Teslim edilen ciro (₺) ve sipariş adedi · {range.label}</p>
             </div>
             {isPending && (
               <span className="text-[11px] text-[#3d7b74] font-semibold animate-pulse">Güncelleniyor…</span>

@@ -113,10 +113,14 @@ export async function fetchDashboardData(
   const activeOrders = periodOrders.filter((o) => o.status !== "İptal" && o.status !== "İade");
   const prevActiveOrders = prevOrders.filter((o) => o.status !== "İptal" && o.status !== "İade");
 
-  const periodRevenue = activeOrders.reduce((s, o) => s + (o.total_amount ?? 0), 0);
+  // Ciro: sadece teslim edilen siparişler (siparişler sayfasıyla tutarlı)
+  const deliveredOrders = activeOrders.filter((o) => o.status === "Teslim Edildi");
+  const prevDeliveredOrders = prevActiveOrders.filter((o) => o.status === "Teslim Edildi");
+
+  const periodRevenue = deliveredOrders.reduce((s, o) => s + (o.total_amount ?? 0), 0);
   const periodOrderCount = activeOrders.length;
-  const avgOrderValue = periodOrderCount > 0 ? Math.round(periodRevenue / periodOrderCount) : 0;
-  const prevRevenue = prevActiveOrders.reduce((s, o) => s + (o.total_amount ?? 0), 0);
+  const avgOrderValue = activeOrders.length > 0 ? Math.round(activeOrders.reduce((s, o) => s + (o.total_amount ?? 0), 0) / activeOrders.length) : 0;
+  const prevRevenue = prevDeliveredOrders.reduce((s, o) => s + (o.total_amount ?? 0), 0);
   const prevOrderCount = prevActiveOrders.length;
 
   // Status breakdown (tüm dönem, iptal dahil)
