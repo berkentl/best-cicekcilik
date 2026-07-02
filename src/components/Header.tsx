@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { SearchOverlay } from "@/components/SearchOverlay";
@@ -64,6 +65,7 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
     closeTimer.current = setTimeout(() => setActiveDropdown(null), 150);
   };
 
+  const pathname = usePathname();
   const activeCat  = categories.find((c) => c.id === activeDropdown);
   const hasMega    = activeCat?.megaMenu && activeCat.megaMenu.length > 0;
 
@@ -91,7 +93,16 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
 
           {/* Orta — Marka adı (Ribbon tarzı serif) */}
           <div className="flex justify-center">
-            <Link href="/" className="flex flex-col items-center leading-none group">
+            <Link
+              href="/"
+              onClick={(e) => {
+                if (pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="flex flex-col items-center leading-none group"
+            >
               <span
                 className="font-heading font-normal text-[#0d0d0d] uppercase tracking-[0.28em] text-[18px] sm:text-[20px] group-hover:opacity-75 transition-opacity duration-200 whitespace-nowrap"
               >

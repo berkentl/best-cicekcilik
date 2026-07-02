@@ -157,7 +157,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
         .delivery-time span { color: #3d7b74; }
         .msg-box { background: #fdf8f2; border: 1px solid #e8ddd0; border-radius: 10px; padding: 14px; margin-bottom: 20px; }
         .msg-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #c4956a; margin-bottom: 6px; }
-        .msg-text { font-size: 13px; color: #6e5c44; font-style: italic; }
+        .msg-text { font-size: 13px; color: #6e5c44; }
         .section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: #a09890; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; border: 1px solid #ede8e3; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
         thead tr { background: #faf8f6; }
@@ -357,7 +357,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
               </svg>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#c4956a] mb-1">Kart Mesajı</p>
-                <p className="text-[13px] text-[#6e5c44] italic leading-relaxed">&ldquo;{order.card_message}&rdquo;</p>
+                <p className="text-[13px] text-[#6e5c44] leading-relaxed">&ldquo;{order.card_message}&rdquo;</p>
               </div>
             </div>
           )}

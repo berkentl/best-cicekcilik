@@ -80,7 +80,7 @@ export function InfoSection() {
           <h2 className="font-heading text-[36px] md:text-[48px] font-medium leading-tight mb-5">
             Best Çiçekçilik
             <br />
-            <span className="text-[#8bbdb9] italic">& Organizasyon</span>
+            <span className="text-[#8bbdb9]">& Organizasyon</span>
           </h2>
           <p className="text-[14px] text-white/70 max-w-md mx-auto mb-8 leading-relaxed">
             Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul

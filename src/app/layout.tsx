@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Kumbh_Sans, Playfair_Display, Poppins } from "next/font/google";
-import { WhatsAppIcon } from "@/components/icons";
-import { siteConfig } from "@/lib/data";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { StoreHydration } from "@/components/StoreHydration";
 import { MiniCartPreview } from "@/components/MiniCartPreview";
@@ -56,16 +55,7 @@ export default function RootLayout({
         <CurrencyProvider>
         {children}
         </CurrencyProvider>
-        {/* WhatsApp floating butonu */}
-        <a
-          href={`https://wa.me/${siteConfig.whatsapp}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp ile iletişim"
-          className="fixed bottom-6 right-6 z-[999] w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200"
-        >
-          <WhatsAppIcon size={28} className="text-white" />
-        </a>
+        <WhatsAppButton />
       </body>
     </html>
   );

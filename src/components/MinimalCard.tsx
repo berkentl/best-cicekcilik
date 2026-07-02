@@ -44,7 +44,7 @@ export function MinimalCard({ product }: { product: Product }) {
 
       {/* Ad + Fiyat */}
       <div className="pt-2.5 px-0.5">
-        <p className="font-heading italic text-[13px] sm:text-[15px] font-medium text-[#1d3435] leading-snug line-clamp-2 group-hover:text-[#3d7b74] transition-colors">
+        <p className="font-heading text-[13px] sm:text-[15px] font-medium text-[#1d3435] leading-snug line-clamp-2 group-hover:text-[#3d7b74] transition-colors">
           {product.name}
         </p>
         <div className="flex items-baseline gap-2 mt-1">
