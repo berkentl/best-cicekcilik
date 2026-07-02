@@ -153,28 +153,13 @@ function EmptyCart() {
 }
 
 /* ── Ana CartContent ─────────────────────────────────────────── */
-export function CartContent() {
+export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
+  siteSettings?: Pick<typeof DEFAULT_SITE_SETTINGS, "baseShippingFee" | "freeShippingThreshold">;
+}) {
   const mounted = useMounted();
   const { items, removeItem, updateQuantity, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const currency = useCurrencyStore((s) => s.currency);
   const rates    = useCurrencyStore((s) => s.rates);
-
-
-  /* Site ayarları — API'den çek, yoksa varsayılan */
-  const [siteSettings, setSiteSettings] = useState(DEFAULT_SITE_SETTINGS);
-  useEffect(() => {
-    fetch("/api/site-settings")
-      .then(r => r.json())
-      .then((data: Record<string, string>) => {
-        setSiteSettings(prev => ({
-          ...prev,
-          announcementActive:    (data.announcement_active    ?? "true") === "true",
-          freeShippingThreshold: Number(data.free_shipping_threshold ?? DEFAULT_SITE_SETTINGS.freeShippingThreshold),
-          baseShippingFee:       Number(data.base_shipping_fee        ?? DEFAULT_SITE_SETTINGS.baseShippingFee),
-        }));
-      })
-      .catch(() => {});
-  }, []);
 
 
   if (!mounted) return <CartSkeleton />;

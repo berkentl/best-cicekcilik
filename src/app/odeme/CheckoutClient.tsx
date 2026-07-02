@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { calculateShipping } from "@/lib/shippingService";
-import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
 import type { PaymentSettings, SiteSettings } from "@/types";
 
 const inputBase =
@@ -43,27 +42,14 @@ function SectionCard({
 
 interface Props {
   paymentSettings: PaymentSettings;
+  siteSettings: Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold">;
 }
 
-export function CheckoutClient({ paymentSettings }: Props) {
+export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
   const router = useRouter();
   const { items, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
-  const [siteSettings, setSiteSettings] = useState<Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold">>(DEFAULT_SITE_SETTINGS);
-
-  useEffect(() => {
-    fetch("/api/site-settings")
-      .then(r => r.json())
-      .then((data: Record<string, string>) => {
-        setSiteSettings(prev => ({
-          ...prev,
-          freeShippingThreshold: Number(data.free_shipping_threshold ?? DEFAULT_SITE_SETTINGS.freeShippingThreshold),
-          baseShippingFee:       Number(data.base_shipping_fee        ?? DEFAULT_SITE_SETTINGS.baseShippingFee),
-        }));
-      })
-      .catch(() => {});
-  }, []);
 
   const subtotal = totalPrice();
   const discount = discountAmount();
