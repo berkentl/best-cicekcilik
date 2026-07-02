@@ -60,13 +60,13 @@ async function getRelated(categorySlug: string, excludeId: string): Promise<Prod
       .eq("category_slug", categorySlug)
       .eq("is_active", true)
       .neq("id", excludeId)
-      .limit(4);
+      .limit(8);
     if (error) throw error;
     return (data ?? []).map(mapRow);
   } catch {
     return featuredProducts
       .filter((p) => p.categorySlug === categorySlug && p.id !== excludeId)
-      .slice(0, 4);
+      .slice(0, 8);
   }
 }
 
@@ -166,7 +166,7 @@ export default async function ProductPage({ params }: PageProps) {
               <h2 className="font-heading text-[28px] md:text-[32px] font-medium text-[#163426] mb-8">
                 Bunları da beğenebilirsiniz
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                 {related.map((p) => <ProductCard key={p.id} product={p} />)}
               </div>
             </div>
