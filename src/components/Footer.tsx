@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PhoneIcon, MapPinIcon, MailIcon, InstagramIcon, FacebookIcon, WhatsAppIcon } from "@/components/icons";
+import { PhoneIcon, MapPinIcon, MailIcon, InstagramIcon, WhatsAppIcon } from "@/components/icons";
 import { siteConfig, navCategories } from "@/lib/data";
 import { getSiteSettings } from "@/lib/siteSettings";
 
@@ -41,15 +41,6 @@ export async function Footer() {
                 aria-label="Instagram"
               >
                 <InstagramIcon size={16} />
-              </a>
-              <a
-                href="https://facebook.com/bestcicekcilik"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-sm border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors"
-                aria-label="Facebook"
-              >
-                <FacebookIcon size={16} />
               </a>
               <a
                 href={`https://wa.me/${siteConfig.whatsapp}`}
@@ -139,15 +130,20 @@ export async function Footer() {
                   {settings.email}
                 </a>
               </li>
-              <li>
+              <li className="pt-1">
                 <a
                   href={`https://wa.me/${siteConfig.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-[#25d366] text-white text-[12px] font-semibold rounded-sm hover:bg-[#20ba58] transition-colors"
+                  className="group inline-flex items-center gap-3 bg-[#25d366] hover:bg-[#22c55e] text-white font-semibold text-[13px] px-5 py-3 rounded-full shadow-lg shadow-[#25d366]/20 hover:shadow-[#25d366]/40 transition-all duration-300 hover:scale-[1.04] active:scale-[0.97]"
                 >
-                  <WhatsAppIcon size={14} />
+                  <span className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-white/30 transition-colors">
+                    <WhatsAppIcon size={15} />
+                  </span>
                   WhatsApp ile Yaz
+                  <svg className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
                 </a>
               </li>
             </ul>
