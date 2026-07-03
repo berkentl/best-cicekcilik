@@ -12,7 +12,29 @@ const minRotate = -0.25;
 const maxScale = 1;
 const minScale = 0.97;
 
-export function BestsellerBadge() {
+const LEAF_PATH = "M14.963 9.075c.787-3-.188-5.887-.188-5.887S12.488 5.175 11.7 8.175c-.787 3 .188 5.887.188 5.887s2.25-1.987 3.075-4.987m-4.5 1.987c.787 3-.188 5.888-.188 5.888S7.988 14.962 7.2 11.962c-.787-3 .188-5.887.188-5.887s2.287 1.987 3.075 4.987m.862 10.388s-.6-2.962-2.775-5.175C6.337 14.1 3.375 13.5 3.375 13.5s.6 2.962 2.775 5.175c2.213 2.175 5.175 2.775 5.175 2.775m3.3 3.413s-1.988-2.288-4.988-3.075-5.887.187-5.887.187 1.987 2.287 4.988 3.075c3 .787 5.887-.188 5.887-.188Zm6.75 0s1.988-2.288 4.988-3.075c3-.826 5.887.187 5.887.187s-1.988 2.287-4.988 3.075c-3 .787-5.887-.188-5.887-.188ZM32.625 13.5s-2.963.6-5.175 2.775c-2.213 2.213-2.775 5.175-2.775 5.175s2.962-.6 5.175-2.775c2.175-2.213 2.775-5.175 2.775-5.175M28.65 6.075s.975 2.887.188 5.887c-.826 3-3.076 4.988-3.076 4.988s-.974-2.888-.187-5.888c.788-3 3.075-4.987 3.075-4.987m-4.5 7.987s.975-2.887.188-5.887c-.788-3-3.076-4.988-3.076-4.988s-.974 2.888-.187 5.888c.788 3 3.075 4.988 3.075 4.988ZM18 26.1c.975-.225 3.113-.6 5.325 0 3 .788 5.063 3.038 5.063 3.038s-2.888.975-5.888.187a13 13 0 0 1-1.425-.525c.563.788 1.125 1.425 2.288 1.913l-.863 2.062c-2.063-.862-2.925-2.137-3.675-3.262-.262-.375-.525-.713-.787-1.05-.26.293-.465.586-.686.903l-.102.147-.048.068c-.775 1.108-1.643 2.35-3.627 3.194l-.862-2.062c1.162-.488 1.725-1.125 2.287-1.913-.45.225-.938.375-1.425.525-3 .788-5.887-.187-5.887-.187s1.987-2.288 4.987-3.075c2.212-.563 4.35-.188 5.325.037";
+
+/* ── Mobil için basit statik badge (GPU katmanı yok, animasyon yok) ── */
+function StaticBestsellerBadge() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 54" className="w-full h-auto">
+      <rect width="260" height="54" rx="10" fill="#f3e3ac" />
+      <rect x="4" y="4" width="252" height="46" rx="8" fill="transparent" stroke="#c8a96e" strokeWidth="1" />
+      <text fontFamily="Helvetica, Arial, sans-serif" fontSize="7.5" fontWeight="600" fill="#7a5c2e" letterSpacing="0.08em" x="53" y="19">
+        MÜŞTERİLERİN FAVORİSİ
+      </text>
+      <text fontFamily="Helvetica-Bold, Helvetica, Arial, sans-serif" fontSize="17" fontWeight="800" fill="#3d2800" x="52" y="40">
+        En Çok Satan
+      </text>
+      <g transform="translate(8, 9)">
+        <path fill="#7a5c2e" d={LEAF_PATH} />
+      </g>
+    </svg>
+  );
+}
+
+/* ── Masaüstü holografik badge ── */
+function HolographicBadge() {
   const ref = useRef<HTMLDivElement>(null);
   const [firstOverlayPosition, setFirstOverlayPosition] = useState<number>(0);
   const [matrix, setMatrix] = useState<string>(identityMatrix);
@@ -170,27 +192,17 @@ export function BestsellerBadge() {
               <rect width="260" height="54" fill="white" rx="10" />
             </mask>
           </defs>
-          {/* Altın holografik arka plan */}
           <rect width="260" height="54" rx="10" fill="#f3e3ac" />
           <rect x="4" y="4" width="252" height="46" rx="8" fill="transparent" stroke="#c8a96e" strokeWidth="1" />
-
-          {/* Üst küçük metin */}
           <text fontFamily="Helvetica, Arial, sans-serif" fontSize="7.5" fontWeight="600" fill="#7a5c2e" letterSpacing="0.08em" x="53" y="19">
             MÜŞTERİLERİN FAVORİSİ
           </text>
-          {/* Alt büyük-kalın metin */}
           <text fontFamily="Helvetica-Bold, Helvetica, Arial, sans-serif" fontSize="17" fontWeight="800" fill="#3d2800" x="52" y="40">
             En Çok Satan
           </text>
-
-          {/* Yaprak / taç ikonu */}
           <g transform="translate(8, 9)">
-            <path fill="#7a5c2e"
-              d="M14.963 9.075c.787-3-.188-5.887-.188-5.887S12.488 5.175 11.7 8.175c-.787 3 .188 5.887.188 5.887s2.25-1.987 3.075-4.987m-4.5 1.987c.787 3-.188 5.888-.188 5.888S7.988 14.962 7.2 11.962c-.787-3 .188-5.887.188-5.887s2.287 1.987 3.075 4.987m.862 10.388s-.6-2.962-2.775-5.175C6.337 14.1 3.375 13.5 3.375 13.5s.6 2.962 2.775 5.175c2.213 2.175 5.175 2.775 5.175 2.775m3.3 3.413s-1.988-2.288-4.988-3.075-5.887.187-5.887.187 1.987 2.287 4.988 3.075c3 .787 5.887-.188 5.887-.188Zm6.75 0s1.988-2.288 4.988-3.075c3-.826 5.887.187 5.887.187s-1.988 2.287-4.988 3.075c-3 .787-5.887-.188-5.887-.188ZM32.625 13.5s-2.963.6-5.175 2.775c-2.213 2.213-2.775 5.175-2.775 5.175s2.962-.6 5.175-2.775c2.175-2.213 2.775-5.175 2.775-5.175M28.65 6.075s.975 2.887.188 5.887c-.826 3-3.076 4.988-3.076 4.988s-.974-2.888-.187-5.888c.788-3 3.075-4.987 3.075-4.987m-4.5 7.987s.975-2.887.188-5.887c-.788-3-3.076-4.988-3.076-4.988s-.974 2.888-.187 5.888c.788 3 3.075 4.988 3.075 4.988ZM18 26.1c.975-.225 3.113-.6 5.325 0 3 .788 5.063 3.038 5.063 3.038s-2.888.975-5.888.187a13 13 0 0 1-1.425-.525c.563.788 1.125 1.425 2.288 1.913l-.863 2.062c-2.063-.862-2.925-2.137-3.675-3.262-.262-.375-.525-.713-.787-1.05-.26.293-.465.586-.686.903l-.102.147-.048.068c-.775 1.108-1.643 2.35-3.627 3.194l-.862-2.062c1.162-.488 1.725-1.125 2.287-1.913-.45.225-.938.375-1.425.525-3 .788-5.887-.187-5.887-.187s1.987-2.288 4.987-3.075c2.212-.563 4.35-.188 5.325.037"
-            />
+            <path fill="#7a5c2e" d={LEAF_PATH} />
           </g>
-
-          {/* Holografik renk katmanları */}
           <g style={{ mixBlendMode: "overlay" }} mask="url(#badgeMask)">
             {overlayItems.map((item, i) => (
               <g key={i} style={{
@@ -198,7 +210,6 @@ export function BestsellerBadge() {
                 transformOrigin: "center center",
                 transition: !disableInOutOverlayAnimation ? "transform 200ms ease-out" : "none",
                 animation: disableOverlayAnimation ? "none" : `overlayAnimation${i + 1} 5s infinite`,
-                willChange: "transform",
               }}>
                 <polygon
                   points="0,0 260,54 260,0 0,54"
@@ -213,4 +224,14 @@ export function BestsellerBadge() {
       </div>
     </div>
   );
+}
+
+/* ── Public export: mobilde statik, masaüstünde holografik ── */
+export function BestsellerBadge() {
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    startTransition(() => setIsTouch(window.matchMedia("(pointer: coarse)").matches));
+  }, []);
+
+  return isTouch ? <StaticBestsellerBadge /> : <HolographicBadge />;
 }
