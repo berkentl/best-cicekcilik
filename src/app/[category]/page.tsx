@@ -83,7 +83,8 @@ export default async function CategoryPage({ params }: PageProps) {
     getProducts(categorySlug),
   ]);
 
-  const category = categories.find((c) => c.slug === categorySlug);
+  const category = categories.find((c) => c.slug === categorySlug)
+    ?? (categorySlug === "tum-urunler" ? { id: "tum-urunler", name: "Tüm Ürünler", slug: "tum-urunler" } as const : null);
   if (!category) notFound();
 
   const activeProducts = products.filter((p) => p.isActive !== false);
