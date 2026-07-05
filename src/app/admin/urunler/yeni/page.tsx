@@ -225,6 +225,7 @@ function autoSlug(name: string) {
 export default function NewProductPage() {
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
+  const [imagesError, setImagesError] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [extraCats, setExtraCats] = useState<{ categorySlug: string; subCategorySlug?: string }[]>([]);
   const [saving, setSaving] = useState(false);
@@ -309,6 +310,11 @@ export default function NewProductPage() {
       : 0;
 
   const onSubmit: SubmitHandler<ProductFormValues> = async (values) => {
+    if (images.length === 0) {
+      setImagesError("En az bir ürün görseli eklemelisiniz.");
+      return;
+    }
+    setImagesError("");
     setSaving(true);
     setSaveError("");
 
@@ -631,14 +637,18 @@ export default function NewProductPage() {
       </Section>
 
       {/* ── Görseller ── */}
-      <Section title="Ürün Görselleri" badge="Supabase Storage">
+      <Section title="Ürün Görselleri *" badge="Supabase Storage">
         <ImageDropzone
           images={images}
-          onAdd={(urls) => setImages((p) => [...p, ...urls])}
+          onAdd={(urls) => {
+            setImages((p) => [...p, ...urls]);
+            setImagesError("");
+          }}
           onRemove={(i) => setImages((p) => p.filter((_, idx) => idx !== i))}
         />
+        <FieldError msg={imagesError} />
         <p className="text-[11px] text-[#999] mt-2">
-          Görseller Supabase Storage&apos;a yüklenir. İlk görsel ana görsel olarak kullanılır.
+          Görseller Supabase Storage&apos;a yüklenir. İlk görsel ana görsel olarak kullanılır. En az bir görsel zorunludur.
         </p>
       </Section>
 

@@ -33,6 +33,11 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
+
+    if (!Array.isArray(body.images) || body.images.length === 0) {
+      return NextResponse.json({ error: "En az bir ürün görseli eklemelisiniz." }, { status: 400 });
+    }
+
     const sb = createServerClient();
 
     // Slug çakışmasını önlemek için benzersiz slug bul
