@@ -2,10 +2,59 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/icons";
 import { heroSlides } from "@/lib/data";
 
 const AUTOPLAY_INTERVAL = 5000;
+
+const arrowButtonVariants = {
+  rest: { scale: 1 },
+  hover: { scale: 1.08 },
+};
+
+function HeroNavButton({
+  direction,
+  onClick,
+  label,
+  className,
+}: {
+  direction: "prev" | "next";
+  onClick: () => void;
+  label: string;
+  className: string;
+}) {
+  const Icon = direction === "prev" ? ArrowLeftIcon : ArrowRightIcon;
+  const shift = direction === "prev" ? -3 : 3;
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      initial="rest"
+      whileHover="hover"
+      whileTap={{ scale: 0.94 }}
+      variants={arrowButtonVariants}
+      transition={{ type: "spring", stiffness: 320, damping: 22 }}
+      className={[
+        "absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full",
+        "border border-white/30 bg-white/20 text-[#1d3435] backdrop-blur-md",
+        "shadow-[0_4px_20px_-6px_rgba(0,0,0,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
+        className,
+      ].join(" ")}
+    >
+      <motion.span
+        variants={{ rest: { x: 0 }, hover: { x: shift } }}
+        transition={{ type: "spring", stiffness: 320, damping: 18 }}
+        className="flex items-center justify-center"
+      >
+        <Icon size={17} />
+      </motion.span>
+    </motion.button>
+  );
+}
 
 export function HeroSlider() {
   const [current, setCurrent] = useState(0);
@@ -36,15 +85,8 @@ export function HeroSlider() {
 
   return (
     <section className="relative w-full bg-[#f5f0eb]">
-      {/* Mobil: görsel kırpılmadan tam göster */}
-      <div className="block md:hidden relative w-full overflow-hidden">
-        {/* Konteynır yüksekliğini ilk görselin oranı belirler */}
-        <img
-          src={heroSlides[0].mobileImage ?? heroSlides[0].image}
-          alt=""
-          aria-hidden="true"
-          className="w-full block invisible"
-        />
+      {/* Mobil: görseller 4:5 oranında üretildi, tam gösterilir — kırpma yok */}
+      <div className="block md:hidden relative w-full aspect-[4/5] overflow-hidden">
         {heroSlides.map((s, i) => (
           <div
             key={s.id}
@@ -52,21 +94,23 @@ export function HeroSlider() {
             style={{ opacity: i === current && !transitioning ? 1 : 0, zIndex: i === current ? 1 : 0 }}
             aria-hidden={i !== current}
           >
-            <Image
-              src={s.mobileImage ?? s.image}
-              alt={s.alt}
-              fill
-              priority={i === 0}
-              unoptimized
-              className="object-cover object-top"
-              sizes="100vw"
-            />
+            <Link href={s.buttonHref ?? "#"} className="absolute inset-0 block" tabIndex={i === current ? 0 : -1}>
+              <Image
+                src={s.mobileImage ?? s.image}
+                alt={s.alt}
+                fill
+                priority={i === 0}
+                unoptimized
+                className="object-cover"
+                sizes="100vw"
+              />
+            </Link>
           </div>
         ))}
       </div>
 
-      {/* Desktop: tam ekran, object-cover */}
-      <div className="hidden md:block relative h-screen">
+      {/* Desktop: görseller 2:1 oranında üretildi, tam gösterilir — kırpma yok */}
+      <div className="hidden md:block relative w-full aspect-[2/1] overflow-hidden">
         {heroSlides.map((s, i) => (
           <div
             key={s.id}
@@ -74,34 +118,24 @@ export function HeroSlider() {
             style={{ opacity: i === current && !transitioning ? 1 : 0 }}
             aria-hidden={i !== current}
           >
-            <Image
-              src={s.image}
-              alt={s.alt}
-              fill
-              priority={i === 0}
-              unoptimized
-              className="object-cover object-top"
-              sizes="100vw"
-            />
+            <Link href={s.buttonHref ?? "#"} className="absolute inset-0 block" tabIndex={i === current ? 0 : -1}>
+              <Image
+                src={s.image}
+                alt={s.alt}
+                fill
+                priority={i === 0}
+                unoptimized
+                className="object-cover"
+                sizes="100vw"
+              />
+            </Link>
           </div>
         ))}
       </div>
 
-      {/* Prev / Next arrows */}
-      <button
-        onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/70 hover:bg-white text-[#1d3435] shadow-sm transition-all rounded-sm"
-        aria-label="Önceki"
-      >
-        <ArrowLeftIcon size={16} />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center bg-white/70 hover:bg-white text-[#1d3435] shadow-sm transition-all rounded-sm"
-        aria-label="Sonraki"
-      >
-        <ArrowRightIcon size={16} />
-      </button>
+      {/* Prev / Next — cam dokulu premium kontrol butonları */}
+      <HeroNavButton direction="prev" onClick={prev} label="Önceki" className="left-4 md:left-6" />
+      <HeroNavButton direction="next" onClick={next} label="Sonraki" className="right-4 md:right-6" />
 
       {/* Dots */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">

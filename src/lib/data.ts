@@ -15,22 +15,32 @@ export const siteConfig: SiteConfig = {
 
 export const heroSlides: HeroSlide[] = [
   {
-    id: "slide-1",
-    image: "/images/Hero_1.png",
-    mobileImage: "/images/Hero_mobil_1.png",
-    alt: "Best Çiçekçilik Hero 1",
+    id: "slide-aycicegi",
+    image: "/Hero/bestcicekcilik-hero-1-aycicegi-desktop.png",
+    mobileImage: "/Hero/bestcicekcilik-mobile-1-aycicegi.png",
+    alt: "Yazın Neşesi ile Best Çiçekçilik — ayçiçeği buketi",
+    buttonHref: "/cicek/mevsim",
   },
   {
-    id: "slide-3",
-    image: "/images/Hero_3.png",
-    mobileImage: "/images/Hero_mobil_2.png",
-    alt: "Best Çiçekçilik Hero 3",
+    id: "slide-sakayik",
+    image: "/Hero/bestcicekcilik-hero-2-sakayik-desktop.png",
+    mobileImage: "/Hero/bestcicekcilik-mobile-2-sakayik.png",
+    alt: "Taptaze Şakayık Sezonu — Best Çiçekçilik",
+    buttonHref: "/cicek/sakayik",
   },
   {
-    id: "slide-4",
-    image: "/images/Hero_4.png",
-    mobileImage: "/images/Hero_mobil_3.png",
-    alt: "Best Çiçekçilik Hero 4",
+    id: "slide-gelin",
+    image: "/Hero/bestcicekcilik-hero-3-gelin-desktop.png",
+    mobileImage: "/Hero/bestcicekcilik-mobile-3-gelin.png",
+    alt: "Gelin Buketleri — Best Çiçekçilik",
+    buttonHref: "/cicek/gelin-buketi",
+  },
+  {
+    id: "slide-soz-nisan",
+    image: "/Hero/bestcicekcilik-hero-4-soz-nisan-desktop.png",
+    mobileImage: "/Hero/bestcicekcilik-mobile-4-soz-nisan.png",
+    alt: "Söz & Nişan Çiçekleri ve Çikolataları — Best Çiçekçilik",
+    buttonHref: "/gonderim-sebebi/soz-nisan",
   },
 ];
 
