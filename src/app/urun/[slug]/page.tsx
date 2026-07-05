@@ -9,7 +9,7 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { ProductDetailPanel } from "@/components/ProductDetailPanel";
 import { createServerClient } from "@/lib/supabase-server";
 import { getSiteSettings } from "@/lib/siteSettings";
-import { featuredProducts, navCategories } from "@/lib/data";
+import { navCategories } from "@/lib/data";
 import type { Product } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -47,7 +47,7 @@ async function getProduct(slug: string): Promise<Product | null> {
     if (error || !data) throw error;
     return mapRow(data);
   } catch {
-    return featuredProducts.find((p) => p.slug === slug) ?? null;
+    return null;
   }
 }
 
@@ -64,9 +64,7 @@ async function getRelated(categorySlug: string, excludeId: string): Promise<Prod
     if (error) throw error;
     return (data ?? []).map(mapRow);
   } catch {
-    return featuredProducts
-      .filter((p) => p.categorySlug === categorySlug && p.id !== excludeId)
-      .slice(0, 8);
+    return [];
   }
 }
 
@@ -83,10 +81,6 @@ async function getShippingInfo(): Promise<string> {
   } catch {
     return "";
   }
-}
-
-export async function generateStaticParams() {
-  return featuredProducts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

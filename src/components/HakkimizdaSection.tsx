@@ -211,12 +211,12 @@ export function HakkimizdaSection() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/urunler/urun-4a.jpg"
-                  alt="Best Çiçekçilik Aranjman"
-                  className="w-full object-cover"
+                {/* Görsel yakında eklenecek — şimdilik marka tonlarında bir yer tutucu */}
+                <div
+                  className="w-full bg-gradient-to-br from-[#dde5e1] to-[#a9bcb5]"
                   style={{ aspectRatio: "3/4" }}
+                  role="img"
+                  aria-label="Best Çiçekçilik Aranjman"
                 />
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-t from-[#1d3435]/60 to-transparent flex items-end justify-center p-4"
