@@ -88,9 +88,9 @@ export function Header({
         <div className="container-site grid grid-cols-3 items-center h-[68px]">
 
           {/* Sol — mobil hamburger + hesap */}
-          <div className="flex items-center lg:hidden">
+          <div className="flex items-center">
             <button
-              className="p-2 text-[#111]"
+              className="p-2 text-[#111] lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Menü"
             >
@@ -98,7 +98,7 @@ export function Header({
             </button>
             <Link
               href={initialUser ? "/hesabim" : "/giris"}
-              className="p-2 text-[#111] hover:opacity-50 transition-opacity"
+              className="p-2 text-[#111] hover:opacity-50 transition-opacity lg:hidden"
               aria-label={initialUser ? "Hesabım" : "Giriş Yap"}
             >
               <UserIcon size={19} />
