@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { PackageIcon, ChevronDownIcon } from "@/components/icons";
-import { STATUS_CONFIG, TIMELINE_STEPS } from "@/components/account/orderStatus";
+import { STATUS_CONFIG } from "@/components/account/orderStatus";
+import { OrderTimeline } from "@/components/OrderTimeline";
 import type { CustomerOrder, OrderStatus } from "@/types";
 
 function formatDate(iso: string) {
@@ -92,13 +94,23 @@ export function OrdersList() {
                   >
                     <div className="px-5 md:px-6 py-5 space-y-5">
                       {/* Ürünler */}
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {order.items.map((item, i) => (
-                          <div key={i} className="flex items-center justify-between text-[13px]">
-                            <span className="text-[#1d3435]">
-                              {item.name} <span className="text-[#8a9c9c]">×{item.qty}</span>
-                            </span>
-                            <span className="font-semibold text-[#1d3435]">
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#f5f2ed] flex-shrink-0">
+                              {item.image ? (
+                                <Image src={item.image} alt={item.name} fill unoptimized className="object-cover" sizes="56px" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <PackageIcon size={20} className="text-[#d6cfc4]" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[13.5px] font-medium text-[#1d3435] truncate">{item.name}</p>
+                              <p className="text-[12px] text-[#8a9c9c]">×{item.qty}</p>
+                            </div>
+                            <span className="text-[13.5px] font-semibold text-[#1d3435] flex-shrink-0">
                               ₺{(item.price * item.qty).toLocaleString("tr-TR")}
                             </span>
                           </div>
@@ -112,52 +124,19 @@ export function OrdersList() {
                         <p className="mt-0.5">
                           <span className="text-[#8a9c9c]">Alıcı:</span> {order.recipientName}
                         </p>
-                        {order.trackingNumber && (
-                          <p className="mt-0.5">
-                            <span className="text-[#8a9c9c]">Takip No:</span> {order.trackingNumber}
-                          </p>
-                        )}
                       </div>
 
-                      {/* Mini takip çubuğu */}
+                      {/* Zaman çizelgesi — sipariş takip sayfasıyla birebir aynı tasarım */}
                       {!cancelled && (
                         <div className="pt-2">
-                          <div className="relative flex items-center justify-between">
-                            <div className="absolute top-2 left-2 right-2 h-[2px] bg-[#ede8e3]" />
-                            <motion.div
-                              className="absolute top-2 left-2 h-[2px] bg-[#1d3435] origin-left"
-                              initial={{ scaleX: 0 }}
-                              animate={{ scaleX: order.trackingStep / (TIMELINE_STEPS.length - 1) }}
-                              transition={{ duration: 0.6, ease: "easeOut" }}
-                              style={{ width: "calc(100% - 16px)" }}
-                            />
-                            {TIMELINE_STEPS.map((label, i) => {
-                              const done = i <= order.trackingStep;
-                              return (
-                                <div key={label} className="relative z-10 flex flex-col items-center gap-1.5" style={{ width: 16 }}>
-                                  <span
-                                    className={`w-4 h-4 rounded-full border-2 ${
-                                      done ? "bg-[#1d3435] border-[#1d3435]" : "bg-white border-[#e2ddd8]"
-                                    }`}
-                                  />
-                                  <span className={`text-[10px] whitespace-nowrap text-center ${done ? "text-[#1d3435] font-medium" : "text-[#c5bdb5]"}`}>
-                                    {label}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                          </div>
+                          <OrderTimeline
+                            currentStep={order.trackingStep}
+                            courierName={order.courierName}
+                            courierPhone={order.courierPhone}
+                            trackingNumber={order.trackingNumber}
+                          />
                         </div>
                       )}
-
-                      <div className="flex justify-end">
-                        <Link
-                          href={`/siparis-takip`}
-                          className="text-[12.5px] font-semibold text-[#3d7b74] hover:underline"
-                        >
-                          Detaylı Takip →
-                        </Link>
-                      </div>
                     </div>
                   </motion.div>
                 )}

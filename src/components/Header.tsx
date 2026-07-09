@@ -87,15 +87,22 @@ export function Header({
         {/* ── Ana çubuk ── */}
         <div className="container-site grid grid-cols-3 items-center h-[68px]">
 
-          {/* Sol — mobil hamburger */}
-          <div className="flex items-center">
+          {/* Sol — mobil hamburger + hesap */}
+          <div className="flex items-center lg:hidden">
             <button
-              className="p-2 text-[#111] lg:hidden"
+              className="p-2 text-[#111]"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Menü"
             >
               {mobileOpen ? <XIcon size={19} /> : <MenuIcon size={19} />}
             </button>
+            <Link
+              href={initialUser ? "/hesabim" : "/giris"}
+              className="p-2 text-[#111] hover:opacity-50 transition-opacity"
+              aria-label={initialUser ? "Hesabım" : "Giriş Yap"}
+            >
+              <UserIcon size={19} />
+            </Link>
           </div>
 
           {/* Orta — Lüks Butik Logo */}
@@ -265,13 +272,6 @@ export function Header({
           <div className="lg:hidden bg-white border-t border-[#ebebeb] max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#f0f0f0]">
               <div className="flex items-center gap-5">
-                <Link
-                  href={initialUser ? "/hesabim" : "/giris"}
-                  className="flex items-center gap-2 text-[12px] text-[#555] hover:text-[#0d0d0d] tracking-wider uppercase"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <UserIcon size={17} /> <span>{initialUser ? initialUser.name?.split(" ")[0] || "Hesabım" : "Hesabım"}</span>
-                </Link>
                 <Link
                   href="/favoriler"
                   className="flex items-center gap-2 text-[12px] text-[#555] hover:text-[#0d0d0d] tracking-wider uppercase"

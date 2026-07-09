@@ -50,6 +50,7 @@ export async function POST(request: Request) {
       status: order.status ?? "Yeni",
       courier: order.courier_name ?? null,
       courierPhone: order.courier_phone ?? null,
+      trackingNumber: order.tracking_number ?? null,
     });
   } catch {
     return NextResponse.json(

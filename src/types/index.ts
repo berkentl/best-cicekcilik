@@ -196,6 +196,7 @@ export interface OrderItem {
   name: string;
   qty: number;
   price: number;
+  image?: string;
 }
 
 export type OrderStatus =
@@ -215,6 +216,8 @@ export interface CustomerOrder {
   status: OrderStatus;
   trackingStep: number;
   trackingNumber?: string;
+  courierName?: string;
+  courierPhone?: string;
   address: string;
   recipientName: string;
   deliveryDate?: string;
