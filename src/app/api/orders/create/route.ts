@@ -4,6 +4,7 @@ import { generateOrderNumber } from "@/lib/order-utils";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import { sendPushToAdmins } from "@/lib/push";
 import { createNotification } from "@/lib/notifications";
+import { getSessionUserId } from "@/lib/auth";
 
 interface OrderItem {
   productId?: string;
@@ -60,10 +61,12 @@ export async function POST(request: Request) {
     const orderNumber = generateOrderNumber();
     const customerName = `${form.firstName} ${form.lastName}`.trim();
     const productName = items.map((i: { name: string; qty: number }) => `${i.name} (×${i.qty})`).join(", ");
+    const userId = await getSessionUserId();
 
     // DB'ye kaydet
     const { data: order, error } = await sb.from("orders").insert({
       order_number: orderNumber,
+      user_id: userId ?? null,
       email: form.email.toLowerCase().trim(),
       customer_name: customerName,
       customer_phone: form.phone,

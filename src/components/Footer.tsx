@@ -22,7 +22,7 @@ export async function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <div className="mb-5">
-              <span className="font-heading text-[22px] font-semibold tracking-wide text-white">
+              <span className="font-poppins text-[22px] font-semibold tracking-wide text-white">
                 {settings.businessName}
               </span>
             </div>

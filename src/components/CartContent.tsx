@@ -3,6 +3,7 @@
 import { useState, useEffect, startTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
@@ -12,12 +13,19 @@ import {
   remainingForFreeShipping,
 } from "@/lib/shippingService";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
+import { CrossSellModal } from "@/components/CrossSellModal";
+import type { Product } from "@/types";
 
 /* ── useMounted ──────────────────────────────────────────────── */
 function useMounted() {
   const [m, setM] = useState(false);
   useEffect(() => { startTransition(() => setM(true)); }, []);
   return m;
+}
+
+function todayIso() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
 /* ── Skeleton ────────────────────────────────────────────────── */
@@ -157,12 +165,36 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
   siteSettings?: Pick<typeof DEFAULT_SITE_SETTINGS, "baseShippingFee" | "freeShippingThreshold">;
 }) {
   const mounted = useMounted();
-  const { items, removeItem, updateQuantity, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
+  const router = useRouter();
+  const { items, removeItem, updateQuantity, addItem, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const currency = useCurrencyStore((s) => s.currency);
   const rates    = useCurrencyStore((s) => s.rates);
 
+  const [crossSell, setCrossSell] = useState<{ active: boolean; title: string; products: Product[] } | null>(null);
+  const [crossSellOpen, setCrossSellOpen] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/cross-sell")
+      .then((r) => r.json())
+      .then(setCrossSell)
+      .catch(() => setCrossSell({ active: false, title: "", products: [] }));
+  }, []);
 
   if (!mounted) return <CartSkeleton />;
+
+  const handleCheckoutClick = () => {
+    if (crossSell?.active && crossSell.products.length > 0) {
+      setCrossSellOpen(true);
+    } else {
+      router.push("/odeme");
+    }
+  };
+
+  const handleCrossSellProceed = (selected: Product[]) => {
+    selected.forEach((p) => addItem(p));
+    setCrossSellOpen(false);
+    router.push("/odeme");
+  };
 
   const subtotal      = totalPrice();
   const discount      = discountAmount();
@@ -248,18 +280,38 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
 
                   {/* Teslimat Tarihi */}
                   {delivery && (
-                    <div className="mt-3 pt-3 border-t border-[#f5f3f3] flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-full bg-[#163426]/8 flex items-center justify-center flex-shrink-0">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#163426" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
+                    delivery.dateIso < todayIso() ? (
+                      <div className="mt-3 pt-3 border-t border-[#f5f3f3] flex items-center gap-3 bg-[#fff8f0] -mx-4 md:-mx-6 px-4 md:px-6 py-3 rounded-b-2xl">
+                        <div className="w-7 h-7 rounded-full bg-[#e8952c]/15 flex items-center justify-center flex-shrink-0">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c47a1f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#c47a1f]">Teslimat Tarihi Geçmiş</p>
+                          <p className="text-[13px] font-medium text-[#8a5a1a] mt-0.5">
+                            Eski seçim: {delivery.dateLabel}, {delivery.timeSlot} — lütfen güncelleyin.
+                          </p>
+                        </div>
+                        <Link href={`/urun/${product.slug}`}
+                          className="text-[12px] font-semibold text-[#c47a1f] underline underline-offset-2 hover:text-[#a3630f] transition-colors flex-shrink-0 whitespace-nowrap">
+                          Güncelle
+                        </Link>
                       </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#727973]">Teslimat Tarihi</p>
-                        <p className="text-[13px] font-medium text-[#1b1c1c] mt-0.5">{delivery.dateLabel}, {delivery.timeSlot}</p>
+                    ) : (
+                      <div className="mt-3 pt-3 border-t border-[#f5f3f3] flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-full bg-[#163426]/8 flex items-center justify-center flex-shrink-0">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#163426" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#727973]">Teslimat Tarihi</p>
+                          <p className="text-[13px] font-medium text-[#1b1c1c] mt-0.5">{delivery.dateLabel}, {delivery.timeSlot}</p>
+                        </div>
                       </div>
-                    </div>
+                    )
                   )}
                 </article>
               );
@@ -346,13 +398,13 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
               </div>
 
               {/* CTA */}
-              <Link href="/odeme"
+              <button onClick={handleCheckoutClick}
                 className="flex items-center justify-center gap-3 w-full bg-[#163426] hover:bg-[#1e4434] active:scale-[0.98] text-white text-[13px] font-bold tracking-[0.1em] uppercase rounded-full py-4 px-6 transition-all duration-200 shadow-[0_4px_24px_rgba(22,52,38,0.2)]">
                 Siparişi Tamamla
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                 </svg>
-              </Link>
+              </button>
 
               {/* Güven rozetleri */}
               <div className="grid grid-cols-3 gap-3 pt-1 border-t border-[#dbd9d9]">
@@ -380,6 +432,16 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
           </div>
         </div>
       </div>
+
+      {crossSell && (
+        <CrossSellModal
+          open={crossSellOpen}
+          title={crossSell.title}
+          products={crossSell.products}
+          onClose={() => setCrossSellOpen(false)}
+          onProceed={handleCrossSellProceed}
+        />
+      )}
     </main>
   );
 }

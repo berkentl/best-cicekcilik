@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { useCartStore, type DeliverySlot } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -18,31 +18,6 @@ function buildShippingLines(
   customText?: string
 ): string {
   return customText?.trim() ?? "";
-}
-
-interface AddressSuggestion { id:string; name:string; address:string; district:string; ilce:string; }
-
-const DB: AddressSuggestion[] = [{"id":"kk1","name":"Halkalı Merkez","address":"Halkalı Caddesi, Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk2","name":"İstasyon, Halkalı Hızlı Tren İstasyonu","address":"Yarımburgaz Caddesi, Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk3","name":"Kanarya, Halkalı Marmaray Durağı","address":"Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk4","name":"Sefaköy Mahallesi","address":"Sefaköy, Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk5","name":"Atakent Mahallesi","address":"Atakent Caddesi, Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk6","name":"Florya, Havaalanı Yolu","address":"Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk7","name":"İkitelli Sanayi, OSB Metro Durağı","address":"Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"kk8","name":"Yarımburgaz, Küçükçekmece","address":"Küçükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Küçükçekmece"},{"id":"ss1","name":"Nişantaşı, Abdi İpekçi Caddesi","address":"Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"ss2","name":"Teşvikiye, Vali Konağı Caddesi","address":"Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"ss3","name":"Fulya, Aytekin Kotil Caddesi","address":"Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"ss4","name":"Mecidiyeköy, Büyükdere Caddesi","address":"Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"ss5","name":"Osmanbey, Halaskargazi Caddesi","address":"Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"ss6","name":"19 Mayıs, İstanbul Cevahir AVM","address":"Büyükdere Caddesi, Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"ss7","name":"Gayrettepe Metro Durağı","address":"Büyükdere Caddesi, Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"bk1","name":"Levent, Büyükdere Caddesi","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk2","name":"Etiler, Nispetiye Caddesi","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk3","name":"Bebek, Cevdet Paşa Caddesi","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk4","name":"Ortaköy, Muallim Naci Caddesi","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk5","name":"Balmumcu, Barbaros Bulvarı","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk6","name":"Beşiktaş İskelesi, Çırağan Caddesi","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk7","name":"Vodafone Park, Dolmabahçe Caddesi","address":"Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"bk8","name":"4. Levent Metro Durağı","address":"Büyükdere Caddesi, Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"by1","name":"İstiklal Caddesi","address":"Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"by2","name":"Cihangir, Akarsu Sokak","address":"Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"by3","name":"Galata Kulesi, Galata","address":"Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"by4","name":"Karaköy, Kemeraltı Caddesi","address":"Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"by5","name":"Taksim Meydanı","address":"Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"by6","name":"Taksim Metro Durağı","address":"Taksim Meydanı, Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"by7","name":"Kasımpaşa, Piyalepaşa Bulvarı","address":"Beyoğlu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beyoğlu"},{"id":"sy1","name":"Maslak, Büyükdere Caddesi","address":"Sarıyer/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sarıyer"},{"id":"sy2","name":"Tarabya, Tarabya Sahil Yolu","address":"Sarıyer/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sarıyer"},{"id":"sy3","name":"İstinye Park AVM, İstinye","address":"Sarıyer/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sarıyer"},{"id":"sy4","name":"Emirgan, Emirgan Korusu","address":"Sarıyer/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sarıyer"},{"id":"sy5","name":"Yeniköy, Köybaşı Caddesi","address":"Sarıyer/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sarıyer"},{"id":"ft1","name":"Sultanahmet, Sultan Ahmet Meydanı","address":"Fatih/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Fatih"},{"id":"ft2","name":"Kapalıçarşı, Beyazıt","address":"Fatih/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Fatih"},{"id":"ft3","name":"Eminönü, Mısır Çarşısı","address":"Fatih/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Fatih"},{"id":"ft4","name":"Balat, Vodina Caddesi","address":"Fatih/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Fatih"},{"id":"ft5","name":"Aksaray, Millet Caddesi","address":"Fatih/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Fatih"},{"id":"br1","name":"Bakırköy, İstasyon Caddesi","address":"Bakırköy/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bakırköy"},{"id":"br2","name":"Yeşilköy, Sahil Yolu","address":"Bakırköy/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bakırköy"},{"id":"br3","name":"Ataköy, E-5 Sahil Yolu","address":"Bakırköy/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bakırköy"},{"id":"br4","name":"Bakırköy Marmaray Durağı","address":"İstasyon Caddesi, Bakırköy/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bakırköy"},{"id":"kg1","name":"Çağlayan, Piyalepaşa Bulvarı","address":"Kağıthane/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Kağıthane"},{"id":"kg2","name":"Kağıthane Merkez","address":"Kağıthane/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Kağıthane"},{"id":"ey1","name":"Eyüpsultan Camii, Eyüp Sultan Meydanı","address":"Eyüpsultan/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Eyüpsultan"},{"id":"ey2","name":"Pierre Loti Tepesi","address":"Eyüpsultan/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Eyüpsultan"},{"id":"bp1","name":"Bayrampaşa Merkez","address":"Bayrampaşa/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bayrampaşa"},{"id":"bp2","name":"Forum İstanbul AVM","address":"Kocatepe Mah., Bayrampaşa/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bayrampaşa"},{"id":"gp1","name":"Gaziosmanpaşa Merkez","address":"Gaziosmanpaşa/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Gaziosmanpaşa"},{"id":"es1","name":"Esenler Merkez","address":"Esenler/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Esenler"},{"id":"es2","name":"Menderes Metro Durağı","address":"Esenler/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Esenler"},{"id":"bg1","name":"Güneşli, Bağcılar","address":"Bağcılar/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bağcılar"},{"id":"bg2","name":"Bağcılar Merkez","address":"Bağcılar/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bağcılar"},{"id":"bg3","name":"Kirazlı Metrobüs Durağı","address":"Bağcılar/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bağcılar"},{"id":"bh1","name":"Bahçelievler Merkez","address":"Bahçelievler/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bahçelievler"},{"id":"bh2","name":"Şirinevler, Adnan Kahveci Bulvarı","address":"Bahçelievler/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bahçelievler"},{"id":"zb1","name":"Zeytinburnu Merkez","address":"Zeytinburnu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Zeytinburnu"},{"id":"zb2","name":"Kazlıçeşme Marmaray Durağı","address":"Zeytinburnu/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Zeytinburnu"},{"id":"gn1","name":"Güngören Merkez","address":"Güngören/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Güngören"},{"id":"av1","name":"Avcılar Merkez, Deniz Caddesi","address":"Avcılar/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Avcılar"},{"id":"av2","name":"Firuzköy, Firuzköy Caddesi","address":"Avcılar/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Avcılar"},{"id":"bl1","name":"Beylikdüzü Merkez, Cumhuriyet Caddesi","address":"Beylikdüzü/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beylikdüzü"},{"id":"bl2","name":"Migros AVM Beylikdüzü","address":"Adnan Kahveci Bulvarı, Beylikdüzü/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beylikdüzü"},{"id":"en1","name":"Esenyurt Merkez, 1. Cadde","address":"Esenyurt/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Esenyurt"},{"id":"bs1","name":"Başakşehir Merkez","address":"Başakşehir/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Başakşehir"},{"id":"bs2","name":"Olimpiyat Stadyumu, Başakşehir","address":"Başakşehir Bulvarı, Başakşehir/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Başakşehir"},{"id":"bs3","name":"Kayaşehir, Kayaşehir Caddesi","address":"Başakşehir/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Başakşehir"},{"id":"ak1","name":"Tayakadın, İstanbul Havalimanı (IST)","address":"Terminal Caddesi, Arnavutköy/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Arnavutköy"},{"id":"ak2","name":"Arnavutköy Merkez","address":"Arnavutköy/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Arnavutköy"},{"id":"sg1","name":"Sultangazi Merkez","address":"Sultangazi/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sultangazi"},{"id":"bc1","name":"Büyükçekmece Merkez","address":"Büyükçekmece/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Büyükçekmece"},{"id":"sl1","name":"Silivri Merkez, Yalı Caddesi","address":"Silivri/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Silivri"},{"id":"kd1","name":"Moda, Moda Caddesi","address":"Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"kd2","name":"Kadıköy Çarşı, Yoğurtçu Parkı","address":"Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"kd3","name":"Bağdat Caddesi","address":"Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"kd4","name":"Fenerbahçe, Şükrü Saracoğlu Stadyumu","address":"Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"kd5","name":"Göztepe, Bağdat Caddesi","address":"Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"kd6","name":"Suadiye, Bağdat Caddesi","address":"Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"kd7","name":"Kadıköy Marmaray Durağı","address":"İskele Caddesi, Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"us1","name":"Üsküdar Meydanı, İskele Caddesi","address":"Üsküdar/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Üsküdar"},{"id":"us2","name":"Çengelköy, Çengelköy Caddesi","address":"Üsküdar/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Üsküdar"},{"id":"us3","name":"Kuzguncuk, Kuzguncuk Caddesi","address":"Üsküdar/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Üsküdar"},{"id":"us4","name":"Beylerbeyi, Çengelköy Caddesi","address":"Üsküdar/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Üsküdar"},{"id":"us5","name":"Büyük Çamlıca Camii, Kısıklı","address":"Üsküdar/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Üsküdar"},{"id":"us6","name":"Üsküdar Marmaray Durağı","address":"Üsküdar/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Üsküdar"},{"id":"at1","name":"Ataşehir Merkez, Ataşehir Bulvarı","address":"Ataşehir/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ataşehir"},{"id":"at2","name":"Küçükbakkalköy, Ataşehir","address":"Ataşehir/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ataşehir"},{"id":"at3","name":"İçerenköy, Kayışdağı Caddesi","address":"Ataşehir/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ataşehir"},{"id":"at4","name":"Palladium AVM, Ataşehir","address":"Ataşehir/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ataşehir"},{"id":"ml1","name":"Maltepe Sahil, Sahil Yolu","address":"Maltepe/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Maltepe"},{"id":"ml2","name":"Bağlarbaşı, Bağlarbaşı Caddesi","address":"Maltepe/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Maltepe"},{"id":"ml3","name":"Küçükyalı, Sahil Yolu","address":"Maltepe/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Maltepe"},{"id":"ml4","name":"Maltepe Marmaray Durağı","address":"Maltepe/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Maltepe"},{"id":"kr1","name":"Kartal Merkez, Ankara Caddesi","address":"Kartal/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kartal"},{"id":"kr2","name":"Cevizli, İstanbul Anadolu Adalet Sarayı","address":"E-5 Yanyol, Kartal/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kartal"},{"id":"kr3","name":"Kartal Marmaray Durağı","address":"Kartal/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kartal"},{"id":"pk1","name":"Pendik Merkez, İstasyon Caddesi","address":"Pendik/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Pendik"},{"id":"pk2","name":"Sabiha Gökçen Havalimanı (SAW)","address":"Kurtköy, Pendik/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Pendik"},{"id":"pk3","name":"Kaynarca, Pendik","address":"Pendik/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Pendik"},{"id":"pk4","name":"Pendik Marmaray Durağı","address":"Pendik/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Pendik"},{"id":"tz1","name":"Tuzla Merkez","address":"Tuzla/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Tuzla"},{"id":"tz2","name":"Tuzla Marmaray Durağı","address":"Tuzla/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Tuzla"},{"id":"um1","name":"Ümraniye Merkez","address":"Ümraniye/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ümraniye"},{"id":"um2","name":"Dudullu, Ümraniye","address":"Ümraniye/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ümraniye"},{"id":"sc1","name":"Sancaktepe Merkez","address":"Sancaktepe/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Sancaktepe"},{"id":"sb1","name":"Sultanbeyli Merkez","address":"Sultanbeyli/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Sultanbeyli"},{"id":"ck1","name":"Çekmeköy Merkez","address":"Çekmeköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Çekmeköy"},{"id":"bz1","name":"Beykoz Merkez","address":"Beykoz/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Beykoz"},{"id":"bz2","name":"Paşabahçe, Sahil Yolu","address":"Beykoz/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Beykoz"},{"id":"bz3","name":"Anadolu Kavağı, Boğaz","address":"Beykoz/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Beykoz"},{"id":"se1","name":"Şile Merkez, Sahil Caddesi","address":"Şile/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Şile"},{"id":"on1","name":"Florence Nightingale Hastanesi","address":"Abide-i Hürriyet Caddesi, Şişli/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Şişli"},{"id":"on2","name":"Acıbadem Hastanesi Maslak","address":"Büyükdere Caddesi, Sarıyer/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Sarıyer"},{"id":"on3","name":"İstanbul Üniversitesi, Merkez Kampüs","address":"Beyazıt, Fatih/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Fatih"},{"id":"on4","name":"Boğaziçi Üniversitesi, Bebek Kampüs","address":"Rumeli Hisarı, Beşiktaş/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Beşiktaş"},{"id":"on5","name":"Acıbadem Hastanesi Kadıköy","address":"Tekin Sokak, Kadıköy/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Kadıköy"},{"id":"on6","name":"Emaar AVM, Ataşehir","address":"Yenişehir Mah., Ataşehir/İstanbul","district":"İSTANBUL-ANADOLU","ilce":"Ataşehir"},{"id":"on7","name":"Medipol Üniversitesi, Bağcılar","address":"TEM Bağlantı Yolu, Bağcılar/İstanbul","district":"İSTANBUL-AVRUPA","ilce":"Bağcılar"}];
-
-function norm(s: string) {
-  return s.toLowerCase()
-    .replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ş/g,"s")
-    .replace(/ı/g,"i").replace(/ö/g,"o").replace(/ç/g,"c")
-    .replace(/İ/g,"i").replace(/Ğ/g,"g").replace(/Ü/g,"u")
-    .replace(/Ş/g,"s").replace(/Ö/g,"o").replace(/Ç/g,"c");
-}
-
-function searchDB(q: string): AddressSuggestion[] {
-  if (!q || q.trim().length < 2) return [];
-  const nq = norm(q.trim());
-  const starts: AddressSuggestion[] = [];
-  const rest: AddressSuggestion[] = [];
-  for (const item of DB) {
-    const hay = norm(item.name + " " + item.address + " " + item.ilce);
-    if (norm(item.name).startsWith(nq) || hay.startsWith(nq)) starts.push(item);
-    else if (hay.includes(nq)) rest.push(item);
-  }
-  return [...starts, ...rest].slice(0, 8);
 }
 
 function AccordionList({ lines }: { lines: string }) {
@@ -73,128 +48,6 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
       <div className={cn("overflow-hidden transition-all duration-300 ease-in-out", open ? "max-h-[2000px] pb-4" : "max-h-0")}>
         <div className="text-[14px] text-[#424844] leading-relaxed">{children}</div>
       </div>
-    </div>
-  );
-}
-
-function AddressSearch({ onChange }: { onChange: (ilce: string) => void }) {
-  const [query, setQuery]         = useState("");
-  const [results, setResults]     = useState<AddressSuggestion[]>([]);
-  const [open, setOpen]           = useState(false);
-  const [focused, setFocused]     = useState(false);
-  const [activeIdx, setActiveIdx] = useState(-1);
-  const wrapRef  = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const run = useCallback((q: string) => {
-    const r = searchDB(q);
-    setResults(r);
-    setOpen(r.length > 0 && q.trim().length >= 2);
-    setActiveIdx(-1);
-  }, []);
-
-  useEffect(() => {
-    const t = setTimeout(() => run(query), 180);
-    return () => clearTimeout(t);
-  }, [query, run]);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
-        setOpen(false); setFocused(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  const select = (item: AddressSuggestion) => {
-    setQuery(item.name + ", " + item.address);
-    onChange(item.ilce);
-    setOpen(false);
-  };
-
-  const clear = () => {
-    setQuery(""); onChange(""); setResults([]); setOpen(false);
-    inputRef.current?.focus();
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (!open) return;
-    if (e.key === "ArrowDown") { e.preventDefault(); setActiveIdx(i => Math.min(i + 1, results.length - 1)); }
-    if (e.key === "ArrowUp")   { e.preventDefault(); setActiveIdx(i => Math.max(i - 1, 0)); }
-    if (e.key === "Enter" && activeIdx >= 0) { e.preventDefault(); select(results[activeIdx]); }
-    if (e.key === "Escape") setOpen(false);
-  };
-
-  return (
-    <div ref={wrapRef} className="relative">
-      <div className={cn(
-        "flex items-center gap-2.5 bg-white border rounded-xl px-4 py-3 transition-all duration-200",
-        focused || open ? "border-[#163426] ring-2 ring-[#163426]/10 shadow-sm" : "border-[#e4e2e2] hover:border-[#c1c8c2]"
-      )}>
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-          stroke={focused || open ? "#163426" : "#bbb"}
-          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 transition-colors">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-        <input
-          ref={inputRef}
-          type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          onFocus={() => { setFocused(true); if (query.length >= 2) run(query); }}
-          onKeyDown={onKeyDown}
-          placeholder="Gönderim Yeri Seçin"
-          autoComplete="off"
-          className="flex-1 text-[14px] text-[#1b1c1c] placeholder:text-[#bbb] focus:outline-none bg-transparent min-w-0"
-        />
-        {query ? (
-          <button type="button" onClick={clear}
-            className="flex-shrink-0 w-5 h-5 rounded-full bg-[#ebebeb] hover:bg-[#d4d4d4] flex items-center justify-center transition-colors">
-            <svg width="8" height="8" viewBox="0 0 10 10" fill="none" stroke="#666" strokeWidth="2.2" strokeLinecap="round">
-              <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
-            </svg>
-          </button>
-        ) : (
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2"
-            strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        )}
-      </div>
-
-      {!open && !query && (
-        <p className="text-[12px] text-[#bbb] mt-2 leading-snug px-0.5">
-          Mahalle, cadde, hastane veya önemli nokta ismi girin.
-        </p>
-      )}
-
-      {open && (
-        <div className="absolute z-50 left-0 right-0 top-[calc(100%+8px)] bg-white border border-[#e8e8e8] rounded-xl shadow-md overflow-hidden">
-          <div className="max-h-[288px] overflow-y-auto overscroll-contain divide-y divide-[#f3f3f3]">
-            {results.map((item, i) => (
-              <button key={item.id} type="button"
-                onMouseDown={e => { e.preventDefault(); select(item); }}
-                onMouseEnter={() => setActiveIdx(i)}
-                className={cn("w-full text-left px-4 py-3.5 transition-colors duration-100",
-                  i === activeIdx ? "bg-[#f2f6f2]" : "hover:bg-[#f8faf8]")}>
-                <p className="text-[13px] font-semibold text-[#1e4f9c] leading-snug">
-                  {item.name}<span className="font-normal text-[#1e4f9c]/75">,&nbsp;{item.address}</span>
-                </p>
-                <p className="text-[11px] text-[#aaa] mt-0.5 font-bold tracking-[0.08em] uppercase">{item.district}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {focused && query.trim().length >= 2 && !open && results.length === 0 && (
-        <div className="absolute z-50 left-0 right-0 top-[calc(100%+8px)] bg-white border border-[#e8e8e8] rounded-xl shadow-md px-4 py-5 text-center">
-          <p className="text-[13px] text-[#bbb]">Adres bulunamadı. Farklı bir kelime deneyin.</p>
-        </div>
-      )}
     </div>
   );
 }
@@ -350,9 +203,9 @@ interface Props {
 
 export function ProductDetailPanel({ product, categorySlug, inStock, shippingInfo, siteSettings }: Props) {
   const [added, setAdded]               = useState(false);
-  const [, setIlce]                     = useState("");
   const [deliverySlot, setDeliverySlot] = useState<DeliverySlot | null>(null);
   const [showPicker, setShowPicker]     = useState(true);
+  const [deliveryError, setDeliveryError] = useState(false);
 
   const addItem    = useCartStore(s => s.addItem);
   const setDelivery = useCartStore(s => s.setDelivery);
@@ -366,8 +219,13 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
 
   const handleAddToCart = () => {
     if (!inStock) return;
+    if (!deliverySlot) {
+      setDeliveryError(true);
+      setShowPicker(true);
+      return;
+    }
     addItem(product);
-    if (deliverySlot) setDelivery(product.id, deliverySlot);
+    setDelivery(product.id, deliverySlot);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -419,10 +277,6 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
 
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1.5">
-          <label className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#424844]">Teslimat Adresi</label>
-          <AddressSearch onChange={setIlce} />
-        </div>
-        <div className="flex flex-col gap-1.5">
           <label className="text-[12px] font-semibold tracking-[0.06em] uppercase text-[#424844]">Teslimat Tarihi &amp; Saati</label>
           {deliverySlot && !showPicker ? (
             <div className="flex items-center justify-between bg-[#f0f7f3] border border-[#adceba] rounded-xl px-4 py-3">
@@ -438,8 +292,16 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
           ) : (
             <InlineDeliveryPicker
               value={deliverySlot}
-              onConfirm={(slot) => { setDeliverySlot(slot); setShowPicker(false); }}
+              onConfirm={(slot) => { setDeliverySlot(slot); setShowPicker(false); setDeliveryError(false); }}
             />
+          )}
+          {deliveryError && !deliverySlot && (
+            <p className="text-[12.5px] text-[#b0685f] flex items-center gap-1.5 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              Sepete eklemeden önce lütfen teslimat tarihi ve saati seçip onaylayın.
+            </p>
           )}
         </div>
       </div>

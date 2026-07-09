@@ -165,3 +165,59 @@ export interface SiteConfig {
   whatsapp?: string;
   announcementText: string;
 }
+
+/** Oturum açmış müşteri — şifre hash'i asla client'a gönderilmez. */
+export interface CustomerUser {
+  id: string;
+  email: string;
+  name: string;
+  phone?: string;
+  kvkkConsent?: boolean;
+  marketingConsent?: boolean;
+  createdAt?: string;
+}
+
+/** Müşterinin kayıtlı teslimat/fatura adresi. */
+export interface Address {
+  id: string;
+  userId: string;
+  title: string;
+  recipientName: string;
+  recipientPhone: string;
+  city: string;
+  district: string;
+  fullAddress: string;
+  isDefault: boolean;
+  createdAt?: string;
+}
+
+export interface OrderItem {
+  productId?: string;
+  name: string;
+  qty: number;
+  price: number;
+}
+
+export type OrderStatus =
+  | "Yeni"
+  | "Hazırlanıyor"
+  | "Kargoya Verildi"
+  | "Teslim Edildi"
+  | "İptal"
+  | "İade";
+
+/** Müşteri panelinde ("/hesabim/siparislerim") gösterilen sipariş özeti. */
+export interface CustomerOrder {
+  id: string;
+  orderNumber: string;
+  items: OrderItem[];
+  totalAmount: number;
+  status: OrderStatus;
+  trackingStep: number;
+  trackingNumber?: string;
+  address: string;
+  recipientName: string;
+  deliveryDate?: string;
+  deliveryTime?: string;
+  createdAt: string;
+}

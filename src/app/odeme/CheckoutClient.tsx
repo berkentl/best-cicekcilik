@@ -6,7 +6,9 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { calculateShipping } from "@/lib/shippingService";
-import type { PaymentSettings, SiteSettings } from "@/types";
+import { formatPhoneInput, PHONE_PATTERN } from "@/lib/phone";
+import { PlusIcon, CheckCircleIcon } from "@/components/icons";
+import type { PaymentSettings, SiteSettings, Address } from "@/types";
 
 const inputBase =
   "w-full border border-[#e2ddd8] rounded-lg px-4 py-3 text-[13px] text-[#1d3435] placeholder:text-[#c0b8b0] bg-white transition-all duration-150 " +
@@ -74,6 +76,10 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
     paymentMethod: paymentSettings.kapida_enabled ? "kapida" : paymentSettings.havale_enabled ? "havale" : "online",
   });
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+
   const update = (field: string, value: string) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -87,6 +93,48 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
       })));
     }
   }, []);
+
+  // Giriş yapmış müşteri + kayıtlı adresleri
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => {
+        if (!r.ok) return null;
+        return r.json();
+      })
+      .then((user) => {
+        if (!user) return;
+        setIsLoggedIn(true);
+        startTransition(() => setForm((prev) => ({
+          ...prev,
+          firstName: prev.firstName || user.name?.split(" ")[0] || "",
+          lastName: prev.lastName || user.name?.split(" ").slice(1).join(" ") || "",
+          email: prev.email || user.email || "",
+          phone: prev.phone || (user.phone ? formatPhoneInput(user.phone) : ""),
+        })));
+        return fetch("/api/addresses").then((r) => (r.ok ? r.json() : []));
+      })
+      .then((addresses: Address[] | undefined) => {
+        if (addresses) setSavedAddresses(addresses);
+      })
+      .catch(() => {});
+  }, []);
+
+  const selectSavedAddress = (addr: Address) => {
+    setSelectedAddressId(addr.id);
+    setForm((prev) => ({
+      ...prev,
+      address: addr.fullAddress,
+      district: addr.district,
+      city: addr.city,
+      recipientName: addr.recipientName,
+      recipientPhone: addr.recipientPhone,
+    }));
+  };
+
+  const startNewAddress = () => {
+    setSelectedAddressId(null);
+    setForm((prev) => ({ ...prev, address: "", district: "", city: "İstanbul" }));
+  };
 
   const kapidaFee =
     form.paymentMethod === "kapida" && paymentSettings.kapida_enabled
@@ -128,6 +176,24 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
       }
 
       const { orderNumber } = await res.json();
+
+      // Giriş yapmış müşteri yeni bir adres girdiyse (kayıtlı adres seçmediyse) hesabına kaydet
+      if (isLoggedIn && !selectedAddressId && form.address.trim()) {
+        fetch("/api/addresses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: form.district || "Teslimat Adresi",
+            recipientName: form.recipientName,
+            recipientPhone: form.recipientPhone,
+            city: form.city,
+            district: form.district,
+            fullAddress: form.address,
+            isDefault: savedAddresses.length === 0,
+          }),
+        }).catch(() => {});
+      }
+
       setRedirecting(true);
       clearCart();
       router.push(`/odeme/basarili?order=${orderNumber}`);
@@ -246,8 +312,10 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                     </div>
                     <div>
                       <label className={labelClass}>Telefon *</label>
-                      <input required type="tel" placeholder="0532 000 00 00" className={inputBase}
-                        value={form.phone} onChange={(e) => update("phone", e.target.value)} />
+                      <input required type="tel" inputMode="numeric" placeholder="0532 000 00 00"
+                        pattern={PHONE_PATTERN} title="Geçerli bir telefon numarası girin (0XXX XXX XX XX)"
+                        maxLength={14} className={inputBase}
+                        value={form.phone} onChange={(e) => update("phone", formatPhoneInput(e.target.value))} />
                     </div>
                     <div>
                       <label className={labelClass}>E-posta *</label>
@@ -275,8 +343,10 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                       </div>
                       <div>
                         <label className={labelClass}>Alıcı Telefonu *</label>
-                        <input required type="tel" placeholder="0532 000 00 00" className={inputBase}
-                          value={form.recipientPhone} onChange={(e) => update("recipientPhone", e.target.value)} />
+                        <input required type="tel" inputMode="numeric" placeholder="0532 000 00 00"
+                          pattern={PHONE_PATTERN} title="Geçerli bir telefon numarası girin (0XXX XXX XX XX)"
+                          maxLength={14} className={inputBase}
+                          value={form.recipientPhone} onChange={(e) => update("recipientPhone", formatPhoneInput(e.target.value))} />
                       </div>
                     </div>
                     <div>
@@ -303,23 +373,82 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                   }
                 >
                   <div className="space-y-4">
-                    <div>
-                      <label className={labelClass}>Açık Adres *</label>
-                      <textarea required rows={3} placeholder="Cadde, sokak, bina no, daire..." className={inputBase + " resize-none"}
-                        value={form.address} onChange={(e) => update("address", e.target.value)} />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {isLoggedIn && savedAddresses.length > 0 && (
                       <div>
-                        <label className={labelClass}>İlçe *</label>
-                        <input required type="text" placeholder="Şişli" className={inputBase}
-                          value={form.district} onChange={(e) => update("district", e.target.value)} />
+                        <div className="flex items-center justify-between mb-3">
+                          <label className={labelClass}>Kayıtlı Adreslerim</label>
+                          {selectedAddressId && (
+                            <button type="button" onClick={startNewAddress}
+                              className="flex items-center gap-1.5 text-[12px] font-semibold text-[#3d7b74] hover:text-[#1d3435] transition-colors">
+                              <PlusIcon size={13} /> Yeni Adres Ekle
+                            </button>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {savedAddresses.map((addr) => {
+                            const selected = selectedAddressId === addr.id;
+                            return (
+                              <button key={addr.id} type="button" onClick={() => selectSavedAddress(addr)}
+                                className={`text-left rounded-xl border-2 px-4 py-3 transition-all duration-150 ${
+                                  selected
+                                    ? "border-[#3d7b74] bg-[#f0f8f7] shadow-sm"
+                                    : "border-[#e8e2dc] bg-white hover:border-[#b5d5d1] hover:shadow-sm"
+                                }`}>
+                                <div className="flex items-start justify-between gap-2 mb-1">
+                                  <p className="text-[13px] font-semibold text-[#1d3435]">{addr.title}</p>
+                                  <div className="flex items-center gap-1.5 flex-shrink-0">
+                                    {addr.isDefault && (
+                                      <span className="text-[9px] font-bold uppercase tracking-wide bg-[#f5f9f8] text-[#3d7b74] px-1.5 py-0.5 rounded-full">
+                                        Varsayılan
+                                      </span>
+                                    )}
+                                    {selected && <CheckCircleIcon size={16} className="text-[#3d7b74]" />}
+                                  </div>
+                                </div>
+                                <p className="text-[12px] text-[#6e6560] leading-snug line-clamp-2">
+                                  {addr.fullAddress}, {addr.district}/{addr.city}
+                                </p>
+                              </button>
+                            );
+                          })}
+                        </div>
                       </div>
-                      <div>
-                        <label className={labelClass}>Şehir *</label>
-                        <input required type="text" className={inputBase}
-                          value={form.city} onChange={(e) => update("city", e.target.value)} />
+                    )}
+
+                    {selectedAddressId ? (
+                      <div className="flex items-center justify-between bg-[#f0f7f3] border border-[#adceba] rounded-xl px-4 py-3">
+                        <div className="min-w-0">
+                          <p className="text-[11px] font-bold text-[#163426] uppercase tracking-[0.08em]">Seçilen Adres</p>
+                          <p className="text-[13px] font-medium text-[#1b1c1c] mt-0.5 truncate">
+                            {form.address}, {form.district}/{form.city}
+                          </p>
+                        </div>
+                        <button type="button" onClick={startNewAddress}
+                          className="text-[12px] text-[#163426] font-semibold underline underline-offset-2 hover:text-[#1e4434] transition-colors flex-shrink-0 ml-3">
+                          Değiştir
+                        </button>
                       </div>
-                    </div>
+                    ) : (
+                      <>
+                        <div>
+                          <label className={labelClass}>Açık Adres *</label>
+                          <textarea required rows={3} placeholder="Cadde, sokak, bina no, daire..." className={inputBase + " resize-none"}
+                            value={form.address} onChange={(e) => update("address", e.target.value)} />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className={labelClass}>İlçe *</label>
+                            <input required type="text" placeholder="Şişli" className={inputBase}
+                              value={form.district} onChange={(e) => update("district", e.target.value)} />
+                          </div>
+                          <div>
+                            <label className={labelClass}>Şehir *</label>
+                            <input required type="text" className={inputBase}
+                              value={form.city} onChange={(e) => update("city", e.target.value)} />
+                          </div>
+                        </div>
+                      </>
+                    )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className={labelClass}>Teslimat Tarihi *</label>

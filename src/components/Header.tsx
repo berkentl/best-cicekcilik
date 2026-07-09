@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { SearchOverlay } from "@/components/SearchOverlay";
+import { UserMenu } from "@/components/UserMenu";
 import {
   SearchIcon,
   CartIcon,
@@ -17,16 +18,22 @@ import {
   TruckIcon,
 } from "@/components/icons";
 import { navCategories } from "@/lib/data";
-import type { Category } from "@/types";
+import type { Category, CustomerUser } from "@/types";
 import { useCurrencyStore, type Currency } from "@/store/currencyStore";
 
 interface HeaderProps {
   initialCategories?: Category[];
   initialCartCount?: number;
   initialWishlistCount?: number;
+  initialUser?: CustomerUser | null;
 }
 
-export function Header({ initialCategories, initialCartCount = 0, initialWishlistCount = 0 }: HeaderProps) {
+export function Header({
+  initialCategories,
+  initialCartCount = 0,
+  initialWishlistCount = 0,
+  initialUser = null,
+}: HeaderProps) {
   const [isScrolled, setIsScrolled]       = useState(false);
   const [mobileOpen, setMobileOpen]       = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -143,12 +150,7 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
             </Link>
 
             {/* Hesabım — sadece desktop */}
-            <button
-              className="p-2 text-[#111] hover:opacity-50 transition-opacity hidden lg:flex"
-              aria-label="Hesabım"
-            >
-              <UserIcon size={19} />
-            </button>
+            <UserMenu initialUser={initialUser} />
 
             {/* Favoriler — sadece desktop */}
             <Link
@@ -263,9 +265,13 @@ export function Header({ initialCategories, initialCartCount = 0, initialWishlis
           <div className="lg:hidden bg-white border-t border-[#ebebeb] max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#f0f0f0]">
               <div className="flex items-center gap-5">
-                <button className="flex items-center gap-2 text-[12px] text-[#555] hover:text-[#0d0d0d] tracking-wider uppercase">
-                  <UserIcon size={17} /> <span>Hesabım</span>
-                </button>
+                <Link
+                  href={initialUser ? "/hesabim" : "/giris"}
+                  className="flex items-center gap-2 text-[12px] text-[#555] hover:text-[#0d0d0d] tracking-wider uppercase"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <UserIcon size={17} /> <span>{initialUser ? initialUser.name?.split(" ")[0] || "Hesabım" : "Hesabım"}</span>
+                </Link>
                 <Link
                   href="/favoriler"
                   className="flex items-center gap-2 text-[12px] text-[#555] hover:text-[#0d0d0d] tracking-wider uppercase"

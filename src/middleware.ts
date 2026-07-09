@@ -17,6 +17,7 @@ const ADMIN_API_PATTERNS = [
 const METHOD_PROTECTED: Array<{ path: string; methods: string[] }> = [
   { path: "/api/site-settings", methods: ["PUT", "PATCH", "DELETE"] },
   { path: "/api/products", methods: ["POST", "PUT", "PATCH", "DELETE"] },
+  { path: "/api/cross-sell", methods: ["PUT", "PATCH", "DELETE"] },
 ];
 
 export function middleware(request: NextRequest) {
@@ -50,5 +51,6 @@ export const config = {
     "/api/orders/recent",
     "/api/site-settings",
     "/api/products",
+    "/api/cross-sell",
   ],
 };

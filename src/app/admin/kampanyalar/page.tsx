@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { CrossSellManager } from "@/components/admin/CrossSellManager";
 
 interface Coupon {
   id: string;
@@ -309,6 +310,8 @@ export default function AdminKampanyalarPage() {
           </div>
         )}
       </div>
+
+      <CrossSellManager />
 
       {/* Modal */}
       {modalOpen && (
