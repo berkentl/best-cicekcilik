@@ -1,6 +1,6 @@
 import { createServerClient } from "@/lib/supabase-server";
 
-export type NotificationType = "new_order" | "out_of_stock";
+export type NotificationType = "new_order" | "out_of_stock" | "order_approved" | "order_rejected";
 
 export async function createNotification({
   type,

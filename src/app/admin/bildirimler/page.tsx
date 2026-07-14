@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface Notification {
   id: string;
-  type: "new_order" | "out_of_stock";
+  type: "new_order" | "out_of_stock" | "order_approved" | "order_rejected";
   title: string;
   message: string;
   data: Record<string, unknown>;
@@ -34,6 +34,24 @@ function NotifIcon({ type }: { type: string }) {
       </div>
     );
   }
+  if (type === "order_approved") {
+    return (
+      <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+        <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75l2.25 2.25L15 9m6 3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+    );
+  }
+  if (type === "order_rejected") {
+    return (
+      <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+        <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+      </div>
+    );
+  }
   return (
     <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
       <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +64,7 @@ function NotifIcon({ type }: { type: string }) {
 export default function BildirimlerPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "unread" | "new_order" | "out_of_stock">("all");
+  const [filter, setFilter] = useState<"all" | "unread" | "new_order" | "out_of_stock" | "order_approved" | "order_rejected">("all");
 
   const fetchNotifications = useCallback(async () => {
     const res = await fetch("/api/admin/notifications");
@@ -73,9 +91,8 @@ export default function BildirimlerPage() {
 
   const filtered = notifications.filter((n) => {
     if (filter === "unread") return !n.is_read;
-    if (filter === "new_order") return n.type === "new_order";
-    if (filter === "out_of_stock") return n.type === "out_of_stock";
-    return true;
+    if (filter === "all") return true;
+    return n.type === filter;
   });
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
@@ -110,6 +127,8 @@ export default function BildirimlerPage() {
           { key: "all", label: "Tümü" },
           { key: "unread", label: "Okunmamış" },
           { key: "new_order", label: "Siparişler" },
+          { key: "order_approved", label: "Onaylar" },
+          { key: "order_rejected", label: "Revize Talepleri" },
           { key: "out_of_stock", label: "Stok Tükendi" },
         ] as const).map(({ key, label }) => (
           <button key={key} onClick={() => setFilter(key)}
@@ -171,7 +190,7 @@ export default function BildirimlerPage() {
                   </div>
                 </div>
                 <p className="text-[12px] text-[#888] mt-0.5 leading-relaxed">{notif.message}</p>
-                {notif.type === "new_order" && (
+                {(notif.type === "new_order" || notif.type === "order_approved" || notif.type === "order_rejected") && (
                   <Link href="/admin/siparisler"
                     onClick={(e) => e.stopPropagation()}
                     className="inline-block mt-1.5 text-[11px] text-[#3d7b74] font-semibold hover:underline">

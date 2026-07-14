@@ -71,7 +71,7 @@ export function OnayClient({ order, token }: { order: OrderData; token: string }
     fetch("/api/orders/approve-by-token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, action: "approve" }),
+      body: JSON.stringify({ token, action: "approve", auto: true }),
     }).catch(() => {});
   }, [phase, token]);
 
