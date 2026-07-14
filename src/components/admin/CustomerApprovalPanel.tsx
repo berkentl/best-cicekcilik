@@ -27,6 +27,8 @@ export function CustomerApprovalPanel({
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  const [smsFeedback, setSmsFeedback] = useState<{ sent: boolean; error?: string } | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   // Seçilen dosya için yerel önizleme oluştur/temizle
   useEffect(() => {
@@ -78,12 +80,25 @@ export function CustomerApprovalPanel({
         throw new Error(approvalJson.error ?? "Onay talebi gönderilemedi.");
       }
 
+      setSmsFeedback({ sent: Boolean(approvalJson.smsSent), error: approvalJson.smsError });
       onUpdated(approvalJson.order);
       setFile(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Beklenmedik bir hata oluştu.");
     } finally {
       setSending(false);
+    }
+  };
+
+  const handleCopyLink = async () => {
+    if (!order.approval_token) return;
+    const link = `https://dunyanincicegi.com/onay/${order.approval_token}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch {
+      /* pano izni yoksa sessizce yoksay */
     }
   };
 
@@ -155,24 +170,57 @@ export function CustomerApprovalPanel({
       )}
 
       {status === "PENDING" && (
-        <div className="flex items-center gap-3 bg-white border border-[#e2ddd8] rounded-xl px-4 py-3">
-          {order.approval_image_url && (
-            <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-[#e8e8e8]">
-              <Image src={order.approval_image_url} alt="Onaya gönderilen görsel" fill unoptimized className="object-cover" sizes="48px" />
+        <div className="space-y-2.5">
+          <div className="flex items-center gap-3 bg-white border border-[#e2ddd8] rounded-xl px-4 py-3">
+            {order.approval_image_url && (
+              <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-[#e8e8e8]">
+                <Image src={order.approval_image_url} alt="Onaya gönderilen görsel" fill unoptimized className="object-cover" sizes="48px" />
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="text-[13px] font-bold text-amber-700">Durum: Onay Bekleniyor</p>
+              <p className="text-[11px] text-[#a09890] mt-0.5">
+                {expired
+                  ? "Süre doldu, müşteri yanıtı bekleniyor."
+                  : smsFeedback
+                    ? smsFeedback.sent
+                      ? "Müşteriye SMS ile gönderildi."
+                      : "SMS gönderilemedi — linki manuel paylaşın."
+                    : "Onay bekleniyor."}
+              </p>
             </div>
+            <div className="flex-shrink-0 text-right">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#a09890]">Kalan Süre</p>
+              <p className={`text-[18px] font-black tabular-nums ${expired ? "text-red-500" : "text-[#1d3435]"}`}>
+                {formatCountdown(remainingMs)}
+              </p>
+            </div>
+          </div>
+
+          {smsFeedback && !smsFeedback.sent && (
+            <p className="text-[11.5px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              {smsFeedback.error ?? "SMS gönderilemedi."} Aşağıdaki butonla linki kopyalayıp
+              WhatsApp&apos;tan iletebilirsiniz.
+            </p>
           )}
-          <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-bold text-amber-700">Durum: Onay Bekleniyor</p>
-            <p className="text-[11px] text-[#a09890] mt-0.5">
-              {expired ? "Süre doldu, müşteri yanıtı bekleniyor." : "Müşteriye SMS ile gönderildi."}
-            </p>
-          </div>
-          <div className="flex-shrink-0 text-right">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#a09890]">Kalan Süre</p>
-            <p className={`text-[18px] font-black tabular-nums ${expired ? "text-red-500" : "text-[#1d3435]"}`}>
-              {formatCountdown(remainingMs)}
-            </p>
-          </div>
+
+          {order.approval_token && (
+            <button
+              onClick={handleCopyLink}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-[#e2ddd8] hover:border-[#3d7b74] text-[#1d3435] rounded-lg text-[12px] font-semibold transition-colors"
+            >
+              {linkCopied ? (
+                "✓ Link Kopyalandı"
+              ) : (
+                <>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13.828 10.172a4 4 0 010 5.656l-3 3a4 4 0 01-5.656-5.656l1.5-1.5M10.172 13.828a4 4 0 010-5.656l3-3a4 4 0 015.656 5.656l-1.5 1.5" />
+                  </svg>
+                  Onay Linkini Kopyala
+                </>
+              )}
+            </button>
+          )}
         </div>
       )}
 
