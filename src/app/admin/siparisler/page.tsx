@@ -14,11 +14,13 @@ import {
 } from "@tanstack/react-table";
 import { supabase } from "@/lib/supabase";
 import { CardPrintTemplate } from "@/components/admin/CardPrintTemplate";
+import { CustomerApprovalPanel } from "@/components/admin/CustomerApprovalPanel";
 
 type OrderStatus = "Yeni" | "Hazırlanıyor" | "Kargoya Verildi" | "Teslim Edildi" | "İptal" | "İade";
+type ApprovalStatus = "NOT_REQUIRED" | "PENDING" | "APPROVED" | "REJECTED";
 
 interface OrderItem { name: string; qty: number; price: number }
-interface Order {
+export interface Order {
   id: string;
   order_number: string;
   customer_name: string;
@@ -42,6 +44,11 @@ interface Order {
   coupon_code?: string;
   shipping_fee?: number;
   kapida_fee?: number;
+  approval_image_url?: string;
+  approval_token?: string;
+  approval_expires_at?: string;
+  approval_status?: ApprovalStatus;
+  rejection_reason?: string;
 }
 
 const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: string }> = {
@@ -428,6 +435,9 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
             </div>
             </div>
           </div>
+
+          {/* Müşteri Onay Paneli */}
+          <CustomerApprovalPanel order={order} onUpdated={onUpdated} />
 
           {/* Kurye / Kargo */}
           <div className="bg-[#faf8f6] rounded-xl p-4">
