@@ -14,9 +14,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   announcementActive:    true,
   freeShippingThreshold: 3000,
   baseShippingFee:       200,
-  businessName:          "Best Çiçekçilik & Organizasyon",
+  businessName:          "Dünyanın Çiçeği",
   phone:                 "0532 295 93 09",
-  email:                 "info@bestcicekcilik.com",
+  email:                 "info@dunyanincicegi.com",
   address:               "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul",
 };
 

@@ -5,8 +5,8 @@ import { Footer } from "@/components/Footer";
 import { HakkimizdaSection } from "@/components/HakkimizdaSection";
 
 export const metadata: Metadata = {
-  title: "Hakkımızda | Best Çiçekçilik & Organizasyon",
-  description: "Best Çiçekçilik & Organizasyon hakkında bilgi edinin. İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri.",
+  title: "Hakkımızda | Dünyanın Çiçeği",
+  description: "Dünyanın Çiçeği hakkında bilgi edinin. İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri.",
 };
 
 export default function HakkimizdaPage() {

@@ -540,7 +540,7 @@ export function LogoIcon({ className }: { className?: string }) {
         className
       )}
     >
-      Best Çiçekçilik
+      Dünyanın Çiçeği
     </span>
   );
 }

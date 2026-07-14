@@ -1,5 +1,5 @@
 -- =====================================================
--- Best Çiçekçilik — Supabase Veritabanı Kurulumu
+-- Dünyanın Çiçeği — Supabase Veritabanı Kurulumu
 -- Supabase SQL Editor'e yapıştırıp çalıştırın.
 -- =====================================================
 

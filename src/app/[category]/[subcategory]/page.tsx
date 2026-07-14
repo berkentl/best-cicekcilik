@@ -79,8 +79,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .find((i) => i.slug === subSlug)?.name;
   if (!category) return { title: "Kategori Bulunamadı" };
   return {
-    title: `${subName ?? subSlug} | ${category.name} | Best Çiçekçilik`,
-    description: `Best Çiçekçilik ${subName ?? subSlug} ürünleri. İstanbul'a aynı gün teslimat.`,
+    title: `${subName ?? subSlug} | ${category.name} | Dünyanın Çiçeği`,
+    description: `Dünyanın Çiçeği ${subName ?? subSlug} ürünleri. İstanbul'a aynı gün teslimat.`,
   };
 }
 

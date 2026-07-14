@@ -2,6 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Product } from "@/types";
 
+// Marka değişikliği (Best Çiçekçilik → Dünyanın Çiçeği) öncesi kaydedilmiş
+// favori listelerinin kaybolmaması için tek seferlik anahtar taşıma.
+if (typeof window !== "undefined") {
+  const OLD_KEY = "best-cicekcilik-wishlist";
+  const NEW_KEY = "dunyanin-cicegi-wishlist";
+  if (!localStorage.getItem(NEW_KEY) && localStorage.getItem(OLD_KEY)) {
+    localStorage.setItem(NEW_KEY, localStorage.getItem(OLD_KEY)!);
+  }
+}
+
 function setCookie(name: string, value: string) {
   if (typeof document === "undefined") return;
   document.cookie = `${name}=${value}; path=/; max-age=31536000; SameSite=Lax`;
@@ -29,7 +39,7 @@ export const useWishlistStore = create<WishlistStore>()(
       has: (productId) => get().items.some((i) => i.id === productId),
       clear: () => set({ items: [] }),
     }),
-    { name: "best-cicekcilik-wishlist", skipHydration: true }
+    { name: "dunyanin-cicegi-wishlist", skipHydration: true }
   )
 );
 

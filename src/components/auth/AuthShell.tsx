@@ -25,9 +25,9 @@ export function AuthShell({
         <div className="text-center mb-8">
           <Link
             href="/"
-            className="font-cormorant font-light text-[#1a2e2f] uppercase tracking-[0.28em] text-[20px] inline-block mb-6"
+            className="font-cormorant font-light text-[#1a2e2f] uppercase tracking-[0.08em] text-[17px] inline-block mb-6"
           >
-            BEST
+            Dünyanın Çiçeği
           </Link>
           <h1 className="font-poppins text-2xl md:text-[26px] font-semibold text-[#1d3435] mb-2">
             {title}

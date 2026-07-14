@@ -476,7 +476,7 @@ export default function EditProductPage() {
               <label className={labelCls}>Slug (URL)</label>
               <input type="text" {...register("slug")} className={`${inputCls} font-mono text-[12px]`} />
               <p className="text-[11px] text-[#999] mt-1">
-                bestcicekcilik.com/urun/<strong>{watchedSlug || "..."}</strong>
+                dunyanincicegi.com/urun/<strong>{watchedSlug || "..."}</strong>
               </p>
             </div>
             <div>
@@ -704,9 +704,9 @@ export default function EditProductPage() {
           <div className="border border-[#e8e8e8] rounded-md p-3 bg-[#f9f9f9]">
             <p className="text-[10px] font-bold text-[#999] uppercase tracking-widest mb-2">Google Önizleme</p>
             <p className="text-[13px] text-blue-700 font-medium truncate">
-              {watchedSeoTitle || watchedName || "Ürün Başlığı"} | Best Çiçekçilik
+              {watchedSeoTitle || watchedName || "Ürün Başlığı"} | Dünyanın Çiçeği
             </p>
-            <p className="text-[11px] text-green-700">bestcicekcilik.com › urun › {watchedSlug || "urun-slug"}</p>
+            <p className="text-[11px] text-green-700">dunyanincicegi.com › urun › {watchedSlug || "urun-slug"}</p>
             <p className="text-[12px] text-[#545454] mt-0.5 line-clamp-2">
               {watchedSeoDesc || "Ürün açıklaması buraya gelecek..."}
             </p>

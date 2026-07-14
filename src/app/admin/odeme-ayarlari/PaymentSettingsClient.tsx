@@ -300,7 +300,7 @@ export function PaymentSettingsClient({ initial }: { initial: PaymentSettings })
                     <label className={labelCls}>Hesap Sahibi *</label>
                     <input
                       type="text"
-                      placeholder="ör. Best Çiçekçilik"
+                      placeholder="ör. Dünyanın Çiçeği"
                       value={newIban.holder}
                       onChange={(e) => setNewIban((p) => ({ ...p, holder: e.target.value }))}
                       className={inputCls}

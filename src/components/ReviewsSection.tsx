@@ -2,7 +2,7 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 const REVIEWS = [
   {
-    quote: "Doğum günü sürprizim için sipariş verdim, çiçekler tam zamanında ve inanılmaz tazeydi. Eşim çok mutlu oldu, teşekkürler Best Çiçekçilik!",
+    quote: "Doğum günü sürprizim için sipariş verdim, çiçekler tam zamanında ve inanılmaz tazeydi. Eşim çok mutlu oldu, teşekkürler Dünyanın Çiçeği!",
     name: "Selin A.",
     title: "Doğum Günü Siparişi",
     rating: 5,
@@ -20,7 +20,7 @@ const REVIEWS = [
     rating: 5,
   },
   {
-    quote: "Düğün çiçeklerimi Best Çiçekçilik hazırladı. Gelin buketi ve masa süslemeleri hayalimden bile güzeldi. Çok teşekkürler!",
+    quote: "Düğün çiçeklerimi Dünyanın Çiçeği hazırladı. Gelin buketi ve masa süslemeleri hayalimden bile güzeldi. Çok teşekkürler!",
     name: "Zeynep & Emre",
     title: "Düğün Organizasyonu",
     rating: 5,

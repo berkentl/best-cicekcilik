@@ -154,12 +154,12 @@ export async function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[12px] text-white/40">
-            © {year} Best Çiçekçilik & Organizasyon. Tüm hakları saklıdır.
+          <p className="text-[12px] text-white/40 text-center sm:text-left leading-relaxed">
+            © {year} Dünyanın Çiçeği. Tüm hakları saklıdır. Dünyanın Çiçeği, DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ&apos;nin tescilli markasıdır.
           </p>
           <p className="text-[12px] text-white/40">
-            <a href="https://bestcicekcilik.com" className="hover:text-white/70 transition-colors">
-              bestcicekcilik.com
+            <a href="https://dunyanincicegi.com" className="hover:text-white/70 transition-colors">
+              dunyanincicegi.com
             </a>
           </p>
         </div>

@@ -49,12 +49,12 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: "Best Çiçekçilik & Organizasyon | Aynı Gün Çiçek Teslimat - Şişli/İstanbul",
+  title: "Dünyanın Çiçeği | Aynı Gün Çiçek Teslimat - Şişli/İstanbul",
   description:
-    "Best Çiçekçilik & Organizasyon olarak Şişli/İstanbul'da aynı gün lüks çiçek teslimatı yapıyoruz. Buket, vazo aranjmanı, orkide ve daha fazlası.",
+    "Dünyanın Çiçeği olarak Şişli/İstanbul'da aynı gün lüks çiçek teslimatı yapıyoruz. Buket, vazo aranjmanı, orkide ve daha fazlası.",
   keywords: "çiçekçi, istanbul çiçekçi, aynı gün çiçek, şişli çiçekçi, lüks çiçek",
   openGraph: {
-    title: "Best Çiçekçilik & Organizasyon",
+    title: "Dünyanın Çiçeği",
     description: "İstanbul'a Aynı Gün Lüks Çiçek Teslimat",
     type: "website",
   },

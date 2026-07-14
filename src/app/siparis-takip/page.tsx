@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { OrderTracking } from "@/components/OrderTracking";
 
 export const metadata = {
-  title: "Sipariş Takip | Best Çiçekçilik",
+  title: "Sipariş Takip | Dünyanın Çiçeği",
   description: "Sipariş numaranız ve e-posta adresinizle siparişinizin teslimat durumunu öğrenin.",
 };
 

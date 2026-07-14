@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { GirisClient } from "@/components/auth/GirisClient";
 
 export const metadata = {
-  title: "Giriş Yap | Best Çiçekçilik",
+  title: "Giriş Yap | Dünyanın Çiçeği",
   description: "Hesabınıza giriş yaparak siparişlerinizi ve adreslerinizi yönetin.",
 };
 

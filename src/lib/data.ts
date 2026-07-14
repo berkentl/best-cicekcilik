@@ -2,9 +2,9 @@ import type { HeroSlide, Category, SiteConfig } from "@/types";
 
 
 export const siteConfig: SiteConfig = {
-  name: "Best Çiçekçilik & Organizasyon",
+  name: "Dünyanın Çiçeği",
   phone: "0532 295 93 09",
-  email: "info@bestcicekcilik.com",
+  email: "info@dunyanincicegi.com",
   address: "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18",
   city: "İstanbul",
   district: "Şişli",
@@ -18,28 +18,28 @@ export const heroSlides: HeroSlide[] = [
     id: "slide-aycicegi",
     image: "/Hero/bestcicekcilik-hero-1-aycicegi-desktop.png",
     mobileImage: "/Hero/bestcicekcilik-mobile-1-aycicegi.png",
-    alt: "Yazın Neşesi ile Best Çiçekçilik — ayçiçeği buketi",
+    alt: "Yazın Neşesi ile Dünyanın Çiçeği — ayçiçeği buketi",
     buttonHref: "/cicek/mevsim",
   },
   {
     id: "slide-sakayik",
     image: "/Hero/bestcicekcilik-hero-2-sakayik-desktop.png",
     mobileImage: "/Hero/bestcicekcilik-mobile-2-sakayik.png",
-    alt: "Taptaze Şakayık Sezonu — Best Çiçekçilik",
+    alt: "Taptaze Şakayık Sezonu — Dünyanın Çiçeği",
     buttonHref: "/cicek/sakayik",
   },
   {
     id: "slide-gelin",
     image: "/Hero/bestcicekcilik-hero-3-gelin-desktop.png",
     mobileImage: "/Hero/bestcicekcilik-mobile-3-gelin.png",
-    alt: "Gelin Buketleri — Best Çiçekçilik",
+    alt: "Gelin Buketleri — Dünyanın Çiçeği",
     buttonHref: "/cicek/gelin-buketi",
   },
   {
     id: "slide-soz-nisan",
     image: "/Hero/bestcicekcilik-hero-4-soz-nisan-desktop.png",
     mobileImage: "/Hero/bestcicekcilik-mobile-4-soz-nisan.png",
-    alt: "Söz & Nişan Çiçekleri ve Çikolataları — Best Çiçekçilik",
+    alt: "Söz & Nişan Çiçekleri ve Çikolataları — Dünyanın Çiçeği",
     buttonHref: "/gonderim-sebebi/soz-nisan",
   },
 ];

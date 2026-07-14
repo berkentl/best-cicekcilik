@@ -7,4 +7,4 @@ Disallow: /api/
 Disallow: /odeme
 Disallow: /sepet
 
-Sitemap: https://bestcicekcilik.com/sitemap.xml
+Sitemap: https://dunyanincicegi.com/sitemap.xml

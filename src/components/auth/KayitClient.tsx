@@ -54,7 +54,7 @@ function KayitForm() {
   return (
     <AuthShell
       title="Hesap Oluştur"
-      subtitle="Best Çiçekçilik ailesine katılın, siparişlerinizi tek yerden takip edin."
+      subtitle="Dünyanın Çiçeği ailesine katılın, siparişlerinizi tek yerden takip edin."
       footer={
         <>
           Zaten hesabınız var mı?{" "}

@@ -277,7 +277,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                       <ol className="text-[11px] text-amber-700 space-y-1 list-none">
                         <li>1. Safari&apos;de alttaki <strong>Paylaş</strong> butonuna bas <span className="text-[13px]">⬆</span></li>
                         <li>2. <strong>&quot;Ana Ekrana Ekle&quot;</strong> seç</li>
-                        <li>3. Ana ekrandaki <strong>Best Çiçekçilik</strong> ikonundan aç</li>
+                        <li>3. Ana ekrandaki <strong>Dünyanın Çiçeği</strong> ikonundan aç</li>
                         <li>4. Bildirime izin ver — artık sipariş bildirimleri gelecek</li>
                       </ol>
                     </div>

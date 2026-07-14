@@ -2,7 +2,7 @@ self.addEventListener("push", (event) => {
   if (!event.data) return;
   const data = event.data.json();
   event.waitUntil(
-    self.registration.showNotification(data.title ?? "Best Çiçekçilik", {
+    self.registration.showNotification(data.title ?? "Dünyanın Çiçeği", {
       body: data.body ?? "Yeni bir bildirim var.",
       icon: "/seo/favicon-96x96.png",
       badge: "/seo/favicon-96x96.png",

@@ -117,11 +117,11 @@ export function Header({
               }}
               className="flex flex-col items-center leading-none group"
             >
-              {/* BEST — Cormorant Garamond */}
+              {/* Dünyanın Çiçeği — Cormorant Garamond */}
               <span
-                className="font-cormorant font-light text-[#1a2e2f] uppercase tracking-[0.28em] text-[24px] sm:text-[26px] group-hover:opacity-70 transition-opacity duration-200 whitespace-nowrap"
+                className="font-cormorant font-light text-[#1a2e2f] uppercase tracking-[0.10em] text-[18px] sm:text-[21px] group-hover:opacity-70 transition-opacity duration-200 whitespace-nowrap"
               >
-                BEST
+                Dünyanın Çiçeği
               </span>
 
               {/* Ayraç + alt yazı */}

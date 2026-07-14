@@ -177,7 +177,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
     </head><body>
       <div class="header">
         <div>
-          <div class="brand">Best Çiçekçilik & Organizasyon</div>
+          <div class="brand">Dünyanın Çiçeği</div>
           <div class="order-no">${order.order_number}</div>
           <div class="order-date">${formatDate(order.created_at)}</div>
         </div>
@@ -229,7 +229,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
       ${order.notes ? `<div class="notes-box"><div class="notes-label">Müşteri Notu</div><div class="notes-text">${order.notes}</div></div>` : ""}
 
       <div class="footer">
-        <span>bestcicekcilik.com · 0532 295 93 09</span>
+        <span>dunyanincicegi.com · 0532 295 93 09</span>
         <span>Yazdırma tarihi: ${new Date().toLocaleDateString("tr-TR")}</span>
       </div>
     </body></html>`;

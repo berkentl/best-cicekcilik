@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { SifreSifirlaClient } from "@/components/auth/SifreSifirlaClient";
 
 export const metadata = {
-  title: "Şifre Sıfırla | Best Çiçekçilik",
+  title: "Şifre Sıfırla | Dünyanın Çiçeği",
   description: "Hesabınız için yeni bir şifre belirleyin.",
 };
 

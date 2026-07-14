@@ -2,6 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Product } from "@/types";
 
+// Marka değişikliği (Best Çiçekçilik → Dünyanın Çiçeği) öncesi kaydedilmiş
+// sepetlerin kaybolmaması için tek seferlik anahtar taşıma.
+if (typeof window !== "undefined") {
+  const OLD_KEY = "best-cicekcilik-cart";
+  const NEW_KEY = "dunyanin-cicegi-cart";
+  if (!localStorage.getItem(NEW_KEY) && localStorage.getItem(OLD_KEY)) {
+    localStorage.setItem(NEW_KEY, localStorage.getItem(OLD_KEY)!);
+  }
+}
+
 export interface DeliverySlot {
   dateIso:   string; // "2026-06-29"
   dateLabel: string; // "29 Haziran, Pazartesi"
@@ -100,7 +110,7 @@ export const useCartStore = create<CartStore>()(
         return Math.min(coupon.value, get().totalPrice());
       },
     }),
-    { name: "best-cicekcilik-cart", skipHydration: true }
+    { name: "dunyanin-cicegi-cart", skipHydration: true }
   )
 );
 

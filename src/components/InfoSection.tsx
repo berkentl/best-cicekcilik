@@ -10,7 +10,7 @@ export function InfoSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-[11px] text-[#999] uppercase tracking-[0.25em] mb-3">
-                Best Çiçekçilik & Organizasyon
+                Dünyanın Çiçeği
               </p>
               <h2 className="font-heading text-[32px] md:text-[38px] font-medium text-[#1d3435] leading-tight mb-5">
                 En Havalı Tasarım
@@ -34,13 +34,13 @@ export function InfoSection() {
                     className="w-32 h-32 mx-auto mb-4 rounded-full flex items-center justify-center"
                     style={{ background: "#e8f0ef" }}
                   >
-                    <span className="font-heading text-5xl text-[#1d3435]">B</span>
+                    <span className="font-heading text-5xl text-[#1d3435]">D</span>
                   </div>
                   <p className="font-heading text-[20px] text-[#1d3435] font-medium">
-                    Best Çiçekçilik
+                    Dünyanın Çiçeği
                   </p>
                   <p className="text-[12px] text-[#999] tracking-widest uppercase mt-1">
-                    & Organizasyon
+                    Çiçekçilik &amp; Organizasyon
                   </p>
                 </div>
               </div>
@@ -78,9 +78,9 @@ export function InfoSection() {
             Şişli, İstanbul
           </p>
           <h2 className="font-heading text-[36px] md:text-[48px] font-medium leading-tight mb-5">
-            Best Çiçekçilik
+            Dünyanın
             <br />
-            <span className="text-[#8bbdb9]">& Organizasyon</span>
+            <span className="text-[#8bbdb9]">Çiçeği</span>
           </h2>
           <p className="text-[14px] text-white/70 max-w-md mx-auto mb-8 leading-relaxed">
             Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul

@@ -88,8 +88,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const product = await getProduct(slug);
   if (!product) return { title: "Ürün Bulunamadı" };
   return {
-    title: `${product.name} | Best Çiçekçilik`,
-    description: product.description ?? `${product.name} — Best Çiçekçilik & Organizasyon.`,
+    title: `${product.name} | Dünyanın Çiçeği`,
+    description: product.description ?? `${product.name} — Dünyanın Çiçeği.`,
   };
 }
 

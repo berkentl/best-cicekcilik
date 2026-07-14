@@ -30,7 +30,7 @@ export function SpotlightBanner({ allProducts }: SpotlightBannerProps) {
         {/* Header */}
         <div className="text-center mb-10">
           <p className="text-[11px] text-[#999] uppercase tracking-[0.25em] mb-3">
-            Best Çiçekçilik Koleksiyonu
+            Dünyanın Çiçeği Koleksiyonu
           </p>
           <h2 className="font-heading text-[26px] md:text-[40px] font-medium text-[#1d3435] leading-tight mb-6">
             Sevdiklerine Özel Çiçekler

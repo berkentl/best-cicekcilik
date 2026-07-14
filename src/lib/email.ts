@@ -40,7 +40,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
 
     <!-- Header -->
     <div style="background:#1d3435;padding:32px 40px;text-align:center;">
-      <p style="margin:0;font-size:11px;letter-spacing:0.2em;color:#6dbfb8;text-transform:uppercase;font-weight:600;">Best Çiçekçilik & Organizasyon</p>
+      <p style="margin:0;font-size:11px;letter-spacing:0.2em;color:#6dbfb8;text-transform:uppercase;font-weight:600;">Dünyanın Çiçeği</p>
       <h1 style="margin:8px 0 0;font-size:26px;color:#fff;font-weight:500;">Siparişiniz Alındı 🌸</h1>
     </div>
 
@@ -92,14 +92,14 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
     <!-- Footer -->
     <div style="background:#f9f7f4;border-top:1px solid #ede8e3;padding:20px 40px;text-align:center;">
       <p style="margin:0;font-size:12px;color:#999;">Sorularınız için: <a href="tel:05322959309" style="color:#3d7b74;text-decoration:none;">0532 295 93 09</a></p>
-      <p style="margin:6px 0 0;font-size:11px;color:#bbb;">bestcicekcilik.com · Şişli, İstanbul</p>
+      <p style="margin:6px 0 0;font-size:11px;color:#bbb;">dunyanincicegi.com · Şişli, İstanbul</p>
     </div>
   </div>
 </body>
 </html>`;
 
   await resend.emails.send({
-    from: "Best Çiçekçilik <siparis@bestcicekcilik.com>",
+    from: "Dünyanın Çiçeği <siparis@dunyanincicegi.com>",
     to: data.to,
     subject: `Siparişiniz Alındı — ${data.orderNumber}`,
     html,
@@ -120,7 +120,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
 <body style="margin:0;padding:0;background:#faf8f5;font-family:'Helvetica Neue',Arial,sans-serif;">
   <div style="max-width:480px;margin:40px auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #ede8e3;">
     <div style="background:#1d3435;padding:32px 40px;text-align:center;">
-      <p style="margin:0;font-size:11px;letter-spacing:0.2em;color:#6dbfb8;text-transform:uppercase;font-weight:600;">Best Çiçekçilik & Organizasyon</p>
+      <p style="margin:0;font-size:11px;letter-spacing:0.2em;color:#6dbfb8;text-transform:uppercase;font-weight:600;">Dünyanın Çiçeği</p>
       <h1 style="margin:8px 0 0;font-size:22px;color:#fff;font-weight:500;">Şifre Sıfırlama</h1>
     </div>
     <div style="padding:36px 40px;">
@@ -136,16 +136,16 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
     </div>
     <div style="background:#f9f7f4;border-top:1px solid #ede8e3;padding:20px 40px;text-align:center;">
       <p style="margin:0;font-size:12px;color:#999;">Sorularınız için: <a href="tel:05322959309" style="color:#3d7b74;text-decoration:none;">0532 295 93 09</a></p>
-      <p style="margin:6px 0 0;font-size:11px;color:#bbb;">bestcicekcilik.com · Şişli, İstanbul</p>
+      <p style="margin:6px 0 0;font-size:11px;color:#bbb;">dunyanincicegi.com · Şişli, İstanbul</p>
     </div>
   </div>
 </body>
 </html>`;
 
   await resend.emails.send({
-    from: "Best Çiçekçilik <siparis@bestcicekcilik.com>",
+    from: "Dünyanın Çiçeği <siparis@dunyanincicegi.com>",
     to,
-    subject: "Best Çiçekçilik — Şifre Sıfırlama Talebi",
+    subject: "Dünyanın Çiçeği — Şifre Sıfırlama Talebi",
     html,
   });
 }

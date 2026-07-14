@@ -3,7 +3,7 @@ import { createServerClient } from "@/lib/supabase-server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
   ? process.env.NEXT_PUBLIC_SITE_URL
-  : "https://bestcicekcilik.com";
+  : "https://dunyanincicegi.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sb = createServerClient();

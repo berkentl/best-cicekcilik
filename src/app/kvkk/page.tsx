@@ -3,7 +3,7 @@ import { HeaderWrapper } from "@/components/HeaderWrapper";
 import { Footer } from "@/components/Footer";
 
 export const metadata = {
-  title: "KVKK Aydınlatma Metni | Best Çiçekçilik",
+  title: "KVKK Aydınlatma Metni | Dünyanın Çiçeği",
   description: "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında aydınlatma metni.",
 };
 
@@ -23,7 +23,7 @@ export default function KvkkPage() {
             <div>
               <h2 className="text-[15px] font-semibold text-[#1d3435] mb-2">1. Veri Sorumlusu</h2>
               <p>
-                Best Çiçekçilik &amp; Organizasyon (&quot;Best Çiçekçilik&quot;), 6698 sayılı Kişisel Verilerin
+                Dünyanın Çiçeği (&quot;Dünyanın Çiçeği&quot;), 6698 sayılı Kişisel Verilerin
                 Korunması Kanunu (&quot;KVKK&quot;) kapsamında veri sorumlusu sıfatıyla, aşağıda belirtilen
                 kişisel verilerinizi işlemektedir.
               </p>
@@ -71,8 +71,8 @@ export default function KvkkPage() {
               <h2 className="text-[15px] font-semibold text-[#1d3435] mb-2">6. İletişim</h2>
               <p>
                 Haklarınızı kullanmak için{" "}
-                <a href="mailto:info@bestcicekcilik.com" className="text-[#3d7b74] hover:underline">
-                  info@bestcicekcilik.com
+                <a href="mailto:info@dunyanincicegi.com" className="text-[#3d7b74] hover:underline">
+                  info@dunyanincicegi.com
                 </a>{" "}
                 adresinden bizimle iletişime geçebilirsiniz.
               </p>

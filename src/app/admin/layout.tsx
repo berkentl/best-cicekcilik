@@ -166,7 +166,7 @@ function AuthGate({ onAuth }: { onAuth: () => void }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h1 className="font-heading text-xl font-semibold text-[#1d3435]">Best Çiçekçilik</h1>
+          <h1 className="font-heading text-xl font-semibold text-[#1d3435]">Dünyanın Çiçeği</h1>
           <p className="text-[12px] text-[#999] mt-1 uppercase tracking-widest">Yönetim Paneli</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -243,7 +243,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className={`fixed top-0 left-0 h-full w-60 bg-[#1d3435] z-50 flex flex-col transform transition-transform duration-200 lg:translate-x-0 lg:relative lg:flex-shrink-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="px-5 py-5 border-b border-white/10 flex-shrink-0">
-          <span className="font-heading text-[15px] font-semibold text-white block">Best Çiçekçilik</span>
+          <span className="font-heading text-[15px] font-semibold text-white block">Dünyanın Çiçeği</span>
           <p className="text-[10px] text-white/40 uppercase tracking-widest mt-0.5">Admin Panel v2.0</p>
         </div>
 

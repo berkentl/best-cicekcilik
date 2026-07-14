@@ -7,9 +7,9 @@ import { siteConfig } from "@/lib/data";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "İletişim | Best Çiçekçilik",
+  title: "İletişim | Dünyanın Çiçeği",
   description:
-    "Best Çiçekçilik & Organizasyon iletişim bilgileri. Şişli/İstanbul'da aynı gün çiçek teslimatı için bize ulaşın.",
+    "Dünyanın Çiçeği iletişim bilgileri. Şişli/İstanbul'da aynı gün çiçek teslimatı için bize ulaşın.",
 };
 
 const hours = [
@@ -197,7 +197,7 @@ export default function ContactPage() {
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Best Çiçekçilik Konum"
+                    title="Dünyanın Çiçeği Konum"
                   />
                 </div>
               </div>

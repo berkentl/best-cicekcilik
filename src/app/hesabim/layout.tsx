@@ -6,7 +6,7 @@ import { AccountShell } from "@/components/account/AccountShell";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata = {
-  title: "Hesabım | Best Çiçekçilik",
+  title: "Hesabım | Dünyanın Çiçeği",
 };
 
 export default async function HesabimLayout({ children }: { children: React.ReactNode }) {

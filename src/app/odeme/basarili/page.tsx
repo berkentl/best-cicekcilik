@@ -6,7 +6,7 @@ import { OrderSuccessClient } from "./OrderSuccessClient";
 import { createServerClient } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
-  title: "Sipariş Alındı | Best Çiçekçilik",
+  title: "Sipariş Alındı | Dünyanın Çiçeği",
 };
 
 export default async function OrderSuccessPage({

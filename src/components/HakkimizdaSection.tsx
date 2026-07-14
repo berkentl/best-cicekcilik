@@ -216,7 +216,7 @@ export function HakkimizdaSection() {
                   className="w-full bg-gradient-to-br from-[#dde5e1] to-[#a9bcb5]"
                   style={{ aspectRatio: "3/4" }}
                   role="img"
-                  aria-label="Best Çiçekçilik Aranjman"
+                  aria-label="Dünyanın Çiçeği Aranjman"
                 />
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-t from-[#1d3435]/60 to-transparent flex items-end justify-center p-4"
