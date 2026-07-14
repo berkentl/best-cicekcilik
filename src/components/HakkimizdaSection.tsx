@@ -83,7 +83,7 @@ export function HakkimizdaSection() {
       secondaryIcon: <Star className="w-4 h-4 absolute -top-1 -right-1 text-[#8bbdb9]" />,
       title: "Aynı Gün Teslimat",
       description:
-        "Saat 14:00'a kadar verilen siparişler aynı gün İstanbul'un tüm ilçelerine teslim edilir. Soğuk zincir korumasıyla çiçekler taptaze kapınıza gelir.",
+        "İstanbul'un tüm ilçelerine aynı gün teslimat sağlıyoruz. Soğuk zincir korumasıyla çiçekler taptaze kapınıza gelir.",
       position: "left",
     },
     {

@@ -155,7 +155,7 @@ export async function Footer() {
       <div className="border-t border-white/10">
         <div className="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[12px] text-white/40 text-center sm:text-left leading-relaxed">
-            © {year} Dünyanın Çiçeği. Tüm hakları saklıdır. Dünyanın Çiçeği, DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ&apos;nin tescilli markasıdır.
+            {`© ${year} Dünyanın Çiçeği. Tüm hakları saklıdır. Dünyanın Çiçeği, DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ'nin tescilli markasıdır.`}
           </p>
           <p className="text-[12px] text-white/40">
             <a href="https://dunyanincicegi.com" className="hover:text-white/70 transition-colors">
