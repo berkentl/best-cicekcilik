@@ -92,7 +92,7 @@ export function CustomerApprovalPanel({
 
   const handleCopyLink = async () => {
     if (!order.approval_token) return;
-    const link = `https://dunyanincicegi.com/onay/${order.approval_token}`;
+    const link = `${window.location.origin}/onay/${order.approval_token}`;
     try {
       await navigator.clipboard.writeText(link);
       setLinkCopied(true);

@@ -14,7 +14,7 @@ function toNetgsmPhone(raw: string): string {
   return digits;
 }
 
-async function sendApprovalSms(phone: string, approvalToken: string): Promise<void> {
+async function sendApprovalSms(phone: string, approvalToken: string, origin: string): Promise<void> {
   const { NETGSM_USER, NETGSM_PASS, NETGSM_HEADER } = process.env;
   if (!NETGSM_USER || !NETGSM_PASS || !NETGSM_HEADER) {
     throw new Error(
@@ -24,7 +24,7 @@ async function sendApprovalSms(phone: string, approvalToken: string): Promise<vo
 
   const message =
     `Dünyanın Çiçeği siparişiniz yola çıkmaya hazırdır. Çiçeğinizi görmek ve onaylamak için ` +
-    `15 dakikanız bulunmaktadır: https://dunyanincicegi.com/onay/${approvalToken}`;
+    `15 dakikanız bulunmaktadır: ${origin}/onay/${approvalToken}`;
 
   const auth = Buffer.from(`${NETGSM_USER}:${NETGSM_PASS}`).toString("base64");
 
@@ -97,11 +97,13 @@ export async function POST(
     return NextResponse.json({ error: "Onay talebi kaydedilemedi." }, { status: 500 });
   }
 
+  const origin = new URL(request.url).origin;
+
   let smsSent = false;
   let smsError: string | undefined;
   if (order.customer_phone) {
     try {
-      await sendApprovalSms(order.customer_phone, approvalToken);
+      await sendApprovalSms(order.customer_phone, approvalToken, origin);
       smsSent = true;
     } catch (err) {
       smsError = err instanceof Error ? err.message : "SMS gönderilemedi.";
