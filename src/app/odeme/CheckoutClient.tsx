@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 import { calculateShipping } from "@/lib/shippingService";
 import { formatPhoneInput, PHONE_PATTERN } from "@/lib/phone";
+import { TURKISH_PROVINCES, DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 import { PlusIcon, CheckCircleIcon } from "@/components/icons";
 import type { PaymentSettings, SiteSettings, Address } from "@/types";
 
@@ -145,6 +146,10 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.city !== DELIVERABLE_PROVINCE) {
+      alert(`Şu anda yalnızca ${DELIVERABLE_PROVINCE} içine teslimat yapabiliyoruz.`);
+      return;
+    }
     setLoading(true);
     try {
       const payload = {
@@ -443,11 +448,26 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                           </div>
                           <div>
                             <label className={labelClass}>Şehir *</label>
-                            <input required type="text" className={inputBase}
-                              value={form.city} onChange={(e) => update("city", e.target.value)} />
+                            <select required className={inputBase}
+                              value={form.city} onChange={(e) => update("city", e.target.value)}>
+                              <option value="">Şehir seçin</option>
+                              {TURKISH_PROVINCES.map((il) => (
+                                <option key={il} value={il}>{il}</option>
+                              ))}
+                            </select>
                           </div>
                         </div>
                       </>
+                    )}
+                    {form.city && form.city !== DELIVERABLE_PROVINCE && (
+                      <div className="flex items-start gap-2.5 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                        <svg className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                        </svg>
+                        <p className="text-[12.5px] text-amber-800 leading-relaxed">
+                          Şu anda yalnızca <strong>{DELIVERABLE_PROVINCE}</strong> içine teslimat yapabiliyoruz. Diğer şehirlere teslimat yakında başlayacak — şimdilik bu şehir için sipariş oluşturamazsınız.
+                        </p>
+                      </div>
                     )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
@@ -461,10 +481,8 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                         <select required className={inputBase}
                           value={form.deliveryTime} onChange={(e) => update("deliveryTime", e.target.value)}>
                           <option value="">Saat seçin</option>
-                          <option value="09:00-13:00">09:00 – 13:00</option>
-                          <option value="12:00-16:00">12:00 – 16:00</option>
-                          <option value="14:00-20:00">14:00 – 20:00</option>
-                          <option value="18:00-22:00">18:00 – 22:00</option>
+                          <option value="09:00-12:00">09:00 – 12:00</option>
+                          <option value="12:00-17:00">12:00 – 17:00</option>
                         </select>
                       </div>
                     </div>
@@ -620,7 +638,7 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                     {/* CTA */}
                     <button
                       type="submit"
-                      disabled={loading}
+                      disabled={loading || form.city !== DELIVERABLE_PROVINCE}
                       className="w-full mt-5 flex items-center justify-center gap-2.5 bg-[#1d3435] hover:bg-[#243f40] active:bg-[#162828] text-white font-semibold text-[14px] tracking-wide py-4 rounded-xl transition-all duration-150 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {loading ? (

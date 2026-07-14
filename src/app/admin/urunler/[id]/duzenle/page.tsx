@@ -120,8 +120,8 @@ function ImageDropzone({ images, onAdd, onRemove }: {
               {i === 0 && (
                 <span className="absolute top-1 left-1 text-[9px] bg-[#1d3435] text-white px-1.5 py-0.5 rounded font-bold">ANA</span>
               )}
-              <button type="button" onClick={() => onRemove(i)}
-                className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full items-center justify-center hidden group-hover:flex text-[11px] font-bold">
+              <button type="button" onClick={() => onRemove(i)} aria-label="Görseli kaldır"
+                className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-[11px] font-bold shadow-sm hover:bg-red-600 transition-colors">
                 ✕
               </button>
             </div>

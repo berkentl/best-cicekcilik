@@ -55,7 +55,7 @@ function Accordion({ title, children }: { title: string; children: React.ReactNo
 /* ── Teslimat Tarih/Saat Yardımcıları ───────────────────────── */
 const TR_DAYS   = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 const TR_MONTHS = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
-const TIME_SLOTS = ["09:00-13:00","12:00-16:00","14:00-20:00","18:00-22:00"];
+const TIME_SLOTS = ["09:00-12:00","12:00-17:00"];
 interface DayOption { iso: string; label: string; short: string; isToday: boolean; isTomorrow: boolean; }
 
 function isoToDayOption(iso: string): DayOption {

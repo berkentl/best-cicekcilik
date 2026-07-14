@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kumbh_Sans, Playfair_Display, Poppins, Cormorant_Garamond } from "next/font/google";
+import { Kumbh_Sans, Playfair_Display, Poppins, Cormorant_Garamond, Montserrat, Dancing_Script } from "next/font/google";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { StoreHydration } from "@/components/StoreHydration";
@@ -34,6 +34,20 @@ const cormorantGaramond = Cormorant_Garamond({
   display: "swap",
 });
 
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const dancingScript = Dancing_Script({
+  variable: "--font-dancing-script",
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Best Çiçekçilik & Organizasyon | Aynı Gün Çiçek Teslimat - Şişli/İstanbul",
   description:
@@ -54,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${kumbhSans.variable} ${playfairDisplay.variable} ${poppins.variable} ${cormorantGaramond.variable} h-full antialiased`}
+      className={`${kumbhSans.variable} ${playfairDisplay.variable} ${poppins.variable} ${cormorantGaramond.variable} ${montserrat.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <StoreHydration />

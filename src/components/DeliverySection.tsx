@@ -46,12 +46,6 @@ const stats = [
   },
 ];
 
-const infoItems = [
-  "İstanbul içi saat 14:00'e kadar sipariş → aynı gün teslimat",
-  "Yurt içi kargo 1–3 iş günü",
-
-];
-
 export function DeliverySection() {
   return (
     <section className="relative bg-[#1d3435] overflow-hidden">
@@ -86,7 +80,7 @@ export function DeliverySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.08 }}
-              className="font-heading text-3xl md:text-4xl text-white font-medium mb-5 leading-tight"
+              className="font-montserrat text-3xl md:text-4xl text-white font-medium mb-5 leading-tight"
             >
               Türkiye&apos;nin Her
               <br />
@@ -138,25 +132,6 @@ export function DeliverySection() {
               ))}
             </div>
 
-            {/* Bilgi notları */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.55 }}
-              className="space-y-2"
-            >
-              {infoItems.map((item) => (
-                <div key={item} className="flex items-start gap-2 text-[12px] text-white/40">
-                  <svg className="w-3.5 h-3.5 text-[#3d7b74] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd" />
-                  </svg>
-                  {item}
-                </div>
-              ))}
-            </motion.div>
           </div>
 
           {/* ── Sağ: 3D Globe ── */}

@@ -5,6 +5,7 @@ import { sendOrderConfirmationEmail } from "@/lib/email";
 import { sendPushToAdmins } from "@/lib/push";
 import { createNotification } from "@/lib/notifications";
 import { getSessionUserId } from "@/lib/auth";
+import { DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 
 interface OrderItem {
   productId?: string;
@@ -55,6 +56,13 @@ export async function POST(request: Request) {
 
     if (!form || !items?.length) {
       return NextResponse.json({ error: "Geçersiz sipariş verisi." }, { status: 400 });
+    }
+
+    if (form.city !== DELIVERABLE_PROVINCE) {
+      return NextResponse.json(
+        { error: `Şu anda yalnızca ${DELIVERABLE_PROVINCE} içine teslimat yapabiliyoruz.` },
+        { status: 400 }
+      );
     }
 
     const sb = createServerClient();

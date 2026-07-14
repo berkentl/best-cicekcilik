@@ -94,7 +94,7 @@ CREATE POLICY "Public read settings"   ON site_settings FOR SELECT USING (true);
 CREATE POLICY "Service write settings" ON site_settings FOR ALL    USING (true) WITH CHECK (true);
 
 INSERT INTO site_settings (key, value) VALUES
-  ('shipping_info', E'Saat 14:00''a kadar verilen siparişler aynı gün teslim edilir.\nTüm İstanbul ilçelerine teslimat yapılmaktadır.\n₺500 üzeri siparişlerde kargo ücretsizdir.\nTeslimat saati sipariş notunuza ekleyebilirsiniz.')
+  ('shipping_info', E'Saat 14:00''a kadar verilen siparişler aynı gün teslim edilir.\nTüm İstanbul ilçelerine teslimat yapılmaktadır.\nTeslimat saati sipariş notunuza ekleyebilirsiniz.')
 ON CONFLICT (key) DO NOTHING;
 
 -- =====================================================

@@ -13,6 +13,7 @@ import {
   type ColumnFiltersState,
 } from "@tanstack/react-table";
 import { supabase } from "@/lib/supabase";
+import { CardPrintTemplate } from "@/components/admin/CardPrintTemplate";
 
 type OrderStatus = "Yeni" | "Hazırlanıyor" | "Kargoya Verildi" | "Teslim Edildi" | "İptal" | "İade";
 
@@ -484,6 +485,13 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
             Yazdır
           </button>
           <button
+            onClick={() => window.print()}
+            disabled={!order.card_message}
+            className="flex items-center gap-2 px-4 py-2.5 border border-[#d4af37]/50 rounded-lg text-[12px] font-semibold text-[#a6812f] hover:bg-[#fdf6e3] hover:border-[#d4af37] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            💌 Kart Mesajı Yazdır
+          </button>
+          <button
             onClick={onClose}
             className="px-5 py-2.5 bg-[#1d3435] hover:bg-[#243f40] text-white rounded-lg text-[12px] font-bold transition-colors"
           >
@@ -491,6 +499,8 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
           </button>
         </div>
       </div>
+
+      <CardPrintTemplate message={order.card_message ?? ""} senderName={order.customer_name} />
     </div>
   );
 }
