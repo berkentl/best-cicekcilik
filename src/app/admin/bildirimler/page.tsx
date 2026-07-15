@@ -74,6 +74,20 @@ export default function BildirimlerPage() {
 
   useEffect(() => { startTransition(() => { fetchNotifications(); }); }, [fetchNotifications]);
 
+  // iOS/Android'de ana ekrandan eklenen uygulama arka plandan/askıya
+  // alınmış durumdan döndüğünde listeyi tazele.
+  useEffect(() => {
+    const handleVisible = () => {
+      if (document.visibilityState === "visible") fetchNotifications();
+    };
+    document.addEventListener("visibilitychange", handleVisible);
+    window.addEventListener("pageshow", handleVisible);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisible);
+      window.removeEventListener("pageshow", handleVisible);
+    };
+  }, [fetchNotifications]);
+
   const markAllRead = async () => {
     await fetch("/api/admin/notifications", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ all: true }) });
     setNotifications((p) => p.map((n) => ({ ...n, is_read: true })));
