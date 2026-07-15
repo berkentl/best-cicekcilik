@@ -29,6 +29,7 @@ export function CustomerApprovalPanel({
   const [now, setNow] = useState(() => Date.now());
   const [smsFeedback, setSmsFeedback] = useState<{ sent: boolean; error?: string } | null>(null);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [retrying, setRetrying] = useState(false);
 
   // Seçilen dosya için yerel önizleme oluştur/temizle
   useEffect(() => {
@@ -83,6 +84,7 @@ export function CustomerApprovalPanel({
       setSmsFeedback({ sent: Boolean(approvalJson.smsSent), error: approvalJson.smsError });
       onUpdated(approvalJson.order);
       setFile(null);
+      setRetrying(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Beklenmedik bir hata oluştu.");
     } finally {
@@ -117,8 +119,22 @@ export function CustomerApprovalPanel({
         Müşteri Onay Paneli
       </p>
 
-      {status === "NOT_REQUIRED" && (
+      {(status === "NOT_REQUIRED" || (status === "REJECTED" && retrying)) && (
         <div className="space-y-3">
+          {status === "REJECTED" && (
+            <div className="flex items-start justify-between gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5">
+              <p className="text-[11.5px] text-red-600 leading-relaxed">
+                <span className="font-semibold">Önceki revize notu:</span>{" "}
+                {order.rejection_reason || "Belirtilmedi"}
+              </p>
+              <button
+                onClick={() => setRetrying(false)}
+                className="flex-shrink-0 text-[11px] font-semibold text-red-500 hover:text-red-700 transition-colors"
+              >
+                Vazgeç
+              </button>
+            </div>
+          )}
           <div
             {...getRootProps()}
             className={`border-2 border-dashed rounded-xl px-4 py-6 text-center cursor-pointer transition-colors ${
@@ -224,16 +240,25 @@ export function CustomerApprovalPanel({
         </div>
       )}
 
-      {status === "REJECTED" && (
+      {status === "REJECTED" && !retrying && (
         <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
           <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
           </svg>
-          <div>
+          <div className="flex-1">
             <p className="text-[13px] font-bold text-red-700">Müşteri Reddetti!</p>
             <p className="text-[12.5px] text-red-600 mt-0.5">
               Sebep: {order.rejection_reason || "Belirtilmedi"}
             </p>
+            <button
+              onClick={() => setRetrying(true)}
+              className="mt-2.5 flex items-center gap-1.5 text-[12px] font-bold text-red-700 hover:text-red-800 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Yeni Görsel Gönder
+            </button>
           </div>
         </div>
       )}
