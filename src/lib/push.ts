@@ -12,33 +12,59 @@ if (VAPID_PUBLIC && VAPID_PRIVATE) {
   );
 }
 
+export type PushResult = {
+  vapidConfigured: boolean;
+  subscriptionCount: number;
+  sent: number;
+  failed: number;
+  errors: string[];
+};
+
 export async function sendPushToAdmins(payload: {
   title: string;
   body: string;
   url?: string;
   tag?: string;
-}) {
+}): Promise<PushResult> {
   if (!VAPID_PUBLIC || !VAPID_PRIVATE) {
     console.warn("[push] VAPID keys not configured — skipping push");
-    return;
+    return { vapidConfigured: false, subscriptionCount: 0, sent: 0, failed: 0, errors: [] };
   }
 
   const sb = createServerClient();
   const { data: subs } = await sb.from("push_subscriptions").select("subscription");
-  if (!subs?.length) return;
+  if (!subs?.length) {
+    return { vapidConfigured: true, subscriptionCount: 0, sent: 0, failed: 0, errors: [] };
+  }
 
   const message = JSON.stringify(payload);
+  const errors: string[] = [];
+  let sent = 0;
 
-  await Promise.allSettled(
+  const results = await Promise.allSettled(
     subs.map(({ subscription }) =>
-      webPush.sendNotification(
-        subscription as webPush.PushSubscription,
-        message
-      ).catch((err) => {
-        if (err.statusCode === 410) {
-          sb.from("push_subscriptions").delete().eq("endpoint", (subscription as { endpoint: string }).endpoint);
-        }
-      })
+      webPush.sendNotification(subscription as webPush.PushSubscription, message)
     )
   );
+
+  results.forEach((result, i) => {
+    if (result.status === "fulfilled") {
+      sent++;
+      return;
+    }
+    const err = result.reason as { statusCode?: number; body?: string; message?: string };
+    errors.push(`${err.statusCode ?? "?"}: ${err.body ?? err.message ?? "bilinmeyen hata"}`);
+    if (err.statusCode === 410 || err.statusCode === 404) {
+      const endpoint = (subs[i].subscription as { endpoint: string }).endpoint;
+      sb.from("push_subscriptions").delete().eq("endpoint", endpoint).then(() => {});
+    }
+  });
+
+  return {
+    vapidConfigured: true,
+    subscriptionCount: subs.length,
+    sent,
+    failed: subs.length - sent,
+    errors,
+  };
 }

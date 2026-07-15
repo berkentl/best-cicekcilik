@@ -58,6 +58,19 @@ export const metadata: Metadata = {
     description: "İstanbul'a Aynı Gün Lüks Çiçek Teslimat",
     type: "website",
   },
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Dünyanın Çiçeği",
+  },
+};
+
+export const viewport = {
+  themeColor: "#1d3435",
 };
 
 export default function RootLayout({

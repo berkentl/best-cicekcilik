@@ -4,7 +4,7 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title ?? "Dünyanın Çiçeği", {
       body: data.body ?? "Yeni bir bildirim var.",
-      icon: "/seo/favicon-96x96.png",
+      icon: "/icons/icon-192.png",
       badge: "/seo/favicon-96x96.png",
       tag: data.tag ?? "order",
       data: { url: data.url ?? "/admin/siparisler" },

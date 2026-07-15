@@ -550,6 +550,21 @@ export default function AdminSiparislerPage() {
     return () => { supabase.removeChannel(channel); };
   }, [fetchOrders]);
 
+  // iOS/Android'de ana ekrandan eklenen uygulama arka plandan geri döndüğünde
+  // (WKWebView askıya alınmış oturumu aynen sürdürür) websocket bağlantısı
+  // kopmuş olabilir — sekme/uygulama tekrar görünür olduğunda listeyi tazele.
+  useEffect(() => {
+    const handleVisible = () => {
+      if (document.visibilityState === "visible") fetchOrders();
+    };
+    document.addEventListener("visibilitychange", handleVisible);
+    window.addEventListener("pageshow", handleVisible);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisible);
+      window.removeEventListener("pageshow", handleVisible);
+    };
+  }, [fetchOrders]);
+
   const handleOrderUpdated = useCallback((updated: Order) => {
     setOrders((prev) => prev.map((o) => o.id === updated.id ? updated : o));
     setSelectedOrder((prev) => prev?.id === updated.id ? updated : prev);

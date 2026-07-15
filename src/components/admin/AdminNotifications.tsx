@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { subscribeToPush } from "@/lib/push-client";
+import type { PushResult } from "@/lib/push";
 
 interface NewOrder {
   id: string;
@@ -101,6 +102,19 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
   const [showSettings, setShowSettings] = useState(false);
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>("default");
   const [env, setEnv] = useState({ isIOS: false, isPWA: false, notifSupported: false });
+  const [pushTest, setPushTest] = useState<{ loading: boolean; result?: PushResult; error?: string }>({ loading: false });
+
+  const runPushTest = useCallback(async () => {
+    setPushTest({ loading: true });
+    try {
+      const res = await fetch("/api/admin/push-test", { method: "POST" });
+      if (!res.ok) throw new Error("İstek başarısız.");
+      const result = (await res.json()) as PushResult;
+      setPushTest({ loading: false, result });
+    } catch (err) {
+      setPushTest({ loading: false, error: err instanceof Error ? err.message : "Bilinmeyen hata." });
+    }
+  }, []);
 
   useEffect(() => { startTransition(() => setEnv(getEnv())); }, []);
 
@@ -345,6 +359,44 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                       Yeni sipariş geldiğinde hem ses çalar hem de bildirim görünür. İzin verilirse sekme arka planda olsa bile uyarı alırsınız.
                     </div>
                   </>
+                )}
+
+                <button
+                  onClick={runPushTest}
+                  disabled={pushTest.loading}
+                  className="w-full py-2 mb-2 rounded-lg border border-[#ebebeb] text-[12px] font-semibold text-[#1d3435] hover:bg-[#f5f5f5] transition-colors disabled:opacity-50"
+                >
+                  {pushTest.loading ? "Gönderiliyor..." : "Test Bildirimi Gönder"}
+                </button>
+
+                {pushTest.error && (
+                  <p className="text-[11px] text-red-500 bg-red-50 rounded-lg px-3 py-2 mb-2 leading-relaxed">
+                    {pushTest.error}
+                  </p>
+                )}
+
+                {pushTest.result && (
+                  <div className="text-[11px] rounded-lg px-3 py-2.5 mb-2 leading-relaxed space-y-1 bg-[#f5f5f5]">
+                    {!pushTest.result.vapidConfigured ? (
+                      <p className="text-red-500 font-semibold">VAPID anahtarları sunucuda tanımlı değil.</p>
+                    ) : pushTest.result.subscriptionCount === 0 ? (
+                      <p className="text-amber-600 font-semibold">
+                        Kayıtlı hiç push aboneliği yok — hiçbir cihaz gerçek arka plan bildirimi almaz.
+                      </p>
+                    ) : (
+                      <p className="text-[#1d3435]">
+                        <span className="font-semibold">{pushTest.result.subscriptionCount}</span> kayıtlı cihazdan{" "}
+                        <span className="font-semibold text-emerald-600">{pushTest.result.sent}</span> tanesine gönderildi
+                        {pushTest.result.failed > 0 && (
+                          <>, <span className="font-semibold text-red-500">{pushTest.result.failed}</span> tanesi başarısız</>
+                        )}
+                        .
+                      </p>
+                    )}
+                    {pushTest.result.errors.length > 0 && (
+                      <p className="text-[#999] break-words">{pushTest.result.errors.join(" · ")}</p>
+                    )}
+                  </div>
                 )}
 
                 <Link
