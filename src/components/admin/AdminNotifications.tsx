@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { subscribeToPush } from "@/lib/push-client";
 
 interface NewOrder {
   id: string;
@@ -119,9 +120,17 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
     if (!("Notification" in window)) return;
     const perm = Notification.permission;
     startTransition(() => setNotifPermission(perm));
-    if (perm === "default") {
+    if (perm === "granted") {
+      // İzin zaten verilmiş — cihazın gerçek push aboneliği (kilit ekranı/arka
+      // plan bildirimleri için) var olduğundan emin ol. subscribe() zaten
+      // varsa mevcut aboneliği döndürür, yeniden abone etmez.
+      subscribeToPush();
+    } else if (perm === "default") {
       const t = setTimeout(() => {
-        Notification.requestPermission().then((p) => setNotifPermission(p));
+        Notification.requestPermission().then((p) => {
+          setNotifPermission(p);
+          if (p === "granted") subscribeToPush();
+        });
       }, 2000);
       return () => clearTimeout(t);
     }
@@ -321,7 +330,10 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
                     {env.notifSupported && notifPermission === "default" && (
                       <button
                         onClick={() =>
-                          Notification.requestPermission().then((p) => setNotifPermission(p))
+                          Notification.requestPermission().then((p) => {
+                            setNotifPermission(p);
+                            if (p === "granted") subscribeToPush();
+                          })
                         }
                         className="w-full py-2 mb-2 rounded-lg bg-[#3d7b74] text-white text-[12px] font-semibold hover:bg-[#2d6b64] transition-colors"
                       >
