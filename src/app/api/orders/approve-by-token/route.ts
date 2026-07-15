@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { createNotification } from "@/lib/notifications";
 import { sendPushToAdmins } from "@/lib/push";
@@ -60,30 +60,39 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "İşlem gerçekleştirilemedi." }, { status: 500 });
   }
 
-  // Admin paneline bildirim + (varsa) push
+  // Admin paneline bildirim + (varsa) push — yanıtı bekletmeden arka planda
+  // gönderilir (bkz. orders/create/route.ts'teki after() açıklaması).
   const customerLabel = order.customer_name || "Müşteri";
   if (action === "approve") {
     const title = isAuto ? "⏱️ Süre Doldu — Otomatik Onaylandı" : "✅ Müşteri Siparişi Onayladı";
     const message = isAuto
       ? `${customerLabel} — #${order.order_number} için 15 dakikalık onay süresi doldu, sipariş otomatik onaylandı.`
       : `${customerLabel} — #${order.order_number} siparişindeki çiçek görselini onayladı.`;
-    createNotification({
-      type: "order_approved",
-      title,
-      message,
-      data: { orderId: order.id, orderNumber: order.order_number, auto: isAuto },
-    }).catch(() => {});
-    sendPushToAdmins({ title, body: message, url: "/admin/siparisler", tag: `approval-${order.id}` }).catch(() => {});
+    after(async () => {
+      await Promise.allSettled([
+        createNotification({
+          type: "order_approved",
+          title,
+          message,
+          data: { orderId: order.id, orderNumber: order.order_number, auto: isAuto },
+        }),
+        sendPushToAdmins({ title, body: message, url: "/admin/siparisler", tag: `approval-${order.id}` }),
+      ]);
+    });
   } else {
     const title = "🔁 Revize Talebi Alındı";
     const message = `${customerLabel} — #${order.order_number} için revize istedi: "${reason}"`;
-    createNotification({
-      type: "order_rejected",
-      title,
-      message,
-      data: { orderId: order.id, orderNumber: order.order_number, reason },
-    }).catch(() => {});
-    sendPushToAdmins({ title, body: message, url: "/admin/siparisler", tag: `approval-${order.id}` }).catch(() => {});
+    after(async () => {
+      await Promise.allSettled([
+        createNotification({
+          type: "order_rejected",
+          title,
+          message,
+          data: { orderId: order.id, orderNumber: order.order_number, reason },
+        }),
+        sendPushToAdmins({ title, body: message, url: "/admin/siparisler", tag: `approval-${order.id}` }),
+      ]);
+    });
   }
 
   return NextResponse.json({ approvalStatus: updates.approval_status });

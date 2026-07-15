@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { generateOrderNumber } from "@/lib/order-utils";
 import { sendOrderConfirmationEmail } from "@/lib/email";
@@ -104,40 +104,41 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Sipariş kaydedilemedi." }, { status: 500 });
     }
 
-    // Stok azalt + gerekirse bildirim (hata sipariş oluşturmayı engellemez)
-    decreaseStock(sb, items as OrderItem[]).catch((err) =>
-      console.error("[create-order] stock decrease failed:", err)
-    );
-
-    // DB'ye yeni sipariş bildirimi kaydet
-    createNotification({
-      type: "new_order",
-      title: "Yeni Sipariş",
-      message: `${customerName} tarafından ₺${grandTotal.toLocaleString("tr-TR")} tutarında yeni sipariş oluşturuldu.`,
-      data: { orderId: order.id, orderNumber, customerName, total: grandTotal },
-    }).catch((err) => console.error("[create-order] notification failed:", err));
-
-    // Web Push bildirimi (hata sipariş oluşturmayı engellemez)
-    sendPushToAdmins({
-      title: "🌸 Yeni Sipariş!",
-      body: `${customerName} — ₺${grandTotal.toLocaleString("tr-TR")}`,
-      url: "/admin/siparisler",
-      tag: "new-order",
-    }).catch((err) => console.error("[push] send failed:", err));
-
-    // Onay maili gönder (hata sipariş oluşturmayı engellemez)
-    sendOrderConfirmationEmail({
-      to: form.email,
-      customerName,
-      orderNumber,
-      items,
-      total: grandTotal,
-      address: `${form.address}, ${form.district}, ${form.city}`,
-      deliveryDate: form.deliveryDate,
-      deliveryTime: form.deliveryTime,
-      recipientName: form.recipientName,
-      cardMessage: form.cardMessage,
-    }).catch((err) => console.error("[email] send failed:", err));
+    // Stok azaltma, bildirim, push ve e-posta — yanıtı bekletmeden arka planda
+    // çalışır. Vercel'in serverless ortamında yanıt döndükten sonra fonksiyon
+    // donabildiği için bunlar after() ile isteğin ömrüne bağlanıyor, yoksa
+    // gönderim bir sonraki isteğe kadar askıda kalıp dakikalarca gecikebiliyor.
+    after(async () => {
+      await Promise.allSettled([
+        decreaseStock(sb, items as OrderItem[]).catch((err) =>
+          console.error("[create-order] stock decrease failed:", err)
+        ),
+        createNotification({
+          type: "new_order",
+          title: "Yeni Sipariş",
+          message: `${customerName} tarafından ₺${grandTotal.toLocaleString("tr-TR")} tutarında yeni sipariş oluşturuldu.`,
+          data: { orderId: order.id, orderNumber, customerName, total: grandTotal },
+        }).catch((err) => console.error("[create-order] notification failed:", err)),
+        sendPushToAdmins({
+          title: "🌸 Yeni Sipariş!",
+          body: `${customerName} — ₺${grandTotal.toLocaleString("tr-TR")}`,
+          url: "/admin/siparisler",
+          tag: "new-order",
+        }).catch((err) => console.error("[push] send failed:", err)),
+        sendOrderConfirmationEmail({
+          to: form.email,
+          customerName,
+          orderNumber,
+          items,
+          total: grandTotal,
+          address: `${form.address}, ${form.district}, ${form.city}`,
+          deliveryDate: form.deliveryDate,
+          deliveryTime: form.deliveryTime,
+          recipientName: form.recipientName,
+          cardMessage: form.cardMessage,
+        }).catch((err) => console.error("[email] send failed:", err)),
+      ]);
+    });
 
     return NextResponse.json({ orderNumber, id: order.id }, { status: 201 });
   } catch (err) {
