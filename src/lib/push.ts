@@ -43,7 +43,14 @@ export async function sendPushToAdmins(payload: {
 
   const results = await Promise.allSettled(
     subs.map(({ subscription }) =>
-      webPush.sendNotification(subscription as webPush.PushSubscription, message)
+      // urgency: "high" — mobil işletim sistemine cihazı hemen uyandırıp
+      // bildirimi geciktirmeden teslim etmesini söyler (varsayılan "normal"
+      // pil tasarrufu için teslimi erteleyebiliyor, özellikle kilitli/arka
+      // plandaki telefonlarda gözle görülür gecikmeye yol açar).
+      webPush.sendNotification(subscription as webPush.PushSubscription, message, {
+        urgency: "high",
+        TTL: 60,
+      })
     )
   );
 
