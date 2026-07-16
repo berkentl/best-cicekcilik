@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useState, useEffect, useRef, startTransition } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Flower2,
@@ -211,13 +212,15 @@ export function HakkimizdaSection() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
               >
-                {/* Görsel yakında eklenecek — şimdilik marka tonlarında bir yer tutucu */}
-                <div
-                  className="w-full bg-gradient-to-br from-[#dde5e1] to-[#a9bcb5]"
-                  style={{ aspectRatio: "3/4" }}
-                  role="img"
-                  aria-label="Dünyanın Çiçeği Aranjman"
-                />
+                <div className="relative w-full" style={{ aspectRatio: "3/4" }}>
+                  <Image
+                    src="/images/Ana_sayfa.png"
+                    alt="Dünyanın Çiçeği — özel tasarım gül ve şakayık aranjmanı"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 90vw, 320px"
+                  />
+                </div>
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-t from-[#1d3435]/60 to-transparent flex items-end justify-center p-4"
                   initial={{ opacity: 0 }}
