@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { useCartStore, type DeliverySlot } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
-import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import { HeartIcon } from "@/components/icons";
 import { cn } from "@/lib/utils";
@@ -211,8 +210,6 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
   const setDelivery = useCartStore(s => s.setDelivery);
   const { toggle, has } = useWishlistStore();
   const wishlisted      = has(product.id);
-  const currency        = useCurrencyStore(s => s.currency);
-  const rates           = useCurrencyStore(s => s.rates);
 
   const hasDiscount = product.salePrice !== undefined && product.salePrice < product.price;
   const discountPct = hasDiscount ? Math.round(((product.price - product.salePrice!) / product.price) * 100) : 0;
@@ -244,9 +241,9 @@ export function ProductDetailPanel({ product, categorySlug, inStock, shippingInf
 
       <div className="flex items-center gap-3 flex-wrap">
         <span className="text-[24px] font-semibold text-[#163426] tabular-nums">
-          {formatPrice(product.salePrice ?? product.price, currency, rates)}
+          {formatPrice(product.salePrice ?? product.price)}
         </span>
-        {hasDiscount && <span className="text-[16px] text-[#727973] line-through">{formatPrice(product.price, currency, rates)}</span>}
+        {hasDiscount && <span className="text-[16px] text-[#727973] line-through">{formatPrice(product.price)}</span>}
         {product.isNew && <span className="bg-[#fde8e6] text-[#5c2020] text-[11px] font-semibold tracking-[0.06em] px-3 py-1 rounded-full">Yeni Ürün</span>}
         {product.isBestseller && (
           <span className="inline-block w-[180px] align-middle">

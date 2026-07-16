@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import { CheckCircleIcon, PlusIcon, XIcon, ArrowRightIcon } from "@/components/icons";
 import type { Product } from "@/types";
@@ -21,8 +20,6 @@ interface Props {
 
 export function CrossSellModal({ open, title, products, onClose, onProceed }: Props) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const currency = useCurrencyStore((s) => s.currency);
-  const rates = useCurrencyStore((s) => s.rates);
 
   const toggle = (id: string) => {
     setSelectedIds((prev) => {
@@ -112,7 +109,7 @@ export function CrossSellModal({ open, title, products, onClose, onProceed }: Pr
                           {product.name}
                         </p>
                         <p className="text-[14px] font-semibold text-[#3d7b74] mb-3">
-                          {formatPrice(unitPrice, currency, rates)}
+                          {formatPrice(unitPrice)}
                         </p>
                         <button
                           type="button"

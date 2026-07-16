@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
-import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import { HeartIcon } from "@/components/icons";
 import { BestsellerBadge } from "@/components/ui/award-badge";
@@ -37,8 +36,6 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const addItem         = useCartStore((s) => s.addItem);
   const { toggle, has } = useWishlistStore();
   const wishlisted      = has(product.id);
-  const currency        = useCurrencyStore((s) => s.currency);
-  const rates           = useCurrencyStore((s) => s.rates);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -189,11 +186,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Fiyat — ince serif */}
         <div className="flex items-baseline gap-2 mt-auto pt-0.5">
           <span className="text-[13px] sm:text-[15px] font-medium text-[#1d3435] tabular-nums">
-            {formatPrice(product.salePrice ?? product.price, currency, rates)}
+            {formatPrice(product.salePrice ?? product.price)}
           </span>
           {hasDiscount && (
             <span className="text-[11px] sm:text-[12px] font-normal text-[#aaa] line-through tabular-nums">
-              {formatPrice(product.price, currency, rates)}
+              {formatPrice(product.price)}
             </span>
           )}
         </div>

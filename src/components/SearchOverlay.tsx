@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useCallback, startTransition } from "react
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types";
-import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 
 const PLACEHOLDER = "/images/urunler/urun-1a.jpg";
@@ -13,8 +12,6 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const currency = useCurrencyStore((s) => s.currency);
-  const rates    = useCurrencyStore((s) => s.rates);
   const inputRef = useRef<HTMLInputElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -125,7 +122,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                       {p.name}
                     </p>
                     <p className="text-[13px] font-bold text-[#1d3435] mt-0.5">
-                      {formatPrice(p.salePrice ?? p.price, currency, rates)}
+                      {formatPrice(p.salePrice ?? p.price)}
                     </p>
                   </div>
                 </Link>

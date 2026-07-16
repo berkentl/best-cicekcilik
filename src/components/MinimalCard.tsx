@@ -2,14 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import type { Product } from "@/types";
 
 export function MinimalCard({ product }: { product: Product }) {
-  const currency = useCurrencyStore((s) => s.currency);
-  const rates    = useCurrencyStore((s) => s.rates);
-
   const hasDiscount = product.salePrice !== undefined && product.salePrice < product.price;
   const discountPct = hasDiscount
     ? Math.round(((product.price - product.salePrice!) / product.price) * 100)
@@ -49,11 +45,11 @@ export function MinimalCard({ product }: { product: Product }) {
         </p>
         <div className="flex items-baseline gap-2 mt-1">
           <span className="text-[13px] sm:text-[14px] font-medium text-[#1d3435] tabular-nums">
-            {formatPrice(product.salePrice ?? product.price, currency, rates)}
+            {formatPrice(product.salePrice ?? product.price)}
           </span>
           {hasDiscount && (
             <span className="text-[11px] font-normal text-[#aaa] line-through tabular-nums">
-              {formatPrice(product.price, currency, rates)}
+              {formatPrice(product.price)}
             </span>
           )}
         </div>

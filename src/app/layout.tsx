@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Kumbh_Sans, Playfair_Display, Poppins, Cormorant_Garamond, Montserrat, Dancing_Script } from "next/font/google";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { StoreHydration } from "@/components/StoreHydration";
 import { MiniCartPreview } from "@/components/MiniCartPreview";
 import "./globals.css";
@@ -86,9 +85,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans">
         <StoreHydration />
         <MiniCartPreview />
-        <CurrencyProvider>
         {children}
-        </CurrencyProvider>
         <WhatsAppButton />
       </body>
     </html>

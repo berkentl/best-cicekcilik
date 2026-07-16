@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
-import { useCurrencyStore } from "@/store/currencyStore";
 import { formatPrice } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 import {
@@ -167,8 +166,6 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
   const mounted = useMounted();
   const router = useRouter();
   const { items, removeItem, updateQuantity, addItem, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
-  const currency = useCurrencyStore((s) => s.currency);
-  const rates    = useCurrencyStore((s) => s.rates);
 
   const [crossSell, setCrossSell] = useState<{ active: boolean; title: string; products: Product[] } | null>(null);
   const [crossSellOpen, setCrossSellOpen] = useState(false);
@@ -272,7 +269,7 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
                           onDecrease={() => updateQuantity(product.id, quantity - 1)}
                         />
                         <span className="text-[16px] md:text-[18px] font-medium text-[#1b1c1c] tabular-nums">
-                          {formatPrice(unitPrice * quantity, currency, rates)}
+                          {formatPrice(unitPrice * quantity)}
                         </span>
                       </div>
                     </div>
@@ -351,7 +348,7 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
                           )}
                         </p>
                         <span className="text-[13px] font-medium text-[#1b1c1c] flex-shrink-0 tabular-nums">
-                          {formatPrice(unitPrice * quantity, currency, rates)}
+                          {formatPrice(unitPrice * quantity)}
                         </span>
                       </div>
                     </div>
@@ -367,18 +364,18 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
                       İndirim
                       <span className="text-[10px] bg-[#c8ebd6] text-[#163426] px-2 py-0.5 rounded-full">{coupon.code}</span>
                     </span>
-                    <span>−{formatPrice(discount, currency, rates)}</span>
+                    <span>−{formatPrice(discount)}</span>
                   </div>
                 )}
                 <div className="flex justify-between items-center pt-2">
                   <span className="text-[11px] uppercase tracking-[0.08em] font-semibold text-[#727973]">Gönderi Ücreti</span>
                   <span className={cn("text-[13px] font-medium tabular-nums", shippingFree ? "text-[#163426]" : "text-[#1b1c1c]")}>
-                    {shippingFree ? "Ücretsiz" : shipping === 0 ? "Ücretsiz" : formatPrice(shipping, currency, rates)}
+                    {shippingFree ? "Ücretsiz" : shipping === 0 ? "Ücretsiz" : formatPrice(shipping)}
                   </span>
                 </div>
                 {!shippingFree && remaining > 0 && siteSettings.freeShippingThreshold > 0 && (
                   <p className="text-[12px] text-[#7c5454] bg-[#fff5f5] rounded-xl px-3 py-2.5 leading-snug">
-                    {formatPrice(remaining, currency, rates)} daha alın, kargo ücretsiz!
+                    {formatPrice(remaining)} daha alın, kargo ücretsiz!
                   </p>
                 )}
               </div>
@@ -387,7 +384,7 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
               <div className="border-t border-[#dbd9d9] pt-4 flex justify-between items-baseline">
                 <span className="text-[12px] font-bold tracking-[0.1em] uppercase text-[#727973]">TOPLAM</span>
                 <span className="text-[22px] font-semibold text-[#1b1c1c] tabular-nums">
-                  {formatPrice(grandTotal, currency, rates)}
+                  {formatPrice(grandTotal)}
                 </span>
               </div>
 

@@ -19,7 +19,6 @@ import {
 } from "@/components/icons";
 import { navCategories } from "@/lib/data";
 import type { Category, CustomerUser } from "@/types";
-import { useCurrencyStore, type Currency } from "@/store/currencyStore";
 
 interface HeaderProps {
   initialCategories?: Category[];
@@ -44,7 +43,6 @@ export function Header({
   const [cartCount, setCartCount]         = useState(initialCartCount);
   const [wishlistCount, setWishlistCount] = useState(initialWishlistCount);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { currency, setCurrency } = useCurrencyStore();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 60);
@@ -197,21 +195,6 @@ export function Header({
               </span>
             </Link>
 
-            {/* Para birimi — sadece desktop */}
-            <div className="hidden lg:flex items-center border-l border-[#e8e8e8] pl-3 ml-2 gap-0 text-[14px] tracking-widest text-[#111]">
-              {(["USD", "EUR", "TRY"] as Currency[]).map((c, i, arr) => (
-                <span key={c} className="flex items-center">
-                  <button
-                    onClick={() => setCurrency(c)}
-                    className={`transition-opacity ${currency === c ? "font-semibold" : "text-[#aaa] hover:opacity-60"}`}
-                  >
-                    {c === "TRY" ? "₺" : c === "USD" ? "$" : "€"}
-                  </button>
-                  {i < arr.length - 1 && <span className="mx-1 text-[#ccc]">|</span>}
-                </span>
-              ))}
-            </div>
-
           </div>
         </div>
 
@@ -286,20 +269,6 @@ export function Header({
                 >
                   <TruckIcon size={17} /> <span>Sipariş Takip</span>
                 </Link>
-              </div>
-              {/* Para birimi — mobil */}
-              <div className="flex items-center gap-0 text-[15px] tracking-widest text-[#111]">
-                {(["USD", "EUR", "TRY"] as Currency[]).map((c, i, arr) => (
-                  <span key={c} className="flex items-center">
-                    <button
-                      onClick={() => setCurrency(c)}
-                      className={`transition-opacity ${currency === c ? "font-semibold" : "text-[#aaa]"}`}
-                    >
-                      {c === "TRY" ? "₺" : c === "USD" ? "$" : "€"}
-                    </button>
-                    {i < arr.length - 1 && <span className="mx-1 text-[#ccc]">|</span>}
-                  </span>
-                ))}
               </div>
             </div>
             <ul className="divide-y divide-[#f0f0f0]">
