@@ -10,6 +10,7 @@ export function MinimalCard({ product }: { product: Product }) {
   const discountPct = hasDiscount
     ? Math.round(((product.price - product.salePrice!) / product.price) * 100)
     : 0;
+  const outOfStock = product.isActive === false || (product.stock ?? 0) <= 0;
 
   return (
     <Link href={`/urun/${product.slug}`} className="group block">
@@ -24,18 +25,21 @@ export function MinimalCard({ product }: { product: Product }) {
           fill
           unoptimized
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          className={`object-cover object-center transition-transform duration-500 group-hover:scale-105 ${outOfStock ? "grayscale opacity-70" : ""}`}
         />
-        {hasDiscount && (
+        {outOfStock ? (
+          <span className="absolute top-2 left-2 text-[10px] font-bold bg-[#1d3435] text-white px-2 py-0.5 rounded-full">
+            STOK YOK
+          </span>
+        ) : hasDiscount ? (
           <span className="absolute top-2 left-2 text-[10px] font-bold bg-[#7b3535] text-white px-2 py-0.5 rounded-full">
             -%{discountPct}
           </span>
-        )}
-        {!hasDiscount && product.isNew && (
+        ) : product.isNew ? (
           <span className="absolute top-2 left-2 text-[10px] font-bold bg-[#fde8e6] text-[#5c2020] px-2 py-0.5 rounded-full">
             YENİ
           </span>
-        )}
+        ) : null}
       </div>
 
       {/* Ad + Fiyat */}

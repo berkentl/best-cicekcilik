@@ -32,16 +32,17 @@ async function decreaseStock(sb: ReturnType<typeof createServerClient>, items: O
       if (!current) return;
       const newStock = Math.max(0, (current.stock ?? 0) - item.qty);
 
-      const updates: Record<string, unknown> = { stock: newStock };
-      if (newStock === 0) updates.is_active = false;
-
-      await sb.from("products").update(updates).eq("id", item.productId!);
+      // Not: is_active buradan KASITLI olarak dokunulmuyor — ürün sitede
+      // "Stok Yok" rozetiyle görünmeye devam eder (kaldırılmaz), stok tekrar
+      // eklendiğinde otomatik satışa döner. is_active sadece admin'in
+      // "Satışta (Aktif)" anahtarıyla manuel kontrol ettiği ayrı bir alan.
+      await sb.from("products").update({ stock: newStock }).eq("id", item.productId!);
 
       if (newStock === 0) {
         await createNotification({
           type: "out_of_stock",
           title: "Stok Tükendi",
-          message: `"${current.name}" adlı ürünün stoğu tükendi ve satışa kapatıldı.`,
+          message: `"${current.name}" adlı ürünün stoğu tükendi.`,
           data: { productId: item.productId, productName: current.name },
         });
       }

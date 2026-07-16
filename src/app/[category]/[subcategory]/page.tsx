@@ -41,15 +41,16 @@ function mapRow(row: Record<string, unknown>): Product {
 async function getProducts(categorySlug: string, subSlug: string): Promise<Product[]> {
   try {
     const sb = createServerClient();
+    // is_active/stok filtresi YOK — satışa kapalı/stoksuz ürünler de
+    // listede kalır, sadece "Stok Yok" rozetiyle işaretlenir.
     const { data, error } = await sb
       .from("products")
       .select("*")
-      .eq("is_active", true)
       .or(`sub_category_slug.eq.${subSlug},extra_category_slugs.cs.[{"subCategorySlug":"${subSlug}"}]`)
       .order("created_at", { ascending: false });
     if (error) throw error;
     const all = (data ?? []).map(mapRow);
-    return all.length > 0 ? all : (await sb.from("products").select("*").eq("is_active", true).eq("category_slug", categorySlug).order("created_at", { ascending: false })).data?.map(mapRow) ?? [];
+    return all.length > 0 ? all : (await sb.from("products").select("*").eq("category_slug", categorySlug).order("created_at", { ascending: false })).data?.map(mapRow) ?? [];
   } catch {
     return [];
   }
@@ -97,8 +98,6 @@ export default async function SubcategoryPage({ params }: PageProps) {
 
   const subItem = category.megaMenu?.flatMap((col) => col.items).find((i) => i.slug === subSlug);
 
-  const activeProducts = products.filter((p) => p.isActive !== false);
-
   return (
     <>
       <AnnouncementBar />
@@ -106,8 +105,8 @@ export default async function SubcategoryPage({ params }: PageProps) {
       <main>
         {/* Ürün grid — CategoryLayout ile */}
         <CategoryLayout
-          products={activeProducts}
-          filterCategories={buildFilterCategories(activeProducts)}
+          products={products}
+          filterCategories={buildFilterCategories(products)}
         />
       </main>
       <Footer />

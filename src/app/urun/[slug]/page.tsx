@@ -96,7 +96,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProductPage({ params }: PageProps) {
   const { slug }  = await params;
   const product   = await getProduct(slug);
-  if (!product || product.isActive === false) notFound();
+  if (!product) notFound();
 
   const category = navCategories.find((c) => c.slug === product.categorySlug);
   const [related, shippingInfo, siteSettings] = await Promise.all([
@@ -104,7 +104,7 @@ export default async function ProductPage({ params }: PageProps) {
     getShippingInfo(),
     getSiteSettings(),
   ]);
-  const inStock = (product.stock ?? 1) > 0;
+  const inStock = product.isActive !== false && (product.stock ?? 0) > 0;
 
   return (
     <>

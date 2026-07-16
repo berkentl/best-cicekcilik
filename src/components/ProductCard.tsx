@@ -39,6 +39,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (outOfStock) return;
     addItem(product);
     setAdded(true);
     setTimeout(() => setAdded(false), 1400);
@@ -58,13 +59,16 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const hasDiscount = product.salePrice !== undefined && product.salePrice < product.price;
   const discountPct = hasDiscount
     ? Math.round(((product.price - product.salePrice!) / product.price) * 100) : 0;
+  const outOfStock = product.isActive === false || (product.stock ?? 0) <= 0;
 
   const idHash = product.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
   const stars = product.isBestseller ? 5 : (idHash % 2 === 0 ? 5 : 4);
   const reviewCount = product.salesCount || (24 + (idHash % 97));
 
   // Bestseller için holografik badge ayrıca render edilir
-  const pillBadge = !product.isBestseller
+  const pillBadge = outOfStock
+    ? { label: "STOK YOK", bg: "bg-[#1d3435] text-white" }
+    : !product.isBestseller
     ? hasDiscount
       ? { label: `-%${discountPct}`, bg: "bg-[#7b3535] text-white" }
       : product.isNew
@@ -109,12 +113,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
           fill
           unoptimized
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 45vw, 25vw"
-          className="object-cover object-center"
+          className={cn("object-cover object-center", outOfStock && "grayscale opacity-70")}
           style={{ transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)", ...imgStyle }}
         />
 
         {/* Holografik En Çok Satan rozeti */}
-        {product.isBestseller && (
+        {product.isBestseller && !outOfStock && (
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 w-[130px] sm:w-[155px] z-10"
             onClick={(e) => e.preventDefault()}>
             <BestsellerBadge />
@@ -143,26 +147,28 @@ export function ProductCard({ product, className }: ProductCardProps) {
           <HeartIcon size={13} className={wishlisted ? "fill-[#c8746a] stroke-[#c8746a]" : "text-[#1d3435]"} />
         </button>
 
-        <button
-          onClick={handleAddToCart}
-          aria-label="Sepete ekle"
-          className={cn(
-            "absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-lg",
-            "translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300",
-            added ? "bg-[#3d7b74]" : "bg-[#1d3435] hover:bg-[#2d4b3c]"
-          )}
-        >
-          {added ? (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          ) : (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-            </svg>
-          )}
-        </button>
+        {!outOfStock && (
+          <button
+            onClick={handleAddToCart}
+            aria-label="Sepete ekle"
+            className={cn(
+              "absolute bottom-2.5 right-2.5 sm:bottom-4 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-lg",
+              "translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300",
+              added ? "bg-[#3d7b74]" : "bg-[#1d3435] hover:bg-[#2d4b3c]"
+            )}
+          >
+            {added ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+            )}
+          </button>
+        )}
       </Link>
 
       {/* ── Bilgi ── */}

@@ -42,15 +42,16 @@ async function getProducts(categorySlug: string): Promise<Product[]> {
   try {
     const sb = createServerClient();
     if (categorySlug === "tum-urunler") {
-      const { data, error } = await sb.from("products").select("*").eq("is_active", true).order("created_at", { ascending: false });
+      const { data, error } = await sb.from("products").select("*").order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map(mapRow);
     }
     // Ana kategori + ek kategorilerde bu kategoriye sahip ürünler
+    // (is_active/stok filtresi YOK — satışa kapalı/stoksuz ürünler de
+    // listede kalır, sadece "Stok Yok" rozetiyle işaretlenir, bkz. ProductCard)
     const { data, error } = await sb
       .from("products")
       .select("*")
-      .eq("is_active", true)
       .or(`category_slug.eq.${categorySlug},extra_category_slugs.cs.[{"categorySlug":"${categorySlug}"}]`)
       .order("created_at", { ascending: false });
     if (error) throw error;
@@ -87,16 +88,14 @@ export default async function CategoryPage({ params }: PageProps) {
     ?? (categorySlug === "tum-urunler" ? { id: "tum-urunler", name: "Tüm Ürünler", slug: "tum-urunler" } as const : null);
   if (!category) notFound();
 
-  const activeProducts = products.filter((p) => p.isActive !== false);
-
   return (
     <>
       <AnnouncementBar />
       <HeaderWrapper />
       <main>
         <CategoryLayout
-          products={activeProducts}
-          filterCategories={buildFilterCategories(activeProducts)}
+          products={products}
+          filterCategories={buildFilterCategories(products)}
         />
       </main>
       <Footer />

@@ -12,11 +12,11 @@ export async function getVitrinProducts(): Promise<Product[]> {
   try {
     const sb = createServerClient();
 
-    // Sabitlenen ürünler
+    // Sabitlenen ürünler — is_active/stok filtresi yok (stoksuz/pasif ürün
+    // de "Stok Yok" rozetiyle vitrinde kalmaya devam eder)
     const { data: pinned, error: pinnedErr } = await sb
       .from("products")
       .select("*, product_variants(*)")
-      .eq("is_active", true)
       .eq("is_pinned_to_vitrin", true)
       .order("sales_count", { ascending: false })
       .limit(VITRIN_LIMIT);
@@ -34,7 +34,6 @@ export async function getVitrinProducts(): Promise<Product[]> {
     let topQuery = sb
       .from("products")
       .select("*, product_variants(*)")
-      .eq("is_active", true)
       .eq("is_pinned_to_vitrin", false)
       .order("sales_count", { ascending: false })
       .limit(remaining);
