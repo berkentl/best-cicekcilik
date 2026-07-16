@@ -48,6 +48,19 @@ export interface Order {
   approval_expires_at?: string;
   approval_status?: ApprovalStatus;
   rejection_reason?: string;
+  city?: string;
+  district?: string;
+  invoice_type?: "bireysel" | "kurumsal";
+  tc_kimlik_no?: string;
+  vergi_dairesi?: string;
+  vergi_no?: string;
+  firma_adi?: string;
+  payment_status?: "PENDING" | "PAID";
+  invoice_status?: "NOT_ISSUED" | "ISSUED" | "FAILED";
+  invoice_number?: string;
+  invoice_ettn?: string;
+  invoice_pdf_url?: string;
+  invoice_error?: string;
 }
 
 const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: string }> = {
@@ -366,6 +379,38 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
                 <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#c4956a] mb-1">Kart Mesajı</p>
                 <p className="text-[13px] text-[#6e5c44] leading-relaxed">&ldquo;{order.card_message}&rdquo;</p>
               </div>
+            </div>
+          )}
+
+          {/* Fatura Bilgileri */}
+          {order.invoice_type && (
+            <div className="bg-[#faf8f6] rounded-xl p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#a09890]">
+                  Fatura — {order.invoice_type === "kurumsal" ? "Kurumsal" : "Bireysel"}
+                </p>
+                {order.invoice_status === "ISSUED" ? (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                    Kesildi{order.invoice_number ? ` · ${order.invoice_number}` : ""}
+                  </span>
+                ) : order.invoice_status === "FAILED" ? (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
+                    Kesilemedi
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-[#eee] text-[#888] px-2 py-0.5 rounded-full">
+                    Teslimatta Kesilecek
+                  </span>
+                )}
+              </div>
+              <p className="text-[13px] font-semibold text-[#1d3435]">
+                {order.invoice_type === "kurumsal"
+                  ? `${order.firma_adi ?? "—"} · VD: ${order.vergi_dairesi ?? "—"} · VKN: ${order.vergi_no ?? "—"}`
+                  : `TC Kimlik No: ${order.tc_kimlik_no ?? "—"}`}
+              </p>
+              {order.invoice_status === "FAILED" && order.invoice_error && (
+                <p className="text-[12px] text-red-600 leading-relaxed">{order.invoice_error}</p>
+              )}
             </div>
           )}
 

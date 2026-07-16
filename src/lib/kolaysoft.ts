@@ -147,17 +147,25 @@ async function kolaysoftLogin(): Promise<string> {
 /**
  * İç sipariş verisini Kolaysoft'un fatura oluşturma isteği yapısına çevirir.
  *
- * NOT: `identityNumber` (TC Kimlik No / VKN) şu an checkout formunda
- * toplanmıyor. Yasal olarak doğru e-Arşiv/e-Fatura kesebilmek için bu
- * alanın checkout'a eklenmesi gerekir — eklenene kadar burada geçici bir
- * "misafir" yer tutucu kullanılıyor. Muhasebecinizle teyit edin.
+ * `invoiceType` checkout formunda müşterinin seçtiği "Bireysel"/"Kurumsal"
+ * seçeneğine karşılık gelir: bireyselde TC Kimlik No ile e-Arşiv, kurumsalda
+ * VKN + vergi dairesi + firma adı ile e-Fatura kesilir. Her iki tip için de
+ * kimlik alanı zorunludur — checkout tarafında da zorunlu olarak toplanır.
  */
 export function mapOrderToKolaysoftInvoice(order: {
   orderNumber: string;
+  invoiceType: "bireysel" | "kurumsal";
   customerName: string;
   customerEmail: string;
   customerPhone?: string;
-  customerIdentityNumber?: string;
+  /** Bireysel fatura için TC Kimlik No (11 hane). */
+  tcKimlikNo?: string;
+  /** Kurumsal fatura için Vergi Dairesi. */
+  vergiDairesi?: string;
+  /** Kurumsal fatura için Vergi Kimlik No (10 hane). */
+  vergiNo?: string;
+  /** Kurumsal fatura için firma adı — fatura üzerinde alıcı olarak görünür. */
+  firmaAdi?: string;
   address: string;
   city: string;
   district: string;
@@ -166,14 +174,16 @@ export function mapOrderToKolaysoftInvoice(order: {
   sendEmailToCustomer?: boolean;
 }): KolaysoftCreateInvoiceInput {
   const vatRate = order.vatRate ?? 20;
+  const isKurumsal = order.invoiceType === "kurumsal";
 
   return {
     orderNumber: order.orderNumber,
-    invoiceType: "E_ARSIV",
+    invoiceType: isKurumsal ? "E_FATURA" : "E_ARSIV",
     sendEmailToCustomer: order.sendEmailToCustomer ?? true,
     customer: {
-      fullName: order.customerName,
-      identityNumber: order.customerIdentityNumber,
+      fullName: isKurumsal ? (order.firmaAdi || order.customerName) : order.customerName,
+      identityNumber: isKurumsal ? order.vergiNo : order.tcKimlikNo,
+      taxOffice: isKurumsal ? order.vergiDairesi : undefined,
       email: order.customerEmail,
       phone: order.customerPhone,
       address: order.address,

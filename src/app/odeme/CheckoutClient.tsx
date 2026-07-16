@@ -75,6 +75,11 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
     cardMessage: "",
     notes: "",
     paymentMethod: paymentSettings.kapida_enabled ? "kapida" : paymentSettings.havale_enabled ? "havale" : "online",
+    invoiceType: "bireysel" as "bireysel" | "kurumsal",
+    tcKimlikNo: "",
+    vergiDairesi: "",
+    vergiNo: "",
+    firmaAdi: "",
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -330,7 +335,71 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                   </div>
                 </SectionCard>
 
-                {/* 2. Alıcı Bilgileri */}
+                {/* 2. Fatura Bilgileri */}
+                <SectionCard
+                  title="Fatura Bilgileri"
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  }
+                >
+                  <div className="space-y-4">
+                    <div className="flex gap-3">
+                      {(["bireysel", "kurumsal"] as const).map((type) => {
+                        const selected = form.invoiceType === type;
+                        return (
+                          <button
+                            key={type}
+                            type="button"
+                            onClick={() => update("invoiceType", type)}
+                            className={`flex-1 text-center rounded-xl border-2 px-4 py-3 text-[13px] font-semibold transition-all duration-150 ${
+                              selected
+                                ? "border-[#3d7b74] bg-[#f0f8f7] text-[#1d3435] shadow-sm"
+                                : "border-[#e8e2dc] bg-white text-[#545454] hover:border-[#b5d5d1]"
+                            }`}
+                          >
+                            {type === "bireysel" ? "Bireysel Fatura" : "Kurumsal Fatura"}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {form.invoiceType === "bireysel" ? (
+                      <div>
+                        <label className={labelClass}>TC Kimlik No *</label>
+                        <input required type="text" inputMode="numeric" placeholder="11 haneli TC Kimlik No"
+                          pattern="\d{11}" maxLength={11} title="11 haneli TC Kimlik No girin"
+                          className={inputBase}
+                          value={form.tcKimlikNo}
+                          onChange={(e) => update("tcKimlikNo", e.target.value.replace(/\D/g, "").slice(0, 11))} />
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="sm:col-span-2">
+                          <label className={labelClass}>Firma Adı *</label>
+                          <input required type="text" placeholder="Firma unvanı" className={inputBase}
+                            value={form.firmaAdi} onChange={(e) => update("firmaAdi", e.target.value)} />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Vergi Dairesi *</label>
+                          <input required type="text" placeholder="Şişli" className={inputBase}
+                            value={form.vergiDairesi} onChange={(e) => update("vergiDairesi", e.target.value)} />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Vergi No (VKN) *</label>
+                          <input required type="text" inputMode="numeric" placeholder="10 haneli Vergi No"
+                            pattern="\d{10}" maxLength={10} title="10 haneli Vergi Kimlik No girin"
+                            className={inputBase}
+                            value={form.vergiNo}
+                            onChange={(e) => update("vergiNo", e.target.value.replace(/\D/g, "").slice(0, 10))} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </SectionCard>
+
+                {/* 3. Alıcı Bilgileri */}
                 <SectionCard
                   title="Alıcı Bilgileri & Kart Mesajı"
                   icon={
@@ -367,7 +436,7 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                   </div>
                 </SectionCard>
 
-                {/* 3. Teslimat Adresi */}
+                {/* 4. Teslimat Adresi */}
                 <SectionCard
                   title="Teslimat Adresi"
                   icon={
@@ -489,7 +558,7 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                   </div>
                 </SectionCard>
 
-                {/* 4. Ödeme Yöntemi */}
+                {/* 5. Ödeme Yöntemi */}
                 {availablePayments.length > 0 && (
                   <SectionCard
                     title="Ödeme Yöntemi"
