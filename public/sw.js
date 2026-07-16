@@ -1,3 +1,14 @@
+// Yeni bir sürüm deploy edildiğinde eski Service Worker'ın telefonlarda
+// inatla önbellekte kalmasını önler: install'de hemen aktifleşir, activate'te
+// açık sekmelerin kontrolünü sayfa yenilemeyi beklemeden anında devralır.
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener("push", (event) => {
   if (!event.data) return;
   const data = event.data.json();

@@ -47,12 +47,17 @@ export async function sendPushToAdmins(payload: {
       // bildirimi geciktirmeden teslim etmesini söyler (varsayılan "normal"
       // pil tasarrufu için teslimi erteleyebiliyor, özellikle kilitli/arka
       // plandaki telefonlarda gözle görülür gecikmeye yol açar).
+      // TTL: 86400 — cihaz 24 saat boyunca çevrimdışı kalsa bile APNs/FCM
+      // bildirimi elinde tutar, cihaz tekrar bağlandığında teslim eder
+      // (varsayılan çok kısa TTL'de çevrimdışı cihazlara mesaj düşebiliyor).
       webPush.sendNotification(subscription as webPush.PushSubscription, message, {
         urgency: "high",
-        TTL: 60,
+        TTL: 86400,
       })
     )
   );
+
+  const staleEndpoints: string[] = [];
 
   results.forEach((result, i) => {
     if (result.status === "fulfilled") {
@@ -61,11 +66,24 @@ export async function sendPushToAdmins(payload: {
     }
     const err = result.reason as { statusCode?: number; body?: string; message?: string };
     errors.push(`${err.statusCode ?? "?"}: ${err.body ?? err.message ?? "bilinmeyen hata"}`);
+    // 410 Gone / 404 Not Found — Apple/Google bu aboneliği kalıcı olarak
+    // silmiş demektir, bir daha asla başarılı olmaz. Veritabanından temizle.
     if (err.statusCode === 410 || err.statusCode === 404) {
-      const endpoint = (subs[i].subscription as { endpoint: string }).endpoint;
-      sb.from("push_subscriptions").delete().eq("endpoint", endpoint).then(() => {});
+      staleEndpoints.push((subs[i].subscription as { endpoint: string }).endpoint);
     }
   });
+
+  if (staleEndpoints.length) {
+    const { error: cleanupError } = await sb
+      .from("push_subscriptions")
+      .delete()
+      .in("endpoint", staleEndpoints);
+    if (cleanupError) {
+      console.error("[push] ölü abonelikler silinemedi:", cleanupError);
+    } else {
+      console.log(`[push] ${staleEndpoints.length} ölü abonelik temizlendi.`);
+    }
+  }
 
   return {
     vapidConfigured: true,
