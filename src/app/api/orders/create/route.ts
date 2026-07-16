@@ -136,6 +136,7 @@ export async function POST(request: Request) {
           deliveryTime: form.deliveryTime,
           recipientName: form.recipientName,
           cardMessage: form.cardMessage,
+          siteUrl: new URL(request.url).origin,
         }).catch((err) => console.error("[email] send failed:", err)),
       ]);
     });

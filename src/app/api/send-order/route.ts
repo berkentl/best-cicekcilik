@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import { createServerClient } from "@/lib/supabase-server";
-import OrderConfirmation from "@/emails/OrderConfirmation";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 
 interface OrderItem {
   name: string;
@@ -15,11 +14,6 @@ export async function POST(request: Request) {
 
   if (!orderId || typeof orderId !== "string") {
     return NextResponse.json({ error: "orderId zorunludur." }, { status: 400 });
-  }
-
-  if (!process.env.RESEND_API_KEY) {
-    console.warn("[send-order] RESEND_API_KEY tanımlı değil — e-posta gönderilmedi");
-    return NextResponse.json({ error: "E-posta servisi yapılandırılmamış." }, { status: 503 });
   }
 
   const sb = createServerClient();
@@ -39,27 +33,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Siparişte e-posta adresi yok." }, { status: 400 });
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const origin = new URL(request.url).origin;
-
   try {
-    await resend.emails.send({
-      from: "Dünyanın Çiçeği <siparis@dunyanincicegi.com>",
+    await sendOrderConfirmationEmail({
       to: order.email,
-      subject: `Siparişiniz Alındı — ${order.order_number}`,
-      react: OrderConfirmation({
-        customerName: order.customer_name,
-        orderNumber: order.order_number,
-        items: (order.items as OrderItem[]) ?? [],
-        total: order.total_amount,
-        address: order.address,
-        deliveryDate: order.delivery_date,
-        deliveryTime: order.delivery_time,
-        recipientName: order.recipient_name,
-        cardMessage: order.card_message ?? undefined,
-        trackingUrl: `${origin}/siparis-takip`,
-        siteUrl: origin,
-      }),
+      customerName: order.customer_name,
+      orderNumber: order.order_number,
+      items: (order.items as OrderItem[]) ?? [],
+      total: order.total_amount,
+      address: order.address,
+      deliveryDate: order.delivery_date,
+      deliveryTime: order.delivery_time,
+      recipientName: order.recipient_name,
+      cardMessage: order.card_message ?? undefined,
+      siteUrl: new URL(request.url).origin,
     });
   } catch (err) {
     console.error("[send-order] Resend gönderim hatası:", err);
