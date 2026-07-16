@@ -2,6 +2,7 @@ import { NextResponse, after } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { createKolaysoftInvoice, mapOrderToKolaysoftInvoice } from "@/lib/kolaysoft";
+import { sendSMS } from "@/lib/netgsm";
 
 interface OrderItem {
   name: string;
@@ -10,6 +11,7 @@ interface OrderItem {
 }
 
 const DELIVERED_STATUS = "Teslim Edildi";
+const OUT_FOR_DELIVERY_STATUS = "Kargoya Verildi";
 
 export async function PATCH(
   request: Request,
@@ -112,6 +114,28 @@ export async function PATCH(
           invoice_error: result.success ? null : (result.error ?? "Bilinmeyen hata."),
         })
         .eq("id", id);
+    });
+  }
+
+  // Kurye SMS'i — sadece sipariş "Kargoya Verildi"ye YENİ geçtiğinde bir kez
+  // tetiklenir. SMS başarısız olsa bile (bkz. lib/netgsm.ts — asla exception
+  // fırlatmaz) sipariş durumu zaten yukarıda güncellenmiş olduğundan akış
+  // etkilenmez, hata sadece konsola loglanır.
+  const justShipped = status === OUT_FOR_DELIVERY_STATUS && previousStatus !== OUT_FOR_DELIVERY_STATUS;
+
+  if (justShipped && data.customer_phone) {
+    after(async () => {
+      const message =
+        `Sayın ${data.customer_name}, ${data.order_number} numaralı çiçek siparişiniz kuryemize ` +
+        `teslim edilmiştir ve yola çıkmıştır. Bizi tercih ettiğiniz için teşekkür ederiz.`;
+
+      const result = await sendSMS(data.customer_phone, message);
+
+      if (result.success) {
+        console.log(`[netgsm] kurye SMS'i gönderildi — sipariş ${data.order_number}`);
+      } else {
+        console.error(`[netgsm] kurye SMS'i gönderilemedi — sipariş ${data.order_number}:`, result.error);
+      }
     });
   }
 
