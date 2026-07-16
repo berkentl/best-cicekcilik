@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AdminNotifications } from "@/components/admin/AdminNotifications";
-import { supabase } from "@/lib/supabase";
 
 const navGroups = [
   {
@@ -199,13 +198,36 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     setNewOrderCount((c) => c + 1);
   }, []);
 
+  // Yeni sipariş rozeti — Supabase Realtime yerine polling kullanıyor
+  // (orders tablosunda anon RLS erişimi güvenlik nedeniyle kapatıldı).
   useEffect(() => {
     if (!authed) return;
-    const channel = supabase
-      .channel("layout_orders")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, incrementOrder)
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
+    const seenIds = new Set<string>();
+    let initialized = false;
+
+    const poll = async () => {
+      try {
+        const res = await fetch("/api/orders/recent");
+        if (!res.ok) return;
+        const data = (await res.json()) as { orders?: { id: string }[] };
+        const orders = data.orders ?? [];
+        if (!initialized) {
+          orders.forEach((o) => seenIds.add(o.id));
+          initialized = true;
+          return;
+        }
+        for (const order of orders) {
+          if (!seenIds.has(order.id)) {
+            seenIds.add(order.id);
+            incrementOrder();
+          }
+        }
+      } catch {}
+    };
+
+    poll();
+    const interval = setInterval(poll, 20_000);
+    return () => clearInterval(interval);
   }, [authed, incrementOrder]);
 
   useEffect(() => {

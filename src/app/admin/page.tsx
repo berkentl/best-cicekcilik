@@ -8,7 +8,6 @@ import {
   PieChart, Pie, Cell,
 } from "recharts";
 import type { Product } from "@/types";
-import { supabase } from "@/lib/supabase";
 import { fetchDashboardData, type DashboardStats, type DashboardOrder } from "./dashboard-actions";
 
 // ─── Tipler ──────────────────────────────────────────────────────────────────
@@ -188,13 +187,10 @@ export default function AdminDashboard() {
       .then((r) => r.ok ? r.json() : [])
       .then((d) => setProducts(d));
 
-    const channel = supabase
-      .channel("dashboard_realtime")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, () => loadData(preset))
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders" }, () => loadData(preset))
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
+    // Supabase Realtime yerine polling (orders tablosunda anon RLS erişimi
+    // güvenlik nedeniyle kapatıldı — bkz. push_subscriptions/orders RLS notu).
+    const interval = setInterval(() => loadData(preset), 20_000);
+    return () => clearInterval(interval);
   }, [loadData, preset]);
 
   const handlePreset = (p: Preset) => {

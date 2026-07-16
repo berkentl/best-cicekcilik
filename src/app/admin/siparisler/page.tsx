@@ -12,7 +12,6 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from "@tanstack/react-table";
-import { supabase } from "@/lib/supabase";
 import { CardPrintTemplate } from "@/components/admin/CardPrintTemplate";
 import { CustomerApprovalPanel } from "@/components/admin/CustomerApprovalPanel";
 
@@ -535,19 +534,13 @@ export default function AdminSiparislerPage() {
 
   useEffect(() => {
     fetchOrders();
+  }, [fetchOrders]);
 
-    // Realtime subscription
-    const channel = supabase
-      .channel("siparisler_page")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, (payload) => {
-        setOrders((prev) => [payload.new as Order, ...prev]);
-      })
-      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders" }, (payload) => {
-        setOrders((prev) => prev.map((o) => o.id === (payload.new as Order).id ? payload.new as Order : o));
-      })
-      .subscribe();
-
-    return () => { supabase.removeChannel(channel); };
+  // Supabase Realtime yerine polling (orders tablosunda anon RLS erişimi
+  // güvenlik nedeniyle kapatıldı — bkz. scripts/migrate-rls-lockdown.sql).
+  useEffect(() => {
+    const interval = setInterval(fetchOrders, 20_000);
+    return () => clearInterval(interval);
   }, [fetchOrders]);
 
   // iOS/Android'de ana ekrandan eklenen uygulama arka plandan geri döndüğünde

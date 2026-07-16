@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import { subscribeToPush } from "@/lib/push-client";
 import type { PushResult } from "@/lib/push";
 
@@ -189,20 +188,10 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
     [dismissToast]
   );
 
-  /* Supabase Realtime */
-  useEffect(() => {
-    const channel = supabase
-      .channel("admin_new_orders_v2")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "orders" },
-        (payload) => handleNewOrder(payload.new as NewOrder)
-      )
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
-  }, [handleNewOrder]);
-
-  /* Polling fallback (30 sn) */
+  /* Yeni sipariş polling (orders tablosunda anon RLS erişimi güvenlik
+     nedeniyle kapatıldığı için Supabase Realtime yerine kullanılıyor —
+     asıl "anında" bildirim artık Web Push ile geliyor, bu sadece
+     tarayıcı sekmesi açıkken toast/ses/badge için ek bir katman). */
   useEffect(() => {
     const seenIds = new Set<string>();
     let initialized = false;
@@ -228,7 +217,7 @@ export function AdminNotifications({ newOrderCount }: { newOrderCount: number })
     };
 
     poll();
-    const interval = setInterval(poll, 30_000);
+    const interval = setInterval(poll, 15_000);
     return () => clearInterval(interval);
   }, [handleNewOrder]);
 
