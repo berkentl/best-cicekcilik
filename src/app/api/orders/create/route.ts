@@ -6,6 +6,7 @@ import { sendPushToAdmins } from "@/lib/push";
 import { createNotification } from "@/lib/notifications";
 import { getSessionUserId } from "@/lib/auth";
 import { DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
+import { createKolaysoftInvoice, mapOrderToKolaysoftInvoice } from "@/lib/kolaysoft";
 
 interface OrderItem {
   productId?: string;
@@ -138,6 +139,27 @@ export async function POST(request: Request) {
           cardMessage: form.cardMessage,
           siteUrl: new URL(request.url).origin,
         }).catch((err) => console.error("[email] send failed:", err)),
+        // e-Arşiv fatura — Kolaysoft'un gerçek API dokümantasyonu teyit
+        // edilmeden canlıda güvenilir çalışacağı garanti edilemez, bkz.
+        // src/lib/kolaysoft.ts başındaki not. Hata sipariş akışını durdurmaz.
+        createKolaysoftInvoice(
+          mapOrderToKolaysoftInvoice({
+            orderNumber,
+            customerName,
+            customerEmail: form.email,
+            customerPhone: form.phone,
+            address: form.address,
+            city: form.city,
+            district: form.district,
+            items,
+          })
+        ).then((result) => {
+          if (!result.success) {
+            console.error("[kolaysoft] fatura oluşturulamadı:", result.error);
+          } else {
+            console.log(`[kolaysoft] fatura oluşturuldu: ${result.invoiceNumber ?? result.ettn}`);
+          }
+        }).catch((err) => console.error("[kolaysoft] beklenmedik hata:", err)),
       ]);
     });
 
