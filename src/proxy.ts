@@ -20,7 +20,7 @@ const METHOD_PROTECTED: Array<{ path: string; methods: string[] }> = [
   { path: "/api/cross-sell", methods: ["PUT", "PATCH", "DELETE"] },
 ];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
 
