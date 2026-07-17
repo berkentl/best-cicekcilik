@@ -28,7 +28,9 @@ export async function POST(request: Request) {
     // olduğunu dışarıya sızdırmamak için (user enumeration engeli).
     if (user) {
       const token = await createResetToken(user.email);
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
+        ? process.env.NEXT_PUBLIC_SITE_URL
+        : "https://dunyanincicegi.com";
       const resetUrl = `${siteUrl}/sifre-sifirla?token=${encodeURIComponent(token)}`;
       sendPasswordResetEmail(user.email, resetUrl).catch((err) =>
         console.error("[auth/forgot-password] email send failed:", err)

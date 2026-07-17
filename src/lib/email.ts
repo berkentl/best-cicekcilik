@@ -5,6 +5,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
   ? process.env.NEXT_PUBLIC_SITE_URL
   : "https://dunyanincicegi.com";
 
+const BUSINESS_REPLY_TO = "durucicekorganizasyon@gmail.com";
+
 interface OrderEmailData {
   to: string;
   customerName: string;
@@ -30,6 +32,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
   await resend.emails.send({
     from: "Dünyanın Çiçeği <siparis@dunyanincicegi.com>",
     to: data.to,
+    replyTo: BUSINESS_REPLY_TO,
     subject: `Siparişiniz Alındı — ${data.orderNumber}`,
     react: OrderConfirmation({
       customerName: data.customerName,
