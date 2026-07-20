@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { SearchIcon, XIcon } from "@/components/icons";
+import { SearchIcon, XIcon, DownloadIcon } from "@/components/icons";
 
 interface Customer {
   id: string | null;
@@ -49,6 +49,21 @@ export default function AdminMusterilerPage() {
       return c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q);
     });
   }, [customers, query, memberOnly]);
+
+  function handleExportCsv() {
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, "0");
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const yyyy = now.getFullYear();
+
+    const params = new URLSearchParams({ date: `${dd}-${mm}-${yyyy}` });
+    if (memberOnly) params.set("memberOnly", "true");
+    if (query.trim()) params.set("q", query.trim());
+
+    // Dosya, tarayıcının kendi indirme mekanizmasının güvenilir çalışması için
+    // sunucudan Content-Disposition header'ıyla geliyor (client-side blob yerine).
+    window.location.href = `/api/admin/customers/export?${params.toString()}`;
+  }
 
   return (
     <div className="space-y-6">
@@ -107,6 +122,14 @@ export default function AdminMusterilerPage() {
               }`}
             >
               Sadece Kayıtlı Üyeler
+            </button>
+            <button
+              onClick={handleExportCsv}
+              disabled={loading || filteredCustomers.length === 0}
+              className="whitespace-nowrap flex items-center gap-1.5 text-[12px] font-semibold px-3.5 py-2 rounded-lg border border-[#e8e8e8] text-[#666] hover:border-[#3d7b74]/40 hover:text-[#3d7b74] transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#e8e8e8] disabled:hover:text-[#666]"
+            >
+              <DownloadIcon size={14} />
+              CSV İndir
             </button>
           </div>
         </div>
