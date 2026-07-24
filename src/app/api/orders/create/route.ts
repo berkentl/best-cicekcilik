@@ -14,6 +14,8 @@ interface OrderItem {
   price: number;
 }
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 async function decreaseStock(sb: ReturnType<typeof createServerClient>, items: OrderItem[]) {
   const itemsWithId = items.filter((i) => i.productId);
   if (!itemsWithId.length) return;
@@ -57,6 +59,16 @@ export async function POST(request: Request) {
 
     if (!form || !items?.length) {
       return NextResponse.json({ error: "Geçersiz sipariş verisi." }, { status: 400 });
+    }
+
+    // E-posta zorunlu — Kolaysoft e-Arşiv faturası müşteriye bu adrese
+    // otomatik gönderiliyor, geçersiz/eksik e-posta faturanın müşteriye
+    // hiç ulaşmamasına yol açar. bkz. lib/kolaysoft.ts.
+    if (!form.email || !EMAIL_REGEX.test(form.email.trim())) {
+      return NextResponse.json(
+        { error: "Geçerli bir e-posta adresi girmelisiniz." },
+        { status: 400 }
+      );
     }
 
     if (form.city !== DELIVERABLE_PROVINCE) {
