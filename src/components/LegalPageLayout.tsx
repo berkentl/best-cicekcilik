@@ -20,8 +20,11 @@ export function LegalPageLayout({ doc }: { doc: LegalDocument }) {
       <HeaderWrapper />
       <main className="bg-[#faf8f5]">
         <article className="container-site py-14 md:py-20 max-w-[760px]">
+          {/* globals.css'te h1-h3 için global serif kuralı var; yasal metinlerde
+              okunabilirlik için gövde fontu (Kumbh Sans) kullanılıyor —
+              bu nedenle font-sans açıkça belirtiliyor. */}
           <header className="mb-10 pb-8 border-b border-[#e6e1da]">
-            <h1 className="font-heading text-3xl md:text-4xl font-medium text-[#1d3435] text-balance">
+            <h1 className="font-sans text-[26px] md:text-[31px] font-semibold tracking-[-0.01em] text-[#1d3435] text-balance">
               {doc.title}
             </h1>
             {doc.updatedAt && (
@@ -38,17 +41,17 @@ export function LegalPageLayout({ doc }: { doc: LegalDocument }) {
               remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({ children }) => (
-                  <h2 className="font-heading text-[22px] md:text-[25px] font-medium text-[#1d3435] mt-14 mb-5 text-balance">
+                  <h2 className="font-sans text-[19px] md:text-[21px] font-semibold tracking-[-0.01em] text-[#1d3435] mt-14 mb-5 text-balance">
                     {children}
                   </h2>
                 ),
                 h2: ({ children }) => (
-                  <h3 className="text-[17px] font-semibold text-[#1d3435] mt-11 mb-4 text-balance">
+                  <h3 className="font-sans text-[16px] font-semibold text-[#1d3435] mt-11 mb-4 text-balance">
                     {children}
                   </h3>
                 ),
                 h3: ({ children }) => (
-                  <h4 className="text-[15px] font-semibold text-[#1d3435] mt-8 mb-3">
+                  <h4 className="font-sans text-[14.5px] font-semibold text-[#1d3435] mt-8 mb-3">
                     {children}
                   </h4>
                 ),

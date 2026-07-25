@@ -136,7 +136,10 @@ export function CookieConsentBanner() {
       className="fixed inset-x-0 bottom-0 z-[70] px-4 pb-4 sm:px-6 sm:pb-6"
     >
       <div className="mx-auto max-w-[820px] rounded-2xl border border-[#e6e1da] bg-white p-5 shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_8px_24px_-8px_rgba(0,0,0,0.14)] sm:p-6">
-        <h2 className="text-[15px] font-semibold text-[#1d3435]">Çerez Tercihleri</h2>
+        {/* globals.css'te h1-h3 global olarak serif; burada gövde fontu isteniyor */}
+        <h2 className="font-sans text-[15px] font-semibold text-[#1d3435]">
+          Çerez Tercihleri
+        </h2>
 
         <p className="mt-2 text-[13.5px] leading-relaxed text-[#5c6564]">
           Zorunlu çerezler sitenin çalışması için gereklidir ve onay alınmaksızın
