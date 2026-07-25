@@ -48,3 +48,6 @@ next-env.d.ts
 # Local temp files
 temp/
 .env*
+
+# Playwright MCP hata ayıklama çıktıları (konsol logları, sayfa anlık görüntüleri)
+.playwright-mcp/
