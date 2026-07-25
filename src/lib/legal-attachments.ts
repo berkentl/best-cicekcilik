@@ -1,7 +1,4 @@
-import { renderToStaticMarkup } from "react-dom/server";
-import { createElement } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { marked } from "marked";
 import {
   mesafeliSatisSozlesmesi,
   onBilgilendirmeFormu,
@@ -20,11 +17,20 @@ import {
  * ekinin kendisi kalıcı veri saklayıcısı niteliğindedir.
  */
 
-/** Markdown içeriği, e-posta ekinde açılabilecek bağımsız bir HTML belgesine dönüştürür. */
+/**
+ * Markdown içeriği, e-posta ekinde açılabilecek bağımsız bir HTML belgesine
+ * dönüştürür.
+ *
+ * Sayfa render'ında kullanılan react-markdown burada KULLANILAMAZ: React
+ * bileşenini string'e çevirmek için react-dom/server gerekir ve Next.js
+ * uygulama kodunda bu paketin import edilmesine izin vermez (üretim
+ * derlemesi hata verir). Bu nedenle düz bir markdown→HTML dönüştürücü
+ * (marked) kullanılıyor.
+ */
 function toStandaloneHtml(doc: LegalDocument): string {
-  const bodyHtml = renderToStaticMarkup(
-    createElement(ReactMarkdown, { remarkPlugins: [remarkGfm] }, doc.content)
-  );
+  // GFM tablo desteği gerekiyor — metinler yoğun biçimde tablo içeriyor.
+  // async: false ile senkron string dönüşü garanti ediliyor.
+  const bodyHtml = marked.parse(doc.content, { gfm: true, async: false });
 
   return `<!doctype html>
 <html lang="tr">
