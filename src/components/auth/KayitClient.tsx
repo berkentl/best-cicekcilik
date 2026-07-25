@@ -101,10 +101,14 @@ function KayitForm() {
                   className="mt-0.5 w-4 h-4 rounded border-[#e2ddd8] text-[#3d7b74] focus:ring-[#3d7b74]/20"
                 />
                 <span className="text-[12.5px] text-[#666] leading-relaxed">
-                  <Link href="/kvkk" className="underline text-[#1d3435] hover:text-[#3d7b74]">
+                  <Link href="/kullanim-kosullari" target="_blank" className="underline text-[#1d3435] hover:text-[#3d7b74]">
+                    Üyelik Sözleşmesi
+                  </Link>
+                  &apos;ni kabul ediyor,{" "}
+                  <Link href="/kvkk" target="_blank" className="underline text-[#1d3435] hover:text-[#3d7b74]">
                     KVKK Aydınlatma Metni
                   </Link>
-                  &apos;ni okudum ve kabul ediyorum. *
+                  &apos;ni okuduğumu beyan ediyorum. *
                 </span>
               </label>
             )}
@@ -125,7 +129,14 @@ function KayitForm() {
                   className="mt-0.5 w-4 h-4 rounded border-[#e2ddd8] text-[#3d7b74] focus:ring-[#3d7b74]/20"
                 />
                 <span className="text-[12.5px] text-[#666] leading-relaxed">
-                  Kampanya ve fırsatlardan e-posta ile haberdar olmak istiyorum.
+                  Kampanya ve fırsatlardan e-posta ile haberdar olmak istiyorum.{" "}
+                  <Link
+                    href="/ticari-elektronik-ileti"
+                    target="_blank"
+                    className="underline text-[#1d3435] hover:text-[#3d7b74]"
+                  >
+                    Onay metni
+                  </Link>
                 </span>
               </label>
             )}

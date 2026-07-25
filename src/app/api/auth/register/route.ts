@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { hashPassword, setSessionCookie } from "@/lib/auth";
 import { registerSchema } from "@/lib/schemas/auth";
+import {
+  logConsents,
+  getClientIp,
+  getUserAgent,
+  type ConsentRecord,
+} from "@/lib/consent";
+import { LEGAL_VERSIONS } from "@/content/legal";
 
 export async function POST(request: Request) {
   try {
@@ -49,6 +56,45 @@ export async function POST(request: Request) {
       console.error("[auth/register] DB error:", error);
       return NextResponse.json({ error: "Hesap oluşturulamadı." }, { status: 500 });
     }
+
+    // Pazarlama onayının ispat kaydı — users.marketing_consent yalnızca
+    // "şu anki durumu" tutar; onayın hangi tarihte, hangi IP'den ve hangi
+    // metin sürümüne verildiği consent_logs'ta saklanır. Bu kayıt olmadan
+    // denetimde onayın varlığı ispat edilemez.
+    //
+    // Kutucuk işaretlenmemişse de kayıt yazılıyor (granted: false) — böylece
+    // "kullanıcıya soruldu, onay vermedi" durumu da belgelenmiş olur.
+    const granted = marketingConsent === true;
+    const kimlik = {
+      channel: "uyelik_formu" as const,
+      userId: user.id,
+      email: user.email,
+      phone: user.phone || null,
+      ipAddress: getClientIp(request),
+      userAgent: getUserAgent(request),
+    };
+
+    const consentRecords: ConsentRecord[] = [
+      {
+        ...kimlik,
+        consentType: "pazarlama_eposta",
+        granted,
+        textVersion: LEGAL_VERSIONS.ticariElektronikIleti,
+      },
+    ];
+
+    // Pazarlama e-postası yurt dışında yerleşik sağlayıcı (Resend) üzerinden
+    // iletildiği için, onay verildiğinde yurt dışı aktarım rızası da kaydedilir.
+    if (granted) {
+      consentRecords.push({
+        ...kimlik,
+        consentType: "yurtdisi_aktarim",
+        granted: true,
+        textVersion: LEGAL_VERSIONS.acikRizaMetni,
+      });
+    }
+
+    await logConsents(consentRecords);
 
     await setSessionCookie(user.id);
 
