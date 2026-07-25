@@ -197,7 +197,7 @@ export function CartContent({ siteSettings = DEFAULT_SITE_SETTINGS }: {
   const discount      = discountAmount();
   const afterDiscount = Math.max(0, subtotal - discount);
 
-  const shippingResult = calculateShipping(items, null, siteSettings);
+  const shippingResult = calculateShipping(items, siteSettings);
   const shipping       = shippingResult.fee;
   const shippingFree   = shippingResult.isFree;
   const remaining      = remainingForFreeShipping(items, siteSettings.freeShippingThreshold);

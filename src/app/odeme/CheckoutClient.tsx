@@ -56,7 +56,7 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
 
   const subtotal = totalPrice();
   const discount = discountAmount();
-  const shippingResult = calculateShipping(items, null, siteSettings);
+  const shippingResult = calculateShipping(items, siteSettings);
   const shipping = shippingResult.fee;
   const shippingFree = shippingResult.isFree;
 

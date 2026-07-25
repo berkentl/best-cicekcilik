@@ -72,9 +72,13 @@ Ad-soyadı, teslimat ve fatura adresi, telefon numarası ile e-posta adresi, sip
 
 **4.3.** Sipariş konusu ürünün tüm vergiler dâhil satış bedeli, teslimat ücreti ve varsa uygulanan indirim tutarı ile ALICI'nın ödemekle yükümlü olduğu toplam bedel, sipariş onayından önce sipariş özetinde ayrı ayrı gösterilir.
 
-**4.4.** Teslimat ücreti teslimat adresinin bulunduğu ilçeye göre farklılık gösterir ve sipariş özetinde açıkça belirtilir. Site'de ilan edilen tutarın üzerindeki siparişlerde teslimat ücreti alınmayacağı yönünde bir kampanya yürütülüyorsa, bu husus sipariş özetinde gösterilir.
+**4.4.** Teslimat ücreti, hizmet verilen bölgenin tamamında sabit tutar olarak uygulanır ve sipariş onayından önce sipariş özetinde açıkça gösterilir. SATICI, teslimat ücretinin tutarını belirlemekte ve değiştirmekte serbest olup, belirlediği tutarın üzerindeki siparişlerde teslimat ücreti almama hakkını saklı tutar. Belirli ürünler bakımından ürüne özel teslimat ücreti uygulanabilir.
 
-**4.5.** Ürün görsellerinde kullanılan fotoğraflar tanıtım amaçlıdır. Çiçek ve canlı bitkilerin doğal yapısı gereği renk tonu, açılım durumu ve boyut bakımından teslim edilen ürün ile görsel arasında makul farklılıklar bulunabilir. Bu farklılıklar ayıp teşkil etmez.
+**4.5.** SATICI, teslimat ücretini ileride mesafeye veya bölgeye göre farklılaştırma hakkını saklı tutar. Bu hâlde de ALICI'ya uygulanacak teslimat ücreti, sipariş onayından önce sipariş özetinde açıkça gösterilir; ALICI'nın onaylamadığı hiçbir tutar kendisine yansıtılamaz.
+
+**4.6.** Teslimat ücretine ilişkin değişiklikler, yayımlandıkları tarihte yürürlüğe girer ve daha önce kurulmuş sözleşmelere uygulanmaz.
+
+**4.7.** Ürün görsellerinde kullanılan fotoğraflar tanıtım amaçlıdır. Çiçek ve canlı bitkilerin doğal yapısı gereği renk tonu, açılım durumu ve boyut bakımından teslim edilen ürün ile görsel arasında makul farklılıklar bulunabilir. Bu farklılıklar ayıp teşkil etmez.
 
 ---
 

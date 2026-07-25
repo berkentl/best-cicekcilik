@@ -59,17 +59,6 @@ export interface SiteSettings {
 }
 
 /**
- * İlçe bazlı kargo bölgesi.
- * Admin → Kargo Bölgeleri bölümünden yönetilir.
- */
-export interface ShippingZone {
-  id:        string;
-  name:      string;   // "Beşiktaş"
-  extraFee:  number;   // Baz ücrete eklenen fark (TL). 0 = aynı gün bölgesi.
-  isActive:  boolean;
-}
-
-/**
  * Filtre içindeki tek bir seçenek.
  * DB entegrasyonunda filter_options tablosundan gelecek.
  */

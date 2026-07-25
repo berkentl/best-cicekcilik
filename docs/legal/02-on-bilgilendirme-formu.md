@@ -45,7 +45,13 @@ Satıcı, siparişlerinizi kendi adına ve hesabına kabul eder; adına ya da he
 
 **3.1.** Ürünün tüm vergiler dâhil satış bedeli, uygulanan indirim tutarı, teslimat ücreti ve ödemeniz gereken toplam bedel; sipariş onayından önce sipariş özetinde ayrı ayrı ve açıkça gösterilir.
 
-**3.2. Teslimat ücreti:** Teslimat adresinin bulunduğu ilçeye göre değişir ve sipariş özetinde belirtilir. Şişli, Beşiktaş, Beyoğlu, Sarıyer, Kâğıthane, Bakırköy, Fatih gibi merkez ilçelerde ek teslimat ücreti uygulanmaz; diğer ilçelerde mesafeye bağlı olarak ek ücret yansıtılır. Site'de ilan edilen tutarın üzerindeki siparişlerde ücretsiz teslimat kampanyası yürütülmesi hâlinde bu husus sipariş özetinde gösterilir.
+**3.2. Teslimat ücreti:** Teslimat ücreti, hizmet verilen bölgenin tamamında **sabit tutar** olarak uygulanır ve sipariş onayından önce sipariş özetinde açıkça gösterilir. Satıcı, teslimat ücretinin tutarını belirlemekte ve değiştirmekte serbesttir; değişiklikler yayımlandıkları tarihte yürürlüğe girer ve daha önce verilmiş siparişlere uygulanmaz.
+
+Satıcı, belirlediği tutarın üzerindeki siparişlerde teslimat ücreti almama hakkını saklı tutar. Ücretsiz teslimat eşiği uygulanıyorsa bu husus Site'de ve sipariş özetinde gösterilir.
+
+Belirli ürünler için ürüne özel teslimat ücreti uygulanabilir; bu hâlde ilgili tutar sipariş özetinde ayrıca belirtilir.
+
+Satıcı, ileride teslimat ücretini **mesafeye veya bölgeye göre farklılaştırma** hakkını saklı tutar. Böyle bir uygulamaya geçilmesi hâlinde, siparişinize uygulanacak teslimat ücreti sipariş onayından önce sipariş özetinde her hâlde açıkça gösterilir; onaylamadığınız hiçbir tutar tarafınıza yansıtılmaz.
 
 **3.3.** Yukarıda belirtilenler dışında tarafınıza yansıtılacak herhangi bir ek masraf, komisyon veya hizmet bedeli bulunmamaktadır.
 
