@@ -46,6 +46,8 @@ export default function AdminMusterilerPage() {
     ? Math.round(customers.reduce((s, c) => s + c.total, 0) / customers.reduce((s, c) => s + c.orders, 0))
     : 0;
 
+  const iysBekleyenSayisi = customers.filter((c) => c.iysBekliyor).length;
+
   const filteredCustomers = useMemo(() => {
     const q = query.trim().toLowerCase();
     return customers.filter((c) => {
@@ -94,6 +96,26 @@ export default function AdminMusterilerPage() {
           </div>
         ))}
       </div>
+
+      {/* İYS uyarısı satır bazında değil tek özet olarak gösteriliyor: İYS kaydı
+          tamamlanmadan tüm onaylar "beklemede" olacağından her satırda tekrar
+          etmesi gürültü yaratır, oysa yapılacak iş tektir. */}
+      {!loading && iysBekleyenSayisi > 0 && (
+        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
+          <span className="mt-0.5 text-[15px] leading-none">⚠</span>
+          <div>
+            <p className="text-[13px] font-bold text-amber-900">
+              {iysBekleyenSayisi} müşterinin onayı İYS&apos;ye yüklenmedi
+            </p>
+            <p className="mt-1 text-[12.5px] leading-relaxed text-amber-800">
+              Bu müşteriler pazarlama izni vermiş olsa da, onaylar İleti Yönetim
+              Sistemi&apos;ne yüklenmeden kampanya SMS&apos;i veya e-postası
+              gönderilemez. Yüklenmemiş onaya dayanan gönderim, denetimde onaysız
+              gönderim sayılır.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="bg-white rounded-xl border border-[#ebebeb] shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-[#f5f5f5] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -184,29 +206,12 @@ export default function AdminMusterilerPage() {
                   <td className="px-4 py-3.5 text-[13px] text-[#545454]">{c.email}</td>
                   <td className="px-4 py-3.5 text-[13px] text-[#545454]">{c.phone}</td>
                   <td className="px-4 py-3.5">
-                    {!c.pazarlamaEposta && !c.pazarlamaSms ? (
-                      <span className="text-[11px] font-semibold text-[#bbb]">İzin yok</span>
+                    {c.pazarlamaEposta || c.pazarlamaSms ? (
+                      <span className="text-[11px] font-bold uppercase tracking-wide bg-[#3d7b74]/10 text-[#3d7b74] px-2 py-1 rounded-full whitespace-nowrap">
+                        İzin Verildi
+                      </span>
                     ) : (
-                      <div className="flex items-center gap-1.5">
-                        {c.pazarlamaEposta && (
-                          <span className="text-[10px] font-bold uppercase tracking-wide bg-[#3d7b74]/10 text-[#3d7b74] px-1.5 py-0.5 rounded">
-                            E-posta
-                          </span>
-                        )}
-                        {c.pazarlamaSms && (
-                          <span className="text-[10px] font-bold uppercase tracking-wide bg-[#3d7b74]/10 text-[#3d7b74] px-1.5 py-0.5 rounded">
-                            SMS
-                          </span>
-                        )}
-                        {c.iysBekliyor && (
-                          <span
-                            title="Onay alındı fakat İYS'ye yüklenmedi — bu hâlde gönderim yapılamaz."
-                            className="text-[10px] font-bold uppercase tracking-wide bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded cursor-help"
-                          >
-                            İYS ⚠
-                          </span>
-                        )}
-                      </div>
+                      <span className="text-[11px] font-semibold text-[#bbb]">İzin yok</span>
                     )}
                   </td>
                   <td className="px-4 py-3.5 text-[13px] font-semibold text-[#1d3435]">{c.orders} sipariş</td>

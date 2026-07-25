@@ -39,7 +39,7 @@ export default function OrderConfirmation({
     { name: "Söz & Nişan Çikolatası", qty: 2, price: 750 },
   ],
   total = 6500,
-  address = "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, Şişli/İstanbul",
+  address = "Fulya, 19 Mayıs, Aytekin Kotil Cd. No: 18H, Şişli/İstanbul",
   deliveryDate = "18 Temmuz 2026",
   deliveryTime = "14:00 - 18:00",
   recipientName = "Ayşe Yılmaz",

@@ -162,7 +162,7 @@ export function HakkimizdaSection() {
             <Sparkles className="w-4 h-4" />
             HİKAYEMİZİ KEŞFET
           </motion.span>
-          <h2 className="font-heading text-4xl md:text-5xl font-medium mb-4 text-center text-[#1d3435]">
+          <h2 className="font-sans text-[30px] md:text-[38px] font-semibold tracking-[-0.02em] mb-4 text-center text-[#1d3435]">
             Hakkımızda
           </h2>
           <motion.div
@@ -317,7 +317,7 @@ export function HakkimizdaSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <div className="flex-1 text-center md:text-left">
-            <h3 className="font-heading text-2xl font-medium mb-2">
+            <h3 className="font-sans text-[20px] font-semibold tracking-[-0.01em] mb-2">
               Sevdiklerinize Çiçek Göndermeye Hazır mısınız?
             </h3>
             <p className="text-white/70 text-[14px]">
@@ -371,7 +371,7 @@ function ServiceItem({ icon, secondaryIcon, title, description, variants, delay,
           {icon}
           {secondaryIcon}
         </motion.div>
-        <h3 className="font-heading text-[17px] font-medium text-[#1d3435] group-hover:text-[#3d7b74] transition-colors duration-300">
+        <h3 className="font-sans text-[15px] font-semibold text-[#1d3435] group-hover:text-[#3d7b74] transition-colors duration-300">
           {title}
         </h3>
       </motion.div>

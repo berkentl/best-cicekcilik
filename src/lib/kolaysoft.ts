@@ -36,7 +36,7 @@ const SELLER = {
   cityName: "İstanbul",
   citySubdivisionName: "Şişli",
   countryName: "Türkiye",
-  streetName: "Fulya, 19 Mayıs Aytekin Kotil Cd. No:18",
+  streetName: "Fulya, 19 Mayıs Aytekin Kotil Cd. No: 18H",
   email: "durucicekorganizasyon@gmail.com",
   telephone: "05322959309",
 } as const;

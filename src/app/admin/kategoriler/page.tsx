@@ -31,6 +31,8 @@ export default function AdminKategorilerPage() {
   const [megaMenu, setMegaMenu] = useState<MegaCol[]>([]);
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
   const [saveError, setSaveError] = useState("");
 
   const fetchCategories = async () => {
@@ -117,9 +119,24 @@ export default function AdminKategorilerPage() {
   };
 
   const handleDelete = async (id: string) => {
-    await fetch(`/api/categories/${id}`, { method: "DELETE" });
-    await fetchCategories();
-    setDeleteId(null);
+    setDeleteError("");
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        // Yanıt gövdesi JSON olmayabilir (ör. beklenmedik sunucu hatası)
+        const detay = await res.json().catch(() => null);
+        throw new Error(detay?.error ?? `Silme başarısız (HTTP ${res.status}).`);
+      }
+      await fetchCategories();
+      setDeleteId(null);
+    } catch (err) {
+      // Sessizce kapanmak yerine hatayı göster: aksi hâlde kullanıcı
+      // "tıkladım, hiçbir şey olmadı" durumunda kalıyor.
+      setDeleteError(err instanceof Error ? err.message : "Kategori silinemedi.");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -137,50 +154,96 @@ export default function AdminKategorilerPage() {
       <div className="bg-white rounded-sm border border-[#f0f0f0] overflow-hidden">
         {loading ? (
           <div className="py-16 text-center text-[#999] text-[13px]">Yükleniyor...</div>
+        ) : categories.length === 0 ? (
+          <div className="text-center py-12 text-[#999] text-[13px]">
+            Henüz kategori yok. Yukarıdan yeni kategori ekleyin.
+          </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#f0f0f0]">
-                {["Sıra", "Kategori Adı", "Alt Kategori", "Slug", "İşlemler"].map((h) => (
-                  <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-[#999]">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {categories.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="text-center py-12 text-[#999] text-[13px]">
-                    Henüz kategori yok. Yukarıdan yeni kategori ekleyin.
-                  </td>
-                </tr>
-              )}
+          <>
+            {/* Mobil — kart düzeni.
+                Beş sütunlu tablo küçük ekranda taşıyor ve "İşlemler" sütunu
+                (Düzenle/Sil) erişilemez hâle geliyordu; bu nedenle mobilde
+                tablo yerine kart listesi kullanılıyor. */}
+            <div className="divide-y divide-[#f4f2ef] md:hidden">
               {categories.map((cat) => {
                 const subCount = (cat.megaMenu ?? []).reduce((n, c) => n + c.items.length, 0);
                 return (
-                  <tr key={cat.id} className="border-b border-[#f9f8f6] hover:bg-[#f9f8f6] transition-colors">
-                    <td className="px-5 py-3.5 text-[13px] text-[#999] w-16">{cat.displayOrder ?? "—"}</td>
-                    <td className="px-5 py-3.5">
-                      <p className="text-[13px] font-semibold text-[#1d3435]">{cat.name}</p>
-                    </td>
-                    <td className="px-5 py-3.5 text-[12px] text-[#999]">
-                      {subCount > 0 ? `${subCount} alt kategori` : "—"}
-                    </td>
-                    <td className="px-5 py-3.5 text-[12px] font-mono text-[#999]">/{cat.slug}</td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <button onClick={() => openEdit(cat)} className="text-[12px] text-[#3d7b74] hover:text-[#1d3435] font-medium transition-colors">
-                          Düzenle
-                        </button>
-                        <button onClick={() => setDeleteId(cat.id)} className="text-[12px] text-red-400 hover:text-red-600 font-medium transition-colors">
-                          Sil
-                        </button>
+                  <div key={cat.id} className="p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-[14px] font-semibold text-[#1d3435] leading-snug">
+                          {cat.name}
+                        </p>
+                        <p className="mt-1 text-[12px] font-mono text-[#999] truncate">
+                          /{cat.slug}
+                        </p>
                       </div>
-                    </td>
-                  </tr>
+                      <span className="shrink-0 text-[11px] font-semibold text-[#bbb] tabular-nums">
+                        Sıra {cat.displayOrder ?? "—"}
+                      </span>
+                    </div>
+
+                    <p className="mt-2 text-[12px] text-[#999]">
+                      {subCount > 0 ? `${subCount} alt kategori` : "Alt kategori yok"}
+                    </p>
+
+                    <div className="mt-3 flex items-center gap-2">
+                      <button
+                        onClick={() => openEdit(cat)}
+                        className="flex-1 min-h-[44px] rounded-sm border border-[#3d7b74]/30 text-[13px] font-semibold text-[#3d7b74] transition-colors active:bg-[#3d7b74]/5"
+                      >
+                        Düzenle
+                      </button>
+                      <button
+                        onClick={() => setDeleteId(cat.id)}
+                        className="min-h-[44px] px-5 rounded-sm border border-red-200 text-[13px] font-semibold text-red-500 transition-colors active:bg-red-50"
+                      >
+                        Sil
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
+            </div>
+
+            {/* Masaüstü — tablo */}
+            <table className="hidden w-full md:table">
+              <thead>
+                <tr className="border-b border-[#f0f0f0]">
+                  {["Sıra", "Kategori Adı", "Alt Kategori", "Slug", "İşlemler"].map((h) => (
+                    <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-[#999]">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {categories.map((cat) => {
+                  const subCount = (cat.megaMenu ?? []).reduce((n, c) => n + c.items.length, 0);
+                  return (
+                    <tr key={cat.id} className="border-b border-[#f9f8f6] hover:bg-[#f9f8f6] transition-colors">
+                      <td className="px-5 py-3.5 text-[13px] text-[#999] w-16">{cat.displayOrder ?? "—"}</td>
+                      <td className="px-5 py-3.5">
+                        <p className="text-[13px] font-semibold text-[#1d3435]">{cat.name}</p>
+                      </td>
+                      <td className="px-5 py-3.5 text-[12px] text-[#999]">
+                        {subCount > 0 ? `${subCount} alt kategori` : "—"}
+                      </td>
+                      <td className="px-5 py-3.5 text-[12px] font-mono text-[#999]">/{cat.slug}</td>
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center gap-3">
+                          <button onClick={() => openEdit(cat)} className="text-[12px] text-[#3d7b74] hover:text-[#1d3435] font-medium transition-colors">
+                            Düzenle
+                          </button>
+                          <button onClick={() => setDeleteId(cat.id)} className="text-[12px] text-red-400 hover:text-red-600 font-medium transition-colors">
+                            Sil
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
 
@@ -204,9 +267,9 @@ export default function AdminKategorilerPage() {
               </button>
             </div>
 
-            <div className="px-6 py-5 space-y-5 overflow-y-auto flex-1">
+            <div className="px-4 sm:px-6 py-5 space-y-5 overflow-y-auto flex-1">
               {/* Temel bilgiler */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Kategori Adı *</label>
                   <input type="text" className={inputClass} value={form.name}
@@ -266,8 +329,13 @@ export default function AdminKategorilerPage() {
                       </div>
 
                       <div className="space-y-2">
+                        {/* Mobilde iki input + silme düğmesi yan yana sığmıyor;
+                            küçük ekranda dikey yığılıyor. */}
                         {col.items.map((item, ii) => (
-                          <div key={ii} className="flex items-center gap-2">
+                          <div
+                            key={ii}
+                            className="flex flex-col gap-2 rounded-sm bg-[#faf9f7] p-2.5 sm:flex-row sm:items-center sm:bg-transparent sm:p-0"
+                          >
                             <input
                               type="text"
                               className={inputClass}
@@ -275,19 +343,24 @@ export default function AdminKategorilerPage() {
                               onChange={(e) => updateItem(ci, ii, "name", e.target.value)}
                               placeholder="Alt kategori adı"
                             />
-                            <input
-                              type="text"
-                              className={inputClass + " font-mono text-[12px]"}
-                              value={item.slug}
-                              onChange={(e) => updateItem(ci, ii, "slug", e.target.value)}
-                              placeholder="slug"
-                            />
-                            <button onClick={() => removeItem(ci, ii)}
-                              className="text-red-400 hover:text-red-600 flex-shrink-0 transition-colors">
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                              </svg>
-                            </button>
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="text"
+                                className={inputClass + " font-mono text-[12px]"}
+                                value={item.slug}
+                                onChange={(e) => updateItem(ci, ii, "slug", e.target.value)}
+                                placeholder="slug"
+                              />
+                              <button
+                                onClick={() => removeItem(ci, ii)}
+                                aria-label="Alt kategoriyi kaldır"
+                                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm text-red-400 transition-colors hover:text-red-600 active:bg-red-50 sm:h-auto sm:w-auto"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                              </button>
+                            </div>
                           </div>
                         ))}
                         <button onClick={() => addItem(ci)}
@@ -308,13 +381,13 @@ export default function AdminKategorilerPage() {
               )}
             </div>
 
-            <div className="px-6 py-4 border-t border-[#f0f0f0] flex justify-end gap-3 flex-shrink-0">
+            <div className="px-4 sm:px-6 py-4 border-t border-[#f0f0f0] flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-3 flex-shrink-0">
               <button onClick={() => setModalOpen(false)}
-                className="px-5 py-2 text-[13px] text-[#545454] border border-[#e8e8e8] rounded-sm hover:text-[#1d3435] transition-colors">
+                className="min-h-[44px] px-5 text-[13px] text-[#545454] border border-[#e8e8e8] rounded-sm hover:text-[#1d3435] transition-colors">
                 İptal
               </button>
               <button onClick={handleSave} disabled={saving}
-                className="btn-primary py-2 px-6 text-[13px] disabled:opacity-60">
+                className="btn-primary min-h-[44px] px-6 text-[13px] disabled:opacity-60">
                 {saving ? "Kaydediliyor..." : editingId ? "Kaydet" : "Ekle"}
               </button>
             </div>
@@ -330,14 +403,28 @@ export default function AdminKategorilerPage() {
             <p className="text-[13px] text-[#999] mb-6">
               Bu kategorideki ürünler kategorisiz kalır. İşlem geri alınamaz.
             </p>
-            <div className="flex gap-3 justify-center">
-              <button onClick={() => setDeleteId(null)}
-                className="px-5 py-2 border border-[#e8e8e8] rounded-sm text-[13px] text-[#545454] hover:text-[#1d3435] transition-colors">
+            {deleteError && (
+              <p className="mb-4 rounded-sm bg-red-50 px-3 py-2.5 text-[12.5px] leading-relaxed text-red-700 text-left">
+                {deleteError}
+              </p>
+            )}
+            <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3 sm:justify-center">
+              <button
+                onClick={() => {
+                  setDeleteId(null);
+                  setDeleteError("");
+                }}
+                disabled={deleting}
+                className="min-h-[44px] px-5 border border-[#e8e8e8] rounded-sm text-[13px] text-[#545454] hover:text-[#1d3435] transition-colors disabled:opacity-60"
+              >
                 İptal
               </button>
-              <button onClick={() => handleDelete(deleteId)}
-                className="px-5 py-2 bg-red-500 text-white rounded-sm text-[13px] font-semibold hover:bg-red-600 transition-colors">
-                Evet, Sil
+              <button
+                onClick={() => handleDelete(deleteId)}
+                disabled={deleting}
+                className="min-h-[44px] px-5 bg-red-500 text-white rounded-sm text-[13px] font-semibold hover:bg-red-600 transition-colors disabled:opacity-60"
+              >
+                {deleting ? "Siliniyor..." : "Evet, Sil"}
               </button>
             </div>
           </div>

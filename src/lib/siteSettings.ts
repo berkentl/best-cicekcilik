@@ -17,7 +17,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   businessName:          "Dünyanın Çiçeği",
   phone:                 "0532 295 93 09",
   email:                 "durucicekorganizasyon@gmail.com",
-  address:               "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul",
+  address:               "Fulya, 19 Mayıs, Aytekin Kotil Cd. No: 18H, 34360 Şişli/İstanbul",
 };
 
 /** Sunucu tarafında site ayarlarını çeker (Supabase → fallback mock). */

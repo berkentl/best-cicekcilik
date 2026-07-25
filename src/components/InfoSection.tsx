@@ -83,7 +83,7 @@ export function InfoSection() {
             <span className="text-[#8bbdb9]">Çiçeği</span>
           </h2>
           <p className="text-[14px] text-white/70 max-w-md mx-auto mb-8 leading-relaxed">
-            Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul
+            Fulya, 19 Mayıs, Aytekin Kotil Cd. No: 18H, 34360 Şişli/İstanbul
             <br />
             <a href="tel:05322959309" className="text-white/90 hover:text-white transition-colors mt-1 block">
               0532 295 93 09

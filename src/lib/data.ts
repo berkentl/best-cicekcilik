@@ -5,7 +5,7 @@ export const siteConfig: SiteConfig = {
   name: "Dünyanın Çiçeği",
   phone: "0532 295 93 09",
   email: "durucicekorganizasyon@gmail.com",
-  address: "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18",
+  address: "Fulya, 19 Mayıs, Aytekin Kotil Cd. No: 18H",
   city: "İstanbul",
   district: "Şişli",
   whatsapp: "905322959309",
