@@ -86,6 +86,11 @@ export interface KolaysoftCreateInvoiceResult {
   error?: string;
 }
 
+export interface KolaysoftCancelInvoiceResult {
+  success: boolean;
+  error?: string;
+}
+
 /**
  * TC Kimlik No toplanmadığında düşecek yer tutucu — resmi TC kimlik
  * checksum algoritmasını geçen, yaygın kullanılan bir test/misafir
@@ -516,9 +521,85 @@ export async function createKolaysoftInvoice(
 
     return {
       success: true,
+      invoiceNumber: documentId,
       ettn: documentUuid,
       pdfUrl,
     };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Bilinmeyen hata.",
+    };
+  }
+}
+
+/**
+ * Kesilmiş bir e-Arşiv faturasını GİB nezdinde iptal eder.
+ *
+ * Sipariş "İptal" veya "İade" durumuna alındığında çağrılır — bkz.
+ * admin/orders/[id]/route.ts. e-Arşiv faturaları GİB'e günlük raporlarla
+ * bildirildiğinden, iptal edilen fatura ilgili raporda iptal kaydıyla yer
+ * alır; bu süreci Kolaysoft kendi tarafında yürütür, bizim yalnızca iptal
+ * talebini iletmemiz gerekir.
+ *
+ * Vergi Usul Kanunu bakımından iptal işleminin gerekçesi ve tarihi mali
+ * denetimde ispat aracı olduğundan, çağıran taraf sonucu mutlaka
+ * veritabanına yazmalıdır.
+ */
+export async function cancelKolaysoftInvoice(params: {
+  /** İptal edilecek faturanın ETTN'i (belge UUID'i). */
+  ettn: string;
+  /** İptal gerekçesi — GİB'e iletilir, boş bırakılamaz. */
+  reason: string;
+}): Promise<KolaysoftCancelInvoiceResult> {
+  const { KOLAYSOFT_USERNAME, KOLAYSOFT_PASSWORD } = process.env;
+  if (!KOLAYSOFT_USERNAME || !KOLAYSOFT_PASSWORD) {
+    return {
+      success: false,
+      error: "Kolaysoft ortam değişkenleri eksik (KOLAYSOFT_USERNAME / KOLAYSOFT_PASSWORD).",
+    };
+  }
+
+  if (!params.ettn) {
+    return { success: false, error: "İptal edilecek faturanın ETTN'i bulunamadı." };
+  }
+
+  try {
+    const body = {
+      documentType: "EARSIVFATURA",
+      documentUuid: params.ettn,
+      cancelDate: new Date().toISOString().slice(0, 10),
+      cancelReason: params.reason,
+    };
+
+    const res = await fetch(`${KOLAYSOFT_BASE_URL}/api/document/cancelDocument`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      return {
+        success: false,
+        error: `Kolaysoft fatura iptali başarısız (HTTP ${res.status}): ${text}`,
+      };
+    }
+
+    // cancelDocument tek bir EntResponseDetail döner (sendDocumentModel'in
+    // aksine dizi değil), fakat sunucunun dizi sarmalaması ihtimaline karşı
+    // her iki biçim de karşılanıyor.
+    const parsed = (await res.json()) as EntResponseDetail | EntResponseDetail[];
+    const result = Array.isArray(parsed) ? parsed[0] : parsed;
+
+    if (!result?.isOk) {
+      return {
+        success: false,
+        error: result?.message ?? "Kolaysoft fatura iptalinde bilinmeyen hata.",
+      };
+    }
+
+    return { success: true };
   } catch (err) {
     return {
       success: false,

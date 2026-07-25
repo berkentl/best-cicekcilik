@@ -56,11 +56,14 @@ export interface Order {
   vergi_no?: string;
   firma_adi?: string;
   payment_status?: "PENDING" | "PAID";
-  invoice_status?: "NOT_ISSUED" | "ISSUED" | "FAILED";
+  invoice_status?: "NOT_ISSUED" | "ISSUED" | "FAILED" | "CANCELLED" | "CANCEL_FAILED";
   invoice_number?: string;
   invoice_ettn?: string;
   invoice_pdf_url?: string;
   invoice_error?: string;
+  invoice_cancelled_at?: string;
+  invoice_cancel_reason?: string;
+  invoice_cancel_error?: string;
 }
 
 const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: string }> = {
@@ -397,6 +400,14 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
                   <span className="text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
                     Kesilemedi
                   </span>
+                ) : order.invoice_status === "CANCELLED" ? (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-[#eee] text-[#666] px-2 py-0.5 rounded-full line-through">
+                    İptal Edildi{order.invoice_number ? ` · ${order.invoice_number}` : ""}
+                  </span>
+                ) : order.invoice_status === "CANCEL_FAILED" ? (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                    İptal Edilemedi
+                  </span>
                 ) : (
                   <span className="text-[10px] font-bold uppercase tracking-wide bg-[#eee] text-[#888] px-2 py-0.5 rounded-full">
                     Teslimatta Kesilecek
@@ -410,6 +421,15 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
               </p>
               {order.invoice_status === "FAILED" && order.invoice_error && (
                 <p className="text-[12px] text-red-600 leading-relaxed">{order.invoice_error}</p>
+              )}
+              {order.invoice_status === "CANCEL_FAILED" && (
+                <p className="text-[12px] text-amber-800 leading-relaxed">
+                  Fatura Kolaysoft panelinden <strong>manuel olarak iptal edilmelidir.</strong>
+                  {order.invoice_cancel_error ? ` Hata: ${order.invoice_cancel_error}` : ""}
+                </p>
+              )}
+              {order.invoice_status === "CANCELLED" && order.invoice_cancel_reason && (
+                <p className="text-[12px] text-[#888] leading-relaxed">{order.invoice_cancel_reason}</p>
               )}
             </div>
           )}

@@ -1,6 +1,14 @@
 import { createServerClient } from "@/lib/supabase-server";
 
-export type NotificationType = "new_order" | "out_of_stock" | "order_approved" | "order_rejected";
+export type NotificationType =
+  | "new_order"
+  | "out_of_stock"
+  | "order_approved"
+  | "order_rejected"
+  /** Kesilmiş fatura iptal edilemedi — mali takip gerektiren istisna. */
+  | "invoice_cancel_failed"
+  /** Fatura iptal edildi fakat muhasebe müdahalesi gerekiyor (geçmiş dönem / kurumsal iade). */
+  | "invoice_cancel_needs_review";
 
 export async function createNotification({
   type,
