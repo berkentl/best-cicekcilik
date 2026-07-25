@@ -15,7 +15,7 @@
 | Vergi Kimlik Numarası | 3190357404 (Mecidiyeköy Vergi Dairesi Müdürlüğü) |
 | ETBİS Site Kayıt Numarası | 1197646530 |
 | Telefon | 0532 295 93 09 |
-| E-posta | info@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | KEP Adresi | duru.davet@hs01.kep.tr |
 | İnternet Sitesi | https://dunyanincicegi.com |
 | Temsile Yetkili | Deniz Akın (Müdür — münferiden temsile yetkilidir) |
@@ -291,3 +291,7 @@ c) Ayıp oranında bedel indirimi talep etmek.
 **ALICI:** Sipariş formunda bilgileri beyan edilen kişi
 
 **SÖZLEŞME TARİHİ:** Siparişin elektronik ortamda onaylandığı tarih
+
+---
+
+*Son güncelleme: 25.07.2026 — Sürüm: 1.0*

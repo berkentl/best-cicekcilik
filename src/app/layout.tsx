@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Kumbh_Sans, Playfair_Display, Poppins, Cormorant_Garamond, Montserrat, Dancing_Script } from "next/font/google";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { StoreHydration } from "@/components/StoreHydration";
 import { MiniCartPreview } from "@/components/MiniCartPreview";
 import "./globals.css";
@@ -87,6 +88,7 @@ export default function RootLayout({
         <MiniCartPreview />
         {children}
         <WhatsAppButton />
+        <CookieConsentBanner />
       </body>
     </html>
   );

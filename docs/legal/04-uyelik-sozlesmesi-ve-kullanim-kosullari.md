@@ -15,7 +15,7 @@
 | Vergi Kimlik Numarası | 3190357404 (Mecidiyeköy Vergi Dairesi Müdürlüğü) |
 | ETBİS Site Kayıt Numarası | 1197646530 |
 | Telefon | 0532 295 93 09 |
-| E-posta | info@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | KEP Adresi | duru.davet@hs01.kep.tr |
 
 (bundan sonra **"ŞİRKET"** olarak anılacaktır) ile diğer tarafta https://dunyanincicegi.com adresli internet sitesini kullanan veya bu site üzerinde üyelik hesabı oluşturan gerçek ya da tüzel kişi (bundan sonra **"KULLANICI"** veya üyelik hesabı bulunması hâlinde **"ÜYE"**) arasında akdedilmiştir.
@@ -233,7 +233,7 @@ h) ŞİRKET'in veya üçüncü kişilerin haklarını ihlal edecek biçimde hare
 
 | Kanal | Adres |
 |---|---|
-| E-posta | info@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | Telefon | 0532 295 93 09 |
 | KEP | duru.davet@hs01.kep.tr |
 | Posta | 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul |

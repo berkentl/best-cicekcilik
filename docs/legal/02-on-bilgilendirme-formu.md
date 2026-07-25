@@ -15,13 +15,12 @@
 | ETBİS Site Kayıt Numarası | 1197646530 |
 | Açık Adres | 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul |
 | Telefon | 0532 295 93 09 |
-| Genel İletişim E-postası | info@dunyanincicegi.com |
-| Sipariş Bildirimleri | siparis@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | KEP Adresi | duru.davet@hs01.kep.tr |
 | İnternet Sitesi | https://dunyanincicegi.com |
 | Temsile Yetkili | Deniz Akın (Müdür) |
 
-**Şikâyet ve talepleriniz için:** Yukarıdaki telefon numarası veya `info@dunyanincicegi.com` adresi. Şikâyetleriniz **en geç 3 (üç) iş günü** içinde yanıtlanır.
+**Şikâyet ve talepleriniz için:** Yukarıdaki telefon numarası veya `durucicekorganizasyon@gmail.com` adresi. Şikâyetleriniz **en geç 3 (üç) iş günü** içinde yanıtlanır.
 
 **Kişisel verilerinize ilişkin başvurularınız için:** `durucicekorganizasyon@gmail.com` veya yukarıda belirtilen KEP adresi.
 
@@ -107,7 +106,7 @@ Bildiriminizin yerinde bulunması hâlinde; sözleşmeden dönerek bedel iadesi,
 
 **6.2. Cayma bildiriminin yapılacağı adresler:**
 
-- **E-posta:** info@dunyanincicegi.com
+- **E-posta:** durucicekorganizasyon@gmail.com
 - **KEP:** duru.davet@hs01.kep.tr
 - **Posta:** 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul
 
@@ -188,7 +187,7 @@ Bozulabilir nitelikte olmayan ürünlerde (vazo, saksı kabı, teraryum kabı, d
 
 DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ
 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul
-E-posta: info@dunyanincicegi.com — KEP: duru.davet@hs01.kep.tr
+E-posta: durucicekorganizasyon@gmail.com — KEP: duru.davet@hs01.kep.tr
 
 ---
 
@@ -212,3 +211,7 @@ Aşağıda belirtilen ürüne ilişkin olarak kurulan mesafeli satış sözleşm
 **İmza:** ................................................
 
 *(Bu form elektronik ortamda gönderiliyorsa imza aranmaz.)*
+
+---
+
+*Son güncelleme: 25.07.2026 — Sürüm: 1.0*

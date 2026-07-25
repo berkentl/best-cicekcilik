@@ -21,7 +21,7 @@ function newAnn(): Announcement {
 export default function AdminAyarlarPage() {
   const [siteName, setSiteName] = useState("Dünyanın Çiçeği");
   const [phone, setPhone] = useState("0532 295 93 09");
-  const [email, setEmail] = useState("info@dunyanincicegi.com");
+  const [email, setEmail] = useState("durucicekorganizasyon@gmail.com");
   const [address, setAddress] = useState("Fulya, 19 Mayis, Aytekin Kotil Cd. No:18, 34360 Sisli/Istanbul");
   const [announcements, setAnnouncements] = useState<Announcement[]>([newAnn()]);
   const [annActive, setAnnActive] = useState(true);

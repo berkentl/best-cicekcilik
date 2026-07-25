@@ -16,7 +16,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   baseShippingFee:       200,
   businessName:          "Dünyanın Çiçeği",
   phone:                 "0532 295 93 09",
-  email:                 "info@dunyanincicegi.com",
+  email:                 "durucicekorganizasyon@gmail.com",
   address:               "Fulya, 19 Mayıs, Aytekin Kotil Cd. No:18, 34360 Şişli/İstanbul",
 };
 

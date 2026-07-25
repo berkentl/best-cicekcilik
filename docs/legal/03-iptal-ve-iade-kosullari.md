@@ -47,7 +47,7 @@ Bu hâllerde tahsil edilmiş bir bedel varsa, iptal tarihinden itibaren **en ge�
 
 Bildirimin 14 günlük süre içinde aşağıdaki kanallardan birine ulaşması yeterlidir:
 
-- **E-posta:** info@dunyanincicegi.com
+- **E-posta:** durucicekorganizasyon@gmail.com
 - **KEP:** duru.davet@hs01.kep.tr
 - **Posta:** 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul
 
@@ -199,7 +199,7 @@ Satıcı, açık talimatınız bulunmaksızın ürünü apartman görevlisine, k
 | Kanal | Adres |
 |---|---|
 | Telefon | 0532 295 93 09 |
-| E-posta | info@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | KEP | duru.davet@hs01.kep.tr |
 | Posta | 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul |
 

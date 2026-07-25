@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PhoneIcon, MapPinIcon, MailIcon, InstagramIcon, WhatsAppIcon } from "@/components/icons";
 import { siteConfig, navCategories } from "@/lib/data";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { CookiePreferencesLink } from "@/components/CookiePreferencesLink";
 
 export async function Footer() {
   const year = new Date().getFullYear();
@@ -84,8 +85,11 @@ export async function Footer() {
                 { label: "İletişim", href: "/iletisim" },
                 { label: "Teslimat Bilgileri", href: "/teslimat" },
                 { label: "İptal & İade", href: "/iade" },
-                { label: "Gizlilik Politikası", href: "/gizlilik" },
+                { label: "Mesafeli Satış Sözleşmesi", href: "/mesafeli-satis-sozlesmesi" },
+                { label: "Ön Bilgilendirme Formu", href: "/on-bilgilendirme-formu" },
                 { label: "Kullanım Koşulları", href: "/kullanim-kosullari" },
+                { label: "KVKK Aydınlatma Metni", href: "/kvkk" },
+                { label: "Gizlilik ve Çerez Politikası", href: "/gizlilik" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -96,6 +100,9 @@ export async function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <CookiePreferencesLink className="text-[13px] text-white/60 hover:text-white transition-colors" />
+              </li>
             </ul>
           </div>
 

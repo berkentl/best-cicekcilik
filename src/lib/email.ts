@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import OrderConfirmation from "@/emails/OrderConfirmation";
+import { buildLegalAttachments } from "@/lib/legal-attachments";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("http")
   ? process.env.NEXT_PUBLIC_SITE_URL
@@ -29,11 +30,18 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const origin = data.siteUrl ?? SITE_URL;
 
+  // Mesafeli Sözleşmeler Yönetmeliği uyarınca Ön Bilgilendirme Formu ve
+  // Mesafeli Satış Sözleşmesi'nin tüketiciye kalıcı veri saklayıcısı ile
+  // verilmesi zorunludur; siteye bağlantı vermek yeterli değildir. Bu
+  // nedenle onaylanan nüshalar e-postaya ek olarak iliştiriliyor.
+  const attachments = buildLegalAttachments(data.orderNumber);
+
   await resend.emails.send({
     from: "Dünyanın Çiçeği <siparis@dunyanincicegi.com>",
     to: data.to,
     replyTo: BUSINESS_REPLY_TO,
     subject: `Siparişiniz Alındı — ${data.orderNumber}`,
+    ...(attachments.length > 0 ? { attachments } : {}),
     react: OrderConfirmation({
       customerName: data.customerName,
       orderNumber: data.orderNumber,

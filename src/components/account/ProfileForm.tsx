@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -111,34 +112,36 @@ function ProfileSection({ user }: { user: CustomerUser }) {
           )}
         />
 
-        <div className="space-y-2.5 pt-1">
+        {/* Aydınlatma metni bir "onay" değil bilgilendirmedir — KVKK m.10
+            uyarınca veri sorumlusunun yükümlülüğü aydınlatmaktır, ilgili
+            kişinin onaylaması gerekmez. Bu nedenle kutucuk "okudum"
+            ifadesiyle sunuluyor.
+
+            Pazarlama ve profilleme onayları bu formdan kaldırıldı; bunlar
+            ConsentPreferences bileşeninde, profil verisinden bağımsız ve
+            ayrı ayrı geri alınabilir biçimde yönetiliyor. */}
+        <div className="pt-1">
           <Controller
             control={control}
             name="kvkkConsent"
             render={({ field }) => (
-              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+              <label className="flex items-start gap-2.5 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={field.value}
                   onChange={(e) => field.onChange(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#e2ddd8] text-[#3d7b74] focus:ring-[#3d7b74]/20"
+                  className="mt-0.5 w-4 h-4 rounded border-[#e2ddd8] text-[#3d7b74] focus:ring-[#3d7b74]/20"
                 />
-                <span className="text-[13px] text-[#545454]">KVKK Aydınlatma Metni&apos;ni onaylıyorum</span>
-              </label>
-            )}
-          />
-          <Controller
-            control={control}
-            name="marketingConsent"
-            render={({ field }) => (
-              <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={field.value}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#e2ddd8] text-[#3d7b74] focus:ring-[#3d7b74]/20"
-                />
-                <span className="text-[13px] text-[#545454]">Kampanya ve fırsatlardan haberdar olmak istiyorum</span>
+                <span className="text-[13px] leading-relaxed text-[#545454]">
+                  <Link
+                    href="/kvkk"
+                    target="_blank"
+                    className="text-[#3d7b74] underline decoration-[#3d7b74]/40 underline-offset-2 hover:decoration-[#3d7b74]"
+                  >
+                    KVKK Aydınlatma Metni
+                  </Link>
+                  &apos;ni okudum
+                </span>
               </label>
             )}
           />

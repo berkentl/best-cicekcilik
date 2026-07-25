@@ -12,7 +12,7 @@
 | MERSİS Numarası | 0319035740400001 |
 | Adres | 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul |
 | Telefon | 0532 295 93 09 |
-| E-posta | info@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | KEP Adresi | duru.davet@hs01.kep.tr |
 | İnternet Sitesi | https://dunyanincicegi.com |
 
@@ -95,7 +95,7 @@ Metinde kısaca **"Şirket"** olarak anılacaktır.
 | **SMS** | Gelen iletide belirtilen ret yöntemi *(kısa mesajla ret kodu gönderimi)* |
 | **E-posta** | İletide yer alan abonelikten çık bağlantısı |
 | **Üyelik hesabı** | *Hesabım → Hesap Bilgilerim* bölümündeki iletişim tercihleri |
-| **Doğrudan başvuru** | info@dunyanincicegi.com — 0532 295 93 09 |
+| **Doğrudan başvuru** | durucicekorganizasyon@gmail.com — 0532 295 93 09 |
 
 **6.3.** Ret talebiniz, Şirket'e ulaşmasından itibaren **en geç 3 (üç) iş günü** içinde yerine getirilir ve ret kaydı aynı süre içinde İYS'ye işlenir.
 

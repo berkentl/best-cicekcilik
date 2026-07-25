@@ -9,6 +9,7 @@ import { calculateShipping } from "@/lib/shippingService";
 import { formatPhoneInput, PHONE_PATTERN } from "@/lib/phone";
 import { TURKISH_PROVINCES, DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 import { PlusIcon, CheckCircleIcon } from "@/components/icons";
+import { LEGAL_VERSIONS } from "@/content/legal";
 import type { PaymentSettings, SiteSettings, Address } from "@/types";
 
 const inputBase =
@@ -52,6 +53,8 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
   const router = useRouter();
   const { items, totalPrice, discountAmount, coupon, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
+  /** Ön Bilgilendirme Formu + Mesafeli Satış Sözleşmesi onayı — zorunlu. */
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
 
   const subtotal = totalPrice();
@@ -155,6 +158,10 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
       alert(`Şu anda yalnızca ${DELIVERABLE_PROVINCE} içine teslimat yapabiliyoruz.`);
       return;
     }
+    if (!termsAccepted) {
+      alert("Siparişi tamamlamak için Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi'ni onaylamanız gerekiyor.");
+      return;
+    }
     setLoading(true);
     try {
       const payload = {
@@ -170,6 +177,13 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
         couponCode: coupon?.code ?? null,
         grandTotal,
         kapidaFee,
+        // Sözleşme onayı — hangi metin sürümlerinin onaylandığı ispat
+        // amacıyla siparişle birlikte kaydedilir.
+        termsAccepted: true,
+        termsVersions: {
+          onBilgilendirmeFormu: LEGAL_VERSIONS.onBilgilendirmeFormu,
+          mesafeliSatisSozlesmesi: LEGAL_VERSIONS.mesafeliSatisSozlesmesi,
+        },
       };
 
       const res = await fetch("/api/orders/create", {
@@ -706,10 +720,45 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                       </span>
                     </div>
 
+                    {/* Sözleşme onayı — Mesafeli Sözleşmeler Yönetmeliği uyarınca
+                        tüketicinin Ön Bilgilendirme Formu'nu ve Mesafeli Satış
+                        Sözleşmesi'ni onayladığının ispatı satıcıya aittir.
+                        Kutucuk varsayılan olarak işaretsizdir ve zorunludur. */}
+                    <label className="mt-5 flex items-start gap-2.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#3d7b74]"
+                        aria-describedby="sozlesme-onay-aciklama"
+                      />
+                      <span
+                        id="sozlesme-onay-aciklama"
+                        className="text-[12px] leading-[1.6] text-[#5c6564]"
+                      >
+                        <Link
+                          href="/on-bilgilendirme-formu"
+                          target="_blank"
+                          className="font-medium text-[#3d7b74] underline decoration-[#3d7b74]/40 underline-offset-2 hover:decoration-[#3d7b74]"
+                        >
+                          Ön Bilgilendirme Formu
+                        </Link>{" "}
+                        ve{" "}
+                        <Link
+                          href="/mesafeli-satis-sozlesmesi"
+                          target="_blank"
+                          className="font-medium text-[#3d7b74] underline decoration-[#3d7b74]/40 underline-offset-2 hover:decoration-[#3d7b74]"
+                        >
+                          Mesafeli Satış Sözleşmesi
+                        </Link>
+                        &apos;ni okudum, onaylıyorum.
+                      </span>
+                    </label>
+
                     {/* CTA */}
                     <button
                       type="submit"
-                      disabled={loading || form.city !== DELIVERABLE_PROVINCE}
+                      disabled={loading || !termsAccepted || form.city !== DELIVERABLE_PROVINCE}
                       className="w-full mt-5 flex items-center justify-center gap-2.5 bg-[#1d3435] hover:bg-[#243f40] active:bg-[#162828] text-white font-semibold text-[14px] tracking-wide py-4 rounded-xl transition-all duration-150 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {loading ? (
@@ -737,11 +786,11 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                     )}
 
                     <p className="text-[11px] text-[#bbb] text-center mt-3 leading-relaxed">
-                      Siparişinizi onaylayarak{" "}
-                      <Link href="/kullanim-kosullari" className="underline hover:text-[#1d3435] transition-colors">
-                        kullanım koşullarını
-                      </Link>{" "}
-                      kabul etmiş olursunuz.
+                      &quot;Siparişi Onayla&quot; düğmesine bastığınızda ödeme yükümlülüğü altına
+                      girersiniz.{" "}
+                      <Link href="/iade" className="underline hover:text-[#1d3435] transition-colors">
+                        İptal ve iade koşulları
+                      </Link>
                     </p>
                   </div>
                 </div>

@@ -149,7 +149,7 @@ Bildiriminiz yerinde bulunursa; **bedel iadesi**, **ürünün yenilenmesi** veya
 |---|---|
 | Telefon | 0532 295 93 09 |
 | WhatsApp | 0532 295 93 09 |
-| E-posta | info@dunyanincicegi.com |
+| E-posta | durucicekorganizasyon@gmail.com |
 | Adres | 19 Mayıs Mah. Aytekin Kotil Cad. Yıldırım Apt. No: 18H Şişli / İstanbul |
 
 Talep ve şikâyetleriniz **en geç 3 iş günü** içinde yanıtlanır.

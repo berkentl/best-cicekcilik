@@ -5,6 +5,7 @@ import { sendOrderConfirmationEmail } from "@/lib/email";
 import { sendPushToAdmins } from "@/lib/push";
 import { createNotification } from "@/lib/notifications";
 import { getSessionUserId } from "@/lib/auth";
+import { getClientIp } from "@/lib/consent";
 import { DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 
 interface OrderItem {
@@ -55,10 +56,34 @@ async function decreaseStock(sb: ReturnType<typeof createServerClient>, items: O
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { form, items, total, discount, couponCode, grandTotal, kapidaFee } = body;
+    const {
+      form,
+      items,
+      total,
+      discount,
+      couponCode,
+      grandTotal,
+      kapidaFee,
+      termsAccepted,
+      termsVersions,
+    } = body;
 
     if (!form || !items?.length) {
       return NextResponse.json({ error: "Geçersiz sipariş verisi." }, { status: 400 });
+    }
+
+    // Sözleşme onayı zorunlu — Mesafeli Sözleşmeler Yönetmeliği uyarınca
+    // tüketicinin Ön Bilgilendirme Formu'nu ve Mesafeli Satış Sözleşmesi'ni
+    // onayladığının ispatı satıcıya aittir. İstemci tarafındaki kutucuk
+    // atlanabileceğinden burada da doğrulanır.
+    if (termsAccepted !== true) {
+      return NextResponse.json(
+        {
+          error:
+            "Siparişi tamamlamak için Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi'ni onaylamanız gerekiyor.",
+        },
+        { status: 400 }
+      );
     }
 
     // E-posta zorunlu — Kolaysoft e-Arşiv faturası müşteriye bu adrese
@@ -123,6 +148,12 @@ export async function POST(request: Request) {
       vergi_no: form.invoiceType === "kurumsal" ? form.vergiNo : null,
       firma_adi: form.invoiceType === "kurumsal" ? form.firmaAdi : null,
       payment_status: "PAID",
+      // Sözleşme onayının ispat kaydı — onay anı, IP ve onaylanan metin
+      // sürümleri. Uyuşmazlıkta bu kayıtlar delil teşkil eder
+      // (bkz. Mesafeli Satış Sözleşmesi m.16.1 — delil sözleşmesi).
+      terms_accepted_at: new Date().toISOString(),
+      terms_ip: getClientIp(request),
+      terms_versions: termsVersions ?? null,
     }).select().single();
 
     if (error) {
