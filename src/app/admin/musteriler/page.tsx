@@ -12,6 +12,11 @@ interface Customer {
   orders: number;
   total: number;
   joined: string;
+  /** Ticari elektronik ileti onayları — kampanya gönderimi öncesi kontrol edilmeli. */
+  pazarlamaEposta: boolean;
+  pazarlamaSms: boolean;
+  /** Onay var fakat İYS'ye yüklenmemiş — bu hâlde gönderim yapılamaz. */
+  iysBekliyor: boolean;
 }
 
 export default function AdminMusterilerPage() {
@@ -137,7 +142,7 @@ export default function AdminMusterilerPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-[#f5f5f5] bg-[#fafafa]">
-                {["Müşteri", "Tür", "E-posta", "Telefon", "Sipariş", "Toplam Harcama", "Kayıt / İlk Sipariş"].map((h) => (
+                {["Müşteri", "Tür", "E-posta", "Telefon", "Pazarlama İzni", "Sipariş", "Toplam Harcama", "Kayıt / İlk Sipariş"].map((h) => (
                   <th key={h} className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-[#999]">{h}</th>
                 ))}
               </tr>
@@ -145,13 +150,13 @@ export default function AdminMusterilerPage() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-16 text-center text-[13px] text-[#999]">
+                  <td colSpan={8} className="px-4 py-16 text-center text-[13px] text-[#999]">
                     Yükleniyor...
                   </td>
                 </tr>
               ) : filteredCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-16 text-center text-[13px] text-[#999]">
+                  <td colSpan={8} className="px-4 py-16 text-center text-[13px] text-[#999]">
                     {customers.length === 0
                       ? "Henüz kayıtlı müşteri yok"
                       : "Aramanızla eşleşen müşteri bulunamadı"}
@@ -178,6 +183,32 @@ export default function AdminMusterilerPage() {
                   </td>
                   <td className="px-4 py-3.5 text-[13px] text-[#545454]">{c.email}</td>
                   <td className="px-4 py-3.5 text-[13px] text-[#545454]">{c.phone}</td>
+                  <td className="px-4 py-3.5">
+                    {!c.pazarlamaEposta && !c.pazarlamaSms ? (
+                      <span className="text-[11px] font-semibold text-[#bbb]">İzin yok</span>
+                    ) : (
+                      <div className="flex items-center gap-1.5">
+                        {c.pazarlamaEposta && (
+                          <span className="text-[10px] font-bold uppercase tracking-wide bg-[#3d7b74]/10 text-[#3d7b74] px-1.5 py-0.5 rounded">
+                            E-posta
+                          </span>
+                        )}
+                        {c.pazarlamaSms && (
+                          <span className="text-[10px] font-bold uppercase tracking-wide bg-[#3d7b74]/10 text-[#3d7b74] px-1.5 py-0.5 rounded">
+                            SMS
+                          </span>
+                        )}
+                        {c.iysBekliyor && (
+                          <span
+                            title="Onay alındı fakat İYS'ye yüklenmedi — bu hâlde gönderim yapılamaz."
+                            className="text-[10px] font-bold uppercase tracking-wide bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded cursor-help"
+                          >
+                            İYS ⚠
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </td>
                   <td className="px-4 py-3.5 text-[13px] font-semibold text-[#1d3435]">{c.orders} sipariş</td>
                   <td className="px-4 py-3.5 text-[13px] font-bold text-[#3d7b74]">₺{c.total.toLocaleString("tr-TR")}</td>
                   <td className="px-4 py-3.5 text-[12px] text-[#999]">

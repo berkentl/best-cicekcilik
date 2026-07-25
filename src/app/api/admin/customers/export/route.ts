@@ -32,10 +32,32 @@ export async function GET(request: Request) {
     return c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q);
   });
 
-  const header = ["Ad", "Soyad", "Telefon", "E-posta", "Toplam Sipariş Tutarı"];
+  // Onay sütunları bilinçli olarak eklendi: bu liste pazarlama amacıyla
+  // kullanılacaksa, onayı olmayan kişilere gönderim 6563 sayılı Kanun
+  // ihlalidir. Onay bilgisi olmadan çıkarılan bir liste, farkında olmadan
+  // hukuka aykırı gönderime yol açar.
+  const header = [
+    "Ad",
+    "Soyad",
+    "Telefon",
+    "E-posta",
+    "Toplam Sipariş Tutarı",
+    "E-posta İzni",
+    "SMS İzni",
+    "İYS Durumu",
+  ];
   const rows = customers.map((c) => {
     const [firstName, lastName] = splitName(c.name);
-    return [firstName, lastName, c.phone === "—" ? "" : c.phone, c.email, c.total.toFixed(2)];
+    return [
+      firstName,
+      lastName,
+      c.phone === "—" ? "" : c.phone,
+      c.email,
+      c.total.toFixed(2),
+      c.pazarlamaEposta ? "VAR" : "YOK",
+      c.pazarlamaSms ? "VAR" : "YOK",
+      c.iysBekliyor ? "YÜKLENMEDİ" : "—",
+    ];
   });
 
   const csvContent = [header, ...rows]
