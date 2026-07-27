@@ -665,7 +665,16 @@ export async function cancelKolaysoftInvoice(params: {
   }
 }
 
-/** Fatura PDF linkini alır — başarısız olsa bile fatura kesimini geçersiz kılmaz, sadece pdfUrl boş kalır. */
+/**
+ * Fatura PDF linkini alır — başarısız olsa bile fatura kesimini geçersiz
+ * kılmaz, sadece pdfUrl boş kalır.
+ *
+ * `vknTckn` parametresi zorunlu; eksik gönderildiğinde endpoint
+ * "vknTckn bilgisi 10 veya 11 karakterden oluşmalıdır." hatası veriyor.
+ * Swagger dokümantasyonunda zorunlu olarak işaretlenmemiş. Satıcı VKN'si
+ * kullanılıyor: her zaman sabit ve biliniyor (alıcı TCKN'si de kabul
+ * ediliyor fakat misafir siparişlerinde yer tutucu olabilir).
+ */
 async function fetchInvoicePdfLink(uuid: string, issueDate: string): Promise<string | undefined> {
   try {
     const params = new URLSearchParams({
@@ -673,6 +682,7 @@ async function fetchInvoicePdfLink(uuid: string, issueDate: string): Promise<str
       documentType: "EARSIVFATURA",
       uuid,
       issueDate,
+      vknTckn: SELLER.vknTckn,
     });
     const res = await fetch(`${KOLAYSOFT_BASE_URL}/api/document/createLink?${params.toString()}`, {
       headers: authHeaders(),
