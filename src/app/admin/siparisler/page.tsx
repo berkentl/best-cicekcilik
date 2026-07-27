@@ -331,6 +331,21 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
               {order.payment_method && (
                 <InfoRow label="Ödeme Yöntemi" value={paymentLabel[order.payment_method] ?? order.payment_method} />
               )}
+              {/* Ödeme durumu — havale siparişlerinde para gelene kadar
+                  "Bekliyor" kalır; sipariş "Hazırlanıyor"a alındığında
+                  ödeme onaylanmış sayılır. */}
+              <div className="flex items-center justify-between gap-3 py-1.5">
+                <span className="text-[12px] text-[#a09890] shrink-0">Ödeme Durumu</span>
+                {order.payment_status === "PAID" ? (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                    Ödendi
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-bold uppercase tracking-wide bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                    Ödeme Bekliyor
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Sağ: Alıcı + Teslimat */}

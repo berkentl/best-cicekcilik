@@ -61,26 +61,69 @@ export async function PATCH(
     "İade": 0,
   };
 
+  // Tanınmayan durum değeri reddedilir. Aksi hâlde bozuk bir değer (ör.
+  // kodlama hatası nedeniyle "Haz?rlan?yor") sessizce kaydedilir, adım 0
+  // olarak yazılır ve ödeme onayı ile fatura tetikleyicileri hiç çalışmaz.
+  // Ödeme onayı gibi kritik kararlar tam string eşleşmesine dayandığı için
+  // sessiz kabul edilemez.
+  if (status !== undefined && !(status in STATUS_TO_STEP)) {
+    return NextResponse.json(
+      {
+        error:
+          `Geçersiz sipariş durumu: "${status}". ` +
+          `Geçerli değerler: ${Object.keys(STATUS_TO_STEP).join(", ")}`,
+      },
+      { status: 400 }
+    );
+  }
+
   const sb = createServerClient();
 
   // Fatura kesimi "Teslim Edildi"ye YENİ geçişte bir kez tetiklenmeli — bunu
   // tespit etmek için güncellemeden önce mevcut durumu okuyoruz.
   let previousStatus: string | null = null;
   let previousInvoiceStatus: string | null = null;
+  let paymentMethod: string | null = null;
+  let previousPaymentStatus: string | null = null;
   if (status !== undefined) {
     const { data: existing } = await sb
       .from("orders")
-      .select("status, invoice_status")
+      .select("status, invoice_status, payment_method, payment_status")
       .eq("id", id)
       .maybeSingle();
     previousStatus = existing?.status ?? null;
     previousInvoiceStatus = existing?.invoice_status ?? null;
+    paymentMethod = existing?.payment_method ?? null;
+    previousPaymentStatus = existing?.payment_status ?? null;
   }
 
   const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (status !== undefined) {
     updates.status = status;
     updates.tracking_step = STATUS_TO_STEP[status] ?? 0;
+
+    // Ödeme onayı — sipariş oluşturulurken ödeme henüz alınmadığı için
+    // payment_status "PENDING" başlar ve işletmenin ödemeyi fiilen teyit
+    // ettiği anda "PAID"e geçer. Teyit anı ödeme yöntemine göre değişir:
+    //
+    //   Havale/EFT : Müşteri parayı IBAN'a gönderir; işletme bankada
+    //                gördüğünde siparişi "Hazırlanıyor"a alır. Dolayısıyla
+    //                bu geçiş ödeme onayının kendisidir.
+    //   Kapıda     : Ödeme teslim anında tahsil edilir → "Teslim Edildi".
+    //
+    // Mesafeli Satış Sözleşmesi m.6.2'deki "1 saat içinde ödeme gelmezse
+    // sipariş iptal edilebilir" kaydını uygulayabilmek için ödemenin
+    // gerçekten geldiğini bilmek gerekiyor; bu nedenle koşulsuz "PAID"
+    // yazmak yanlıştı.
+    if (previousPaymentStatus !== "PAID") {
+      const step = STATUS_TO_STEP[status] ?? 0;
+      const havaleOnaylandi = paymentMethod === "havale" && step >= 1;
+      const kapidaTahsilEdildi = paymentMethod === "kapida" && status === DELIVERED_STATUS;
+
+      if (havaleOnaylandi || kapidaTahsilEdildi) {
+        updates.payment_status = "PAID";
+      }
+    }
   }
   if (tracking_number !== undefined) updates.tracking_number = tracking_number;
   if (tracking_step !== undefined) updates.tracking_step = tracking_step;

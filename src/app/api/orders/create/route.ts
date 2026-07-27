@@ -147,7 +147,16 @@ export async function POST(request: Request) {
       vergi_dairesi: form.invoiceType === "kurumsal" ? form.vergiDairesi : null,
       vergi_no: form.invoiceType === "kurumsal" ? form.vergiNo : null,
       firma_adi: form.invoiceType === "kurumsal" ? form.firmaAdi : null,
-      payment_status: "PAID",
+      // Sipariş anında ödeme henüz alınmamıştır; bu nedenle "PENDING"
+      // başlar. Havale/EFT'de işletme parayı bankada görüp siparişi
+      // "Hazırlanıyor"a aldığında, kapıda ödemede ise teslim anında
+      // "PAID"e geçer — bkz. admin/orders/[id]/route.ts.
+      //
+      // Daha önce koşulsuz "PAID" yazılıyordu; bu, parası hiç gelmemiş
+      // siparişleri ödenmiş gösteriyordu ve Mesafeli Satış Sözleşmesi
+      // m.6.2'deki "1 saat içinde ödeme gelmezse iptal" kaydının
+      // uygulanmasını imkânsız kılıyordu.
+      payment_status: "PENDING",
       // Sözleşme onayının ispat kaydı — onay anı, IP ve onaylanan metin
       // sürümleri. Uyuşmazlıkta bu kayıtlar delil teşkil eder
       // (bkz. Mesafeli Satış Sözleşmesi m.16.1 — delil sözleşmesi).
