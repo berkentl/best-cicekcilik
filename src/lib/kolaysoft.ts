@@ -194,8 +194,63 @@ interface LastDocumentNumberResponse {
   documentId?: string;
 }
 
-/** Belge ön eki — Kolaysoft panelinde tanımlı, e-Arşiv için kayıtlı 3 harfli kod. */
-const DOCUMENT_PREFIX = "DCC";
+/**
+ * Belge ön eki — Kolaysoft panelinde e-Arşiv için TANIMLI olmalıdır;
+ * tanımsız bir ön ekle gönderim reddedilir.
+ *
+ * Ortam değişkeniyle yapılandırılıyor çünkü test hesabı ile gerçek hesapta
+ * farklı ön ekler kayıtlı. Ayrıca her satış kanalının kendi ön ekini
+ * kullanması gerekir: aynı ön eki iki sistem paylaşırsa `lastDocumentNumber`
+ * sorgusu ikisinde de aynı numarayı döndürüp fatura numarası çakışmasına
+ * yol açar.
+ *
+ * Panelde tanımlı ön ekler şu uç noktadan görülebilir:
+ *   GET /api/document/getPrefixCodeList?documentType=EARSIVFATURA
+ */
+const DOCUMENT_PREFIX = process.env.KOLAYSOFT_DOCUMENT_PREFIX ?? "DCC";
+
+interface PrefixCodeListResponse {
+  isOk?: boolean;
+  message?: string;
+  prefixCodeList?: Array<{ prefixCode?: string; active?: boolean }>;
+}
+
+/**
+ * Belge ön ekinin Kolaysoft panelinde tanımlı ve aktif olduğunu doğrular.
+ *
+ * Bu kontrol gerekli çünkü tanımsız bir ön ekte `lastDocumentNumber` sorgusu
+ * HATA VERMİYOR: `isOk: true` ile "<ÖNEK><YIL>000000000" ve "0000-00-00"
+ * döndürüyor. Kod bunu geçerli sanıp göndermeye çalışır ve gönderim
+ * aşamasında anlaşılmaz bir hatayla başarısız olur. Ön kontrol, hatayı
+ * eyleme dönüştürülebilir bir mesaja çevirir.
+ */
+async function assertPrefixRegistered(prefixCode: string): Promise<void> {
+  const res = await fetch(
+    `${KOLAYSOFT_BASE_URL}/api/document/getPrefixCodeList?documentType=EARSIVFATURA`,
+    { headers: authHeaders() }
+  );
+  const data = (await res.json().catch(() => ({}))) as PrefixCodeListResponse;
+
+  const list = data.prefixCodeList ?? [];
+  // Liste hiç alınamadıysa engellemiyoruz — geçici bir API sorunu yüzünden
+  // fatura kesimini durdurmak, belirsiz hata riskinden daha zararlı olur.
+  if (!data.isOk || list.length === 0) return;
+
+  const kayitli = list.find((p) => p.prefixCode === prefixCode);
+  if (!kayitli) {
+    const mevcut = list.map((p) => p.prefixCode).filter(Boolean).join(", ");
+    throw new Error(
+      `Belge ön eki "${prefixCode}" Kolaysoft panelinde tanımlı değil. ` +
+        `Tanımlı ön ekler: ${mevcut || "yok"}. ` +
+        `Panelde bu ön eki oluşturun veya KOLAYSOFT_DOCUMENT_PREFIX değerini güncelleyin.`
+    );
+  }
+  if (kayitli.active === false) {
+    throw new Error(
+      `Belge ön eki "${prefixCode}" tanımlı fakat pasif durumda. Kolaysoft panelinden aktifleştirin.`
+    );
+  }
+}
 
 /**
  * Bir sonraki fatura numarasını üretir (örn. "DCC2026000000004").
@@ -205,6 +260,8 @@ const DOCUMENT_PREFIX = "DCC";
  * "DCC" gönderilirse "HATALI FATURA ÖN EKİ" hatası dönüyor.
  */
 async function getNextDocumentId(): Promise<string> {
+  await assertPrefixRegistered(DOCUMENT_PREFIX);
+
   const year = new Date().getFullYear();
   const documentIdPrefix = `${DOCUMENT_PREFIX}${year}`;
   const params = new URLSearchParams({
