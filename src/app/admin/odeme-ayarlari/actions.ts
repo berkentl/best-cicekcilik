@@ -26,6 +26,7 @@ export async function updateKapidaSettings(enabled: boolean, fee: number) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/odeme-ayarlari");
   revalidatePath("/odeme");
+  revalidatePath("/odeme/basarili");
 }
 
 export async function updateHavaleEnabled(enabled: boolean) {
@@ -37,6 +38,7 @@ export async function updateHavaleEnabled(enabled: boolean) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/odeme-ayarlari");
   revalidatePath("/odeme");
+  revalidatePath("/odeme/basarili");
 }
 
 export async function addIban(entry: Omit<IbanEntry, "id">) {
@@ -51,6 +53,7 @@ export async function addIban(entry: Omit<IbanEntry, "id">) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/odeme-ayarlari");
   revalidatePath("/odeme");
+  revalidatePath("/odeme/basarili");
 }
 
 export async function deleteIban(id: string) {
@@ -65,4 +68,5 @@ export async function deleteIban(id: string) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/odeme-ayarlari");
   revalidatePath("/odeme");
+  revalidatePath("/odeme/basarili");
 }
