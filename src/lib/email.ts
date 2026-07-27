@@ -20,6 +20,10 @@ interface OrderEmailData {
   recipientName: string;
   cardMessage?: string;
   siteUrl?: string;
+  /** Havale/EFT siparişlerinde hesap bilgileri — e-postaya da eklenir. */
+  bankTransfer?: {
+    ibans: { id: string; bank: string; holder: string; iban: string }[];
+  };
 }
 
 export async function sendOrderConfirmationEmail(data: OrderEmailData) {
@@ -54,6 +58,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
       cardMessage: data.cardMessage,
       trackingUrl: `${origin}/siparis-takip`,
       siteUrl: origin,
+      bankTransfer: data.bankTransfer,
     }),
   });
 }

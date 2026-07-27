@@ -27,9 +27,22 @@ export interface OrderConfirmationProps {
   cardMessage?: string;
   trackingUrl?: string;
   siteUrl?: string;
+  /**
+   * Havale/EFT ile ödenecek siparişlerde hesap bilgileri. E-posta,
+   * müşterinin ödeme bilgisine kalıcı olarak ulaşabileceği tek yer olduğu
+   * için buraya da eklenir — site kapatıldığında veya sayfa kaybolduğunda
+   * müşterinin elinde kalan kayıt budur.
+   */
+  bankTransfer?: {
+    ibans: { id: string; bank: string; holder: string; iban: string }[];
+  };
 }
 
 const currency = (n: number) => `₺${n.toLocaleString("tr-TR")}`;
+
+/** IBAN'ı 4'erli gruplar hâlinde okunur biçime getirir. */
+const formatIban = (iban: string) =>
+  iban.replace(/\s/g, "").replace(/(.{4})/g, "$1 ").trim();
 
 export default function OrderConfirmation({
   customerName = "Ayşe Yılmaz",
@@ -46,6 +59,7 @@ export default function OrderConfirmation({
   cardMessage,
   trackingUrl = "https://dunyanincicegi.com/siparis-takip",
   siteUrl = "https://dunyanincicegi.com",
+  bankTransfer,
 }: OrderConfirmationProps) {
   return (
     <Html lang="tr">
@@ -122,6 +136,53 @@ export default function OrderConfirmation({
                   </Column>
                 </Row>
               </Section>
+
+              {/* Havale ödeme talimatı — sipariş numarasının hemen ardında,
+                  çünkü açıklamaya o numaranın yazılması gerekiyor. */}
+              {bankTransfer && bankTransfer.ibans.length > 0 && (
+                <Section className="mb-6 rounded-xl border border-[#f0e2bd] bg-[#fdf6e8] px-5 py-4">
+                  <Text className="m-0 text-[14px] font-bold text-[#8a6d1f]">
+                    Ödemenizi bekliyoruz
+                  </Text>
+                  <Text className="m-0 mt-1.5 text-[12.5px] leading-[1.6] text-[#96814a]">
+                    Aşağıdaki hesaba <strong>{currency(total)}</strong> havale/EFT
+                    yaptığınızda siparişiniz hazırlanmaya başlanır.
+                  </Text>
+
+                  <Section className="mt-3 rounded-lg bg-white px-4 py-3">
+                    <Text className="m-0 text-[10px] font-bold uppercase tracking-[0.15em] text-[#a09890]">
+                      Açıklamaya yazılacak
+                    </Text>
+                    <Text className="m-0 mt-1 text-[15px] font-bold text-ink">
+                      {orderNumber}
+                    </Text>
+                    <Text className="m-0 mt-1.5 text-[11.5px] leading-[1.5] text-[#96814a]">
+                      Bu numarayı yazmazsanız ödemenizi siparişinizle
+                      eşleştiremeyiz.
+                    </Text>
+                  </Section>
+
+                  {bankTransfer.ibans.map((entry) => (
+                    <Section
+                      key={entry.id}
+                      className="mt-2 rounded-lg bg-white px-4 py-3"
+                    >
+                      <Text className="m-0 text-[13px] font-semibold text-ink">
+                        {entry.bank}
+                      </Text>
+                      <Text className="m-0 text-[12px] text-[#5c6564]">
+                        {entry.holder}
+                      </Text>
+                      <Text
+                        className="m-0 mt-1.5 text-[14px] font-semibold text-ink"
+                        style={{ fontFamily: "monospace", letterSpacing: "0.02em" }}
+                      >
+                        {formatIban(entry.iban)}
+                      </Text>
+                    </Section>
+                  ))}
+                </Section>
+              )}
 
               {/* Items */}
               <table width="100%" cellPadding={0} cellSpacing={0} style={{ borderCollapse: "collapse" }}>

@@ -4,34 +4,16 @@ import { Footer } from "@/components/Footer";
 import { CheckoutClient } from "./CheckoutClient";
 import { createServerClient } from "@/lib/supabase-server";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
+import { getPaymentSettings } from "@/lib/paymentSettings";
 import type { PaymentSettings, SiteSettings } from "@/types";
 
-const DEFAULT_PAYMENT: PaymentSettings = {
-  kapida_enabled: true,
-  kapida_fee: 0,
-  havale_enabled: true,
-  havale_ibans: [],
-};
-
 export default async function CheckoutPage() {
-  let paymentSettings: PaymentSettings = DEFAULT_PAYMENT;
+  const paymentSettings: PaymentSettings = await getPaymentSettings();
   let siteSettings: Pick<SiteSettings, "baseShippingFee" | "freeShippingThreshold"> = DEFAULT_SITE_SETTINGS;
 
   try {
     const sb = createServerClient();
-    const [paymentResult, settingsResult] = await Promise.all([
-      sb.from("payment_settings").select("kapida_enabled, kapida_fee, havale_enabled, havale_ibans").eq("id", 1).maybeSingle(),
-      sb.from("site_settings").select("key, value"),
-    ]);
-
-    if (paymentResult.data) {
-      paymentSettings = {
-        kapida_enabled: paymentResult.data.kapida_enabled ?? true,
-        kapida_fee: Number(paymentResult.data.kapida_fee ?? 0),
-        havale_enabled: paymentResult.data.havale_enabled ?? true,
-        havale_ibans: Array.isArray(paymentResult.data.havale_ibans) ? paymentResult.data.havale_ibans : [],
-      };
-    }
+    const settingsResult = await sb.from("site_settings").select("key, value");
 
     if (settingsResult.data) {
       const map: Record<string, string> = {};

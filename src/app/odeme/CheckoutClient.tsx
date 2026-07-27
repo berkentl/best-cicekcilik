@@ -10,6 +10,7 @@ import { formatPhoneInput, PHONE_PATTERN } from "@/lib/phone";
 import { TURKISH_PROVINCES, DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 import { PlusIcon, CheckCircleIcon } from "@/components/icons";
 import { LEGAL_VERSIONS } from "@/content/legal";
+import { BankTransferDetails } from "@/components/BankTransferDetails";
 import type { PaymentSettings, SiteSettings, Address } from "@/types";
 
 const inputBase =
@@ -630,24 +631,12 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
                               </div>
                             )}
 
-                            {/* Havale IBAN listesi */}
+                            {/* Havale hesap bilgileri — sipariş numarası bu aşamada
+                                henüz üretilmediği için orderNumber geçilmiyor;
+                                bileşen buna göre beklenti kuran metni gösteriyor. */}
                             {selected && opt.value === "havale" && paymentSettings.havale_ibans.length > 0 && (
-                              <div className="mt-2 space-y-2">
-                                <p className="text-[11px] font-bold text-[#5a7070] uppercase tracking-widest px-1">
-                                  Hesap Bilgileri
-                                </p>
-                                {paymentSettings.havale_ibans.map((entry) => (
-                                  <div key={entry.id} className="px-4 py-3 bg-[#f5f9f8] border border-[#c8e6e1] rounded-lg">
-                                    <p className="text-[12px] font-semibold text-[#1d3435]">{entry.bank}</p>
-                                    <p className="text-[11px] text-[#6e6560]">{entry.holder}</p>
-                                    <p className="text-[12px] font-mono text-[#3d7b74] mt-1 tracking-wider select-all">
-                                      {entry.iban.replace(/(.{4})/g, "$1 ").trim()}
-                                    </p>
-                                  </div>
-                                ))}
-                                <p className="text-[11px] text-[#a09890] px-1 leading-relaxed">
-                                  Havale açıklamasına sipariş numaranızı yazmayı unutmayın.
-                                </p>
+                              <div className="mt-3">
+                                <BankTransferDetails ibans={paymentSettings.havale_ibans} />
                               </div>
                             )}
                           </div>

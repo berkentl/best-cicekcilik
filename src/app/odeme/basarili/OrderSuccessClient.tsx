@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { BankTransferDetails } from "@/components/BankTransferDetails";
+import type { IbanEntry } from "@/types";
 
 const STEPS = [
   {
@@ -57,15 +59,24 @@ interface OrderData {
   delivery_date?: string;
   delivery_time?: string;
   created_at: string;
+  payment_method?: string;
+  payment_status?: string;
 }
 
 interface Props {
   orderNumber?: string;
   orderData: OrderData | null;
+  /**
+   * Havale/EFT ile ödenecek ve ödemesi henüz alınmamış siparişlerde dolu
+   * gelir. Müşteri sipariş numarasını ilk kez bu sayfada gördüğü için
+   * ödeme talimatının yeri burasıdır.
+   */
+  havaleIbans?: IbanEntry[];
 }
 
-export function OrderSuccessClient({ orderNumber, orderData }: Props) {
+export function OrderSuccessClient({ orderNumber, orderData, havaleIbans = [] }: Props) {
   const currentStep = orderData?.tracking_step ?? 0;
+  const havaleGosterilecek = havaleIbans.length > 0 && Boolean(orderData?.order_number);
 
   return (
     <section className="min-h-[80vh] flex items-center justify-center py-16 px-4 bg-[#faf8f5]">
@@ -256,6 +267,31 @@ export function OrderSuccessClient({ orderNumber, orderData }: Props) {
           </motion.div>
         )}
 
+        {/* Havale ödeme talimatı — siparişin tamamlanması için gereken
+            eylem burada, çünkü sipariş numarası ilk kez burada biliniyor.
+            Sipariş özetinin hemen ardından, düğmelerden önce duruyor. */}
+        {havaleGosterilecek && (
+          <motion.div
+            className="mb-6 rounded-2xl border border-[#e3ded7] bg-white p-5 md:p-6"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.4 }}
+          >
+            <h2 className="font-sans text-[16px] font-semibold text-[#1d3435]">
+              Siparişinizi tamamlamak için ödeme yapın
+            </h2>
+            <p className="mt-1.5 mb-4 text-[12.5px] leading-relaxed text-[#8a8580]">
+              Aşağıdaki hesaba havale/EFT ile ödeme yaptığınızda siparişiniz
+              hazırlanmaya başlanır.
+            </p>
+            <BankTransferDetails
+              ibans={havaleIbans}
+              orderNumber={orderData?.order_number}
+              total={orderData?.total_amount}
+            />
+          </motion.div>
+        )}
+
         {/* Info text */}
         <motion.p
           className="text-center text-[13px] text-[#999] mb-6 leading-relaxed"
@@ -263,7 +299,9 @@ export function OrderSuccessClient({ orderNumber, orderData }: Props) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          Onay maili e-posta adresinize gönderildi. Sipariş numaranızla durumunuzu takip edebilirsiniz.
+          {havaleGosterilecek
+            ? "Hesap bilgileri onay mailinizde de yer alıyor. Sipariş numaranızla durumunuzu her zaman takip edebilirsiniz."
+            : "Onay maili e-posta adresinize gönderildi. Sipariş numaranızla durumunuzu takip edebilirsiniz."}
         </motion.p>
 
         {/* Buttons */}

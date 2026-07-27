@@ -6,6 +6,7 @@ import { sendPushToAdmins } from "@/lib/push";
 import { createNotification } from "@/lib/notifications";
 import { getSessionUserId } from "@/lib/auth";
 import { getClientIp } from "@/lib/consent";
+import { getPaymentSettings } from "@/lib/paymentSettings";
 import { DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 
 interface OrderItem {
@@ -191,19 +192,37 @@ export async function POST(request: Request) {
           url: "/admin/siparisler",
           tag: "new-order",
         }).catch((err) => console.error("[push] send failed:", err)),
-        sendOrderConfirmationEmail({
-          to: form.email,
-          customerName,
-          orderNumber,
-          items,
-          total: grandTotal,
-          address: `${form.address}, ${form.district}, ${form.city}`,
-          deliveryDate: form.deliveryDate,
-          deliveryTime: form.deliveryTime,
-          recipientName: form.recipientName,
-          cardMessage: form.cardMessage,
-          siteUrl: new URL(request.url).origin,
-        }).catch((err) => console.error("[email] send failed:", err)),
+        // Havale/EFT siparişlerinde hesap bilgileri e-postaya eklenir:
+        // müşterinin ödeme bilgisine kalıcı olarak ulaşabileceği tek yer
+        // burasıdır. Ayarlar okunamazsa e-posta yine gönderilir, yalnızca
+        // hesap bölümü çıkmaz.
+        (async () => {
+          const bankTransfer =
+            form.paymentMethod === "havale"
+              ? await getPaymentSettings()
+                  .then((s) =>
+                    s.havale_enabled && s.havale_ibans.length > 0
+                      ? { ibans: s.havale_ibans }
+                      : undefined
+                  )
+                  .catch(() => undefined)
+              : undefined;
+
+          return sendOrderConfirmationEmail({
+            to: form.email,
+            customerName,
+            orderNumber,
+            items,
+            total: grandTotal,
+            address: `${form.address}, ${form.district}, ${form.city}`,
+            deliveryDate: form.deliveryDate,
+            deliveryTime: form.deliveryTime,
+            recipientName: form.recipientName,
+            cardMessage: form.cardMessage,
+            siteUrl: new URL(request.url).origin,
+            bankTransfer,
+          });
+        })().catch((err) => console.error("[email] send failed:", err)),
         // Fatura burada KESİNLİKLE kesilmez — bkz. admin/orders/[id]/route.ts.
       ]);
     });
