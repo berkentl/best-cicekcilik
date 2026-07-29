@@ -3,7 +3,7 @@ import { createServerClient } from "@/lib/supabase-server";
 import { OnayClient } from "./OnayClient";
 
 export const metadata: Metadata = {
-  title: "Siparişinizi Onaylayın | Dünyanın Çiçeği",
+  title: "Siparişinizi Onaylayın",
   robots: { index: false, follow: false },
 };
 

@@ -4,7 +4,9 @@ import { Footer } from "@/components/Footer";
 import { KayitClient } from "@/components/auth/KayitClient";
 
 export const metadata = {
-  title: "Üye Ol | Dünyanın Çiçeği",
+  // Kullaniciya ozel / islem sayfasi - arama sonucunda degeri yok.
+  robots: { index: false, follow: true },
+  title: "Üye Ol",
   description: "Dünyanın Çiçeği ailesine katılın, siparişlerinizi tek yerden takip edin.",
 };
 

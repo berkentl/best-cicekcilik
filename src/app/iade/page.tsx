@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { iptalVeIadeKosullari } from "@/content/legal";
 
 export const metadata = {
-  title: `${iptalVeIadeKosullari.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/iade" },
+  title: `${iptalVeIadeKosullari.title}`,
   description: iptalVeIadeKosullari.description,
 };
 

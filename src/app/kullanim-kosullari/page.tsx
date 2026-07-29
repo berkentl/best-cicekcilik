@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { uyelikSozlesmesi } from "@/content/legal";
 
 export const metadata = {
-  title: `${uyelikSozlesmesi.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/kullanim-kosullari" },
+  title: `${uyelikSozlesmesi.title}`,
   description: uyelikSozlesmesi.description,
 };
 

@@ -1,6 +1,6 @@
 import { FavorilerClient } from "@/app/favoriler/FavorilerClient";
 
-export const metadata = { title: "Favorilerim | Dünyanın Çiçeği" };
+export const metadata = { title: "Favorilerim", robots: { index: false, follow: true } };
 
 export default function FavorilerimPage() {
   return (

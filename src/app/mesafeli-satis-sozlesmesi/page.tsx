@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { mesafeliSatisSozlesmesi } from "@/content/legal";
 
 export const metadata = {
-  title: `${mesafeliSatisSozlesmesi.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/mesafeli-satis-sozlesmesi" },
+  title: `${mesafeliSatisSozlesmesi.title}`,
   description: mesafeliSatisSozlesmesi.description,
 };
 

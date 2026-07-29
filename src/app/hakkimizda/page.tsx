@@ -5,7 +5,8 @@ import { Footer } from "@/components/Footer";
 import { HakkimizdaSection } from "@/components/HakkimizdaSection";
 
 export const metadata: Metadata = {
-  title: "Hakkımızda | Dünyanın Çiçeği",
+  alternates: { canonical: "/hakkimizda" },
+  title: "Hakkımızda",
   description: "Dünyanın Çiçeği hakkında bilgi edinin. İstanbul Şişli'de lüks çiçek tasarımı ve organizasyon hizmetleri.",
 };
 

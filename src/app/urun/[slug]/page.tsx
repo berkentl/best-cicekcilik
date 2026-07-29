@@ -10,6 +10,15 @@ import { ProductDetailPanel } from "@/components/ProductDetailPanel";
 import { createServerClient } from "@/lib/supabase-server";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { navCategories } from "@/lib/data";
+import { JsonLd } from "@/components/JsonLd";
+import {
+  absoluteUrl,
+  buildOpenGraph,
+  productSchema,
+  breadcrumbSchema,
+  OG_IMAGE_URL,
+  type BreadcrumbItem,
+} from "@/lib/seo";
 import type { Product } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +46,11 @@ function mapRow(row: Record<string, unknown>): Product {
     isNew:            Boolean(row.is_new ?? false),
     isBestseller:     Boolean(row.is_bestseller ?? false),
     careInstructions: String(row.care_instructions ?? ""),
+    // Yönetici panelindeki SEO Başlığı / SEO Açıklaması alanları buraya
+    // okunmuyordu; girilen değerler sessizce yok sayılıyor, sayfa her zaman
+    // ürün adına düşüyordu.
+    seoTitle:         String(row.seo_title ?? ""),
+    seoDescription:   String(row.seo_description ?? ""),
   };
 }
 
@@ -83,13 +97,56 @@ async function getShippingInfo(): Promise<string> {
   }
 }
 
+/** Meta açıklamayı 155 karakter sınırında, kelime ortasından kesmeden kısaltır. */
+function kisalt(text: string, max = 155): string {
+  const temiz = text.replace(/\s+/g, " ").trim();
+  if (temiz.length <= max) return temiz;
+  const kesik = temiz.slice(0, max - 1);
+  const bosluk = kesik.lastIndexOf(" ");
+  return `${(bosluk > max * 0.6 ? kesik.slice(0, bosluk) : kesik).trimEnd()}…`;
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProduct(slug);
-  if (!product) return { title: "Ürün Bulunamadı" };
+  if (!product) {
+    // Bulunamayan ürün indekslenmemeli; aksi hâlde silinen ürünler
+    // arama sonuçlarında kalıp kullanıcıyı boş sayfaya götürür.
+    return { title: "Ürün Bulunamadı", robots: { index: false, follow: true } };
+  }
+
+  const fiyat = product.salePrice ?? product.price;
+  const path = `/urun/${product.slug}`;
+
+  /* Panelde SEO alanı doldurulmuşsa o kullanılır; yoksa ürün adı ve fiyattan
+     üretilir. Fiyatın açıklamada yer alması tıklama oranını yükseltiyor. */
+  const title = product.seoTitle?.trim() || product.name;
+  const description = kisalt(
+    product.seoDescription?.trim() ||
+      product.description?.trim() ||
+      `${product.name} — ₺${fiyat.toLocaleString("tr-TR")}. İstanbul'a aynı gün teslimat, teslimat öncesi görsel onay.`
+  );
+
+  const gorseller = (product.images ?? []).filter(Boolean).map(absoluteUrl);
+
   return {
-    title: `${product.name} | Dünyanın Çiçeği`,
-    description: product.description ?? `${product.name} — Dünyanın Çiçeği.`,
+    title,
+    description,
+    alternates: { canonical: path },
+    // Ürün fotoğrafı varsa OG görseli o olur — bağlantı WhatsApp'ta
+    // paylaşıldığında marka görseli değil ürünün kendisi görünmeli.
+    openGraph: buildOpenGraph({
+      title,
+      description,
+      path,
+      images: gorseller.slice(0, 4),
+    }),
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [gorseller[0] ?? OG_IMAGE_URL],
+    },
   };
 }
 
@@ -106,8 +163,26 @@ export default async function ProductPage({ params }: PageProps) {
   ]);
   const inStock = product.isActive !== false && (product.stock ?? 0) > 0;
 
+  /* Kırıntı yolu ekrandaki gezinme çubuğuyla birebir aynı sırayı izler;
+     farklı bir hiyerarşi bildirmek Google tarafından tutarsızlık sayılır. */
+  const breadcrumb: BreadcrumbItem[] = [{ name: "Ana Sayfa", path: "/" }];
+  if (category) breadcrumb.push({ name: category.name, path: `/${category.slug}` });
+  if (product.subCategory && product.subCategorySlug) {
+    breadcrumb.push({
+      name: product.subCategory,
+      path: `/${product.categorySlug}/${product.subCategorySlug}`,
+    });
+  }
+  breadcrumb.push({ name: product.name });
+
   return (
     <>
+      <JsonLd
+        data={[
+          productSchema(product, { shippingFee: siteSettings.baseShippingFee }),
+          breadcrumbSchema(breadcrumb),
+        ]}
+      />
       <AnnouncementBar />
       <HeaderWrapper />
 

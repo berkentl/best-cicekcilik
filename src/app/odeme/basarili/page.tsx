@@ -7,7 +7,9 @@ import { createServerClient } from "@/lib/supabase-server";
 import { getPaymentSettings } from "@/lib/paymentSettings";
 
 export const metadata: Metadata = {
-  title: "Sipariş Alındı | Dünyanın Çiçeği",
+  // Kullaniciya ozel / islem sayfasi - arama sonucunda degeri yok.
+  robots: { index: false, follow: true },
+  title: "Sipariş Alındı",
 };
 
 export default async function OrderSuccessPage({

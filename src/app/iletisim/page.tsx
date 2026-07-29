@@ -7,7 +7,8 @@ import { siteConfig, legalEntity } from "@/lib/data";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "İletişim | Dünyanın Çiçeği",
+  alternates: { canonical: "/iletisim" },
+  title: "İletişim",
   description:
     "Dünyanın Çiçeği iletişim bilgileri. Şişli/İstanbul'da aynı gün çiçek teslimatı için bize ulaşın.",
 };

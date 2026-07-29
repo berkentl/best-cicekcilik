@@ -8,6 +8,8 @@ import { createServerClient } from "@/lib/supabase-server";
 import { navCategories } from "@/lib/data";
 import { getCategories } from "@/lib/getCategories";
 import { buildFilterCategories } from "@/lib/filterService";
+import { JsonLd } from "@/components/JsonLd";
+import { buildOpenGraph, collectionPageSchema, breadcrumbSchema } from "@/lib/seo";
 import type { Product, Category } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -65,14 +67,31 @@ export async function generateStaticParams() {
   return navCategories.map((cat) => ({ category: cat.slug }));
 }
 
+/**
+ * Kategori sayfası açıklaması. Şehir + hizmet anahtar kelimesini birlikte
+ * taşır — yerel organik sıralamada başlık ve açıklamada şehir geçmesi
+ * belirleyici etkenlerden biri.
+ */
+function kategoriAciklamasi(name: string): string {
+  return `${name} — İstanbul Şişli'den elden teslim. Saat 12:00'a kadar verilen siparişlerde aynı gün teslimat, teslimat öncesi görsel onay ve taze çiçek garantisi.`;
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category: categorySlug } = await params;
   const categories = await getCategories();
   const category = categories.find((c) => c.slug === categorySlug);
-  if (!category) return { title: "Kategori Bulunamadı" };
+  if (!category) {
+    return { title: "Kategori Bulunamadı", robots: { index: false, follow: true } };
+  }
+
+  const title = `${category.name} | İstanbul Aynı Gün Teslimat`;
+  const description = kategoriAciklamasi(category.name);
+
   return {
-    title: `${category.name} | Dünyanın Çiçeği`,
-    description: `Dünyanın Çiçeği ${category.name} koleksiyonu. İstanbul'a aynı gün teslimat.`,
+    title,
+    description,
+    alternates: { canonical: `/${category.slug}` },
+    openGraph: buildOpenGraph({ title, description, path: `/${category.slug}` }),
   };
 }
 
@@ -90,6 +109,17 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          collectionPageSchema({
+            name: category.name,
+            description: kategoriAciklamasi(category.name),
+            path: `/${category.slug}`,
+            productCount: products.length,
+          }),
+          breadcrumbSchema([{ name: "Ana Sayfa", path: "/" }, { name: category.name }]),
+        ]}
+      />
       <AnnouncementBar />
       <HeaderWrapper />
       <main>

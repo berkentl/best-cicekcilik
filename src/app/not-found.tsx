@@ -4,7 +4,7 @@ import { HeaderWrapper } from "@/components/HeaderWrapper";
 import { Footer } from "@/components/Footer";
 
 export const metadata = {
-  title: "Sayfa Bulunamadı | Dünyanın Çiçeği",
+  title: "Sayfa Bulunamadı",
 };
 
 export default function NotFound() {

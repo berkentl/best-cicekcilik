@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { ProfileForm } from "@/components/account/ProfileForm";
 import { ConsentPreferences } from "@/components/account/ConsentPreferences";
 
-export const metadata = { title: "Hesap Bilgilerim | Dünyanın Çiçeği" };
+export const metadata = { title: "Hesap Bilgilerim", robots: { index: false, follow: true } };
 
 export default async function HesapBilgilerimPage() {
   const user = await getCurrentUser();

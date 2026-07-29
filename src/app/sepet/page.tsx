@@ -6,7 +6,9 @@ import { createServerClient } from "@/lib/supabase-server";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/siteSettings";
 
 export const metadata = {
-  title: "Sepetim | Dünyanın Çiçeği",
+  // Kullaniciya ozel / islem sayfasi - arama sonucunda degeri yok.
+  robots: { index: false, follow: true },
+  title: "Sepetim",
 };
 
 export default async function CartPage() {

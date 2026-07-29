@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { kvkkAydinlatmaMetni } from "@/content/legal";
 
 export const metadata = {
-  title: `${kvkkAydinlatmaMetni.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/kvkk" },
+  title: `${kvkkAydinlatmaMetni.title}`,
   description: kvkkAydinlatmaMetni.description,
 };
 

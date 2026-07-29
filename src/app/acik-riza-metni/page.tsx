@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { acikRizaMetni } from "@/content/legal";
 
 export const metadata = {
-  title: `${acikRizaMetni.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/acik-riza-metni" },
+  title: `${acikRizaMetni.title}`,
   description: acikRizaMetni.description,
 };
 

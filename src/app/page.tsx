@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { HeaderWrapper } from "@/components/HeaderWrapper";
 import { HeroSlider } from "@/components/HeroSlider";
@@ -11,6 +12,16 @@ import { Footer } from "@/components/Footer";
 import { getVitrinProducts } from "@/lib/vitrin";
 
 export const revalidate = 60; // ISR: 60 saniyede bir yenile
+
+/**
+ * Ana sayfa yalnızca canonical bildirir; başlık, açıklama ve openGraph kök
+ * düzenden miras alınır. Canonical kök düzene YAZILAMAZ — orada tanımlanınca
+ * kendi canonical'ını belirtmeyen her sayfa ana sayfanın kopyası olduğunu
+ * bildiriyor.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const vitrinProducts = await getVitrinProducts();

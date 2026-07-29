@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { ticariElektronikIleti } from "@/content/legal";
 
 export const metadata = {
-  title: `${ticariElektronikIleti.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/ticari-elektronik-ileti" },
+  title: `${ticariElektronikIleti.title}`,
   description: ticariElektronikIleti.description,
 };
 

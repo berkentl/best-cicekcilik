@@ -8,6 +8,8 @@ import { CategoryLayout } from "@/components/CategoryLayout";
 import { createServerClient } from "@/lib/supabase-server";
 import { getCategories } from "@/lib/getCategories";
 import { buildFilterCategories } from "@/lib/filterService";
+import { JsonLd } from "@/components/JsonLd";
+import { buildOpenGraph, collectionPageSchema, breadcrumbSchema } from "@/lib/seo";
 import type { Product } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -78,10 +80,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const subName = category?.megaMenu
     ?.flatMap((col) => col.items)
     .find((i) => i.slug === subSlug)?.name;
-  if (!category) return { title: "Kategori Bulunamadı" };
+  if (!category) {
+    return { title: "Kategori Bulunamadı", robots: { index: false, follow: true } };
+  }
+
+  const ad = subName ?? subSlug;
+  const path = `/${category.slug}/${subSlug}`;
+  const title = `${ad} | ${category.name} | İstanbul Aynı Gün Teslimat`;
+  const description = `${ad} — İstanbul Şişli'den elden teslim. Saat 12:00'a kadar verilen siparişlerde aynı gün teslimat, teslimat öncesi görsel onay.`;
+
   return {
-    title: `${subName ?? subSlug} | ${category.name} | Dünyanın Çiçeği`,
-    description: `Dünyanın Çiçeği ${subName ?? subSlug} ürünleri. İstanbul'a aynı gün teslimat.`,
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: buildOpenGraph({ title, description, path }),
   };
 }
 
@@ -97,9 +109,25 @@ export default async function SubcategoryPage({ params }: PageProps) {
   if (!category) notFound();
 
   const subItem = category.megaMenu?.flatMap((col) => col.items).find((i) => i.slug === subSlug);
+  const subAd = subItem?.name ?? subSlug;
 
   return (
     <>
+      <JsonLd
+        data={[
+          collectionPageSchema({
+            name: `${subAd} — ${category.name}`,
+            description: `${subAd} ürünleri, İstanbul'a aynı gün teslimat.`,
+            path: `/${category.slug}/${subSlug}`,
+            productCount: products.length,
+          }),
+          breadcrumbSchema([
+            { name: "Ana Sayfa", path: "/" },
+            { name: category.name, path: `/${category.slug}` },
+            { name: subAd },
+          ]),
+        ]}
+      />
       <AnnouncementBar />
       <HeaderWrapper />
       <main>

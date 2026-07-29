@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { gizlilikVeCerezPolitikasi } from "@/content/legal";
 
 export const metadata = {
-  title: `${gizlilikVeCerezPolitikasi.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/gizlilik" },
+  title: `${gizlilikVeCerezPolitikasi.title}`,
   description: gizlilikVeCerezPolitikasi.description,
 };
 

@@ -11,7 +11,7 @@ import { PaytrCheckoutFrame } from "./PaytrCheckoutFrame";
 import { PaytrLogo } from "@/components/PaytrLogo";
 
 export const metadata: Metadata = {
-  title: "Kart ile Ödeme | Dünyanın Çiçeği",
+  title: "Kart ile Ödeme",
   // Ödeme sayfası hiçbir arama motorunda indekslenmemeli.
   robots: { index: false, follow: false },
 };

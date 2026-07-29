@@ -4,7 +4,9 @@ import { Footer } from "@/components/Footer";
 import { SifremiUnuttumClient } from "@/components/auth/SifremiUnuttumClient";
 
 export const metadata = {
-  title: "Şifremi Unuttum | Dünyanın Çiçeği",
+  // Kullaniciya ozel / islem sayfasi - arama sonucunda degeri yok.
+  robots: { index: false, follow: true },
+  title: "Şifremi Unuttum",
   description: "Hesabınız için şifre sıfırlama bağlantısı talep edin.",
 };
 

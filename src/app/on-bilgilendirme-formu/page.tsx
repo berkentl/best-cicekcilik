@@ -2,7 +2,8 @@ import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { onBilgilendirmeFormu } from "@/content/legal";
 
 export const metadata = {
-  title: `${onBilgilendirmeFormu.title} | Dünyanın Çiçeği`,
+  alternates: { canonical: "/on-bilgilendirme-formu" },
+  title: `${onBilgilendirmeFormu.title}`,
   description: onBilgilendirmeFormu.description,
 };
 

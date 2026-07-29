@@ -4,7 +4,9 @@ import { Footer } from "@/components/Footer";
 import { GirisClient } from "@/components/auth/GirisClient";
 
 export const metadata = {
-  title: "Giriş Yap | Dünyanın Çiçeği",
+  // Kullaniciya ozel / islem sayfasi - arama sonucunda degeri yok.
+  robots: { index: false, follow: true },
+  title: "Giriş Yap",
   description: "Hesabınıza giriş yaparak siparişlerinizi ve adreslerinizi yönetin.",
 };
 
