@@ -8,6 +8,7 @@ import { createServerClient } from "@/lib/supabase-server";
 import { createPaytrToken, type BasketLine } from "@/lib/paytr";
 import { siteConfig } from "@/lib/data";
 import { PaytrCheckoutFrame } from "./PaytrCheckoutFrame";
+import { PaytrLogo } from "@/components/PaytrLogo";
 
 export const metadata: Metadata = {
   title: "Kart ile Ödeme | Dünyanın Çiçeği",
@@ -271,10 +272,12 @@ export default async function CardPaymentPage({
                   </svg>
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[13px] font-semibold text-[#1d3435]">
-                    Ödemeniz <span className="whitespace-nowrap">PayTR Ödeme Hizmetleri A.Ş.</span> altyapısıyla alınır
+                  <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] font-semibold text-[#1d3435]">
+                    Ödemeniz
+                    <PaytrLogo className="h-[15px] w-auto" />
+                    <span className="whitespace-nowrap">altyapısıyla alınır</span>
                   </p>
-                  <p className="text-[12.5px] text-[#5a6b6a] leading-relaxed mt-1">
+                  <p className="text-[12.5px] text-[#5a6b6a] leading-relaxed mt-1.5">
                     PayTR, Türkiye Cumhuriyet Merkez Bankası tarafından yetkilendirilmiş
                     bir ödeme kuruluşudur. Kart bilgilerinizi doğrudan PayTR&apos;nin
                     güvenli formuna girersiniz; bu bilgiler Dünyanın Çiçeği

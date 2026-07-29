@@ -85,20 +85,32 @@ export async function POST(request: Request) {
   }
 
   if (!order) {
-    // Sipariş yok. Tekrar denemek durumu değiştirmeyeceği için OK dönüp
-    // bildirimi kapatıyoruz, fakat tahsil edilmiş olabilecek bir ödeme
-    // karşılıksız kalacağından mutlaka insan müdahalesi gerekiyor.
-    console.error(`[paytr-callback] sipariş bulunamadı: ${merchantOid} (status=${status})`);
-    after(() =>
-      createNotification({
-        type: "payment_orphan",
-        title: "Karşılığı Olmayan Ödeme Bildirimi",
-        message:
-          `PayTR "${merchantOid}" numaralı sipariş için bildirim gönderdi fakat bu numarada sipariş bulunamadı. ` +
-          `Durum: ${status}. Tahsil edilmiş bir ödeme varsa PayTR panelinden kontrol edilmelidir.`,
-        data: { merchantOid, status, totalAmount },
-      })
-    );
+    // Sipariş yok. Tekrar denemek durumu değiştirmeyeceği için her hâlükârda
+    // OK dönüp bildirimi kapatıyoruz.
+    //
+    // Yönetici uyarısı YALNIZCA status=success için üretilir. PayTR, ödeme
+    // oturumu terk edildiğinde veya süresi dolduğunda da bildirim gönderiyor
+    // ve bunlar status=failed geliyor; hiçbir tahsilat yapılmadığı için
+    // mutabakat gerektirmiyorlar. Bunlara da uyarı üretmek yönetici
+    // bildirimlerini boğuyor ve asıl tehlikeli hâli — para tahsil edilmiş
+    // ama karşılığında sipariş yok — görünmez hâle getiriyor.
+    if (status === "success") {
+      console.error(`[paytr-callback] TAHSİLAT var ama sipariş yok: ${merchantOid}`);
+      after(() =>
+        createNotification({
+          type: "payment_orphan",
+          title: "Karşılığı Olmayan Ödeme Bildirimi",
+          message:
+            `PayTR "${merchantOid}" numaralı sipariş için TAHSİLAT bildirdi fakat bu numarada sipariş bulunamadı. ` +
+            `PayTR panelinden kontrol edilip müşteriye iade veya sipariş oluşturulması gerekir.`,
+          data: { merchantOid, status, totalAmount },
+        })
+      );
+    } else {
+      console.warn(
+        `[paytr-callback] karşılığı olmayan başarısız bildirim yok sayıldı: ${merchantOid} (${post.failed_reason_msg ?? "gerekçe yok"})`
+      );
+    }
     return ok();
   }
 

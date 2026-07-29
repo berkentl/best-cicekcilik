@@ -77,6 +77,31 @@ const STATUS_CONFIG: Record<OrderStatus, { color: string; bg: string; label: str
 
 const SELECTABLE_STATUSES: OrderStatus[] = ["Yeni", "Hazırlanıyor", "Kargoya Verildi", "Teslim Edildi", "İptal", "İade"];
 
+/** Ödeme bekleyen kart siparişleri için ayrı sekme anahtarı. */
+type AWAITING_PAYMENT = "odeme_bekleyen";
+const AWAITING_PAYMENT: AWAITING_PAYMENT = "odeme_bekleyen";
+
+/**
+ * Kartla ödenecek ama tahsilatı henüz gerçekleşmemiş sipariş.
+ *
+ * Bu siparişler ana listede GÖSTERİLMEZ. Müşteri PayTR formunda veya 3D
+ * Secure ekranında vazgeçmiş olabilir; parası alınmamış bir siparişin "Yeni"
+ * sekmesinde gerçek siparişlerin arasında durması işletmeyi yanıltıyor ve
+ * ödenmemiş sipariş için aranjman hazırlanmasına yol açıyor.
+ *
+ * Kayıt silinmiyor, yalnızca ayrı bir sekmeye alınıyor. Silmek tehlikeli
+ * olurdu: tahsilat gerçekleşip PayTR bildirimi bize ulaşmadığı durumda
+ * (ağ arızası, geçici veri tabanı hatası) siparişin kaydı tek dayanak olur.
+ */
+function isAwaitingCardPayment(o: Order): boolean {
+  return (
+    o.payment_method === "kart" &&
+    o.payment_status !== "PAID" &&
+    o.status !== "İptal" &&
+    o.status !== "İade"
+  );
+}
+
 function formatDate(iso: string) {
   try {
     return new Date(iso).toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -597,7 +622,7 @@ function OrderDetailModal({ order, onClose, onUpdated }: {
 export default function AdminSiparislerPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeStatus, setActiveStatus] = useState<OrderStatus | "all">("all");
+  const [activeStatus, setActiveStatus] = useState<OrderStatus | "all" | AWAITING_PAYMENT>("all");
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -643,16 +668,27 @@ export default function AdminSiparislerPage() {
     setSelectedOrder((prev) => prev?.id === updated.id ? updated : prev);
   }, []);
 
-  const statusCounts = useMemo(() => {
-    const counts: Record<string, number> = { all: orders.length };
-    for (const s of SELECTABLE_STATUSES) counts[s] = orders.filter((o) => o.status === s).length;
-    return counts;
-  }, [orders]);
+  // Ödeme bekleyen kart siparişleri tüm sayımların ve ana listenin dışında
+  // tutuluyor; yalnızca kendi sekmesinde görünürler.
+  const awaitingPayment = useMemo(() => orders.filter(isAwaitingCardPayment), [orders]);
+  const confirmedOrders = useMemo(() => orders.filter((o) => !isAwaitingCardPayment(o)), [orders]);
 
-  const filteredData = useMemo(() =>
-    activeStatus === "all" ? orders : orders.filter((o) => o.status === activeStatus),
-    [orders, activeStatus]
-  );
+  const statusCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      all: confirmedOrders.length,
+      [AWAITING_PAYMENT]: awaitingPayment.length,
+    };
+    for (const s of SELECTABLE_STATUSES) {
+      counts[s] = confirmedOrders.filter((o) => o.status === s).length;
+    }
+    return counts;
+  }, [confirmedOrders, awaitingPayment]);
+
+  const filteredData = useMemo(() => {
+    if (activeStatus === AWAITING_PAYMENT) return awaitingPayment;
+    if (activeStatus === "all") return confirmedOrders;
+    return confirmedOrders.filter((o) => o.status === activeStatus);
+  }, [confirmedOrders, awaitingPayment, activeStatus]);
 
   const columns: ColumnDef<Order>[] = useMemo(() => [
     {
@@ -788,7 +824,31 @@ export default function AdminSiparislerPage() {
             {STATUS_CONFIG[s].label} ({statusCounts[s] ?? 0})
           </button>
         ))}
+
+        {/*
+          Ödeme bekleyen kart siparişleri yalnızca kayıt varsa gösterilir —
+          boş bir sekme sürekli durup dikkat çekmesin. Ayrı renk kullanılıyor
+          çünkü bunlar henüz sipariş sayılmıyor; diğer sekmelerle aynı görünüp
+          gerçek sipariş izlenimi vermemeli.
+        */}
+        {statusCounts[AWAITING_PAYMENT] > 0 && (
+          <button onClick={() => setActiveStatus(AWAITING_PAYMENT)}
+            className={`px-3.5 py-2 rounded-lg text-[12px] font-bold transition-all ${activeStatus === AWAITING_PAYMENT ? "bg-amber-600 text-white" : "bg-amber-50 border border-amber-200 text-amber-800 hover:border-amber-400"}`}>
+            Ödeme Bekleyen ({statusCounts[AWAITING_PAYMENT]})
+          </button>
+        )}
       </div>
+
+      {activeStatus === AWAITING_PAYMENT && (
+        <div className="border border-amber-200 bg-amber-50 rounded-lg px-4 py-3">
+          <p className="text-[12.5px] text-amber-900 leading-relaxed">
+            <strong>Bu siparişlerin ödemesi alınmadı.</strong> Müşteri kartla ödemeyi
+            seçti ancak PayTR ekranında veya 3D Secure adımında tamamlamadı.
+            Hazırlanmamalıdır. Ödeme tahsil edilirse sipariş otomatik olarak
+            &quot;Yeni&quot; sekmesine geçer ve stok o anda düşer.
+          </p>
+        </div>
+      )}
 
       {loading ? (
         <div className="bg-white rounded-xl border border-[#ebebeb] py-16 text-center text-[#999] text-[13px]">

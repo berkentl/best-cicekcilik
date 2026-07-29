@@ -10,6 +10,27 @@ export interface DashboardOrder {
   status: string;
   items: { name: string; qty: number; price: number }[];
   created_at: string;
+  payment_method?: string | null;
+  payment_status?: string | null;
+}
+
+/**
+ * Kartla ödenecek ama tahsilatı gerçekleşmemiş sipariş — müşteri PayTR
+ * ekranında veya 3D Secure adımında vazgeçmiş olabilir.
+ *
+ * Bu kayıtlar sipariş sayımlarına, sepet ortalamasına ve grafiklere dâhil
+ * edilmez; terk edilen ödeme denemeleri gerçek sipariş gibi sayılırsa hem
+ * sipariş adedi hem ortalama sepet tutarı şişer ve işletme yanlış veriye
+ * bakarak karar verir. Sipariş listesindeki aynı ayrımla tutarlıdır
+ * (bkz. admin/siparisler/page.tsx — isAwaitingCardPayment).
+ */
+function odemeBekleyenKart(o: DashboardOrder): boolean {
+  return (
+    o.payment_method === "kart" &&
+    o.payment_status !== "PAID" &&
+    o.status !== "İptal" &&
+    o.status !== "İade"
+  );
 }
 
 export interface DashboardStats {
@@ -87,13 +108,18 @@ export async function fetchDashboardData(
   const [ordersRes, productsRes] = await Promise.all([
     sb
       .from("orders")
-      .select("id, order_number, customer_name, total_amount, status, items, created_at")
+      .select(
+        "id, order_number, customer_name, total_amount, status, items, created_at, payment_method, payment_status"
+      )
       .gte("created_at", prevStartIso)
       .order("created_at", { ascending: false }),
     sb.from("products").select("id, name, stock, is_active"),
   ]);
 
-  const allOrders: DashboardOrder[] = (ordersRes.data ?? []) as DashboardOrder[];
+  // Ödemesi alınmamış kart siparişleri hiçbir istatistiğe girmez.
+  const allOrders: DashboardOrder[] = ((ordersRes.data ?? []) as DashboardOrder[]).filter(
+    (o) => !odemeBekleyenKart(o)
+  );
 
   const start = new Date(startIso);
   const end = new Date(endIso);
