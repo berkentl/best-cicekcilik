@@ -36,6 +36,16 @@ export interface OrderConfirmationProps {
   bankTransfer?: {
     ibans: { id: string; bank: string; holder: string; iban: string }[];
   };
+  /**
+   * Kartla ödeme tahsil edilmiş siparişlerde ödeme teyidi gösterilir.
+   *
+   * Ayrı bir "ödemeniz alındı" e-postası göndermek yerine bu e-postaya
+   * yazılıyor: kartla ödemede onay e-postası zaten tahsilat doğrulandıktan
+   * sonra gönderiliyor, dolayısıyla ikinci bir e-posta aynı anda ulaşıp
+   * gereksiz tekrar ve spam algısı yaratırdı. Müşterinin elinde kalan tek
+   * kayıt bu e-posta olduğu için teyidin burada bulunması gerekir.
+   */
+  cardPaymentConfirmed?: boolean;
 }
 
 const currency = (n: number) => `₺${n.toLocaleString("tr-TR")}`;
@@ -60,6 +70,7 @@ export default function OrderConfirmation({
   trackingUrl = "https://dunyanincicegi.com/siparis-takip",
   siteUrl = "https://dunyanincicegi.com",
   bankTransfer,
+  cardPaymentConfirmed,
 }: OrderConfirmationProps) {
   return (
     <Html lang="tr">
@@ -136,6 +147,26 @@ export default function OrderConfirmation({
                   </Column>
                 </Row>
               </Section>
+
+              {/* Kartla ödeme teyidi — "ödemem geçti mi?" sorusunu kapatır.
+                  Havale bloğuyla aynı konumda; ikisi asla birlikte çıkmaz. */}
+              {cardPaymentConfirmed && (
+                <Section className="mb-6 rounded-xl border border-[#cfe8dd] bg-[#f2faf6] px-5 py-4">
+                  <Text className="m-0 text-[14px] font-bold text-[#1f6b4d]">
+                    Ödemeniz alındı
+                  </Text>
+                  <Text className="m-0 mt-1.5 text-[12.5px] leading-[1.6] text-[#3d7461]">
+                    <strong>{currency(total)}</strong> tutarındaki ödemeniz
+                    kredi/banka kartınızdan başarıyla tahsil edildi. Ayrıca ödeme
+                    kuruluşumuz PayTR tarafından tarafınıza bir dekont
+                    gönderilmiştir.
+                  </Text>
+                  <Text className="m-0 mt-1.5 text-[11.5px] leading-[1.5] text-[#6b8a7d]">
+                    Faturanız, siparişiniz teslim edildiğinde e-Arşiv fatura
+                    olarak bu e-posta adresine iletilecektir.
+                  </Text>
+                </Section>
+              )}
 
               {/* Havale ödeme talimatı — sipariş numarasının hemen ardında,
                   çünkü açıklamaya o numaranın yazılması gerekiyor. */}

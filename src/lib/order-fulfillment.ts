@@ -190,6 +190,12 @@ export async function fulfillOrder(
         cardMessage: order.card_message ?? undefined,
         siteUrl: opts.siteUrl,
         bankTransfer,
+        // Test modundaki tahsilatta müşteriye "ödemeniz alındı" denmez;
+        // gerçek bir para hareketi yok.
+        cardPaymentConfirmed:
+          order.payment_method === "kart" &&
+          opts.paymentConfirmed === true &&
+          opts.testMode !== true,
       });
     })().catch((err) =>
       console.error(`[fulfill] e-posta başarısız (${order.order_number}):`, err)

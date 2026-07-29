@@ -24,6 +24,8 @@ interface OrderEmailData {
   bankTransfer?: {
     ibans: { id: string; bank: string; holder: string; iban: string }[];
   };
+  /** Kartla ödeme tahsil edildiyse e-postada ödeme teyidi gösterilir. */
+  cardPaymentConfirmed?: boolean;
 }
 
 export async function sendOrderConfirmationEmail(data: OrderEmailData) {
@@ -59,6 +61,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
       trackingUrl: `${origin}/siparis-takip`,
       siteUrl: origin,
       bankTransfer: data.bankTransfer,
+      cardPaymentConfirmed: data.cardPaymentConfirmed,
     }),
   });
 }
