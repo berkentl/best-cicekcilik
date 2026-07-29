@@ -1,10 +1,17 @@
 import type { SiteSettings, Announcement } from "@/types";
 import { createServerClient } from "@/lib/supabase-server";
 
+/**
+ * Duyuru şeridi yönetim panelinden düzenlenir; buradaki değer yalnızca
+ * site_settings kaydı okunamadığında devreye girer. Saat 12:00, Teslimat
+ * Bilgileri metninin 3. maddesindeki aynı gün teslimat taahhüdüyle birebir
+ * aynı olmalıdır — yedek metnin sözleşmeden farklı bir saat ilan etmesi
+ * 6502 sayılı Kanun m.61 bakımından yanıltıcı ticari reklam oluşturur.
+ */
 const DEFAULT_ANNOUNCEMENTS: Announcement[] = [
   {
     id: "default-1",
-    text: "Saat 14'e kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimat yapıyoruz.",
+    text: "Saat 12:00'a kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimatı yapıyoruz.",
     durationSec: 5,
   },
 ];

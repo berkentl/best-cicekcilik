@@ -1,7 +1,25 @@
 "use client";
 
+/**
+ * Şeritteki her ibare, yayımlanmış yasal metinlerde karşılığı bulunan ve
+ * işletmenin fiilen sunduğu bir hizmete karşılık gelir. Buraya sunulmayan
+ * bir hizmet yazılması hem 6502 sayılı Kanun m.61 bakımından yanıltıcı
+ * ticari reklam oluşturur hem de sözleşme metinleriyle çelişki doğurur.
+ *
+ * Kaldırılan ibareler ve gerekçeleri:
+ * - "iyzico Güvenceli Alışveriş": ödeme altyapısı iyzico değil; başka bir
+ *   ödeme kuruluşunun güvencesine atıf yapmak gerçeğe aykırıydı.
+ * - "Kredi Kartına Taksit İmkânı": taksit kapatıldı (no_installment).
+ * - "Ücretsiz İade & Değişim": İptal ve İade Koşulları m.2 uyarınca çabuk
+ *   bozulabilen mallarda cayma hakkı bulunmuyor; koşulsuz ücretsiz iade
+ *   taahhüdü sözleşmeye aykırıydı.
+ * - "7/24 Müşteri Desteği": destek saatleri 08:00–21:00.
+ * - "Aynı Gün Kapıda Teslimat": "kapıda" ibaresi kapıda ödeme çağrışımı
+ *   yapıyordu, böyle bir hizmet yok.
+ */
 const items = [
   {
+    // 256-Bit SSL: site tüm sayfalarında TLS üzerinden sunuluyor.
     icon: (
       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -11,31 +29,26 @@ const items = [
     text: "256-Bit SSL Güvenli Ödeme",
   },
   {
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-      </svg>
-    ),
-    text: "Kredi Kartına Taksit İmkânı",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
-    text: "iyzico Güvenceli Alışveriş",
-  },
-  {
+    // Teslimat Bilgileri m.3 ile aynı saat.
     icon: (
       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    text: "Aynı Gün Kapıda Teslimat",
+    text: "Saat 12:00'a Kadar Aynı Gün Teslimat",
+  },
+  {
+    // Teslimat Bilgileri m.5 — görsel onay süreci.
+    icon: (
+      <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+          d="M3 9a2 2 0 012-2h1.5l1.2-1.8A1 1 0 019.5 5h5a1 1 0 01.8.4L16.5 7H19a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+    text: "Teslimat Öncesi Görsel Onay",
   },
   {
     icon: (
@@ -44,18 +57,20 @@ const items = [
           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
       </svg>
     ),
-    text: "100% Taze Çiçek Garantisi",
+    text: "Taze Çiçek Garantisi",
   },
   {
+    // Teslimat Bilgileri m.8 — ayıplı üründe seçimlik haklar.
     icon: (
       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          d="M4 4v5h5M20 20v-5h-5M20 9A8 8 0 006.3 5.3L4 7.5M4 15a8 8 0 0013.7 3.7L20 16.5" />
       </svg>
     ),
-    text: "Ücretsiz İade & Değişim",
+    text: "Hasarlı Üründe İade veya Yenileme",
   },
   {
+    // Teslimat Bilgileri m.1 — yalnızca İstanbul ve aktif listelenen ilçeler.
     icon: (
       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
@@ -64,34 +79,27 @@ const items = [
           d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
-    text: "İstanbul Geneli Teslimat",
+    text: "İstanbul İçi Teslimat",
   },
   {
+    // İletişim sayfasındaki çalışma saatleri: Pazar dâhil her gün açık.
     icon: (
       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-          d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+          d="M8 12h.01M12 12h.01M16 12h.01M21 12a8.94 8.94 0 01-1.05 4.2L21 21l-4.8-1.05A8.94 8.94 0 0112 21a9 9 0 119-9z" />
       </svg>
     ),
-    text: "7/24 Müşteri Desteği",
+    text: "Haftanın 7 Günü Müşteri Desteği",
   },
   {
+    // Kişiye özel üretim ve Teslimat Bilgileri m.6 — kart mesajı.
     icon: (
       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l7.586-7.586z" />
       </svg>
     ),
-    text: "Kişiselleştirilmiş Sipariş",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-          d="M5 3l14 9-14 9V3z" />
-      </svg>
-    ),
-    text: "Hızlı & Güvenli Checkout",
+    text: "Kişiye Özel Tasarım ve Kart Mesajı",
   },
 ];
 

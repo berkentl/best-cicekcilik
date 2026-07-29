@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { HeaderWrapper } from "@/components/HeaderWrapper";
 import { Footer } from "@/components/Footer";
-import { siteConfig } from "@/lib/data";
+import { siteConfig, legalEntity } from "@/lib/data";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
@@ -17,6 +17,31 @@ const hours = [
   { day: "Cumartesi", time: "08:00 – 21:00" },
   { day: "Pazar", time: "09:00 – 20:00" },
 ];
+
+/** 6563 sayılı Kanun m.5 uyarınca sitede bulundurulması zorunlu tanıtıcı bilgiler. */
+const corporateRows: { label: string; value: string }[] = [
+  { label: "Ticaret Unvanı", value: legalEntity.tradeName },
+  { label: "MERSİS Numarası", value: legalEntity.mersisNo },
+  {
+    label: "Ticaret Sicil Numarası",
+    value: `${legalEntity.tradeRegistryNo} — ${legalEntity.tradeRegistryOffice}`,
+  },
+  {
+    label: "Vergi Kimlik Numarası",
+    value: `${legalEntity.taxNo} — ${legalEntity.taxOffice}`,
+  },
+  { label: "ETBİS Site Kayıt Numarası", value: legalEntity.etbisNo },
+  { label: "KEP Adresi", value: legalEntity.kepAddress },
+];
+
+/**
+ * Adresi Google Maps'in anahtar gerektirmeyen embed ucuna sorgu olarak verir.
+ * Önceki gömme bağlantısı elle yazılmış bir `pb=` dizisi içeriyordu ve içindeki
+ * yer kimliği gerçek değildi; bu nedenle harita doğru konumu göstermiyordu.
+ */
+const mapQuery = encodeURIComponent(
+  `${siteConfig.address}, 34360 ${siteConfig.district}/${siteConfig.city}`
+);
 
 export default function ContactPage() {
   return (
@@ -187,10 +212,35 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+                {/* Kurumsal bilgiler */}
+                <div className="mt-10 border border-[#e8e8e8] rounded-sm bg-[#fafaf8]">
+                  <div className="px-5 pt-5 pb-1">
+                    {/* font-sans zorunlu: globals.css h1–h3'e serif başlık fontunu uyguluyor. */}
+                    <h3 className="font-sans text-[12px] font-semibold uppercase tracking-widest text-[#1d3435]">
+                      Kurumsal Bilgiler
+                    </h3>
+                  </div>
+                  <dl className="px-5 pb-5 divide-y divide-[#ececec]">
+                    {corporateRows.map((row) => (
+                      <div
+                        key={row.label}
+                        className="py-3 sm:flex sm:items-baseline sm:gap-4"
+                      >
+                        <dt className="text-[12px] text-[#8a8a8a] sm:w-[170px] sm:shrink-0">
+                          {row.label}
+                        </dt>
+                        <dd className="text-[13px] text-[#3a3a3a] leading-relaxed mt-0.5 sm:mt-0">
+                          {row.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
                 {/* Harita */}
                 <div className="mt-8 rounded-sm overflow-hidden border border-[#e8e8e8]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3008.3994040849765!2d28.992220!3d41.067810!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab7a8f2a2a861%3A0x1234567890abcdef!2sAytekin%20Kotil%20Cd.%20No%3A18%2C%2034360%20%C5%9Ei%C5%9Fli%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1234567890"
+                    src={`https://maps.google.com/maps?q=${mapQuery}&z=16&hl=tr&output=embed`}
                     width="100%"
                     height="250"
                     style={{ border: 0 }}

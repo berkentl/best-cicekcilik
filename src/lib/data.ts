@@ -1,6 +1,26 @@
 import type { HeroSlide, Category, SiteConfig } from "@/types";
 
 
+/**
+ * Şirketin resmî tanıtıcı bilgileri.
+ *
+ * 6563 sayılı Kanun'un 5. maddesi, hizmet sağlayıcının MERSİS numarası dâhil
+ * tanıtıcı bilgilerini alıcıların kolayca ulaşabileceği şekilde ve güncel
+ * olarak sitede bulundurmasını zorunlu kılar. Ödeme kuruluşları da canlı moda
+ * geçiş incelemesinde bu bilgileri arar. Değerler Ticaret Sicil Tasdiknamesi,
+ * vergi levhası ve ETBİS kayıt belgesinden alınmıştır.
+ */
+export const legalEntity = {
+  tradeName: "DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ",
+  mersisNo: "0319035740400001",
+  tradeRegistryNo: "149213-5",
+  tradeRegistryOffice: "İstanbul Ticaret Sicili Müdürlüğü",
+  taxNo: "3190357404",
+  taxOffice: "Mecidiyeköy Vergi Dairesi Müdürlüğü",
+  etbisNo: "1197646530",
+  kepAddress: "duru.davet@hs01.kep.tr",
+} as const;
+
 export const siteConfig: SiteConfig = {
   name: "Dünyanın Çiçeği",
   phone: "0532 295 93 09",
@@ -9,8 +29,9 @@ export const siteConfig: SiteConfig = {
   city: "İstanbul",
   district: "Şişli",
   whatsapp: "905322959309",
+  // Saat, Teslimat Bilgileri m.3'teki aynı gün teslimat taahhüdüyle aynı olmalı.
   announcementText:
-    "Saat 14'e kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimat yapıyoruz.",
+    "Saat 12:00'a kadar verilen siparişlerde; Tüm İstanbul'a Aynı Gün Çiçek Teslimatı yapıyoruz.",
 };
 
 export const heroSlides: HeroSlide[] = [

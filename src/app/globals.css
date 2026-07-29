@@ -250,4 +250,17 @@
     animation: scroll var(--animation-duration, 40s) linear infinite;
     animation-direction: var(--animation-direction, normal);
   }
+
+  /*
+    Sürekli yatay kayan şeritler, vestibüler rahatsızlığı olan kullanıcılar için
+    en zorlayıcı hareket türüdür. Hareket azaltma tercihinde animasyon tamamen
+    durdurulur; her iki şerit de içeriğini birden fazla kez tekrarladığından
+    durdurulmuş hâlde de görünür alan eksiksiz doludur, içerik kaybı olmaz.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-ticker,
+    .animate-scroll {
+      animation: none;
+    }
+  }
 }

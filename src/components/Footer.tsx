@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { PhoneIcon, MapPinIcon, MailIcon, InstagramIcon, WhatsAppIcon } from "@/components/icons";
-import { siteConfig, navCategories } from "@/lib/data";
+import { PhoneIcon, MapPinIcon, MailIcon, WhatsAppIcon } from "@/components/icons";
+import { siteConfig, navCategories, legalEntity } from "@/lib/data";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { CookiePreferencesLink } from "@/components/CookiePreferencesLink";
 
@@ -32,17 +32,12 @@ export async function Footer() {
               Aynı gün teslimat ile sevdiklerinize en güzel çiçekleri
               ulaştırıyoruz.
             </p>
-            {/* Social links */}
+            {/*
+              Instagram bağlantısı kaldırıldı: işletmenin aktif bir Instagram
+              hesabı bulunmuyor ve bağlantı eski "bestcicekcilik" markasına
+              gidiyordu. Hesap açıldığında buraya yeniden eklenmelidir.
+            */}
             <div className="flex items-center gap-3">
-              <a
-                href="https://instagram.com/bestcicekcilik"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-sm border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-white/50 transition-colors"
-                aria-label="Instagram"
-              >
-                <InstagramIcon size={16} />
-              </a>
               <a
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
@@ -161,8 +156,14 @@ export async function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          {/*
+            "tescilli markasıdır" ifadesi kaldırıldı: "Dünyanın Çiçeği" ibaresinin
+            TÜRKPATENT nezdinde marka tescili bulunmuyor. Tescil bulunmaksızın
+            tescilli marka beyanında bulunmak 6769 sayılı Sınai Mülkiyet Kanunu
+            ve TTK m.55 bakımından yanıltıcı beyan teşkil eder.
+          */}
           <p className="text-[12px] text-white/40 text-center sm:text-left leading-relaxed">
-            {`© ${year} Dünyanın Çiçeği. Tüm hakları saklıdır. Dünyanın Çiçeği, DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ'nin tescilli markasıdır.`}
+            {`© ${year} Dünyanın Çiçeği — DURU DAVET ORGANİZASYON VE ÇİÇEKÇİLİK TİCARET LİMİTED ŞİRKETİ. Tüm hakları saklıdır. MERSİS: ${legalEntity.mersisNo}`}
           </p>
           <p className="text-[12px] text-white/40">
             <a href="https://dunyanincicegi.com" className="hover:text-white/70 transition-colors">
