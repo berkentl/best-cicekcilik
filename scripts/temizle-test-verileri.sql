@@ -66,13 +66,16 @@ ORDER BY created_at;
 -- BEGIN/COMMIT bloğunu bölerek çalıştırmayın, tek seferde çalıştırın.
 -- =====================================================================
 
-BEGIN;
+/* Güvenlik sınırı: aşağıdaki DELETE'ler yalnızca '2026-07-30 00:00:00+03'
+   tarihinden ÖNCEKİ kayıtları siler. Bugün 29.07.2026 olduğu için tüm test
+   verileri kapsama girer; bu script'i yarın veya sonra yeniden
+   çalıştırırsanız gerçek siparişlere dokunmaz. Sınırı gevşetmeyin.
 
-/* Güvenlik sınırı: yalnızca bu tarihten ÖNCEKİ kayıtlar silinir.
-   Bugün 29.07.2026 olduğu için tüm test verileri kapsama girer; bu
-   script'i yarın veya sonra yeniden çalıştırırsanız gerçek siparişlere
-   dokunmaz. Sınırı gevşetmeyin. */
-CREATE TEMP TABLE _sinir AS SELECT '2026-07-30 00:00:00+03'::timestamptz AS t;
+   Sınır geçici tabloya değil doğrudan her DELETE'e yazıldı: geçici tablo
+   oturumda kalıcı olduğu için script'i ikinci kez çalıştırmak
+   "already exists" hatası veriyordu. */
+
+BEGIN;
 
 -- Korumaları geçici olarak kapat
 ALTER TABLE orders       DISABLE TRIGGER trg_prevent_delete_orders;
@@ -89,13 +92,13 @@ ALTER TABLE consent_logs DISABLE TRIGGER trg_prevent_delete_consent_logs;
      kendiliğinden gider; yine de açıkça siliyoruz ki sayım doğrulanabilsin.
 */
 
-DELETE FROM orders       WHERE created_at < (SELECT t FROM _sinir);
-DELETE FROM consent_logs WHERE created_at < (SELECT t FROM _sinir);
-DELETE FROM addresses    WHERE created_at < (SELECT t FROM _sinir);
-DELETE FROM users        WHERE created_at < (SELECT t FROM _sinir);
+DELETE FROM orders        WHERE created_at < '2026-07-30 00:00:00+03';
+DELETE FROM consent_logs  WHERE created_at < '2026-07-30 00:00:00+03';
+DELETE FROM addresses     WHERE created_at < '2026-07-30 00:00:00+03';
+DELETE FROM users         WHERE created_at < '2026-07-30 00:00:00+03';
 
 -- Test siparişlerinden doğan yönetici bildirimleri
-DELETE FROM notifications WHERE created_at < (SELECT t FROM _sinir);
+DELETE FROM notifications WHERE created_at < '2026-07-30 00:00:00+03';
 
 -- Korumaları GERİ AÇ — bu satırlar atlanmamalı
 ALTER TABLE orders       ENABLE TRIGGER trg_prevent_delete_orders;
