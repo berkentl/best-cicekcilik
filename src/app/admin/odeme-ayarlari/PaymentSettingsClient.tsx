@@ -388,26 +388,13 @@ export function PaymentSettingsClient({ initial }: { initial: PaymentSettings })
         )}
       </div>
 
-      {/* Online Kart — bilgi */}
-      <div className="bg-white rounded-xl border border-[#ebebeb] shadow-sm overflow-hidden opacity-60">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#f0ede9] text-[#c0b8b0]">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M2 10h20" />
-              </svg>
-            </span>
-            <div>
-              <p className="text-[14px] font-semibold text-[#1d3435]">Online Kredi / Banka Kartı</p>
-              <p className="text-[11px] text-[#a09890]">Yakında — Sanal POS entegrasyonu</p>
-            </div>
-          </div>
-          <span className="text-[11px] font-semibold bg-[#f5f2ef] text-[#a09890] border border-[#e8e2dc] px-3 py-1 rounded-full">
-            Yakında
-          </span>
-        </div>
-      </div>
+      {/*
+        "Online Kredi / Banka Kartı — Yakında" kartı kaldırıldı. Sanal POS
+        entegrasyonu (PayTR) tamamlandığı için o beklenti kartının karşılığı
+        artık sayfanın en üstündeki gerçek "Kredi / Banka Kartı" bölümü.
+        İkisi birlikte durunca sayfada iki ayrı kart ödeme yöntemi varmış
+        gibi görünüyordu.
+      */}
 
       {isPending && (
         <p className="text-[12px] text-[#3d7b74] text-right flex items-center gap-1.5 justify-end">
