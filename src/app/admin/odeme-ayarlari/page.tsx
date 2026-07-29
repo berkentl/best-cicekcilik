@@ -15,11 +15,18 @@ export default async function OdemeAyarlariPage() {
 
   try {
     const sb = createServerClient();
-    const { data } = await sb
+    const { data, error } = await sb
       .from("payment_settings")
       .select("kapida_enabled, kapida_fee, havale_enabled, havale_ibans, kart_enabled")
       .eq("id", 1)
       .maybeSingle();
+
+    // Sessiz düşüş burada özellikle tehlikeli: yönetici paneli kayıtlı
+    // IBAN'ları boş gösterir, işletme sahibi silinmiş sanıp yeniden girer
+    // ve mükerrer kayıt oluşur.
+    if (error) {
+      console.error(`[odeme-ayarlari] ayarlar okunamadı: ${error.message}`);
+    }
 
     if (data) {
       settings = {

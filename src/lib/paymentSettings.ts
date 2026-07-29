@@ -22,11 +22,24 @@ export const DEFAULT_PAYMENT_SETTINGS: PaymentSettings = {
 export async function getPaymentSettings(): Promise<PaymentSettings> {
   try {
     const sb = createServerClient();
-    const { data } = await sb
+    const { data, error } = await sb
       .from("payment_settings")
       .select("kapida_enabled, kapida_fee, havale_enabled, havale_ibans, kart_enabled")
       .eq("id", 1)
       .maybeSingle();
+
+    // Hata BİLİNÇLİ olarak loglanıyor: varsayılanlara düşmek IBAN listesini
+    // boşaltıyor, yani müşteri ödeme adımında hesap bilgisi göremiyor ve
+    // havaleyle ödeme yapamıyor. Bu sessizce olursa fark edilmesi çok zor.
+    // Nitekim yeni bir kolon (kart_enabled) eklenip veri tabanı göçü
+    // çalıştırılmadan önce dağıtım yapıldığında tam olarak bu yaşandı:
+    // select tüm satırı reddetti ve IBAN'lar siteden kayboldu.
+    if (error) {
+      console.error(
+        `[paymentSettings] okunamadı, varsayılanlara düşülüyor — IBAN listesi boş görünecek: ${error.message}`
+      );
+      return DEFAULT_PAYMENT_SETTINGS;
+    }
 
     if (!data) return DEFAULT_PAYMENT_SETTINGS;
 
