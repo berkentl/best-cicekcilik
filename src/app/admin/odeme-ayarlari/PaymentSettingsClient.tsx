@@ -53,7 +53,32 @@ const labelCls =
 
 const emptyIban: Omit<IbanEntry, "id"> = { bank: "", holder: "", iban: "" };
 
-export function PaymentSettingsClient({ initial }: { initial: PaymentSettings }) {
+/**
+ * PayTR altyapısının sunucudaki gerçek durumu.
+ *
+ * Statik bir "canlı moda geçtikten sonra açın" uyarısı yerine fiilî durum
+ * gösteriliyor. Sebebi şu boşluk: PAYTR_TEST_MODE ortam değişkeni bir
+ * yeniden dağıtımda silinse veya 1'e çevrilse, kod sessizce test moduna
+ * düşüyor ve panelde bunu gösteren hiçbir şey olmuyordu. Müşteri ödeme
+ * ekranını görüp tahsilat yapılmadığını fark etmiyor, sipariş "Ödeme
+ * Bekleyen"de kalıyordu. Durumu panele yazmak bu boşluğu kapatıyor.
+ *
+ * Yalnızca boolean'lar ve mağaza numarası taşınıyor; anahtar ve salt
+ * istemciye hiçbir koşulda geçmez.
+ */
+export interface PaytrStatus {
+  configured: boolean;
+  testMode: boolean;
+  merchantId: string | null;
+}
+
+export function PaymentSettingsClient({
+  initial,
+  paytr,
+}: {
+  initial: PaymentSettings;
+  paytr: PaytrStatus;
+}) {
   const [settings, setSettings] = useState<PaymentSettings>(initial);
   const [isPending, startTransition] = useTransition();
 
@@ -161,22 +186,44 @@ export function PaymentSettingsClient({ initial }: { initial: PaymentSettings })
         </div>
 
         <div className="px-6 py-5">
-          {settings.kart_enabled ? (
+          {!settings.kart_enabled ? (
+            <p className="text-[12px] text-[#a09890] leading-relaxed">
+              Kapalı. Müşteriler ödeme adımında kart seçeneğini görmez.
+            </p>
+          ) : !paytr.configured ? (
+            <div className="flex items-start gap-2 px-4 py-3 bg-red-50 border border-red-200 rounded-lg">
+              <svg className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-[12px] text-red-800 leading-relaxed">
+                <strong>PayTR kimlik bilgileri sunucuda tanımlı değil.</strong> Kart seçeneği
+                müşteriye görünüyor ancak ödeme sayfası açılamaz. Vercel ortam
+                değişkenlerinde <code>PAYTR_MERCHANT_ID</code>, <code>PAYTR_MERCHANT_KEY</code> ve{" "}
+                <code>PAYTR_MERCHANT_SALT</code> tanımlı olmalı.
+              </p>
+            </div>
+          ) : paytr.testMode ? (
             <div className="flex items-start gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg">
               <svg className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="text-[12px] text-amber-800 leading-relaxed">
-                Bu seçenek yalnızca <strong>PayTR mağazanız canlı moda geçtikten</strong> sonra
-                açık kalmalıdır. Mağaza test modundayken müşteri ödeme ekranını görür
-                ancak gerçek tahsilat yapılmaz ve sipariş ödenmiş sayılmaz.
+                <strong>Sistem TEST modunda.</strong> Müşteri ödeme ekranını görür ancak
+                gerçek tahsilat yapılmaz ve sipariş ödenmiş sayılmaz. Kart seçeneğini
+                kapatın veya Vercel&apos;de <code>PAYTR_TEST_MODE=0</code> tanımlayıp yeniden
+                dağıtım yapın.
               </p>
             </div>
           ) : (
-            <p className="text-[12px] text-[#a09890] leading-relaxed">
-              Kapalı. Müşteriler ödeme adımında kart seçeneğini görmez. PayTR mağazanız
-              canlı moda geçtiğinde bu anahtarı açın.
-            </p>
+            <div className="flex items-start gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-[12px] text-emerald-800 leading-relaxed">
+                <strong>Canlı mod.</strong> Kart ödemeleri gerçek olarak tahsil edilir.
+                Mağaza no <strong>{paytr.merchantId}</strong>, taksit kapalı.
+              </p>
+            </div>
           )}
         </div>
       </div>

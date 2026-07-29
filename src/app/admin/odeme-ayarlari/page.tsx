@@ -1,5 +1,6 @@
 import { createServerClient } from "@/lib/supabase-server";
-import { PaymentSettingsClient } from "./PaymentSettingsClient";
+import { PaymentSettingsClient, type PaytrStatus } from "./PaymentSettingsClient";
+import { getPaytrCredentials } from "@/lib/paytr";
 import type { PaymentSettings } from "@/types";
 
 const DEFAULT_SETTINGS: PaymentSettings = {
@@ -41,5 +42,13 @@ export default async function OdemeAyarlariPage() {
     // tablo henüz oluşturulmamışsa varsayılanlarla devam et
   }
 
-  return <PaymentSettingsClient initial={settings} />;
+  /* Yalnızca durum bilgisi istemciye geçer — anahtar ve salt asla. */
+  const creds = getPaytrCredentials();
+  const paytr: PaytrStatus = {
+    configured: creds !== null,
+    testMode: creds?.testMode ?? true,
+    merchantId: creds?.merchantId ?? null,
+  };
+
+  return <PaymentSettingsClient initial={settings} paytr={paytr} />;
 }
