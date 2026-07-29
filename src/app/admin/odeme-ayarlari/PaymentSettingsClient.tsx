@@ -5,6 +5,7 @@ import type { PaymentSettings, IbanEntry } from "@/types";
 import {
   updateKapidaSettings,
   updateHavaleEnabled,
+  updateKartEnabled,
   addIban,
   deleteIban,
 } from "./actions";
@@ -82,6 +83,13 @@ export function PaymentSettingsClient({ initial }: { initial: PaymentSettings })
     });
   };
 
+  const handleKartToggle = (enabled: boolean) => {
+    setSettings((s) => ({ ...s, kart_enabled: enabled }));
+    startTransition(async () => {
+      await updateKartEnabled(enabled);
+    });
+  };
+
   const handleHavaleToggle = (enabled: boolean) => {
     setSettings((s) => ({ ...s, havale_enabled: enabled }));
     startTransition(async () => {
@@ -130,6 +138,47 @@ export function PaymentSettingsClient({ initial }: { initial: PaymentSettings })
         <p className="text-[13px] text-[#999] mt-1">
           Aktif ödeme yöntemlerini ve koşullarını yönetin. Değişiklikler anında sepet sayfasına yansır.
         </p>
+      </div>
+
+      {/* Kredi / Banka Kartı — PayTR */}
+      <div className="bg-white rounded-xl border border-[#ebebeb] shadow-sm overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#f4f0ec] bg-[#faf8f6]">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#1d3435]/8 text-[#3d7b74]">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 10h18M7 15h2m4 0h4M6 19h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </span>
+            <div>
+              <p className="text-[14px] font-semibold text-[#1d3435]">Kredi / Banka Kartı</p>
+              <p className="text-[11px] text-[#a09890]">PayTR güvenli ödeme formu — taksit kapalı</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <StatusPill active={settings.kart_enabled} />
+            <Toggle checked={settings.kart_enabled} onChange={handleKartToggle} />
+          </div>
+        </div>
+
+        <div className="px-6 py-5">
+          {settings.kart_enabled ? (
+            <div className="flex items-start gap-2 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg">
+              <svg className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-[12px] text-amber-800 leading-relaxed">
+                Bu seçenek yalnızca <strong>PayTR mağazanız canlı moda geçtikten</strong> sonra
+                açık kalmalıdır. Mağaza test modundayken müşteri ödeme ekranını görür
+                ancak gerçek tahsilat yapılmaz ve sipariş ödenmiş sayılmaz.
+              </p>
+            </div>
+          ) : (
+            <p className="text-[12px] text-[#a09890] leading-relaxed">
+              Kapalı. Müşteriler ödeme adımında kart seçeneğini görmez. PayTR mağazanız
+              canlı moda geçtiğinde bu anahtarı açın.
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Kapıda Ödeme */}

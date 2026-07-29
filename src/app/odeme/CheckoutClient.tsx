@@ -78,7 +78,15 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
     recipientPhone: "",
     cardMessage: "",
     notes: "",
-    paymentMethod: paymentSettings.kapida_enabled ? "kapida" : paymentSettings.havale_enabled ? "havale" : "online",
+    // Kart açıksa varsayılan odur: müşterinin çoğunluğu kartla ödüyor ve
+    // tahsilat anında tamamlandığı için işletmenin bekleyen siparişi olmuyor.
+    paymentMethod: paymentSettings.kart_enabled
+      ? "kart"
+      : paymentSettings.kapida_enabled
+        ? "kapida"
+        : paymentSettings.havale_enabled
+          ? "havale"
+          : "online",
     invoiceType: "bireysel" as "bireysel" | "kurumsal",
     tcKimlikNo: "",
     vergiDairesi: "",
@@ -221,7 +229,17 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
 
       setRedirecting(true);
       clearCart();
-      router.push(`/odeme/basarili?order=${orderNumber}`);
+
+      // Kartla ödemede sipariş kaydedildi ama tahsilat henüz yapılmadı;
+      // müşteri PayTR'nin güvenli ödeme formuna gider. Sipariş yalnızca
+      // PayTR'nin sunucudan gönderdiği bildirim doğrulandığında PAID'e
+      // geçer (bkz. api/payment/paytr/callback) — onay sayfasına yönlenmek
+      // ödemenin kanıtı değildir.
+      router.push(
+        form.paymentMethod === "kart"
+          ? `/odeme/kart?order=${orderNumber}`
+          : `/odeme/basarili?order=${orderNumber}`
+      );
     } catch {
       alert("Bağlantı hatası. Lütfen tekrar deneyin.");
       setLoading(false);
@@ -254,6 +272,19 @@ export function CheckoutClient({ paymentSettings, siteSettings }: Props) {
   }
 
   const availablePayments = [
+    paymentSettings.kart_enabled && {
+      value: "kart",
+      label: "Kredi / Banka Kartı",
+      sub: "Anında ödeme",
+      description:
+        "Siparişi tamamladıktan sonra PayTR'nin güvenli ödeme ekranına yönlendirilirsiniz. " +
+        "Kart bilgileriniz Dünyanın Çiçeği sunucularına iletilmez ve tarafımızca saklanmaz.",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 10h18M7 15h2m4 0h4M6 19h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+      ),
+    },
     paymentSettings.kapida_enabled && {
       value: "kapida",
       label: "Kapıda Ödeme",

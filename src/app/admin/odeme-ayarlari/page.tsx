@@ -7,6 +7,7 @@ const DEFAULT_SETTINGS: PaymentSettings = {
   kapida_fee: 0,
   havale_enabled: true,
   havale_ibans: [],
+  kart_enabled: false,
 };
 
 export default async function OdemeAyarlariPage() {
@@ -16,7 +17,7 @@ export default async function OdemeAyarlariPage() {
     const sb = createServerClient();
     const { data } = await sb
       .from("payment_settings")
-      .select("kapida_enabled, kapida_fee, havale_enabled, havale_ibans")
+      .select("kapida_enabled, kapida_fee, havale_enabled, havale_ibans, kart_enabled")
       .eq("id", 1)
       .maybeSingle();
 
@@ -26,6 +27,7 @@ export default async function OdemeAyarlariPage() {
         kapida_fee: Number(data.kapida_fee ?? 0),
         havale_enabled: data.havale_enabled ?? true,
         havale_ibans: Array.isArray(data.havale_ibans) ? data.havale_ibans : [],
+        kart_enabled: data.kart_enabled ?? false,
       };
     }
   } catch {

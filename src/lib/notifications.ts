@@ -8,7 +8,13 @@ export type NotificationType =
   /** Kesilmiş fatura iptal edilemedi — mali takip gerektiren istisna. */
   | "invoice_cancel_failed"
   /** Fatura iptal edildi fakat muhasebe müdahalesi gerekiyor (geçmiş dönem / kurumsal iade). */
-  | "invoice_cancel_needs_review";
+  | "invoice_cancel_needs_review"
+  /** Kartla ödeme tahsil edildi (PayTR bildirimi doğrulandı). */
+  | "payment_received"
+  /** PayTR'nin bildirdiği tahsilat, sipariş tutarından farklı — fatura öncesi kontrol gerekir. */
+  | "payment_amount_mismatch"
+  /** PayTR bildirim gönderdi fakat o numarada sipariş yok — karşılıksız tahsilat riski. */
+  | "payment_orphan";
 
 export async function createNotification({
   type,

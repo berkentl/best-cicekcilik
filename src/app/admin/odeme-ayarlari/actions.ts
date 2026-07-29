@@ -29,6 +29,24 @@ export async function updateKapidaSettings(enabled: boolean, fee: number) {
   revalidatePath("/odeme/basarili");
 }
 
+/**
+ * Kartla ödemeyi müşteriye açar/kapatır.
+ *
+ * PayTR mağazası canlı moda geçmeden açılmamalı: test modunda müşteri ödeme
+ * ekranını görür ama gerçek tahsilat olmaz ve sipariş ödenmiş sayılmaz.
+ */
+export async function updateKartEnabled(enabled: boolean) {
+  const sb = createServerClient();
+  const { error } = await sb
+    .from(TABLE)
+    .update({ kart_enabled: enabled, updated_at: new Date().toISOString() })
+    .eq("id", ROW_ID);
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/odeme-ayarlari");
+  revalidatePath("/odeme");
+  revalidatePath("/odeme/basarili");
+}
+
 export async function updateHavaleEnabled(enabled: boolean) {
   const sb = createServerClient();
   const { error } = await sb

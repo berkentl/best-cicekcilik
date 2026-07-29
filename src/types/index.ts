@@ -141,6 +141,12 @@ export interface PaymentSettings {
   kapida_fee: number;
   havale_enabled: boolean;
   havale_ibans: IbanEntry[];
+  /**
+   * Kredi/banka kartı ile ödeme (PayTR). PayTR mağazası canlı moda geçmeden
+   * açılmamalı — aksi hâlde müşteri test ortamına düşer ve ödemeyi
+   * tamamlayamaz. bkz. scripts/migrate-paytr.sql
+   */
+  kart_enabled: boolean;
 }
 
 export interface SiteConfig {
