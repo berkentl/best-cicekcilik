@@ -1,58 +1,12 @@
 import { NextResponse, after } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { generateOrderNumber } from "@/lib/order-utils";
-import { sendOrderConfirmationEmail } from "@/lib/email";
-import { sendPushToAdmins } from "@/lib/push";
-import { createNotification } from "@/lib/notifications";
 import { getSessionUserId } from "@/lib/auth";
 import { getClientIp } from "@/lib/consent";
-import { getPaymentSettings } from "@/lib/paymentSettings";
 import { DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
-
-interface OrderItem {
-  productId?: string;
-  name: string;
-  qty: number;
-  price: number;
-}
+import { fulfillOrder, type FulfillableOrder } from "@/lib/order-fulfillment";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-async function decreaseStock(sb: ReturnType<typeof createServerClient>, items: OrderItem[]) {
-  const itemsWithId = items.filter((i) => i.productId);
-  if (!itemsWithId.length) return;
-
-  const ids = itemsWithId.map((i) => i.productId!);
-  const { data: products } = await sb
-    .from("products")
-    .select("id, name, stock")
-    .in("id", ids);
-
-  if (!products?.length) return;
-
-  await Promise.all(
-    itemsWithId.map(async (item) => {
-      const current = products.find((p) => p.id === item.productId);
-      if (!current) return;
-      const newStock = Math.max(0, (current.stock ?? 0) - item.qty);
-
-      // Not: is_active buradan KASITLI olarak dokunulmuyor — ürün sitede
-      // "Stok Yok" rozetiyle görünmeye devam eder (kaldırılmaz), stok tekrar
-      // eklendiğinde otomatik satışa döner. is_active sadece admin'in
-      // "Satışta (Aktif)" anahtarıyla manuel kontrol ettiği ayrı bir alan.
-      await sb.from("products").update({ stock: newStock }).eq("id", item.productId!);
-
-      if (newStock === 0) {
-        await createNotification({
-          type: "out_of_stock",
-          title: "Stok Tükendi",
-          message: `"${current.name}" adlı ürünün stoğu tükendi.`,
-          data: { productId: item.productId, productName: current.name },
-        });
-      }
-    })
-  );
-}
 
 export async function POST(request: Request) {
   try {
@@ -171,61 +125,39 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Sipariş kaydedilemedi." }, { status: 500 });
     }
 
-    // Stok azaltma, bildirim, push ve e-posta — yanıtı bekletmeden arka planda
-    // çalışır. Vercel'in serverless ortamında yanıt döndükten sonra fonksiyon
-    // donabildiği için bunlar after() ile isteğin ömrüne bağlanıyor, yoksa
-    // gönderim bir sonraki isteğe kadar askıda kalıp dakikalarca gecikebiliyor.
-    after(async () => {
-      await Promise.allSettled([
-        decreaseStock(sb, items as OrderItem[]).catch((err) =>
-          console.error("[create-order] stock decrease failed:", err)
-        ),
-        createNotification({
-          type: "new_order",
-          title: "Yeni Sipariş",
-          message: `${customerName} tarafından ₺${grandTotal.toLocaleString("tr-TR")} tutarında yeni sipariş oluşturuldu.`,
-          data: { orderId: order.id, orderNumber, customerName, total: grandTotal },
-        }).catch((err) => console.error("[create-order] notification failed:", err)),
-        sendPushToAdmins({
-          title: "🌸 Yeni Sipariş!",
-          body: `${customerName} — ₺${grandTotal.toLocaleString("tr-TR")}`,
-          url: "/admin/siparisler",
-          tag: "new-order",
-        }).catch((err) => console.error("[push] send failed:", err)),
-        // Havale/EFT siparişlerinde hesap bilgileri e-postaya eklenir:
-        // müşterinin ödeme bilgisine kalıcı olarak ulaşabileceği tek yer
-        // burasıdır. Ayarlar okunamazsa e-posta yine gönderilir, yalnızca
-        // hesap bölümü çıkmaz.
-        (async () => {
-          const bankTransfer =
-            form.paymentMethod === "havale"
-              ? await getPaymentSettings()
-                  .then((s) =>
-                    s.havale_enabled && s.havale_ibans.length > 0
-                      ? { ibans: s.havale_ibans }
-                      : undefined
-                  )
-                  .catch(() => undefined)
-              : undefined;
+    /*
+      Stok düşümü, yönetici bildirimi, push ve müşteri e-postası KARTLA
+      ÖDEMEDE burada çalışmaz.
 
-          return sendOrderConfirmationEmail({
-            to: form.email,
-            customerName,
-            orderNumber,
-            items,
-            total: grandTotal,
-            address: `${form.address}, ${form.district}, ${form.city}`,
-            deliveryDate: form.deliveryDate,
-            deliveryTime: form.deliveryTime,
-            recipientName: form.recipientName,
-            cardMessage: form.cardMessage,
-            siteUrl: new URL(request.url).origin,
-            bankTransfer,
-          });
-        })().catch((err) => console.error("[email] send failed:", err)),
-        // Fatura burada KESİNLİKLE kesilmez — bkz. admin/orders/[id]/route.ts.
-      ]);
-    });
+      Kartla ödemede müşteri bu noktada henüz ödemedi: PayTR formuna
+      yönlendirilecek ve orada, 3D Secure ekranında veya banka
+      doğrulamasında vazgeçebilir. Bu aşamada stok düşülürse terk edilen
+      her sepet stoktan kalıcı olarak eksiltir — çiçekçilikte günlük stok
+      sınırlı olduğundan doğrudan satış kaybıdır. Yönetici bildirimi de
+      yanıltıcı olur: işletme ödenmemiş bir sipariş için aranjman
+      hazırlamaya başlar.
+
+      Kartla ödemede bu işler PayTR bildirimi doğrulandıktan sonra
+      çalıştırılır (bkz. api/payment/paytr/callback).
+
+      Havale/EFT ve kapıda ödemede sipariş oluşturulduğu anda gerçekleşmiş
+      sayılır: müşteri bilinçli bir taahhütte bulunmuştur ve işletme
+      siparişi görüp stoğu ayırmak ister, para sonra gelir.
+
+      after() kullanılmasının nedeni Vercel'in serverless ortamı: yanıt
+      döndükten sonra fonksiyon donabildiği için bu işler isteğin ömrüne
+      bağlanıyor, yoksa gönderim bir sonraki isteğe kadar askıda kalıyor.
+
+      Fatura hiçbir durumda burada kesilmez — bkz. admin/orders/[id]/route.ts.
+    */
+    if (form.paymentMethod !== "kart") {
+      const siteUrl = new URL(request.url).origin;
+      after(() => fulfillOrder(order as FulfillableOrder, { siteUrl }));
+    } else {
+      console.log(
+        `[create-order] ${orderNumber} kartla ödeme bekliyor — stok ve bildirimler tahsilat sonrasına bırakıldı.`
+      );
+    }
 
     return NextResponse.json({ orderNumber, id: order.id }, { status: 201 });
   } catch (err) {

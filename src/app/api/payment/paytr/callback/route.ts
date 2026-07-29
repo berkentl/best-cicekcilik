@@ -2,6 +2,7 @@ import { after } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { createNotification } from "@/lib/notifications";
 import { verifyCallbackHash, toKurus } from "@/lib/paytr";
+import { fulfillOrder, type FulfillableOrder } from "@/lib/order-fulfillment";
 
 /**
  * PayTR Bildirim (callback) ucu.
@@ -71,7 +72,9 @@ export async function POST(request: Request) {
 
   const { data: order, error: readError } = await sb
     .from("orders")
-    .select("id, order_number, total_amount, payment_status, payment_method, customer_name, email")
+    .select(
+      "id, order_number, email, customer_name, items, total_amount, address, delivery_date, delivery_time, recipient_name, card_message, payment_status, payment_method"
+    )
     .eq("order_number", merchantOid)
     .maybeSingle();
 
@@ -132,7 +135,15 @@ export async function POST(request: Request) {
   const amountMismatch =
     Number.isFinite(collectedKurus) && collectedKurus !== expectedKurus;
 
-  const { error: updateError } = await sb
+  /*
+    Güncelleme `payment_status <> 'PAID'` koşuluna bağlanıyor ve etkilenen
+    satır geri isteniyor. Bunun nedeni yarış durumu: yukarıdaki idempotans
+    kontrolü ile bu güncelleme arasında ikinci bir bildirim gelirse, iki
+    istek de siparişi PENDING okuyup ikisi de stok düşümünü çalıştırabilir.
+    Koşullu güncelleme bunu veri tabanı düzeyinde tekilleştirir — yalnızca
+    satırı fiilen PAID'e çeviren istek yan etkileri tetikler.
+  */
+  const { data: claimed, error: updateError } = await sb
     .from("orders")
     .update({
       payment_status: "PAID",
@@ -143,7 +154,9 @@ export async function POST(request: Request) {
       paytr_total_amount: Number.isFinite(collectedKurus) ? collectedKurus / 100 : null,
       paytr_failed_reason: null,
     })
-    .eq("id", order.id);
+    .eq("id", order.id)
+    .neq("payment_status", "PAID")
+    .select("id");
 
   if (updateError) {
     // Para tahsil edildi ama siparişe işlenemedi — PayTR'nin tekrar denemesi
@@ -151,44 +164,48 @@ export async function POST(request: Request) {
     return fail(`sipariş güncellenemedi: ${updateError.message}`, 500);
   }
 
+  if (!claimed || claimed.length === 0) {
+    // Eşzamanlı başka bir bildirim siparişi zaten PAID'e çekmiş; yan etkiler
+    // o istekte çalışıyor, burada tekrarlanmamalı.
+    console.warn(`[paytr-callback] ${merchantOid} eşzamanlı bildirimle zaten işlenmiş.`);
+    return ok();
+  }
+
   after(async () => {
-    await Promise.allSettled([
-      createNotification({
-        type: "payment_received",
-        title: post.test_mode === "1" ? "TEST Ödemesi Alındı" : "Ödeme Alındı",
+    /*
+      Stok düşümü, yönetici bildirimi, push ve müşteri onay e-postası
+      kartla ödemede BURADA çalışır — sipariş kaydında değil. Müşteri ödeme
+      formunda veya 3D Secure ekranında vazgeçebildiği için, tahsilat
+      doğrulanmadan stok düşmek terk edilen her sepette satış kaybı
+      doğuruyordu (bkz. lib/order-fulfillment.ts).
+    */
+    await fulfillOrder(order as FulfillableOrder, {
+      siteUrl:
+        process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://dunyanincicegi.com",
+      paymentConfirmed: true,
+      testMode: post.test_mode === "1",
+    });
+
+    // Tutar uyuşmazlığı ayrı bir bildirimle yükseltilir: ödeme gerçekten
+    // alındığı için sipariş PAID'e geçirilir (aksi hâlde parası ödenmiş
+    // sipariş ödenmemiş görünürdü), fakat faturaya yazılacak tutar ile
+    // tahsil edilen tutar farklı olduğundan muhasebe müdahalesi gerekir.
+    if (amountMismatch) {
+      await createNotification({
+        type: "payment_amount_mismatch",
+        title: "Ödeme Tutarı Sipariş Tutarıyla Uyuşmuyor",
         message:
-          `${order.customer_name} — ${order.order_number} numaralı sipariş için ` +
-          `₺${(collectedKurus / 100).toLocaleString("tr-TR")} tahsil edildi` +
-          (post.test_mode === "1" ? " (test modu — gerçek para hareketi yok)." : "."),
+          `${order.order_number}: sipariş tutarı ₺${(expectedKurus / 100).toLocaleString("tr-TR")}, ` +
+          `PayTR'den bildirilen tahsilat ₺${(collectedKurus / 100).toLocaleString("tr-TR")}. ` +
+          `Fatura kesilmeden önce kontrol edilmelidir.`,
         data: {
           orderId: order.id,
           orderNumber: order.order_number,
-          amount: collectedKurus / 100,
-          paymentType: post.payment_type ?? null,
-          testMode: post.test_mode === "1",
+          expected: expectedKurus / 100,
+          collected: collectedKurus / 100,
         },
-      }),
-      // Tutar uyuşmazlığı ayrı bir bildirimle yükseltilir: ödeme gerçekten
-      // alındığı için sipariş PAID'e geçirilir (aksi hâlde parası ödenmiş
-      // sipariş ödenmemiş görünürdü), fakat faturaya yazılacak tutar ile
-      // tahsil edilen tutar farklı olduğundan muhasebe müdahalesi gerekir.
-      amountMismatch
-        ? createNotification({
-            type: "payment_amount_mismatch",
-            title: "Ödeme Tutarı Sipariş Tutarıyla Uyuşmuyor",
-            message:
-              `${order.order_number}: sipariş tutarı ₺${(expectedKurus / 100).toLocaleString("tr-TR")}, ` +
-              `PayTR'den bildirilen tahsilat ₺${(collectedKurus / 100).toLocaleString("tr-TR")}. ` +
-              `Fatura kesilmeden önce kontrol edilmelidir.`,
-            data: {
-              orderId: order.id,
-              orderNumber: order.order_number,
-              expected: expectedKurus / 100,
-              collected: collectedKurus / 100,
-            },
-          })
-        : Promise.resolve(),
-    ]);
+      });
+    }
   });
 
   console.log(

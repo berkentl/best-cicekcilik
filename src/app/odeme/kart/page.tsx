@@ -257,22 +257,59 @@ export default async function CardPaymentPage({
               </div>
             )}
 
+            {/*
+              Güven bloğu formun ÜSTÜNDE duruyor. Müşteri kart numarasını
+              girmeden önce ödemeyi kimin aldığını görmeli; bu bilgiyi
+              sayfanın altına koymak, kararın verildiği andan sonra
+              göstermek anlamına gelir.
+            */}
+            <div className="mb-4 border border-[#e0e6e5] bg-white rounded-sm px-4 py-3.5">
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 text-[#3d7b74] shrink-0">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.7} d="M9 12.5l2 2 4-4.5m5.6-4.5A11.95 11.95 0 0112 2.94a11.95 11.95 0 01-8.6 3.04A12 12 0 003 9c0 5.59 3.82 10.29 9 11.62 5.18-1.33 9-6.03 9-11.62 0-1.04-.13-2.05-.4-3.02z" />
+                  </svg>
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-[#1d3435]">
+                    Ödemeniz <span className="whitespace-nowrap">PayTR Ödeme Hizmetleri A.Ş.</span> altyapısıyla alınır
+                  </p>
+                  <p className="text-[12.5px] text-[#5a6b6a] leading-relaxed mt-1">
+                    PayTR, Türkiye Cumhuriyet Merkez Bankası tarafından yetkilendirilmiş
+                    bir ödeme kuruluşudur. Kart bilgilerinizi doğrudan PayTR&apos;nin
+                    güvenli formuna girersiniz; bu bilgiler Dünyanın Çiçeği
+                    sunucularına hiçbir aşamada iletilmez ve tarafımızca saklanmaz.
+                  </p>
+                  <ul className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1.5">
+                    {[
+                      "3D Secure ile doğrulama",
+                      "256-bit SSL şifreleme",
+                      "Visa · Mastercard · Troy · Amex",
+                    ].map((item) => (
+                      <li key={item} className="flex items-center gap-1.5 text-[12px] text-[#5a6b6a]">
+                        <svg className="w-3.5 h-3.5 text-[#3d7b74] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white border border-[#e8e8e8] rounded-sm overflow-hidden">
               <PaytrCheckoutFrame token={tokenResult.token} />
             </div>
 
-            <p className="text-[12px] text-[#8a8a8a] leading-relaxed mt-4">
-              Ödeme formu PayTR Ödeme Kuruluşu tarafından sağlanmaktadır. Kart
-              bilgileriniz Dünyanın Çiçeği sunucularına iletilmez ve tarafımızca
-              saklanmaz.
-            </p>
-
-            <p className="text-[12px] text-[#8a8a8a] mt-3">
-              Sorun yaşarsanız{" "}
+            <p className="text-[12px] text-[#8a8a8a] mt-4">
+              Ödeme sırasında sorun yaşarsanız{" "}
               <a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="text-[#3d7b74] hover:underline">
                 {siteConfig.phone}
               </a>{" "}
-              numarasından bize ulaşabilirsiniz.
+              numarasından bize ulaşabilirsiniz. Siparişiniz{" "}
+              <span className="text-[#5a6b6a] font-medium tracking-wide">{order.order_number}</span>{" "}
+              numarasıyla kayıtlıdır.
             </p>
           </div>
         </div>
