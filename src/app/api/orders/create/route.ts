@@ -5,23 +5,24 @@ import { getSessionUserId } from "@/lib/auth";
 import { getClientIp } from "@/lib/consent";
 import { DELIVERABLE_PROVINCE } from "@/lib/turkishProvinces";
 import { fulfillOrder, type FulfillableOrder } from "@/lib/order-fulfillment";
+import { priceOrder } from "@/lib/order-pricing";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      form,
-      items,
-      total,
-      discount,
-      couponCode,
-      grandTotal,
-      kapidaFee,
-      termsAccepted,
-      termsVersions,
-    } = body;
+    /*
+      Gövdeden YALNIZCA şunlar alınır: teslimat/fatura formu, hangi ürünün
+      kaç adet istendiği, kupon kodu ve sözleşme onayı.
+
+      Tutarlar (total, discount, grandTotal, kapidaFee) BİLİNÇLİ olarak
+      okunmuyor. Önceden okunuyordu ve bu, gövdeye `grandTotal: 1` yazıp
+      ₺5.000'lik siparişi 1 TL'ye ödemeye izin veriyordu — ayrıntılı gerekçe
+      lib/order-pricing.ts başında. İstemci hangi ürünü istediğini söyler,
+      fiyatı sunucu belirler.
+    */
+    const { form, items, couponCode, termsAccepted, termsVersions } = body;
 
     if (!form || !items?.length) {
       return NextResponse.json({ error: "Geçersiz sipariş verisi." }, { status: 400 });
@@ -58,10 +59,24 @@ export async function POST(request: Request) {
       );
     }
 
+    /* Fiyatlar, indirim, kargo ve toplam sunucuda veri tabanından hesaplanır.
+       Stok yetersizliği ve kapalı ödeme yöntemi de burada yakalanır. */
+    const fiyatlama = await priceOrder({
+      items,
+      couponCode,
+      paymentMethod: form.paymentMethod,
+    });
+    if (!fiyatlama.ok) {
+      return NextResponse.json({ error: fiyatlama.error }, { status: fiyatlama.status });
+    }
+    const priced = fiyatlama.order;
+
     const sb = createServerClient();
     const orderNumber = generateOrderNumber();
     const customerName = `${form.firstName} ${form.lastName}`.trim();
-    const productName = items.map((i: { name: string; qty: number }) => `${i.name} (×${i.qty})`).join(", ");
+    // Ürün adları da veri tabanından geliyor; istemcinin gönderdiği ad
+    // faturada ve e-postada göründüğü için doğrulanmamış metin olmamalı.
+    const productName = priced.items.map((i) => `${i.name} (×${i.qty})`).join(", ");
     const userId = await getSessionUserId();
 
     // DB'ye kaydet
@@ -72,13 +87,13 @@ export async function POST(request: Request) {
       customer_name: customerName,
       customer_phone: form.phone,
       product_name: productName,
-      items: items,
-      subtotal: total,
-      discount_amount: discount ?? 0,
-      coupon_code: couponCode ?? null,
-      shipping_fee: grandTotal - (total - (discount ?? 0)) - (kapidaFee ?? 0),
-      kapida_fee: kapidaFee ?? 0,
-      total_amount: grandTotal,
+      items: priced.items,
+      subtotal: priced.subtotal,
+      discount_amount: priced.discount,
+      coupon_code: priced.couponCode,
+      shipping_fee: priced.shippingFee,
+      kapida_fee: priced.kapidaFee,
+      total_amount: priced.grandTotal,
       address: `${form.address}, ${form.district}, ${form.city}`,
       city: form.city,
       district: form.district,

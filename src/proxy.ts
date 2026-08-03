@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-session";
 
 const PUBLIC_ADMIN_ROUTES = [
   "/api/admin/login",
@@ -12,6 +13,11 @@ const ADMIN_API_PATTERNS = [
   /^\/api\/upload$/,
   /^\/api\/coupons/,
   /^\/api\/orders\/recent$/,
+  // Push abonelikleri yalnızca yönetici cihazlarına ait; sendPushToAdmins
+  // bu tablodaki tüm kayıtlara müşteri adı ve tutar içeren bildirim
+  // gönderiyor. Uç ayrıca kendi içinde de requireAdmin() çağırıyor —
+  // burada olması ikinci katman.
+  /^\/api\/push\//,
 ];
 
 const METHOD_PROTECTED: Array<{ path: string; methods: string[] }> = [
@@ -20,7 +26,7 @@ const METHOD_PROTECTED: Array<{ path: string; methods: string[] }> = [
   { path: "/api/cross-sell", methods: ["PUT", "PATCH", "DELETE"] },
 ];
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
 
@@ -33,10 +39,13 @@ export function proxy(request: NextRequest) {
 
   if (!isAdminApi && !isMethodProtected) return NextResponse.next();
 
-  const session = request.cookies.get("admin_session")?.value;
-  const password = process.env.ADMIN_PASSWORD;
-
-  if (!password || session !== password) {
+  /*
+    Çerez artık ADMIN_PASSWORD'ün kendisi değil, SESSION_SECRET ile
+    imzalanmış süreli bir jeton. Karşılaştırma yerine imza doğrulaması
+    yapılıyor — bkz. lib/admin-session.ts.
+  */
+  const ok = await verifyAdminToken(request.cookies.get(ADMIN_COOKIE)?.value);
+  if (!ok) {
     return NextResponse.json({ error: "Yetkisiz erişim" }, { status: 401 });
   }
 
@@ -49,6 +58,7 @@ export const config = {
     "/api/upload",
     "/api/coupons/:path*",
     "/api/orders/recent",
+    "/api/push/:path*",
     "/api/site-settings",
     "/api/products",
     "/api/cross-sell",

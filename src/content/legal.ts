@@ -1750,7 +1750,7 @@ Bu çerezler Site'nin çalışması için teknik olarak gereklidir. Devre dış�
 | Ad | Tür | Amaç | Süre |
 |---|---|---|---|
 | \`customer_session\` | Birinci taraf, kalıcı, \`httpOnly\` | Üyelik oturumunun sürdürülmesi. \`httpOnly\` işaretli olduğundan JavaScript ile okunamaz; üretim ortamında yalnızca HTTPS üzerinden iletilir | 30 gün |
-| \`admin_session\` | Birinci taraf, kalıcı, \`httpOnly\` | Yönetim paneli oturumu *(yalnızca Şirket personeli)* | 30 gün |
+| \`admin_session\` | Birinci taraf, oturum, \`httpOnly\` | Yönetim paneli oturumu *(yalnızca Şirket personeli)* | 12 saat |
 
 *Hukuki sebep: KVKK m.5/2-c (sözleşmenin ifası) ve m.5/2-f (meşru menfaat). 5809 sayılı Elektronik Haberleşme Kanunu m.51 uyarınca hizmetin sunulması için zorunlu çerezler bakımından açık rıza aranmaz.*
 
