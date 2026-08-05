@@ -145,6 +145,34 @@ gerekir:
 git remote set-url origin https://github.com/<yeni-hesap>/best-cicekcilik.git
 ```
 
+### Devirden sonra: depoyu private yapın
+
+Depo `Public` ise **private'a çevirin**: *Settings → General → Danger Zone →
+Change repository visibility → Private*.
+
+Depoda sır yok (`.env*` .gitignore'da ve git geçmişinde hiç sır commit
+edilmemiştir — doğrulandı). Ancak içerik bir saldırgan için keşif değeri
+taşır: yönetici kimlik doğrulamasının tam mekaniği, çerez adı, hız sınırı
+eşikleri, tüm API uç noktaları, RLS modeli ve yanlış yapılandırılırsa ne
+olacağı, ayrıca bu belgedeki altyapı bilgileri.
+
+Public olmasının bu proje için faydası yoktur: katkı alan bir açık kaynak
+projesi değil, CI kullanılmıyor ve GitHub ücretsiz planda sınırsız private
+depo veriyor. MIT lisansı türev çalışmanın kapatılmasına engel değildir.
+Vercel private depolara sorunsuz bağlanır.
+
+### Devrin sonunda: geliştiriciyi ortaklıktan çıkarın
+
+GitHub, depoyu devreden kullanıcıyı **otomatik olarak ortak (collaborator)
+olarak bırakır** — yani geliştirici devirden sonra da push yetkisine sahip
+olur. Devir sürecinde bu faydalıdır (bir düzeltme gerekirse gönderilebilir),
+fakat süreç bittiğinde kaldırılmalıdır:
+
+*Settings → Collaborators* → geliştiriciyi çıkarın.
+
+Bu, sırların döndürülmesiyle aynı mantıktır: erişim, işi bittiğinde
+sürmemeli.
+
 > `upstream` uzak adresi (`JCodesMore/ai-website-cloner-template`) şablon
 > deposudur, **oraya asla push edilmemelidir**. Devirle ilgisi yoktur.
 
