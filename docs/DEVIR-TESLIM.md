@@ -284,13 +284,51 @@ aşağıdakileri değiştirmelidir. Bu, taraflar arasında bir güven sorunu de�
 |---|---|---|
 | `ADMIN_PASSWORD` | Vercel'de değeri değiştir + redeploy | Yönetici yeniden giriş yapar |
 | `SESSION_SECRET` | Yeni rastgele değer üret, Vercel'de güncelle + redeploy | Tüm müşteri ve yönetici oturumları düşer, yeniden giriş gerekir |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API → anahtarı yenile, sonra Vercel'de güncelle | Yenilemeden önce Vercel'i güncellemezseniz **site veri tabanına erişemez** — ikisini birlikte yapın |
+| Supabase anahtarları | Yeni anahtar sistemine geçin — aşağıdaki bölüme bakın | Doğru sırayla yapılırsa **kesinti olmaz** |
 | PayTR panel şifresi | PayTR panelinden | — |
 | Kolaysoft şifresi | Kolaysoft panelinden, sonra Vercel'de `KOLAYSOFT_PASSWORD` | — |
 | NetGSM API şifresi | NetGSM → API İşlemleri → Yeni Şifre, sonra Vercel | — |
 
-`SESSION_SECRET` ve service role key'i **aynı bakım penceresinde** yapın,
-sonra bir dağıtım alın.
+### Supabase anahtarlarının devredilmesi (kesintisiz)
+
+Supabase iki nesil anahtar sunuyor:
+
+- **Legacy (JWT):** `anon public` ve `service_role` — projede şu an **bunlar
+  kullanılıyor** (`NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`)
+- **Yeni:** `sb_publishable_…` ve `sb_secret_…` — tek tek oluşturulup tek tek
+  iptal edilebiliyor
+
+Legacy anahtarlar **ikisi birlikte** yenilenir; JWT secret'ı döndürmek anon ve
+service_role'ü aynı anda geçersiz kılar, bu da kaçınılmaz bir kesinti penceresi
+yaratır. Yeni anahtarlara geçmek bu sorunu ortadan kaldırır.
+
+**Sıra önemlidir — legacy'yi EN SON kapatın, böylece her adım geri
+alınabilir kalır:**
+
+1. *Project Settings → API Keys → Publishable and secret API keys*
+   sekmesinde **`+ New secret key`** ile yeni bir gizli anahtar oluşturun.
+   Publishable anahtar (`default`) hâlihazırda var.
+2. Vercel'de iki değişkeni güncelleyin:
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` → `sb_publishable_…`
+   - `SUPABASE_SERVICE_ROLE_KEY` → yeni `sb_secret_…`
+3. **Redeploy** alın.
+4. **Doğrulayın** — bu adımı atlamayın:
+   - Ürün sayfaları açılıyor mu *(anon/publishable anahtar çalışıyor)*
+   - `/admin` sipariş listesi yükleniyor mu *(secret anahtar çalışıyor)*
+   - **Google ile giriş çalışıyor mu** — tarayıcı istemcisi yalnızca
+     `supabase.auth.*` için kullanılıyor ve publishable anahtarla test
+     edilmemiştir; bozulursa 5. adıma geçmeden legacy anon anahtarını geri
+     yazıp tekrar deneyin
+5. Her şey çalışıyorsa *Legacy anon, service_role API keys* sekmesinde
+   **"Disable JWT-based API keys"** düğmesine basın.
+
+5. adım, geliştiricinin elindeki eski `service_role` JWT'sini **geçersiz
+   kılar** — devir bu noktada fiilen tamamlanmış olur. Bu adım atılmadıkça
+   eski anahtarı bilen herkes veri tabanını okumaya devam eder; panel
+   üyeliğinden çıkmak bunu engellemez.
+
+`ADMIN_PASSWORD` ve `SESSION_SECRET`'i de aynı bakım penceresinde değiştirip
+tek bir dağıtım alın.
 
 ---
 
