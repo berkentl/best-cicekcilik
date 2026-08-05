@@ -3,6 +3,8 @@ import { createServerClient } from "@/lib/supabase-server";
 export type NotificationType =
   | "new_order"
   | "out_of_stock"
+  /** Stok kritik eşiğin ALTINA yeni düştü — tükenmeden önce uyarı. */
+  | "low_stock"
   | "order_approved"
   | "order_rejected"
   /** Kesilmiş fatura iptal edilemedi — mali takip gerektiren istisna. */

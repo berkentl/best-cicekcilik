@@ -1,12 +1,22 @@
 import webPush from "web-push";
 import { createServerClient } from "@/lib/supabase-server";
+import { siteConfig } from "@/lib/data";
 
 const VAPID_PUBLIC = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? "";
 const VAPID_PRIVATE = process.env.VAPID_PRIVATE_KEY ?? "";
 
+/**
+ * VAPID iletişim adresi. Apple ve Google, push gönderiminde bir sorun
+ * (kötüye kullanım şüphesi, kota aşımı, aboneliklerin toplu geçersizleşmesi)
+ * tespit ettiklerinde bu adrese yazar — yani işletmenin ulaşabileceği bir
+ * adres olmalı. Buraya geliştiricinin kişisel adresi yazılırsa işletme,
+ * bildirimlerinin neden kesildiğini haber veren tek uyarıyı hiç görmez.
+ */
+const VAPID_CONTACT = process.env.VAPID_CONTACT_EMAIL ?? siteConfig.email;
+
 if (VAPID_PUBLIC && VAPID_PRIVATE) {
   webPush.setVapidDetails(
-    "mailto:berketimr2@gmail.com",
+    `mailto:${VAPID_CONTACT}`,
     VAPID_PUBLIC,
     VAPID_PRIVATE
   );

@@ -8,6 +8,7 @@ import {
   PieChart, Pie, Cell,
 } from "recharts";
 import type { Product } from "@/types";
+import { LOW_STOCK_THRESHOLD } from "@/lib/stock";
 import { fetchDashboardData, type DashboardStats, type DashboardOrder } from "./dashboard-actions";
 
 // ─── Tipler ──────────────────────────────────────────────────────────────────
@@ -198,7 +199,9 @@ export default function AdminDashboard() {
     startTransition(() => { loadData(p); });
   };
 
-  const lowStock = products.filter((p) => (p.stock ?? 0) < 5);
+  // Eşik src/lib/stock.ts'ten geliyor; stok bildirimi de aynı değeri kullanıyor.
+  // Karttaki sayı ile bildirimin tetiklenme noktası birbirinden kayamaz.
+  const lowStock = products.filter((p) => (p.stock ?? 0) < LOW_STOCK_THRESHOLD);
 
   const PRESETS: { key: Preset; label: string }[] = [
     { key: "thisWeek", label: "Bu Hafta" },

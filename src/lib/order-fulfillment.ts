@@ -3,6 +3,7 @@ import { createNotification } from "@/lib/notifications";
 import { sendPushToAdmins } from "@/lib/push";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 import { getPaymentSettings } from "@/lib/paymentSettings";
+import { LOW_STOCK_THRESHOLD } from "@/lib/stock";
 
 /**
  * Siparişin "gerçekleşmiş" sayıldığı anda çalışan yan etkiler:
@@ -50,6 +51,18 @@ export interface FulfillableOrder {
  * görünmeye devam eder ve stok tekrar eklendiğinde otomatik satışa döner.
  * is_active yalnızca yöneticinin "Satışta" anahtarıyla kontrol ettiği ayrı
  * bir alandır.
+ *
+ * İki stok uyarısı üretir ve ikisi de hem panel bildirimi hem push olarak
+ * gider — çiçekçilikte stok fark edilmeden tükenirse sipariş alınıp teslim
+ * edilemez, yani uyarının yöneticinin telefonuna ulaşması gerekir:
+ *
+ *  - **Stok azaldı**: stok kritik eşiğin ALTINA yeni düştüğü anda, bir kez.
+ *  - **Stok tükendi**: stok 0'a indiğinde.
+ *
+ * Uyarı yalnızca EŞİK GEÇİŞİNDE üretiliyor (önce eşiğin üstündeydi, şimdi
+ * altında). Her siparişte üretilseydi stoğu zaten 3 olan bir ürün her satışta
+ * yeniden uyarı gönderir, bildirimler değersizleşir ve yönetici hepsini
+ * görmezden gelmeye başlardı.
  */
 export async function decreaseStock(
   items: FulfillableOrder["items"]
@@ -70,16 +83,45 @@ export async function decreaseStock(
       const current = products.find((p) => p.id === item.productId);
       if (!current) return;
 
-      const newStock = Math.max(0, (current.stock ?? 0) - item.qty);
+      const previousStock = current.stock ?? 0;
+      const newStock = Math.max(0, previousStock - item.qty);
       await sb.from("products").update({ stock: newStock }).eq("id", item.productId!);
 
+      // Bildirim gönderimi stok düşümünü ASLA engellememeli: allSettled ile
+      // yürütülüyor, böylece push sağlayıcısındaki bir arıza stok kaydını
+      // bozmuyor. Stok doğruluğu bildirimden önce gelir.
+      // tag: ürün başına — iki ayrı ürün aynı anda azalırsa iki bildirim
+      // görünür, aynı ürün için gelen yeni uyarı eskisinin yerini alır.
       if (newStock === 0) {
-        await createNotification({
-          type: "out_of_stock",
-          title: "Stok Tükendi",
-          message: `"${current.name}" adlı ürünün stoğu tükendi.`,
-          data: { productId: item.productId, productName: current.name },
-        });
+        await Promise.allSettled([
+          createNotification({
+            type: "out_of_stock",
+            title: "Stok Tükendi",
+            message: `"${current.name}" adlı ürünün stoğu tükendi.`,
+            data: { productId: item.productId, productName: current.name },
+          }),
+          sendPushToAdmins({
+            title: "🚫 Stok Tükendi",
+            body: `${current.name} — sitede "Stok Yok" olarak görünüyor`,
+            url: "/admin/urunler",
+            tag: `stock-${item.productId}`,
+          }),
+        ]);
+      } else if (previousStock >= LOW_STOCK_THRESHOLD && newStock < LOW_STOCK_THRESHOLD) {
+        await Promise.allSettled([
+          createNotification({
+            type: "low_stock",
+            title: "Stok Azaldı",
+            message: `"${current.name}" adlı üründen ${newStock} adet kaldı.`,
+            data: { productId: item.productId, productName: current.name, stock: newStock },
+          }),
+          sendPushToAdmins({
+            title: "⚠️ Stok Azaldı",
+            body: `${current.name} — ${newStock} adet kaldı`,
+            url: "/admin/urunler",
+            tag: `stock-${item.productId}`,
+          }),
+        ]);
       }
     })
   );

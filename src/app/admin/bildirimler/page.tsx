@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface Notification {
   id: string;
-  type: "new_order" | "out_of_stock" | "order_approved" | "order_rejected";
+  type: "new_order" | "low_stock" | "out_of_stock" | "order_approved" | "order_rejected";
   title: string;
   message: string;
   data: Record<string, unknown>;
@@ -52,6 +52,19 @@ function NotifIcon({ type }: { type: string }) {
       </div>
     );
   }
+  // "Stok azaldı" ile "stok tükendi" bilinçli olarak farklı görünüyor: ilki
+  // sipariş vermek için zaman olduğunu, ikincisi satışın zaten durduğunu
+  // söylüyor. Aynı ikonla gösterilseler listede birbirine karışırlardı.
+  if (type === "low_stock") {
+    return (
+      <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+        <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.511l-5.511-3.181" />
+        </svg>
+      </div>
+    );
+  }
+  // Kalan tür: out_of_stock — turuncu uyarı üçgeni.
   return (
     <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
       <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,7 +77,7 @@ function NotifIcon({ type }: { type: string }) {
 export default function BildirimlerPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "unread" | "new_order" | "out_of_stock" | "order_approved" | "order_rejected">("all");
+  const [filter, setFilter] = useState<"all" | "unread" | "new_order" | "low_stock" | "out_of_stock" | "order_approved" | "order_rejected">("all");
 
   const fetchNotifications = useCallback(async () => {
     const res = await fetch("/api/admin/notifications");
@@ -143,6 +156,7 @@ export default function BildirimlerPage() {
           { key: "new_order", label: "Siparişler" },
           { key: "order_approved", label: "Onaylar" },
           { key: "order_rejected", label: "Revize Talepleri" },
+          { key: "low_stock", label: "Stok Azaldı" },
           { key: "out_of_stock", label: "Stok Tükendi" },
         ] as const).map(({ key, label }) => (
           <button key={key} onClick={() => setFilter(key)}
@@ -211,10 +225,12 @@ export default function BildirimlerPage() {
                     Siparişlere Git →
                   </Link>
                 )}
-                {notif.type === "out_of_stock" && (
+                {(notif.type === "out_of_stock" || notif.type === "low_stock") && (
                   <Link href="/admin/urunler"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-block mt-1.5 text-[11px] text-orange-500 font-semibold hover:underline">
+                    className={`inline-block mt-1.5 text-[11px] font-semibold hover:underline ${
+                      notif.type === "low_stock" ? "text-amber-600" : "text-orange-500"
+                    }`}>
                     Ürünlere Git →
                   </Link>
                 )}
