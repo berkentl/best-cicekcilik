@@ -112,7 +112,23 @@ git remote set-url origin https://github.com/<yeni-hesap>/best-cicekcilik.git
 
 ---
 
-## 3. Vercel — projeyi devret
+## 3. Vercel — projeyi ve alan adını devret
+
+> **Önce ortam değişkeni değerlerini bir kenara yazın.** Vercel, "Sensitive"
+> işaretli değişkenlerin değerini bir daha göstermez. Devirden sonra eksik
+> çıkarsa geliştiricinin `.env.local` dosyası dışında kaynak kalmaz.
+
+`dunyanincicegi.com` **Vercel üzerinden** satın alındığı için ayrı bir
+registrar paneli yok. Alan adı, projeden bağımsız olarak Vercel hesabına
+bağlıdır ve ayrıca taşınması gerekir.
+
+Vercel'de alan adları hesap/ekip kapsamındadır: A hesabındaki bir alan adı,
+B hesabındaki bir projeye atanamaz. Bu yüzden proje ile alan adının **aynı
+bakım penceresinde** taşınması gerekir. Devir sırasında özel alan adı kısa
+süre boşta kalabilir; site bu sürede `*.vercel.app` adresinden erişilebilir
+olmaya devam eder.
+
+**Yoğun olmayan bir saatte yapın.**
 
 **Project Settings → Advanced → Transfer Project**
 
@@ -125,8 +141,23 @@ sunmuyorsa (plan kısıtlaması olabilir) alternatif yol:
 4. Alan adını eski projeden **kaldır**, yeni projeye **ekle**
 5. Eski projeyi sil
 
-Alan adı taşınırken kısa bir kesinti olabilir; **yoğun olmayan bir saatte**
-yapın.
+### Alan adının taşınması
+
+Geliştirici hesabında: **Vercel → (hesap seviyesi) Domains →
+`dunyanincicegi.com` → Transfer / Move** → hedef işletmenin hesabı.
+
+Vercel içi hesap taşıması bir registrar transferi değildir; ICANN'in 60 günlük
+kilidi ve yetkilendirme kodu (auth code) süreci **uygulanmaz**, dakikalar
+içinde tamamlanır.
+
+Vercel bu seçeneği sunmuyorsa alternatif, alan adını normal bir registrar'a
+dışa transfer etmektir — ancak bu 5–7 gün sürer, tescil tarihinden itibaren
+60 gün geçmiş olmasını gerektirir ve bu süre boyunca DNS'i elle yönetmeniz
+gerekir. **Öncelikle Vercel içi taşımayı deneyin.**
+
+Taşıma sonrası işletmenin hesabında: **Project → Settings → Domains →
+Add** ile `dunyanincicegi.com` ve `www.dunyanincicegi.com` projeye eklenir,
+SSL sertifikasının verilmesi beklenir.
 
 ### Devirden sonra mutlaka
 
@@ -158,12 +189,14 @@ Bunlar zaten işletme adına açıldı; devredilecek bir şey yok ama
 | **PayTR** | Mağaza No 730636, unvan işletmede | Panel şifresini değiştirin — kurulumda gelen geçici şifre e-postada duruyor |
 | **Kolaysoft** (e-Arşiv) | Hesap işletmeye ait | Şifreyi işletme değiştirsin |
 | **NetGSM** | Abone 8503037584 | API alt kullanıcısının şifresi ortam değişkeninde; işletme bilsin |
-| **Resend** (e-posta) | ⚠️ **Kim adına açıldığını teyit edin** | Geliştirici hesabındaysa işletmeye devredilmeli. `siparis@dunyanincicegi.com` gönderimi bu hesaba bağlı; hesap kapanırsa **sipariş onay e-postaları durur** |
+| **Resend** (e-posta) | İşletme adına açık ✔ | Erişimin işletmede olduğunu teyit edin |
 | **Google Search Console** | Doğrulanmış | İşletme e-postasını **Owner** olarak ekleyin |
-| **Alan adı (registrar)** | ⚠️ **Kim adına alındığını teyit edin** | Geliştirici adınaysa işletmeye devredilmeli — en kritik varlık |
+| **Alan adı** | ⚠️ Geliştiricinin **Vercel** hesabından satın alınmış | Vercel içi hesap taşıması gerekir — bkz. bölüm 3 |
 
-**Resend ve alan adı en çok atlanan iki kalemdir.** Alan adı geliştiricinin
-hesabında kalırsa site, e-posta ve marka tek bir kişiye bağımlı kalır.
+**Alan adı en kritik varlıktır.** `dunyanincicegi.com` Vercel üzerinden
+alındığı için ayrı bir registrar paneli yok; devri Vercel içinden yapılır.
+Geliştiricinin hesabında kalırsa site, e-posta ve marka tek bir kişiye
+bağımlı kalır.
 
 ---
 
