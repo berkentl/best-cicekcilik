@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { createServerClient } from "@/lib/supabase-server";
 import { requireAdmin } from "@/lib/admin-auth";
+import { sweepExpiredApprovals } from "@/lib/approval";
 
 /**
  * Yönetici panelinin "yeni sipariş" akışı.
@@ -28,6 +29,21 @@ import { requireAdmin } from "@/lib/admin-auth";
 export async function GET() {
   const authError = await requireAdmin();
   if (authError) return authError;
+
+  /*
+    Görsel onay süresi burada uygulanıyor.
+
+    Bu uç panel açıkken 15 saniyede bir çağrıldığı için, süresi dolmuş bir
+    onay talebi en fazla 15 saniye içinde otomatik onaylanır ve bildirimi
+    düşer. Süpürücü yanıtı BEKLETMEDEN after() içinde çalışıyor: panelin
+    sipariş listesi, onay işlemlerinin süresine bağlı kalmamalı.
+
+    Süre linkin oluşturulduğu anda başlar; müşterinin SMS'i açması gerekmez.
+    Ayrıntı: src/lib/approval.ts
+  */
+  after(async () => {
+    await sweepExpiredApprovals();
+  });
 
   const sb = createServerClient();
   const { data, error } = await sb

@@ -3,8 +3,7 @@ import { randomUUID } from "crypto";
 import { createServerClient } from "@/lib/supabase-server";
 import { requireAdmin } from "@/lib/admin-auth";
 import { sendSMS } from "@/lib/netgsm";
-
-const APPROVAL_WINDOW_MINUTES = 15;
+import { APPROVAL_WINDOW_MINUTES } from "@/lib/approval";
 
 export async function POST(
   request: Request,
@@ -61,9 +60,11 @@ export async function POST(
   let smsSent = false;
   let smsError: string | undefined;
   if (order.customer_phone) {
+    // Süre metni sabit yazılmıyor: pencere değeriyle aynı kaynaktan geliyor,
+    // aksi hâlde pencere değişince müşteriye yanlış süre bildirilebilirdi.
     const message =
       `Dünyanın Çiçeği siparişiniz yola çıkmaya hazırdır. Çiçeğinizi görmek ve onaylamak için ` +
-      `15 dakikanız bulunmaktadır: ${origin}/onay/${approvalToken}`;
+      `${APPROVAL_WINDOW_MINUTES} dakikanız bulunmaktadır: ${origin}/onay/${approvalToken}`;
     const result = await sendSMS(order.customer_phone, message);
     smsSent = result.success;
     smsError = result.error;
