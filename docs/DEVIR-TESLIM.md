@@ -49,18 +49,56 @@ kurmak gerekir ve birini atlamak sessiz bir güvenlik açığı bırakır:
 
 Sahiplik devrinde bunların hiçbirine dokunulmaz.
 
+### ⚠️ Önce: organizasyonda başka proje var mı?
+
+**Supabase'de üyelik organizasyon seviyesindedir, proje seviyesinde değil.**
+Proje ayarlarında bunu açıkça yazar: *"Organization-wide access — All N
+organization members can access this project."*
+
+Yani bir organizasyona üye eklediğinizde o kişi **o organizasyondaki tüm
+projelere** erişir. Geliştiricinin organizasyonunda başka müşteri veya kendi
+projeleri varsa, işletmeyi doğrudan Owner yapmak onlara da erişim verir.
+
+Bu projede fiilen yaşandı: `berkentl's Org` içinde `Dunyanincicegi.com` ile
+birlikte geliştiricinin kendi `Vice Yazılım` projesi de bulunuyordu.
+
+**Çözüm: iki projeyi ayrı organizasyonlara bölün.** Hangi projenin
+taşınacağını seçerken **canlı projeyi değil, diğerini taşıyın** — duraklatılmış
+veya müşterisi olmayan bir projede taşıma sırasında sorun çıksa kimse
+etkilenmez, oysa sipariş alan bir sistemin veri tabanını oynatmak gereksiz
+risktir.
+
 ### Adımlar
 
-1. Geliştirici hesabından: **Organization Settings → Team → Invite member**
+1. **Organizasyonda tek proje kalana kadar diğerlerini taşıyın.**
+   Geliştirici kendi hesabında yeni bir organizasyon açar, kendi projelerini
+   *Project Settings → General → Transfer project* ile oraya taşır.
+   Geriye yalnızca müşterinin projesi kalır.
+2. Geliştirici hesabından: **Organization Settings → Team → Invite member**
    → işletmenin e-postası, rol **Owner**
-2. İşletme daveti kabul eder
-3. Organizasyon adını şirket adıyla güncelleyin
+3. İşletme daveti kabul eder
+4. Organizasyon adını şirket adıyla güncelleyin
    (*Settings → General → Organization name*)
-4. Ücretli plan varsa **faturalandırmayı işletmenin kartına geçirin**
+5. Ücretli plan varsa **faturalandırmayı işletmenin kartına geçirin**
    (*Settings → Billing*). Bu adım atlanırsa ödeme geliştiricinin kartından
    çekilmeye devam eder.
-5. Devir tamamlandığını teyit ettikten sonra geliştirici kendini
+6. Devir tamamlandığını teyit ettikten sonra geliştirici kendini
    organizasyondan çıkarır
+
+**Alternatif:** projeyi işletmenin kendi açtığı organizasyona taşımak da
+mümkündür (işletme yeni organizasyon açar, geliştiriciyi geçici olarak Owner
+davet eder, geliştirici *Transfer project* ile taşır, sonra ayrılır). Bu yol
+canlı projeye dokunduğu için ikinci tercihtir.
+
+### Taşıma sonrası
+
+Proje kimliği (`Project ID`) taşımada **değişmemelidir** — bu kimlik
+`NEXT_PUBLIC_SUPABASE_URL` içindeki alt alan adının aynısıdır, dolayısıyla
+URL ve API anahtarları sabit kalır ve hiçbir ortam değişkeni güncellenmez.
+
+Yine de *Project Settings → API* sayfasını açıp URL ile anon key'in aynı
+olduğunu **teyit edin**. Değişmişse Vercel'deki üç Supabase değişkeni
+güncellenmeli ve site kontrol edilmeden bırakılmamalıdır.
 
 ### Doğrulama
 
