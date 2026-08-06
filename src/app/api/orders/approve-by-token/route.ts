@@ -29,12 +29,26 @@ export async function POST(request: Request) {
 
   const { data: order, error: fetchError } = await sb
     .from("orders")
-    .select("id, order_number, customer_name, approval_status")
+    .select("id, order_number, customer_name, approval_status, status")
     .eq("approval_token", token)
     .maybeSingle();
 
   if (fetchError || !order) {
     return NextResponse.json({ error: "Sipariş bulunamadı." }, { status: 404 });
+  }
+
+  // İptal/iade edilmiş siparişte onay ya da revize kabul edilmez. Bu kontrol
+  // hem müşterinin linke tıklamasını hem süre dolunca çalışan otomatik onayı
+  // kapsıyor — ikisi de bu uca geliyor. Aksi hâlde iptal edilmiş bir sipariş
+  // onaylanmış görünür ve işletme hazırlığa başlayabilirdi.
+  if (order.status === "İptal" || order.status === "İade") {
+    return NextResponse.json(
+      {
+        error:
+          "Bu sipariş iptal edilmiş. Sorularınız için bizimle iletişime geçebilirsiniz.",
+      },
+      { status: 409 }
+    );
   }
 
   // Zaten sonuçlanmışsa (çift tıklama / sayfa yenileme) tekrar işlemeden mevcut durumu döndür

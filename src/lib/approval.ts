@@ -42,6 +42,10 @@ export async function sweepExpiredApprovals(): Promise<number> {
       .eq("approval_status", "PENDING")
       .not("approval_image_url", "is", null)
       .lt("approval_expires_at", new Date().toISOString())
+      // İptal ve iade edilmiş siparişler DIŞARIDA: onları otomatik onaylamak
+      // hem anlamsız hem yanıltıcı olurdu — işletme, iptal ettiği bir sipariş
+      // için "otomatik onaylandı" bildirimi alır ve hazırlığa başlayabilirdi.
+      .not("status", "in", '("İptal","İade")')
       .limit(50);
 
     if (error) {
