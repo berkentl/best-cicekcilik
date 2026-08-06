@@ -196,34 +196,80 @@ olmaya devam eder.
 
 **Yoğun olmayan bir saatte yapın.**
 
-**Project Settings → Advanced → Transfer Project**
+> **Bu devir 5 Ağustos 2026'da tamamlandı.** Aşağıdaki adımlar, yeniden bir
+> devir gerekirse tekrar kullanılmak üzere, *fiilen işleyen* yolu anlatıyor.
+> Vercel arayüzünün önerdiği yol iki noktada tıkandı; ikisi de aşağıda.
 
-Hedef hesabın devri kabul etmesi gerekir. Vercel arayüzü bu seçeneği
-sunmuyorsa (plan kısıtlaması olabilir) alternatif yol:
+### Projenin devri — "Transfer Project" ÇALIŞMAZ (kişisel hesaplar arasında)
 
-1. İşletmenin hesabında yeni proje oluştur, devredilmiş GitHub deposuna bağla
-2. **Tüm ortam değişkenlerini** gir (bölüm 5)
-3. Dağıtımın başarılı olduğunu doğrula
-4. Alan adını eski projeden **kaldır**, yeni projeye **ekle**
-5. Eski projeyi sil
+*Settings → General → en alt → Transfer* seçeneği var, ama hedef olarak
+**yalnızca bir ekip (Team)** kabul ediyor; ekip de Pro plan gerektiriyor.
+Kişisel (Hobby) hesaptan kişisel hesaba proje devri **mümkün değil.**
 
-### Alan adının taşınması
+İşleyen yol — ayrıca daha güvenli, çünkü alan adına dokunmadan önce yeni
+dağıtımın çalıştığını kanıtlıyor:
 
-Geliştirici hesabında: **Vercel → (hesap seviyesi) Domains →
-`dunyanincicegi.com` → Transfer / Move** → hedef işletmenin hesabı.
+1. İşletmenin hesabında **Add New → Project → Import Git Repository**,
+   devredilmiş depoyu seç
+2. Build ayarlarının üçünü de **kapalı** bırak (`next build` zaten Vercel
+   varsayılanı); Application Preset `Next.js`, Root Directory `./`
+3. **Import .env** ile tüm değişkenleri gir (bölüm 5), Production + Preview
+4. Deploy → **`*.vercel.app` adresinde doğrula**: ürün listesi, bir ürün
+   sayfası, `/admin` girişi, `/admin/odeme-ayarlari` yeşil mi
+   *Bu adreste kartla ödeme ve Google girişi denenmez* — ikisi de
+   `NEXT_PUBLIC_SITE_URL` üzerinden gerçek alan adına döner
+5. Alan adını taşı (aşağıda), yeni projeye bağla
+6. Eski projeyi sil
 
-Vercel içi hesap taşıması bir registrar transferi değildir; ICANN'in 60 günlük
-kilidi ve yetkilendirme kodu (auth code) süreci **uygulanmaz**, dakikalar
-içinde tamamlanır.
+### Alan adının taşınması — panel DEĞİL, CLI
 
-Vercel bu seçeneği sunmuyorsa alternatif, alan adını normal bir registrar'a
-dışa transfer etmektir — ancak bu 5–7 gün sürer, tescil tarihinden itibaren
-60 gün geçmiş olmasını gerektirir ve bu süre boyunca DNS'i elle yönetmeniz
-gerekir. **Öncelikle Vercel içi taşımayı deneyin.**
+Panelde *Domains → alan adı → ⋯* menüsündeki **"Transfer Out"** yanlış
+düğmedir: o, alan adını Vercel'den *başka bir registrar'a* çıkarır, kartı
+bir yıllık yenileme ücretiyle borçlandırır ve tescilden 60 gün geçmemişse
+ICANN kilidi yüzünden zaten reddedilir.
 
-Taşıma sonrası işletmenin hesabında: **Project → Settings → Domains →
-Add** ile `dunyanincicegi.com` ve `www.dunyanincicegi.com` projeye eklenir,
-SSL sertifikasının verilmesi beklenir.
+Doğru işlem **"Move Domain"** ama panelin arama kutusu yalnızca **üye
+olduğunuz** kapsamları buluyor; başka birinin kişisel hesabını bulamaz.
+CLI bu kısıtı taşımıyor:
+
+```bash
+npx vercel whoami                    # kaynak hesapta olduğunuzu doğrulayın
+npx vercel domains ls                # alan adını görün
+npx vercel domains move <alan-adi> <hedef-slug>
+```
+
+Hedef slug, işletmenin panel adresindeki isimdir (`vercel.com/<slug>`).
+CLI, hedefe **24 saat içinde kabul edilmesi gereken bir taşıma talebi**
+gönderir. Üyelik gerekmez.
+
+**DNS kayıtları alan adıyla birlikte taşınır** — ALIAS, TXT ve MX kayıtları
+tarihleriyle korunur. Bu, boşta duran bir alan adıyla prova edilerek
+doğrulandı; canlı alan adını taşımadan önce aynı provayı yapmak iyi bir
+alışkanlıktır. Kayıtların dökümü: [DNS-KAYITLARI.md](DNS-KAYITLARI.md)
+
+### Taşıma sonrası projeye bağlama
+
+Alan adının **kaydı** işletmeye geçse de **eski projeye bağlılığı** geride
+kalır (Vercel bunu kesinti olmasın diye bilinçli yapıyor — site taşıma
+boyunca kesintisiz yayında kalır). Bu yüzden yeni projeye eklerken Vercel
+sahiplik kanıtı ister:
+
+1. Proje → **Settings → Domains → Add Existing** → `dunyanincicegi.com`
+2. ☐ **"Redirect apex domains to www"** kutusunun işaretini **KALDIR**
+   Bu kutu açık kalırsa apex → www yönlenir ve **PayTR ödeme dönüşü bozulur:**
+   bildirim adresleri `NEXT_PUBLIC_SITE_URL`'den apex olarak üretiliyor,
+   yönlendirmeye çarpan POST isteği takip edilmez, para çekilir ama sipariş
+   "Ödeme Bekleyen"de kalır. Sitemap ve canonical etiketleri de apex.
+3. ◉ **Connect to an environment → Production**
+4. "Verification Required" çıkarsa istenen `_vercel` TXT kaydını hesap
+   seviyesindeki **Domains → alan adı → DNS Records** altına ekle, sonra
+   **Refresh**. Doğrulanınca Vercel alan adını eski projeden kendisi alır.
+5. İkinci bir **Add Existing** ile `www.dunyanincicegi.com`:
+   ☐ "Include apex and www variants" işaretini **KALDIR** (aksi hâlde
+   "A domain cannot redirect to itself" hatası verir),
+   ◉ **Redirect to Another Domain → 307 → `dunyanincicegi.com`**
+
+Kanonik adres apex'tir; yönlendirme yönünü ters kurmayın.
 
 ### Devirden sonra mutlaka
 
@@ -257,10 +303,38 @@ Bunlar zaten işletme adına açıldı; devredilecek bir şey yok ama
 | **NetGSM** | Abone 8503037584 | API alt kullanıcısının şifresi ortam değişkeninde; işletme bilsin |
 | **Resend** (e-posta) | İşletme adına açık ✔ | Erişimin işletmede olduğunu teyit edin |
 | **Google Search Console** | Doğrulanmış | İşletme e-postasını **Owner** olarak ekleyin |
-| **Alan adı** | ⚠️ Geliştiricinin **Vercel** hesabından satın alınmış | Vercel içi hesap taşıması gerekir — bkz. bölüm 3 |
+| **Alan adı** | ✔ İşletmenin Vercel hesabına taşındı (5 Ağustos 2026) | Aşağıdaki yenileme uyarısını okuyun |
 
 **Alan adı en kritik varlıktır.** `dunyanincicegi.com` Vercel üzerinden
-alındığı için ayrı bir registrar paneli yok; devri Vercel içinden yapılır.
+alındığı için ayrı bir registrar paneli yok; yönetimi Vercel içinden yapılır.
+
+### ⚠️ Otomatik yenileme KAPALI — elle yenilenmeli
+
+Her iki alan adında **Auto Renewal kapalı** ve bu bilinçli bir tercih olarak
+böyle bırakıldı. Vercel hesabına bir ödeme yöntemi tanımlanana ve otomatik
+yenileme açılana kadar alan adları **kendiliğinden yenilenmez.**
+
+| Alan adı | Son geçerlilik | Yenileme ücreti |
+|---|---|---|
+| `bestcicekcilik.com` | **7 Temmuz 2027** | ~$11,25 / yıl |
+| `dunyanincicegi.com` | **16 Temmuz 2027** | ~$11,25 / yıl |
+
+`dunyanincicegi.com` yenilenmezse site erişilemez hâle gelir, e-posta
+gönderimi durur ve alan adı bir süre sonra serbest kalarak üçüncü kişiler
+tarafından alınabilir. Bunun uyarısı yalnızca Vercel hesabının e-posta
+adresine düşer.
+
+**Yapılacak:** bu iki tarihi şirket takvimine, en az bir ay öncesinden
+hatırlatmalı olarak işleyin. Ya da *Domains → alan adı → Auto Renewal → On*
+ile işletmenin kartını tanımlayıp riski tamamen ortadan kaldırın.
+
+### Kayıt sahibi bilgileri
+
+*Domains → alan adı → Registrant Information* ICANN nezdinde **yasal alan adı
+sahibini** belirler. Devirde bu bilgiler şirket bilgileriyle güncellendi
+(5 Ağustos 2026). Bu alanların şirket adına kalmaya devam etmesi önemlidir:
+alan adı Vercel hesabında görünse bile, kayıt sahibi başka bir kişiyse
+hukuken o kişinin varlığı sayılır.
 Geliştiricinin hesabında kalırsa site, e-posta ve marka tek bir kişiye
 bağımlı kalır.
 
